@@ -1,0 +1,32 @@
+@use 'v';
+
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+.lt h1, .lt h2, .lt h3, .lt h4, .lt h5, .lt h6, .lt p, .lt a, .lt i, .lt li, .lt input, .lt label,
+h1.lt, h2.lt, h3.lt, h4.lt, h5.lt, h6.lt, p.lt, a.lt, i.lt, li.lt, input.lt, label.lt, button.lt {
+  color: v.$white;
+  // color: white;
+}
+
+.dk h1, .dk h2, .dk h3, .dk h4, .dk h5, .dk h6, .dk p, .dk a, .dk i, .dk li, .dk input, .dk label,
+h1.dk, h2.dk, h3.dk, h4.dk, h5.dk, h6.dk, p.dk, a.dk, i.dk, li.dk, input.dk, label.dk {
+  // color: v.$black;
+  color: black;
+}
+
+.title {
+  display: flex;
+  margin-right: auto;
+}
+
+.title h1, .title h2 {
+  font-size: 2rem;
+  line-height: 30px;
+  margin: 0;
+}
+
+i {
+  font-size: 1.6rem;
+}

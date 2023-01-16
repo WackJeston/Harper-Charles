@@ -1,0 +1,36 @@
+@extends('layout')
+
+@section('title', 'User Profile')
+
+@section('content')
+  <main class="user-profile">
+
+    <div class="link-trail">
+      <i class="fa-solid fa-arrow-left"></i>
+      <a href="/admin/users">Users</a>
+    </div>
+
+    <h2 class="dk">User Profile (#{{ $user->id }})</h2>
+
+    @if ($errors->any())
+      <div id="alerterror" class="lt">
+        <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
+      </div>
+    @endif
+
+    @if (session()->has('message'))
+      <div id="alertmessage" class="lt">
+        <alertmessage successmessage="{{ session()->get('message') }}" />
+      </div>
+    @endif
+
+    <div id="userprofilefunctions" class="dk">
+      <userprofilefunctions :user="{{ json_encode($user) }}" />
+    </div>
+
+    <div id="userprofilemain" class="dk">
+      <userprofilemain :user="{{ json_encode($user) }}" />
+    </div>
+
+  </main>
+@endsection

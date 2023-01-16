@@ -1,0 +1,33 @@
+
+
+// Colours
+$bg-main: #022a34;
+$bg-alt: #053343;
+$bg-alt-light: #085069;
+$bg-dark: #03081b;
+$bg-semi-dark: #384a40;
+$bg-light: #a1bcc7;
+
+$white: #e2e6e9;
+$black: #00252f;
+
+$hv-main: #0f6a6b;
+$hv-alt: #008080;
+
+$trans: rgba(0, 0, 0, 0);
+$trans-white: rgba(255, 255, 255, .8);
+$trans-semi: rgba(80, 80, 80, .5);
+$trans-dark-semi: rgba(0, 0, 0, .5);
+$trans-dark: rgba(0, 0, 0, .8);
+
+$pale-red: #FF6666;
+$pale-red-darker: #ff1f1f;
+$pale-green: #6cbf8b;
+$pale-green-darker: #49a76c;
+$dull-yellow: #daa520;
+$dull-yellow-dark: #c79d33;
+
+
+// Math
+$header-height: 65px;
+$landingzone-height: calc(100vh - $header-height);

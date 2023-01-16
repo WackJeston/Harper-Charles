@@ -1,0 +1,428 @@
+@use 'v';
+
+body {
+  position: relative;
+  overflow: hidden;
+  transition: all 200ms ease;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: v.$bg-main;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.page-margin {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+main {
+  padding-bottom: 20px;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+}
+
+.page-button-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+button {
+  padding: 6px 9px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button.page-button, a.page-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: v.$bg-alt-light;
+  color: v.$white;
+  border-radius: 5px;
+}
+
+.page-button.padding {
+  padding: 5px 10px;
+}
+
+button.page-button:not(:last-child), a.page-button:not(:last-child) {
+  margin-right: 10px;
+}
+
+button.page-button:hover, a.page-button:hover {
+  background-color: v.$hv-main;
+}
+
+button.page-button i {
+  font-size: 1.1rem;
+  color: white;
+  margin-right: 5px;
+}
+
+button.button-active {
+  background-color: v.$hv-alt
+}
+
+button.pb-success, button.pb-danger {
+  margin: 0 5px 10px 0;
+  color: v.$white;
+}
+
+button.pb-success {
+  background-color: v.$pale-green;
+}
+
+button.pb-success:hover {
+  background-color: v.$pale-green-darker;
+}
+
+button.pb-danger {
+  background-color: v.$pale-red;
+}
+
+button.pb-danger:hover {
+  background-color: v.$pale-red-darker;
+}
+
+.fa-toggle-off {
+  color: v.$pale-red;
+}
+
+.fa-toggle-on {
+  color: v.$pale-green;
+}
+
+.card-display-zone {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: calc(100vw - 10px);
+}
+
+.card-display-zone .display-card {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 10px);
+  background-color: v.$white;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 5px;
+  @media (max-width:350px) {
+    width: calc(100% - 10px);
+  }
+  @media (min-width:700px) {
+    width: calc(33.33% - 10px);
+  }
+  @media (min-width:1000px) {
+    width: calc(25% - 10px);
+  }
+  @media (min-width:1300px) {
+    width: calc(20% - 10px);
+  }
+}
+
+.card-display-zone a:hover {
+  cursor: pointer;
+}
+
+.card-display-zone .card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lightGray;
+  min-height: 200px;
+  width: 100%;
+  height: 40%;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-display-zone .card-image i {
+  color: v.$white;
+  font-size: 3rem;
+}
+
+.card-display-zone .card-content h3 {
+  margin: 10px 0 5px 0;
+}
+
+.card-display-zone .card-content p {
+  margin: 0;
+}
+
+.card-display-zone .button-row {
+  display: flex;
+  width: 100%;
+  padding-top: 5px;
+  margin-top: auto;
+}
+
+.card-display-zone .button-row a {
+  flex-grow: 1;
+}
+
+.card-display-zone .button-row a:not(.card-display-zone .button-row a:last-child) {
+  margin-right: 5px;
+}
+
+.card-display-zone .button-row button {
+  width: 100%;
+  background-color: v.$bg-alt;
+  padding: 5px 6px 6px 6px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.card-display-zone .button-row button:hover {
+  background-color: v.$hv-main
+}
+
+.web-box {
+  background-color: v.$white;
+  border-radius: 5px;
+  box-shadow: 0 0 6px -2px v.$trans-semi;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.web-box.limited {
+  max-width: 600px;
+}
+
+.web-box h3 {
+  font-size: 1.4rem;
+  margin: 0 0 0 10px;
+}
+
+.web-box ul {
+  margin: 0;
+  padding: 10px;
+}
+
+.web-box .wb-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+}
+
+
+.clear-box {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px 40px 30px;
+  color: white;
+}
+
+.clear-box.center {
+  align-items: center;
+  text-align: center;
+}
+
+.clear-box h2 {
+  margin-bottom: 10px;
+}
+
+.clear-box p {
+  font-size: 1.1rem;
+}
+
+
+// Hover Styles ---------------------------------------
+.lt .hover:hover, .hover:hover h2, .hover:hover li, .hover:hover i {
+  cursor: pointer;
+  color: v.$hv-main;
+}
+
+.hover-background:hover {
+  background-color: v.$hv-main;
+  color: v.$white;
+  cursor: pointer;
+}
+
+// // Hover Background Fill (Left to Right)
+// .lt .hover-background {
+//   display: flex;
+//   position: relative;
+//   background: none;
+//   // transition: color 100ms ease;
+// }
+//
+// .lt .hover-background:hover {
+//   cursor: pointer;
+// }
+//
+// .lt .hover-background:after {
+//   position: absolute;
+//   content: '';
+//   top:0;
+//   left: 0;
+//   width: 0;
+//   height: 100%;
+//   background-color: v.$hv-main;
+//   transform-origin: left;
+//   transition: width 150ms ease;
+//   z-index: 5;
+// }
+//
+// .lt .hover-background:hover:after {
+//   width: 100%;
+// }
+
+// Hover Underline (Left to Right)
+.lt .hover-underline:hover {
+  cursor: pointer;
+}
+
+.lt .hover-underline:after {
+  display: flex;
+  content: '';
+  border-bottom: solid 3px v.$hv-main;
+  transform: scaleX(0);
+  transition: transform 150ms ease-in-out;
+}
+
+.lt .hover-underline:hover:after {
+  transform: scaleX(1);
+}
+
+.lt .hover-underline.from-left:after {
+  transform-origin: 0% 50%;
+}
+
+
+// Alerts ---------------------------------------
+.alert-box {
+  display: flex;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 10px 0;
+  padding: 10px 30px 10px 15px;
+  border-radius: 5px;
+  color: white;
+  width: calc(100% - 20px);
+}
+
+.alert-box.error {
+  background-color: v.$pale-red;
+}
+
+.alert-box.success {
+  background-color: v.$pale-green-darker;
+}
+
+.floating .alert-box {
+  position: absolute;
+  z-index: 4;
+  bottom: 10px;
+  right: 10px;
+  max-width: 400px;
+}
+
+.limited .alert-box {
+  max-width: 600px;
+}
+
+.alert-box h3 {
+  margin: 0;
+}
+
+.alert-box i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-size: 1rem;
+  top: 10px;
+  right: 10px;
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.alert-box i:hover {
+  background-color: white;
+}
+
+.alert-box.error i:hover {
+  color: v.$pale-red;
+}
+
+.alert-box.success i:hover {
+  color: v.$pale-green;
+}
+
+.warning-overlay {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: v.$trans-semi;
+}
+
+.warning-box {
+  width: 90%;
+  padding: 10px 15px;
+}
+
+.warning-box p, .warning-box h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.warning-box .row {
+  display: flex;
+  width: 100%;
+}
+
+.warning-box .row button {
+  color: v.$white;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.warning-box .row a {
+  margin-right: 15px;
+}
+
+.warning-box button.delete {
+  background-color: v.$pale-red;
+  flex-grow: 1;
+  min-width: 100px;
+}
+
+.warning-box button.cancel {
+  background-color: v.$pale-green;
+  flex-grow: 5;
+}
+
+.warning-box button.delete:hover {
+  background-color: v.$pale-red-darker;
+}
+
+.warning-box button.cancel:hover {
+  background-color: v.$pale-green-darker;
+}

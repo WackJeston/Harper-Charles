@@ -1,0 +1,27 @@
+@use 'v';
+
+#vuefooter {
+  margin-top: auto;
+}
+
+footer {
+  width: 100vw;
+  background-color: v.$bg-dark;
+  padding: 25px;
+  z-index: 5;
+}
+
+footer .footer-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-nav ul {
+  flex-direction: column;
+  padding: 0;
+  margin: 10px 10px 0 10px;
+}
+
+.footer-nav .nav-link {
+  margin: 5px auto 0 0;
+}

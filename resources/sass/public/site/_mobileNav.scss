@@ -1,0 +1,147 @@
+@use 'v';
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -240px;
+  height: 100vh;
+  width: 240px;
+  background-color: v.$bg-dark;
+  padding: 27px 0 25px 0;
+  overflow-y: auto;
+  z-index: 6;
+}
+
+.mobile-nav .title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav .title h3 {
+  line-height: 15px;
+  font-size: 1.4rem;
+  margin: 0 0 25px 0;
+  padding: 0;
+}
+
+.mobile-nav ul {
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-nav .nav-link {
+  border: 1px solid v.$trans;
+  border-radius: 6px;
+  transition: border-radius 200ms ease;
+}
+
+.mobile-nav .nav-link:not(:last-child) {
+  border-bottom: 1px solid v.$bg-alt;
+}
+
+.mobile-nav .nav-link:hover {
+  border: 1px solid v.$white;
+  border-radius: 0;
+}
+
+.mobile-nav .primary-nav-link, .mobile-nav .nav-sublink {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.mobile-nav .nav-link li, .mobile-nav .nav-link p, .mobile-nav .nav-link i {
+  color: v.$trans-white;
+}
+
+.mobile-nav .nav-link:hover li, .mobile-nav .nav-link p, .mobile-nav .nav-link:hover i {
+  color: v.$white;
+}
+
+.mobile-nav .nav-link-icon {
+  font-size: 1rem;
+  width: 40px;
+  text-align: center;
+}
+
+.mobile-nav .nav-link .fa-angle-down, .mobile-nav .nav-link .fa-angle-up {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  font-size: 0.9rem;
+  width: 36px;
+  height: 100%;
+  padding: 5px;
+}
+
+.mobile-nav .nav-link .fa-angle-up {
+  display: none;
+}
+
+.mobile-nav .nav-sublinks {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 200ms ease;
+}
+
+.mobile-nav .nav-sublink {
+  border-top: 1px solid v.$bg-alt;
+  padding-left: 10px;
+  min-height: 40px;
+  max-height: 40px;
+}
+
+.mobile-nav .nav-sublink .nav-link-icon {
+  margin-left: auto;
+}
+
+header .menu-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  position: fixed;
+  right: -100vw;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: v.$bg-alt;
+  opacity: 0.5;
+  padding-left: 240px;
+  transition: transform 300ms ease, opacity 200ms;
+  z-index: 5
+}
+
+header .menu-overlay h2 {
+  transition: transform 100ms ease;
+}
+
+header .menu-overlay:hover {
+  // background-color: v.$bg-main;
+  opacity: 0.95;
+  cursor: pointer;
+}
+
+header .menu-overlay:hover h2 {
+  transform: scale(1.1);
+}
+
+// Transitions
+.menu-non-active {
+  transform: translate3d(0, 0, 0);
+}
+
+.menu-active {
+  transform: translate3d(-240px, 0, 0);
+}
+
+.overlay-non-active {
+  transform: translate3d(0, 0, 0);
+}
+
+.overlay-active {
+  transform: translate3d(-100vw, 0, 0);
+}

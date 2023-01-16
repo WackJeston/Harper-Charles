@@ -1,0 +1,15 @@
+@use 'site/v';
+
+.contact .contact-main {
+  display: flex;
+  flex-direction: row;
+}
+
+.contact-main h4 {
+  font-size: 1.1rem;
+  margin: 0 0 0 7px;
+}
+
+.contact-main .email-phone-section {
+  margin-left: auto;
+}

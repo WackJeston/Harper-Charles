@@ -1,0 +1,43 @@
+@use 'site/v';
+
+main.products {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+}
+
+main.products .category-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  max-height: 80px;
+  background-color: v.$bg-alt;
+}
+
+main.products .category-row button {
+  flex-grow: 1;
+  background-color: v.$trans;
+  color: v.$white;
+  min-width: 100px;
+}
+
+main.products .category-row button:hover {
+  background-color: v.$hv-alt;
+}
+
+main.products .category-row button:not(:last-child) {
+  // border-right: 1px solid v.$hv-main;
+}
+
+main.products .category-row button.active {
+  background-color: v.$hv-main;
+}
+
+main.products .category-info {
+  margin: 0 20px;
+}
+
+main.products .category-info h3 {
+  margin-bottom: 0;
+}

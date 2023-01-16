@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "axios": "^0.25.0",
+        "laravel-mix": "^6.0.43",
+        "lodash": "^4.17.19",
+        "minimist": "^1.2.6",
+        "postcss": "^8.1.14",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.52.1",
+        "sass-loader": "^12.1.0",
+        "vue-loader": "^16.8.3"
+    },
+    "dependencies": {
+        "@fawmi/vue-google-maps": "^0.9.79",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-brands-svg-icons": "^6.1.1",
+        "@fortawesome/free-regular-svg-icons": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
+        "@fortawesome/vue-fontawesome": "^3.0.1",
+        "composer": "^4.1.0",
+        "laravel": "0.0.1",
+        "mix": "0.0.1",
+        "vue": "^3.2.36",
+        "vue-axios": "^3.5.2",
+        "vue3-carousel": "^0.1.40"
+    }
+}

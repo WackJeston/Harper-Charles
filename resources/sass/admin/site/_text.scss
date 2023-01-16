@@ -1,0 +1,54 @@
+@use 'v';
+
+body, textarea {
+  font-family: 'Nunito', sans-serif;
+}
+
+.lt h1, .lt h2, .lt h3, .lt h4, .lt h5, .lt h6, .lt p, .lt a, .lt i, .lt li, .lt input, .lt label .lt textarea {
+  color: v.$white;
+  // color: white;
+}
+
+.dk h1, .dk h2, .dk h3, .dk h4, .dk h5, .dk h6, .dk p, .dk a, .dk i, .dk li, .dk input, .dk label .dk textarea {
+  color: v.$black;
+}
+
+.lt h1, .lt h2, .lt h3, .lt h4, .lt h5, .lt h6, .dk h1, .dk h2, .dk h3, .dk h4, .dk h5, .dk h6, {
+  cursor: default;
+}
+
+h1 span {
+  color: v.$pale-red-darker;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+.dk .submit {
+  color: v.$white;
+}
+
+.title {
+  display: flex;
+  margin-right: auto;
+}
+
+.title h1, .title h2 {
+  font-size: 2.1rem;
+  line-height: 30px;
+  margin: 0;
+}
+
+a:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+i {
+  font-size: 1.6rem;
+}
+
+input, textarea {
+  font-size: 1rem;
+}

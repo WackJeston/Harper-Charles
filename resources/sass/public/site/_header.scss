@@ -1,0 +1,157 @@
+@use 'v';
+
+header {
+  height: v.$header-height;
+  position: relative;
+}
+
+header .desktop-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0 0 20px;
+  height: 100%;
+  background-color: v.$bg-main;
+  position: relative;
+  z-index: 5;
+}
+
+.desktop-nav #nav-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: v.$header-height;
+  @media (min-width: 601px) {
+    display: none;
+  }
+}
+
+.desktop-nav #header-nav-links {
+  display: flex;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.desktop-nav .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.desktop-nav .nav-link:last-child {
+  // margin-right: 15px;
+}
+
+.desktop-nav .user-button {
+  background-color: v.$bg-alt-light;
+}
+
+.desktop-nav .user-button:hover {
+  background-color: v.$hv-main;
+}
+
+.desktop-nav .nav-link .nav-link-contents {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.desktop-nav .nav-link .fa-angle-down {
+  font-size: 1rem;
+  margin-left: 5px;
+}
+
+.desktop-nav .nav-link i:not(.fa-angle-down, .icon-link i) {
+  font-size: 1.2rem;
+  margin-left: 8px;
+}
+
+.desktop-nav .nav-link .icon-link i {
+  font-size: 1.4rem;
+}
+
+header .nav-sublinks-container {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  height: 100%;
+  transition: transform 100ms ease;
+}
+
+header .nav-sublinks {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+  background-color: v.$bg-dark;
+  transition: 200ms ease;
+  width: 100%;
+  margin: 0;
+}
+
+header .nav-sublink {
+  display: flex;
+  flex-grow: 1;
+  min-width: 100px;
+  height: 40px;
+  border-top: 1px solid v.$bg-main;
+}
+
+header .nav-sublink:not(:last-child) {
+  border-right: 1px solid v.$bg-main;
+}
+
+header .nav-sublink:hover {
+  background-color: v.$hv-main;
+}
+
+header .nav-sublink a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+header #user-menu {
+  transition: transform 100ms ease;
+  display: flex;
+  flex-direction: column;
+  background-color: v.$bg-alt-light;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 4;
+  min-width: 200px;
+  border-radius: 0 0 0 5px;
+}
+
+header #user-menu a {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+}
+
+header #user-menu a:hover {
+  background-color: v.$hv-main;
+  color: v.$white;
+}
+
+header #user-menu i {
+  margin: auto 0 auto auto;
+  width: 24px;
+  font-size: 1.1rem;
+}

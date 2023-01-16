@@ -1,0 +1,150 @@
+@use 'v';
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+form.web-box {
+  position: relative;
+}
+
+form.web-box .submit {
+  margin-right: auto;
+}
+
+form.web-box i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+  color: v.$bg-dark;
+  cursor: pointer;
+}
+
+form.web-box i:hover:not(.show-password i) {
+  background-color: v.$bg-dark;
+  color: v.$white;
+}
+
+form input:not(form input:last-child), form textarea, form label.file-input-label, form select {
+  margin-bottom: 10px;
+}
+
+form input, form textarea, form label.file-input-label, form select, .form input {
+  background-color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  color: v.$bg-dark;
+  background-color: white;
+  height: 33px;
+  cursor: pointer;
+}
+
+form input:not(.submit), form textarea, form label.file-input-label, form select, .form input {
+  border: 2px solid v.$bg-alt;
+}
+
+form input:focus, form textarea:focus, form label.file-input-label:hover, form select:hover, .form input:focus {
+  outline: 3px solid v.$bg-alt;
+}
+
+form input:focus:not(.submit), form textarea:focus, form label.file-input-label:hover, form select:hover, .form input:focus {
+  border: 2px solid white;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 33px;
+  overflow: hidden;
+}
+
+form .submit {
+  background-color: v.$bg-dark;
+  color: v.$white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+form .submit:not(form.web-box .submit, .product-page-main .submit) {
+  width: 80%;
+  margin: 5px auto 5px auto;
+}
+
+form .submit:hover {
+  background-color: v.$hv-main;
+  border: none;
+}
+
+form .submit:focus {
+  background-color: v.$hv-alt;
+}
+
+form label.show-password {
+  position: relative;
+  margin: 0 0 2px 3px;
+}
+
+form label:not(.file-input-label, .show-password), .form label {
+  font-weight: bold;
+  line-height: 20px;
+  margin-left: 2px;
+}
+
+form span {
+  color: v.$pale-red;
+}
+
+form p,  {
+  width: 80%;
+  margin: 5px auto 5px auto;
+  text-align: center;
+}
+
+form i {
+  font-size: 1rem;
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  z-index: 1;
+}
+
+form input.file-input {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+form label.file-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: pointer;
+  background-color: v.$white;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+form label.file-input-label::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+form label i {
+  cursor: pointer;
+}

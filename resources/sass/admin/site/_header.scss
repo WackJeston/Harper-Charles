@@ -1,0 +1,85 @@
+@use 'v';
+
+header {
+  height: v.$header-height;
+  position: relative;
+}
+
+header .desktop-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  height: 100%;
+  background-color: v.$alt-main;
+  position: relative;
+  z-index: 5;
+}
+
+.desktop-nav .header-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.desktop-nav .header-button:hover {
+  background-color: v.$bg-dark;
+}
+
+.desktop-nav .nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: v.$header-height;
+}
+
+.desktop-nav .nav-button:hover:not(.desktop-nav #non-active:hover), .desktop-nav #user-button:hover {
+  background-color: v.$bg-dark;
+  cursor: pointer;
+}
+
+.desktop-nav .home-button {
+  margin-right: auto;
+}
+
+.desktop-nav #user-header-container {
+  position: relative;
+  height: 100%;
+}
+
+.desktop-nav #user-button {
+  position: relative;
+  background-color: v.$bg-semi-dark;
+  padding: 0 15px;
+  z-index: 7;
+}
+
+.desktop-nav #user-button p {
+  margin-right: 10px;
+}
+
+header #user-menu {
+  transition: transform 100ms ease;
+  display: flex;
+  flex-direction: column;
+  background-color: v.$bg-semi-dark;
+  position: absolute;
+  bottom: 0;
+  right: v.$header-height;
+  z-index: 4;
+  min-width: 200px;
+  border-radius: 0 0 5px 5px;
+}
+
+header #user-menu a {
+  width: 100%;
+  padding: 10px;
+}
+
+header #user-menu a:hover {
+  background-color: v.$bg-dark;
+  color: v.$white;
+}
