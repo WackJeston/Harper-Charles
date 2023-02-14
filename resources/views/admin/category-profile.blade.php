@@ -24,11 +24,11 @@
       </div>
     @endif
 
-    <div id="categoryprofilefunctions" class="lt">
+    <div id="categoryprofilefunctions">
       <categoryprofilefunctions :category="{{ json_encode($category) }}" :images="{{ json_encode($images) }}" :imagecount="{{ json_encode($imageCount) }}" :products="{{ json_encode($products) }}" :allproducts="{{ $allProducts }}" />
     </div>
 
-    <div id="categoryprofilemain" class="dk">
+    <div id="categoryprofilemain">
       <categoryprofilemain :category="{{ json_encode($category) }}" image="{{ $primaryImage }}" />
     </div>
 

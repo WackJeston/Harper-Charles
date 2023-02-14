@@ -31,8 +31,6 @@ class AdminProductsController extends Controller
         'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
     ]);
 
-    // dd($request->price);
-
     Products::create([
         'title' => $request->title,
         'subtitle' => $request->subtitle,

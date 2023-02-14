@@ -11,7 +11,7 @@
         <li v-show="this.product.created_at"><strong>Created At: </strong>{{ this.product.created_at }}</li>
       </ul>
       <div class="wb-image" v-show="this.image"
-      :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + this.image + ')' }"></div>
+      :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.image + ')' }"></div>
     </div>
   </div>
 

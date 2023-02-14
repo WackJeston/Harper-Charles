@@ -172,7 +172,7 @@ class AdminProductProfileController extends Controller
     $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
     if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
     else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = $id . '-' . str_replace(' ', '-', strtolower($request->name)) . '.' . $mimeType;
+    $fileName = 'product-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
 
     if ($request->hasFile('image')) {
       $request->file('image')->move('assets', $fileName);

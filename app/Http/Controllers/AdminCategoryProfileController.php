@@ -142,7 +142,7 @@ class AdminCategoryProfileController extends Controller
     $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
     if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
     else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = $id . '-category-image-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
+    $fileName = 'category-image-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
 
     if ($request->hasFile('image')) {
       $request->file('image')->move('assets', $fileName);
@@ -204,6 +204,32 @@ class AdminCategoryProfileController extends Controller
     ]);
 
     return redirect("/admin/category-profile/$id")->with('message', 'Product added successfully.');
+  }
+
+  public function createProduct(Request $request, $id)
+  {
+    $request->validate([
+      'title' => 'required|max:100',
+      'subtitle' => 'max:100',
+      'description' => 'max:1000',
+      'productnumber' => 'required|unique:products|max:100',
+      'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+    ]);
+
+    $product = Products::create([
+      'title' => $request->title,
+      'subtitle' => $request->subtitle,
+      'description' => $request->description,
+      'productnumber' => $request->productnumber,
+      'price' => $request->price,
+    ]);
+
+    ProductCategoryJoins::create([
+      'productId' => $product->id,
+      'categoryId' => $id,
+    ]);
+
+    return redirect("/admin/category-profile/$id")->with('message', 'Product created successfully.');
   }
 
   public function removeProduct($id, $productId)

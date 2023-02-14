@@ -22044,9 +22044,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     showImage: function showImage(fileName) {
       var imageZone = document.querySelector('.viewer-image'); // imageZone.src = '/assets/landingzones-carousel/' + fileName;
-      // imageZone.src = 'https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+      // imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
 
-      imageZone.src = 'https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/1-category-image-1673622846.jpg';
+      imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/1-category-image-1673622846.jpg';
       this.imageView = true;
     },
     closeImage: function closeImage() {
@@ -28321,7 +28321,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: _ctx.slide,
           "class": "lz-slide",
           style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-            backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/1-landing-zone-1673624059.jpg)'
+            backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/1-landing-zone-1673624059.jpg)'
           })
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

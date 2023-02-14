@@ -1,0 +1,2 @@
+#!/bin/bash
+/opt/plesk/php/8.2/bin/php /usr/lib/plesk-9.0/composer.phar update --optimize-autoloader --no-dev

@@ -8,10 +8,7 @@ function connectS3() {
   $connection = new S3Client([
     'version' => 'latest',
     'region' => $_ENV['AWS_DEFAULT_REGION'],
-    'credentials' => [
-      'key' => $_ENV['AWS_ACCESS_KEY_ID'],
-      'secret'  => $_ENV['AWS_SECRET_ACCESS_KEY'],
-    ],
+    'profile' => 'default',
   ]);
 
   return $connection;
@@ -53,8 +50,8 @@ function connectSes() {
     'version' => 'latest',
     'region' => $_ENV['AWS_DEFAULT_REGION'],
     'credentials' => [
-      'key' => $_ENV['AWS_ACCESS_KEY_ID'],
-      'secret'  => $_ENV['AWS_SECRET_ACCESS_KEY'],
+      'key' => $_SERVER['AWS_ACCESS_KEY_ID'],
+      'secret'  => $_SERVER['AWS_SECRET_ACCESS_KEY'],
     ],
   ]);
 

@@ -1,5 +1,4 @@
 <template>
-
   <div class="web-box contact-main">
     <div>
       <ul>
@@ -10,7 +9,7 @@
         <li v-if="this.contact['town']">{{ this.contact['town'] }}</li>
         <li v-if="this.contact['county']">{{ this.contact['county'] }}</li>
         <li v-if="this.contact['country']">{{ this.contact['country'] }}</li>
-        <li v-if="this.contact['post code']">{{ this.contact['post code'] }}</li>
+        <li v-if="this.contact['postcode']">{{ this.contact['postcode'] }}</li>
       </ul>
     </div>
 

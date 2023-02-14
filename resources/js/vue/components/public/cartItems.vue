@@ -7,7 +7,7 @@
   <div id="cartItemsContainer">
     <div class="web-box dk cart-item" v-for="(item, i) in this.items" :id="'cartItem' + item.id">
       <a :href="'/product-page/' + item.productId" v-if="item.filename" class="wb-image"
-      :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + item.filename + ')' }"></a>
+      :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + item.filename + ')' }"></a>
       <a :href="'/product-page/' + item.productId" v-else class="wb-image">
         <i class="fa-solid fa-couch"></i>
       </a>

@@ -149,6 +149,7 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/category-profileDeleteImage/{imageId}', 'deleteImage');
     Route::get('/category-profilePrimaryImage/{imageId}', 'primaryImage');
     Route::post('/category-profileAddProduct/{id}', 'addProduct');
+    Route::post('/category-profileCreateProduct/{id}', 'createProduct');
     Route::get('/category-profileRemoveProduct/{id}/{productId}', 'removeProduct');
   });
 

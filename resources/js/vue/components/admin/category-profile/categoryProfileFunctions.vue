@@ -119,6 +119,8 @@
 
 
   <!-- Products Form -->
+  <h3 class="form-title" v-show="show == 'products'">Add Existing Product</h3>
+
   <form class="web-box" v-show="show == 'products'" :action="'/category-profileAddProduct/' + this.category.id" method="POST" enctype="multipart/form-data">
     <i class="fa-solid fa-xmark" @click="show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
@@ -130,6 +132,31 @@
     </select>
 
     <button class="submit" type="submit">Add</button>
+  </form>
+
+  <h3 class="form-title" v-show="show == 'products'">Create New Product</h3>
+
+  <form class="web-box" v-show="show == 'products'" :action="'/category-profileCreateProduct/' + this.category.id" method="POST" enctype="multipart/form-data">
+    <i class="fa-solid fa-xmark" @click="show = false"></i>
+    <input type="hidden" name="_token" :value="csrf">
+
+    <label for="title">Title<span> *</span></label>
+    <input type="text" name="title" maxlength="100" required>
+
+    <label for="subtitle">Subtitle</label>
+    <input type="text" name="subtitle" maxlength="100">
+
+    <label for="description">Description</label>
+    <textarea type="text" name="description" maxlength="1000"></textarea>
+
+    <label for="productnumber">Product Number<span> *</span></label>
+    <input type="text" name="productnumber" maxlength="100" required>
+
+    <label for="price">Price (£)<span> *</span></label>
+    <input type="number" min="0" step="any" name="price" maxlength="100" required>
+
+
+    <button class="submit" type="submit">Create</button>
   </form>
 
   <!-- Products Table -->
@@ -225,7 +252,7 @@
 
       showImage(fileName) {
         const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = 'https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+        imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
         this.imageView = true;
       },
 

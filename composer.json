@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1.14",
+        "php": "^8.2.2",
         "aws/aws-sdk-php": "^3.257",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
@@ -18,7 +18,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^1.6.4"
     },
     "autoload": {
         "psr-4": {

@@ -4,7 +4,7 @@
     <carousel :items-to-show="1" :wrapAround="true" :autoplay="7000">
 
       <slide v-for="lz in landingzonecarousel" :key="slide" class="lz-slide"
-      :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + lz.fileName + ')' }">
+      :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + lz.fileName + ')' }">
         <h2>{{ lz.title }}</h2>
         <p>{{ lz.subtitle }}</p>
         <div class="lz-overlay"></div>

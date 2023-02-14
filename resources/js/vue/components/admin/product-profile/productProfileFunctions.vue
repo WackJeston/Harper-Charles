@@ -252,7 +252,7 @@
     methods: {
       showImage(fileName) {
         const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = 'https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+        imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
         this.imageView = true;
       },
 

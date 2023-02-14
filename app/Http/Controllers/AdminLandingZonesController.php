@@ -56,7 +56,7 @@ class AdminLandingZonesController extends Controller
     $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
     if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
     else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = $id . '-landing-zone-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
+    $fileName = 'landing-zone-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
     
 
     if ($request->hasFile('image')) {

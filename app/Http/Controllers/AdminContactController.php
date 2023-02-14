@@ -68,7 +68,7 @@ class AdminContactController extends Controller
             $record->value = $value;
             $record->save();
           }
-        } else {
+        } elseif(!empty($value)) {
           $record = new Contact;
           $record->type = $i;
           $record->value = $value;

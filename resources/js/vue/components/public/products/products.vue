@@ -8,13 +8,13 @@
 
     <carousel v-if="this.selectedImages.length > 1" :items-to-show="1" :wrapAround="true" :autoplay="7000">
       <slide  v-for="(image, i) in this.selectedImages" :key="slide" class="lz-slide"
-      :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + image.fileName + ')' }">
+      :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + image.fileName + ')' }">
         <div v-show="this.categorySubtitle || this.categoryDesc" class="lz-overlay"></div>
       </slide>
     </carousel>
 
     <carousel v-else-if="this.selectedImages.length == 1" :items-to-show="1">
-      <slide class="lz-slide" :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + this.selectedImages[0].fileName + ')' }">
+      <slide class="lz-slide" :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.selectedImages[0].fileName + ')' }">
         <div v-show="this.categorySubtitle || this.categoryDesc" class="lz-overlay"></div>
       </slide>
     </carousel>
@@ -35,7 +35,7 @@
     <div v-for="(product, i) in this.selectedProducts" class="display-card">
       <a :href="'/product-page/' + product.id">
         <div v-if="product.fileName" class="card-image"
-        :style="{ backgroundImage: 'url(https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></div>
+        :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></div>
         <div v-else class="card-image">
           <i class="fa-solid fa-couch"></i>
         </div>

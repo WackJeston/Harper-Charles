@@ -32,8 +32,13 @@ class ContactController extends Controller
       $contact[$value->type] = $value->value;
     }
 
-    $contact['lat'] = (float) $contact['lat'];
-    $contact['lng'] = (float) $contact['lng'];
+    if (isset($contact['lat'])) {
+      $contact['lat'] = (float) $contact['lat'];
+    }
+
+    if (isset($contact['lng'])) {
+      $contact['lng'] = (float) $contact['lng'];
+    }
 
     $contact['email'] = DB::select('SELECT 
       c.type, 

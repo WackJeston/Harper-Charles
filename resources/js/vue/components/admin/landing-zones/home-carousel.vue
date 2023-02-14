@@ -1,6 +1,6 @@
 <template>
 	<!-- Homepage Carousel -->
-	<h3>Homepage Carousel<span v-show="this.homepagecarouselcount > 0"> ({{ this.homepagecarouselcount }})</span></h3>
+	<h3 class="form-title">Homepage Carousel<span v-show="this.homepagecarouselcount > 0"> ({{ this.homepagecarouselcount }})</span></h3>
 
 	<a href="/landing-zonesShowZone/1/0" v-if="this.homepagecarouselshow == 1"><button class="pb-success" type="button">On</button></a>
 	<a href="/landing-zonesShowZone/1/1" v-else><button class="pb-danger" type="button">Off</button></a>
@@ -105,7 +105,7 @@
 		methods: {
 			showImage(fileName) {
         const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = 'https://template-website-bucket.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+        imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
         this.imageView = true;
       },
 
