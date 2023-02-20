@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
       $schedule->exec('npm run dev')->cron('* * * * *');
-      $schedule->exec('php artisan route:cache')->cron('* * * * *');
+      $schedule->command('route:cache')->cron('* * * * *');
     }
 
     /**

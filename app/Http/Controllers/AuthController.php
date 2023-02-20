@@ -115,7 +115,7 @@ class AuthController extends Controller
       'password' => 'required|confirmed|min:6|max:100'
     ]);
 
-    User::create([
+    $user = User::create([
       'admin' => 0,
       'firstname' => ucfirst($request->firstname),
       'lastname' => ucfirst($request->lastname),
@@ -123,20 +123,43 @@ class AuthController extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    // sendEmailSes($request->email, $_ENV['MAIL_FROM_ADDRESS'], 'Verify Email',
-    //   'Please verify your email address by clicking the link below: <br><br><h3>Verify Email</h3>'
-    // );
+    sendEmailSes($request->email, $_ENV['MAIL_FROM_ADDRESS'], 'Verify Email',
+      sprintf('Please verify your email address by clicking the link below:<br><br><a href="https://dev.harpercharlescompany.com/email-verified/%d"><h3>Verify Email</h3></a>', $user->id)
+    );
 
-    // return redirect('/verify-email');
-    return redirect('/login')->with('message', 'Customer created successfully.');
+    return redirect('/verify-email/' . $user->id);
   }
 
-  public function viewVerifyEmailCustomer()
+  public function viewVerifyEmailCustomer($id)
   {
     $sessionUser = auth()->user();
 
+    $email = User::select('email')->where('id', $id)->first();
+
+    $email = $email->email;
+
     return view('public/auth/verify-email', compact(
       'sessionUser',
+      'id',
+      'email',
     ));
+  }
+
+  public function resendVerifyEmailCustomer($id)
+  {
+    $email = User::select('email')->where('id', $id)->first();
+
+    $email = $email->email;
+
+    sendEmailSes($email, $_ENV['MAIL_FROM_ADDRESS'], 'Verify Email',
+      sprintf('Please verify your email address by clicking the link below:<br><br><a href="https://dev.harpercharlescompany.com/email-verified/%d"><h3>Verify Email</h3></a>', $user->id)
+    );
+
+    return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
+  }
+
+  public function emailVerifiedCustomer($id)
+  {
+    return redirect('/login')->with('message', 'Email verified successfully.');
   }
 }

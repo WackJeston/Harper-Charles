@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
-const mode = 'admin';
-// const mode = 'public';
+// const mode = 'admin';
+const mode = 'public';
 
 if(mode == 'public') {
   console.log('--Public--');

@@ -46,13 +46,9 @@ function deleteS3(string $fileName) {
 // AWS SES
 function connectSes() {
   $connection = new SesClient([
-    'profile' => 'web-west.co.uk',
     'version' => 'latest',
     'region' => $_ENV['AWS_DEFAULT_REGION'],
-    'credentials' => [
-      'key' => $_SERVER['AWS_ACCESS_KEY_ID'],
-      'secret'  => $_SERVER['AWS_SECRET_ACCESS_KEY'],
-    ],
+    'profile' => 'default',
   ]);
 
   return $connection;

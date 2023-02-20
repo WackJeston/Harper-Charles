@@ -36,7 +36,9 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/customerLogout', 'logoutCustomer');
   Route::get('/sign-up', 'veiwSignup');
   Route::get('/customerSignup', 'signupCustomer');
-  Route::get('/verify-email', 'viewVerifyEmailCustomer');
+  Route::get('/verify-email/{id}', 'viewVerifyEmailCustomer');
+  Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer');
+  Route::get('/email-verified/{id}', 'emailVerifiedCustomer');
 });
 
 Route::get('/', [HomeController::class, 'show']);
