@@ -34,7 +34,7 @@ main.auth .auth-form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: calc(100vw - 40px);
+  width: 100%;
   margin-bottom: 0;
 }
 
@@ -48,7 +48,7 @@ main.auth .auth-nav {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  width: calc(100vw - 40px);
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
   height: 12px;

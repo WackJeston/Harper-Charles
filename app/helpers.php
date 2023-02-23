@@ -1,7 +1,6 @@
 <?php
 
 use Aws\S3\S3Client;
-use Aws\Ses\SesClient;
 
 // AWS S3
 function connectS3() {
@@ -43,36 +42,3 @@ function deleteS3(string $fileName) {
   ]);
 }
 
-// AWS SES
-function connectSes() {
-  $connection = new SesClient([
-    'version' => 'latest',
-    'region' => $_ENV['AWS_DEFAULT_REGION'],
-    'profile' => 'default',
-  ]);
-
-  return $connection;
-}
-
-function sendEmailSes(string $to, string $from, string $subject, string $body) {
-  $aws = connectSes();
-
-  $aws->sendEmail([
-    'Destination' => [
-      'ToAddresses' => [$to],
-    ],
-    'Source' => $from,
-    'Message' => [
-      'Body' => [
-        'Html' => [
-          'Charset' => 'UTF-8',
-          'Data' => $body,
-        ],
-      ],
-      'Subject' => [
-        'Charset' => 'UTF-8',
-        'Data' => $subject,
-      ],
-    ],
-  ]);
-}

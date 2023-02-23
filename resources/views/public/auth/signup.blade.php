@@ -8,13 +8,13 @@
     <h1>Sign Up</h1>
 
     @if ($errors->any())
-      <div id="publicerror" class="lt">
+      <div id="publicerror" class="lt limited">
         <publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
     @if (session()->has('message'))
-      <div id="publicmessage" class="lt">
+      <div id="publicmessage" class="lt limited">
         <publicmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif

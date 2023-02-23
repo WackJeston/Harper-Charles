@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmailCustomer;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -123,9 +126,7 @@ class AuthController extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    sendEmailSes($request->email, $_ENV['MAIL_FROM_ADDRESS'], 'Verify Email',
-      sprintf('Please verify your email address by clicking the link below:<br><br><a href="https://dev.harpercharlescompany.com/email-verified/%d"><h3>Verify Email</h3></a>', $user->id)
-    );
+    event(new Registered($user));
 
     return redirect('/verify-email/' . $user->id);
   }
@@ -151,9 +152,7 @@ class AuthController extends Controller
 
     $email = $email->email;
 
-    sendEmailSes($email, $_ENV['MAIL_FROM_ADDRESS'], 'Verify Email',
-      sprintf('Please verify your email address by clicking the link below:<br><br><a href="https://dev.harpercharlescompany.com/email-verified/%d"><h3>Verify Email</h3></a>', $user->id)
-    );
+    Mail::to($email)->send(new VerifyEmailCustomer());
 
     return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
   }
