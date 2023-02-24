@@ -21,7 +21,7 @@
     </div>
 
     <div v-else class="nav-link">
-      <a href="sign-up" class="primary-nav-link">
+      <a href="/sign-up" class="primary-nav-link">
         <i class="fa-regular fa-user nav-link-icon"></i>
         <p>Sign Up</p>
       </a>

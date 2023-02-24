@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 use App\Http\Controllers\AuthController;
 
 // PUBLIC
@@ -36,10 +38,15 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/customerLogout', 'logoutCustomer');
   Route::get('/sign-up', 'veiwSignup');
   Route::get('/customerSignup', 'signupCustomer');
-  Route::get('/verification.verify/{id}', 'viewVerifyEmailCustomer')->name('verification.verify');
-  Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer');
-  Route::get('/email-verified/{id}', 'emailVerifiedCustomer');
+  Route::get('/verify-email/{id}', 'viewVerifyEmailCustomer')->middleware('auth')->name('verification.notice');
+  Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
+
+Route::get('/email-verified/{id}/{hash}', function (EmailVerificationRequest $request) {
+  $request->session()->regenerate();
+  $request->fulfill();
+  return redirect('/login')->with('message', 'Email verified successfully.');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/', [HomeController::class, 'show']);
 
