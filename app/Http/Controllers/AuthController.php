@@ -128,7 +128,7 @@ class AuthController extends Controller
 
     event(new Registered($user));
 
-    return redirect('/verify-email/' . $user->id);
+    return redirect('/verification.verify/' . $user->id);
   }
 
   public function viewVerifyEmailCustomer($id)
@@ -139,7 +139,7 @@ class AuthController extends Controller
 
     $email = $email->email;
 
-    return view('public/auth/verify-email', compact(
+    return view('public/auth/verification.verify', compact(
       'sessionUser',
       'id',
       'email',
@@ -154,7 +154,7 @@ class AuthController extends Controller
 
     Mail::to($email)->send(new VerifyEmailCustomer());
 
-    return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
+    return redirect('/verification.verify/' . $id)->with('message', 'Verification email sent again.');
   }
 
   public function emailVerifiedCustomer($id)
