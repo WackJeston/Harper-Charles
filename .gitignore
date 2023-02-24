@@ -10,5 +10,3 @@ npm-debug.log
 yarn-error.log
 /.idea
 .env
-.vscode/sftp.json
-.env
