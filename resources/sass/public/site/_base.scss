@@ -336,6 +336,7 @@ button.pb-danger:hover {
   background-color: v.$pale-green-darker;
 }
 
+// ToDo: Fix floating alert right margin collasping
 .floating .alert-box {
   position: absolute;
   z-index: 4;

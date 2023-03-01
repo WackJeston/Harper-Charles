@@ -30,7 +30,6 @@ use App\Http\Controllers\AdminVariantProfileController;
 
 
 // PUBLIC
-// Route::view('/login', 'public/auth/login');
 Route::controller(AuthController::class)->group(function () {
   Route::get('/login', 'veiwLogin');
   Route::get('/loginCart', 'veiwLoginCart');
@@ -42,11 +41,6 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
   Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
 });
-
-// Route::get('/email-verified/{id}/{hash}', function (EmailVerificationRequest $request) {
-//   $request->fulfill();
-//   return view('public/auth/verify-email');
-// })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/', [HomeController::class, 'show']);
 

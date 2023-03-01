@@ -1,4 +1,4 @@
-<template>-->
+<template>
   <div class="cart-functions web-box dk">
     <strong>{{ this.itemCountQuantity }} items | Total: £{{ this.totalPrice.toFixed(2) }}</strong>
     <a href="/checkout" class="page-button padding">Checkout</a>

@@ -8,8 +8,8 @@
 
       <ul id="header-nav-links">
         <li v-for="(link, i) in this.publiclinks" class="nav-link hover-background">
-          <a v-if="link.title == 'icon'" :href="link.link" class="nav-link-contents icon-link">
-            <i :class="link.icon"></i>
+          <a v-if="link.headericon" :href="link.link" class="nav-link-contents icon-link">
+            <i :class="link.headericon"></i>
           </a>
           <div v-else-if="link.sublink" @click="(sublinksActive = !sublinksActive) && (userMenuActive = false)" class="nav-link-contents">
             {{ capFL(link.title) }} <i class="fa-solid fa-angle-down"></i>

@@ -167,12 +167,6 @@ class AuthController extends Controller
     $email = $user->email;
 
     return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
-
-    // return view('public/auth/verify-email', compact(
-    //   'sessionUser',
-    //   'id',
-    //   'email',
-    // ))->with('message', 'Verification email sent again.');
   }
 
   public function emailVerifiedCustomer($id)
@@ -181,7 +175,7 @@ class AuthController extends Controller
 
     $user = User::where('id', $id)->first();
 
-    if ($user->email_verified_at == null) {
+    if ($user->email_verified_at == null || $user->email_verified_at == '') {
       $user->email_verified_at = now();
       $user->save();
     }

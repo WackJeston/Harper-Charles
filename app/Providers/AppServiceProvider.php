@@ -116,6 +116,7 @@ class AppServiceProvider extends ServiceProvider
             "title"=>"cart",
             "link"=>"/cart",
             "icon"=>"fa-solid fa-cart-shopping",
+            "headericon"=>"fa-solid fa-cart-shopping",
           ],
           // $test = [
           //   "title"=>"Test Links",
