@@ -72,16 +72,22 @@ class AuthController extends Controller
       'password' => 'required',
     ]);
 
-    $admin = DB::select(sprintf('SELECT
-      u.admin
+    $customer = DB::select(sprintf('SELECT
+      u.id,
+      u.admin,
+      u.email_verified_at
       FROM users AS u
       WHERE u.email = "%s"
       LIMIT 1
     ', $request->email));
+    
+    if ($customer[0]->email_verified_at == null || $customer[0]->email_verified_at == '') {
+      return redirect('/verify-email/' . $customer[0]->id);
+    }
 
     $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials) && $admin[0]->admin == 0) {
+    if (Auth::attempt($credentials) && $customer[0]->admin == 0) {
       $request->session()->regenerate();
 
       return redirect()->intended('/')->with('message', 'Signed in successfully.');
@@ -135,9 +141,13 @@ class AuthController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $email = User::select('email')->where('id', $id)->first();
+    $user = User::where('id', $id)->first();
 
-    $email = $email->email;
+    if ($user->email_verified_at != null || $user->email_verified_at != '') {
+      return redirect('/login')->with('message', 'Email already verified.');
+    }
+
+    $email = $user->email;
 
     return view('public/auth/verify-email', compact(
       'sessionUser',
@@ -148,17 +158,39 @@ class AuthController extends Controller
 
   public function resendVerifyEmailCustomer($id)
   {
-    // $email = User::select('email')->where('id', $id)->first();
+    $sessionUser = auth()->user();
 
-    // $email = $email->email;
+    $user = User::where('id', $id)->first();
 
-    // Mail::to($email)->send(new VerifyEmailCustomer());
+    $user->sendEmailVerificationNotification();
+
+    $email = $user->email;
 
     return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
+
+    // return view('public/auth/verify-email', compact(
+    //   'sessionUser',
+    //   'id',
+    //   'email',
+    // ))->with('message', 'Verification email sent again.');
   }
 
   public function emailVerifiedCustomer($id)
   {
-    return redirect('/login')->with('message', 'Email verified successfully.');
+    $sessionUser = auth()->user();
+
+    $user = User::where('id', $id)->first();
+
+    if ($user->email_verified_at == null) {
+      $user->email_verified_at = now();
+      $user->save();
+    }
+
+    $email = $user->email;
+
+    return view('public/auth/email-verified', compact(
+      'sessionUser',
+      'email',
+    ));
   }
 }

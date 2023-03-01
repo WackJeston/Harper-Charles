@@ -12,8 +12,16 @@ main#verify-email-Page {
   padding: 10vh 20px 100px 20px;
 }
 
-main#verify-email-Page h3, main#verify-email-Page p {
+main#email-verified {
+  padding: 10vh 20px 100px 20px;
+}
+
+main#verify-email-Page h3, main#verify-email-Page p, main#email-verified .web-box h3 {
   margin: 0;
+}
+
+main#email-verified .web-box p {
+  margin-top: 0;
 }
 
 main.auth h1 {

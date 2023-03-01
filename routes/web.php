@@ -40,13 +40,13 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/customerSignup', 'signupCustomer');
   Route::get('/verify-email/{id}', 'viewVerifyEmailCustomer')->middleware('auth')->name('verification.notice');
   Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+  Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
 });
 
-Route::get('/email-verified/{id}/{hash}', function (EmailVerificationRequest $request) {
-  $request->session()->regenerate();
-  $request->fulfill();
-  return redirect('/login')->with('message', 'Email verified successfully.');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Route::get('/email-verified/{id}/{hash}', function (EmailVerificationRequest $request) {
+//   $request->fulfill();
+//   return view('public/auth/verify-email');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('/', [HomeController::class, 'show']);
 
