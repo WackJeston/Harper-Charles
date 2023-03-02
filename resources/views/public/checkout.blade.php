@@ -3,7 +3,7 @@
 @section('title', 'Checkout')
 
 @section('content')
-  <main class="auth lt" id="checkoutPage">
+  <main class="auth lt" id="checkout-page">
 
     <h1>Checkout</h1>
 
@@ -19,7 +19,15 @@
       </div>
     @endif
 
-    <div id="checkout">
+    <div id="checkout-timeline">
+      <i class="fa-regular fa-circle"></i>
+      <div></div>
+      <i class="fa-regular fa-circle"></i>
+      <div></div>
+      <i class="fa-regular fa-circle"></i>
+    </div>
+
+    <div id="checkout" class="checkout-main web-box">
       <checkout />
     </div>
 

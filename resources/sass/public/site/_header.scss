@@ -5,6 +5,29 @@ header {
   position: relative;
 }
 
+header .title {
+  font-size: 1.4rem;
+  display: flex;
+  margin-right: auto;
+  @media (max-width: 750px) {
+    font-size: 1rem;
+  }
+}
+
+.title .header-title {
+  display: flex;
+  @media (max-width: 615) {
+    display: none;
+  }
+}
+
+.title .header-title-mini {
+  display: flex;
+  @media (min-width: 616) {
+    display: none;
+  }
+}
+
 header .desktop-nav {
   display: flex;
   flex-direction: row;
@@ -12,7 +35,7 @@ header .desktop-nav {
   justify-content: flex-end;
   padding: 0 0 0 20px;
   height: 100%;
-  background-color: v.$bg-main;
+  background-color: v.$background;
   position: relative;
   z-index: 5;
 }
@@ -23,9 +46,6 @@ header .desktop-nav {
   justify-content: center;
   height: 100%;
   width: v.$header-height;
-  @media (min-width: 601px) {
-    display: none;
-  }
 }
 
 .desktop-nav #header-nav-links {
@@ -33,9 +53,6 @@ header .desktop-nav {
   height: 100%;
   padding: 0;
   margin: 0;
-  @media (max-width: 600px) {
-    display: none;
-  }
 }
 
 .desktop-nav .nav-link {

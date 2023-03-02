@@ -1,7 +1,7 @@
 <template>
   <form action="">
     <div>
-      <p>test</p>
+      <h3>Billing Address</h3>
     </div>
   </form>
 </template>

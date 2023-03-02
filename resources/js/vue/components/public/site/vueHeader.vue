@@ -1,21 +1,16 @@
 <template>
-  <header class="lt">
+  <header class="dk">
 
     <nav class="desktop-nav">
       <a href="/" class="title">
-        <h2 class="hover hover-underline from-left">{{ this.sitetitle }}</h2>
+        <h2 class="header-title">{{ this.sitetitle }}</h2>
+        <h2 class="header-title-mini">{{ this.sitetitlemini }}</h2>
       </a>
 
       <ul id="header-nav-links">
-        <li v-for="(link, i) in this.publiclinks" class="nav-link hover-background">
-          <a v-if="link.headericon" :href="link.link" class="nav-link-contents icon-link">
-            <i :class="link.headericon"></i>
-          </a>
-          <div v-else-if="link.sublink" @click="(sublinksActive = !sublinksActive) && (userMenuActive = false)" class="nav-link-contents">
-            {{ capFL(link.title) }} <i class="fa-solid fa-angle-down"></i>
-          </div>
-          <a v-else :href="link.link" class="nav-link-contents">
-            {{ capFL(link.title) }}
+        <li class="nav-link hover-background">
+          <a href="/cart" class="nav-link-contents icon-link">
+            <i class="fa-solid fa-cart-shopping"></i>
           </a>
         </li>
 
@@ -26,9 +21,7 @@
         </li>
 
         <li v-else class="nav-link user-button">
-          <a href="/sign-up" class="nav-link-contents">
-            Sign Up <i class="fa-regular fa-user"></i>
-          </a>
+          <a href="/sign-up" class="nav-link-contents"><i class="fa-regular fa-user"></i></a>
         </li>
       </ul>
 
@@ -63,6 +56,7 @@
   export default {
     props: [
       'sitetitle',
+      'sitetitlemini',
       'publiclinks',
       'userlinks',
       'sessionuser',

@@ -7,17 +7,28 @@
 
     @hasSection('title')
       @if (str_contains(url()->current(), '/admin'))
-        <title>{{ $siteTitle }} | Admin @yield('title')</title>
+        <title>{{ env('APP_NAME') }} | Admin @yield('title')</title>
       @else
-        <title>{{ $siteTitle }} | @yield('title')</title>
+        <title>{{ env('APP_NAME') }} | @yield('title')</title>
       @endif
     @else
-      <title>{{ $siteTitle }}</title>
+      <title>{{ env('APP_NAME') }}</title>
     @endif
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    @if (!str_contains(url()->current(), '/admin'))
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Extra+Light.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Light.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Regular.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Medium.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+SemiBold.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Bold.woff2" rel="stylesheet">
+      <link href="https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Black.woff2" rel="stylesheet">
+    @endif
 
     {{-- Font Awesome --}}
     <script src="https://kit.fontawesome.com/c8712841cc.js" crossorigin="anonymous"></script>
@@ -52,14 +63,14 @@
         <div id="adminheader">
           @if(str_contains(url()->current(), '/dashboard'))
             <Adminheader
-              sitetitle="{{ $siteTitle }}"
+              sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(true) }}"
               :sessionuser="{{ $sessionUser }}"
             />
           @else
             <Adminheader
-              sitetitle="{{ $siteTitle }}"
+              sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(false) }}"
               :sessionuser="{{ $sessionUser }}"
@@ -71,7 +82,7 @@
 
         <div id="adminfooter">
           <Adminfooter
-            sitetitle="{{ $siteTitle }}"
+            sitetitle="{{ env('APP_NAME') }}"
             :adminlinks="{{ json_encode($adminLinks) }}"
           />
         </div>
@@ -85,7 +96,7 @@
     @else
       <div id="vuemenu">
         <vuemenu
-          sitetitle="{{ $siteTitle }}"
+          sitetitle="{{ env('APP_NAME') }}"
           :publiclinks="{{ json_encode($publicLinks) }}"
           :userlinks="{{ json_encode($userLinks) }}"
           :sessionuser="{{ $sessionUser }}"
@@ -95,7 +106,8 @@
       <div class="page-container lt">
         <div id="vueheader">
           <vueheader
-            sitetitle="{{ $siteTitle }}"
+            sitetitle="{{ env('APP_NAME') }}"
+            sitetitlemini="{{ env('APP_NAME_MINI') }}"
             :publiclinks="{{ json_encode($publicLinks) }}"
             :userlinks="{{ json_encode($userLinks) }}"
             :sessionuser="{{ $sessionUser }}"
@@ -106,7 +118,7 @@
 
         <div id="vuefooter">
           <vuefooter
-            sitetitle="{{ $siteTitle }}"
+            sitetitle="{{ env('APP_NAME') }}"
             :publiclinks="{{ json_encode($publicLinks) }}"
           />
         </div>

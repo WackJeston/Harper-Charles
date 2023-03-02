@@ -1,0 +1,29 @@
+@use 'site/v';
+
+#checkout-page {
+  margin: 0 20px;
+}
+
+#checkout-timeline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 20px auto;
+  color: v.$white;
+}
+
+#checkout-timeline div {
+  height: 4px;
+  flex-grow: 1;
+  background-color: v.$white;
+  margin: 0 10px;
+  border-radius: 2px;
+}
+
+#checkout-page .web-box {
+  max-width: 1300px;
+}
+

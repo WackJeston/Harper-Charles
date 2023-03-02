@@ -1,6 +1,55 @@
 @use 'v';
 
-body {
+@font-face {
+  font-family: 'Silk';
+  font-weight: 100;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+ExtraLight.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 200;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Light.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 300;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Regular.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 400;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Medium.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 500;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+SemiBold.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 600;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Bold.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Silk';
+  font-weight: 700;
+  font-style: normal;
+  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Black.woff2") format('woff2');
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+  font-family: 'Silk', serif;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+p, a, i, li, input, label, button, textarea, select {
   font-family: 'Nunito', sans-serif;
 }
 
@@ -16,13 +65,7 @@ h1.dk, h2.dk, h3.dk, h4.dk, h5.dk, h6.dk, p.dk, a.dk, i.dk, li.dk, input.dk, lab
   color: black;
 }
 
-.title {
-  display: flex;
-  margin-right: auto;
-}
-
 .title h1, .title h2 {
-  font-size: 2rem;
   line-height: 30px;
   margin: 0;
 }

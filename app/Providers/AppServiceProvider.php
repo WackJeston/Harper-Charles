@@ -34,9 +34,6 @@ class AppServiceProvider extends ServiceProvider
         return DB::table($table)->where($field, $value)->where($field2, $field2Value)->count() == 0;
       });
 
-      // View::share('siteTitle', 'Web West');
-      View::share('siteTitle', 'Harper Charles');
-
       if (str_contains(url()->current(), '/admin/')) {
         $adminLinks = [
           $people = [
@@ -102,7 +99,7 @@ class AppServiceProvider extends ServiceProvider
       else {
         $publicLinks = [
           $products = [
-            "title"=>"products",
+            "title"=>"shop",
             "link"=>"/products/0",
             "icon"=>"fa-solid fa-couch",
             "sublink"=>$subLinks = [],
@@ -112,28 +109,6 @@ class AppServiceProvider extends ServiceProvider
             "link"=>"/contact",
             "icon"=>"fa-solid fa-address-card",
           ],
-          $cart = [
-            "title"=>"cart",
-            "link"=>"/cart",
-            "icon"=>"fa-solid fa-cart-shopping",
-            "headericon"=>"fa-solid fa-cart-shopping",
-          ],
-          // $test = [
-          //   "title"=>"Test Links",
-          //   "icon"=>"fa-solid fa-flask-vial",
-          //   "sublink"=>$subLinks = [
-          //     $test1 = [
-          //       "title"=>"First Test",
-          //       "link"=>"/test",
-          //       "icon"=>"fa-solid fa-microscope",
-          //     ],
-          //     $test2 = [
-          //       "title"=>"Second Test",
-          //       "link"=>"/test",
-          //       "icon"=>"fa-solid fa-vial-virus",
-          //     ],
-          //   ],
-          // ],
         ];
 
         $userLinks = [
