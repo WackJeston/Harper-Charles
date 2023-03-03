@@ -98,6 +98,11 @@ class AppServiceProvider extends ServiceProvider
 
       else {
         $publicLinks = [
+          $cart = [
+            "title"=>"cart",
+            "link"=>"/cart",
+            "icon"=>"fa-solid fa-cart-shopping",
+          ],
           $products = [
             "title"=>"shop",
             "link"=>"/products/0",
@@ -132,7 +137,7 @@ class AppServiceProvider extends ServiceProvider
         ');
 
         foreach ($categories as $i => $category) {
-          $publicLinks[0]['sublink'][$i] = [
+          $publicLinks[1]['sublink'][$i] = [
             "title"=>$category->title,
             "link"=>"/products/" . $category->id,
             "icon"=>"",

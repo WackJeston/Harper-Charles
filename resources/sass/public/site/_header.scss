@@ -2,28 +2,34 @@
 
 header {
   height: v.$header-height;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 
 header .title {
-  font-size: 1.4rem;
   display: flex;
   margin-right: auto;
-  @media (max-width: 750px) {
-    font-size: 1rem;
-  }
 }
 
-.title .header-title {
+#header-title {
   display: flex;
-  @media (max-width: 615) {
+  @media (max-width: 641px) {
     display: none;
   }
+  @media (min-width: 750px) {
+    font-size: 2rem;
+  }
+  @media (max-width: 750px) {
+    font-size: 1.6rem;
+  }
 }
 
-.title .header-title-mini {
+#header-title-mini {
   display: flex;
-  @media (min-width: 616) {
+  font-size: 2.2rem;
+  @media (min-width: 640px) {
     display: none;
   }
 }
@@ -35,7 +41,7 @@ header .desktop-nav {
   justify-content: flex-end;
   padding: 0 0 0 20px;
   height: 100%;
-  background-color: v.$background;
+  background-color: v.$header;
   position: relative;
   z-index: 5;
 }
@@ -62,16 +68,12 @@ header .desktop-nav {
   cursor: pointer;
 }
 
-.desktop-nav .nav-link:last-child {
-  // margin-right: 15px;
-}
-
 .desktop-nav .user-button {
-  background-color: v.$bg-alt-light;
+  background-color: v.$brand-alt;
 }
 
 .desktop-nav .user-button:hover {
-  background-color: v.$hv-main;
+  background-color: v.$brand-alt-dark;
 }
 
 .desktop-nav .nav-link .nav-link-contents {

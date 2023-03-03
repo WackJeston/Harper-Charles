@@ -3,8 +3,8 @@
 
     <nav class="desktop-nav">
       <a href="/" class="title">
-        <h2 class="header-title">{{ this.sitetitle }}</h2>
-        <h2 class="header-title-mini">{{ this.sitetitlemini }}</h2>
+        <h2 id="header-title">{{ this.sitetitle }}</h2>
+        <h2 id="header-title-mini">{{ this.sitetitlemini }}</h2>
       </a>
 
       <ul id="header-nav-links">
@@ -35,13 +35,13 @@
       </a>
     </div>
 
-    <div v-for="(link, i) in this.publiclinks" class="nav-sublinks-container">
+    <!-- <div v-for="(link, i) in this.publiclinks" class="nav-sublinks-container">
       <ul v-if="link.sublink" class="nav-sublinks" :style="[this.sublinksActive ? { transform: 'translate3d(0, 100%, 0)' } : { transform: 'translate3d(0, 0, 0)' }]">
         <li v-for="(sublink, i) in link.sublink" class="nav-sublink">
           <a :href="sublink.link">{{ capFL(sublink.title) }}</a>
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="menu-overlay" @click="toggleOverlay"
     :class="{ 'overlay-active': mobileNav, 'overlay-non-active': !mobileNav }">

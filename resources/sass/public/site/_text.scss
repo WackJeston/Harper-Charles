@@ -4,43 +4,43 @@
   font-family: 'Silk';
   font-weight: 100;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+ExtraLight.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-ExtraLight.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 200;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Light.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-Light.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 300;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Regular.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-Regular.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 400;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Medium.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-Medium.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 500;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+SemiBold.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-SemiBold.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 600;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Bold.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-Bold.woff2") format('woff2');
 }
 @font-face {
   font-family: 'Silk';
   font-weight: 700;
   font-style: normal;
-  src: url("https://hc-main.s3.eu-west-2.amazonaws.com/fonts/Silk+Serif+Black.woff2") format('woff2');
+  src: url("/fonts/Silk-Serif-Black.woff2") format('woff2');
 }
 
 h1, h2, h3, h4, h5, h6, .title {
@@ -66,7 +66,7 @@ h1.dk, h2.dk, h3.dk, h4.dk, h5.dk, h6.dk, p.dk, a.dk, i.dk, li.dk, input.dk, lab
 }
 
 .title h1, .title h2 {
-  line-height: 30px;
+  // line-height: 30px;
   margin: 0;
 }
 
