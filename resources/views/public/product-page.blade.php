@@ -3,7 +3,7 @@
 @section('title', 'Product-page')
 
 @section('content')
-  <main class="product-page page-margin">
+  <main class="product-page page-margin dk">
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -17,7 +17,7 @@
       </div>
     @endif
 
-    <h1 class="lt">{{ $product['title'] }}</h1>
+    <h1>{{ $product['title'] }}</h1>
 
     <div id="productpagemain">
       <productpagemain

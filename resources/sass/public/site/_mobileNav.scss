@@ -6,22 +6,23 @@
   right: -240px;
   height: 100vh;
   width: 240px;
-  background-color: v.$bg-dark;
-  padding: 27px 0 25px 0;
+  background-color: v.$white;
+  padding: 10px 0;
   overflow-y: auto;
   z-index: 6;
+  transition: all 200ms ease;
 }
 
 .mobile-nav .title {
   width: 100%;
+  text-align: center;
   display: flex;
   justify-content: center;
 }
 
-.mobile-nav .title h3 {
-  line-height: 15px;
-  font-size: 1.4rem;
-  margin: 0 0 25px 0;
+.mobile-nav .title h2 {
+  line-height: 24px;
+  margin: 5px 0;
   padding: 0;
 }
 
@@ -32,18 +33,20 @@
 }
 
 .mobile-nav .nav-link {
-  border: 1px solid v.$trans;
-  border-radius: 6px;
+  border: 1px solid v.$clear;
   transition: border-radius 200ms ease;
 }
 
 .mobile-nav .nav-link:not(:last-child) {
-  border-bottom: 1px solid v.$bg-alt;
+  border-bottom: 1px solid v.$brand-alt-dark;
 }
 
 .mobile-nav .nav-link:hover {
-  border: 1px solid v.$white;
-  border-radius: 0;
+  background-color: v.$brand-alt-light;
+}
+
+.mobile-nav .nav-link .primary-nav-link:hover {
+  background-color: v.$brand-alt-dark;
 }
 
 .mobile-nav .primary-nav-link, .mobile-nav .nav-sublink {
@@ -52,11 +55,12 @@
   height: 40px;
 }
 
-.mobile-nav .nav-link li, .mobile-nav .nav-link p, .mobile-nav .nav-link i {
-  color: v.$trans-white;
+.mobile-nav .primary-nav-link li, .mobile-nav .primary-nav-link p, .mobile-nav .primary-nav-link i {
+  color: v.$black;
 }
 
-.mobile-nav .nav-link:hover li, .mobile-nav .nav-link p, .mobile-nav .nav-link:hover i {
+.mobile-nav .primary-nav-link:hover li, .mobile-nav .primary-nav-link:hover p, .mobile-nav .primary-nav-link:hover i,
+.mobile-nav .nav-sublink li, .mobile-nav .nav-sublink p, .mobile-nav .nav-sublink i {
   color: v.$white;
 }
 
@@ -77,6 +81,10 @@
   padding: 5px;
 }
 
+.mobile-nav .nav-link .fa-angle-down:hover, .mobile-nav .nav-link .fa-angle-up:hover {
+  background-color: v.$almost-black;
+}
+
 .mobile-nav .nav-link .fa-angle-up {
   display: none;
 }
@@ -88,10 +96,15 @@
 }
 
 .mobile-nav .nav-sublink {
-  border-top: 1px solid v.$bg-alt;
+  background-color: v.$almost-black;
+  border-top: 1px solid v.$brand-alt-dark;
   padding-left: 10px;
   min-height: 40px;
   max-height: 40px;
+}
+
+.mobile-nav .nav-sublink:hover {
+  background-color: v.$brand-alt-dark;
 }
 
 .mobile-nav .nav-sublink .nav-link-icon {
@@ -99,34 +112,16 @@
 }
 
 header .menu-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
   position: absolute;
   position: fixed;
-  right: -100vw;
   top: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: v.$bg-alt;
-  opacity: 0.5;
-  padding-left: 240px;
-  transition: transform 300ms ease, opacity 200ms;
-  z-index: 5
-}
-
-header .menu-overlay h2 {
-  transition: transform 100ms ease;
-}
-
-header .menu-overlay:hover {
-  // background-color: v.$bg-main;
-  opacity: 0.95;
-  cursor: pointer;
-}
-
-header .menu-overlay:hover h2 {
-  transform: scale(1.1);
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  background-color: v.$black;
+  transition: all 200ms ease;
 }
 
 // Transitions
@@ -136,12 +131,4 @@ header .menu-overlay:hover h2 {
 
 .menu-active {
   transform: translate3d(-240px, 0, 0);
-}
-
-.overlay-non-active {
-  transform: translate3d(0, 0, 0);
-}
-
-.overlay-active {
-  transform: translate3d(-100vw, 0, 0);
 }

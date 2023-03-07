@@ -3,7 +3,7 @@
 @section('title', 'Cart')
 
 @section('content')
-  <main class="lt" id="cart">
+  <main class="dk" id="cart">
 
     <h1 class="page-margin"><i class="fa-solid fa-cart-shopping"></i> Cart</h1>
 

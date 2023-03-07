@@ -1,7 +1,7 @@
 @use 'site/v';
 
 .product-page {
-  // padding: 0 10px;
+  margin-top: v.$header-height;
 }
 
 .product-page h1 {

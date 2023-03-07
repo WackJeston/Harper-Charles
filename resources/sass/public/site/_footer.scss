@@ -6,9 +6,10 @@
 
 footer {
   width: 100vw;
-  background-color: v.$bg-dark;
+  background-color: v.$white;
   padding: 25px;
   z-index: 5;
+  box-shadow: v.$box-shadow;
 }
 
 footer .footer-nav {

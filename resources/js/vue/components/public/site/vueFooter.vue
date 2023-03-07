@@ -1,13 +1,13 @@
 <template>
-  <footer class="lt">
+  <footer class="dk">
 
     <nav class="footer-nav">
       <a href="/" class="title">
-        <h2 class="hover hover-underline from-left">{{ this.sitetitle }}</h2>
+        <h2>{{ this.sitetitle }}</h2>
       </a>
 
       <ul>
-        <a v-for="(link, i) in this.publiclinks" :href="link.link" class="nav-link hover hover-underline from-left">
+        <a v-for="(link, i) in this.publiclinks" :href="link.link" class="nav-link">
           <li>{{ capFL(link.title) }}</li>
         </a>
       </ul>

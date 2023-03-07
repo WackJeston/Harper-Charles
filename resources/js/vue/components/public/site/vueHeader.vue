@@ -14,39 +14,41 @@
           </a>
         </li>
 
-        <li v-if="this.sessionuser" @click="(userMenuActive = !userMenuActive) && (sublinksActive = false)" class="nav-link user-button">
-          <div class="nav-link-contents">
-            {{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }} <i class="fa-regular fa-user"></i>
+        <li @click="(userMenuActive = !userMenuActive) && (sublinksActive = false)" class="nav-link hover-background user-button">
+          <div v-if="this.sessionuser" class="nav-link-contents">
+            {{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }} <i class="fa-solid fa-user"></i>
           </div>
-        </li>
 
-        <li v-else class="nav-link user-button">
-          <a href="/sign-up" class="nav-link-contents"><i class="fa-regular fa-user"></i></a>
+          <div v-else class="nav-link-contents">
+            <i class="fa-regular fa-user icon-link"></i>
+          </div>
         </li>
       </ul>
 
       <i @click='toggleMobileNav' class="fa-solid fa-bars hover-background" id="nav-menu-button"></i>
     </nav>
 
-    <div v-if="this.sessionuser" id="user-menu" :style="[this.userMenuActive ? { transform: 'translate3d(0, 100%, 0)' } : { transform: 'translate3d(0, 0, 0)' }]">
-      <a v-for="(sublink, i) in this.userlinks" :href="sublink['link']">
-        <span>{{ capFL(sublink['title']) }}</span>
-        <i :class="[sublink['icon']]"></i>
-      </a>
+    <div id="user-menu-container">
+      <div v-if="this.sessionuser" id="user-menu" :style="[this.userMenuActive ? { transform: 'translate3d(0, 0, 0)' } : { transform: 'translate3d(0, -100%, 0)' }]">
+        <a v-for="(sublink, i) in this.userlinks" :href="sublink['link']">
+          <span>{{ capFL(sublink['title']) }}</span>
+          <i :class="[sublink['icon']]"></i>
+        </a>
+      </div>
+
+      <div v-else id="user-menu" :style="[this.userMenuActive ? { transform: 'translate3d(0, 0, 0)' } : { transform: 'translate3d(0, -100%, 0)' }]">
+        <a href="/login">
+          <span>Login</span>
+          <i class="fa-solid fa-user-check"></i>
+        </a>
+        <a href="/sign-up">
+          <span>Sign Up</span>
+          <i class="fa-solid fa-user-plus"></i>
+        </a>
+      </div>
     </div>
 
-    <!-- <div v-for="(link, i) in this.publiclinks" class="nav-sublinks-container">
-      <ul v-if="link.sublink" class="nav-sublinks" :style="[this.sublinksActive ? { transform: 'translate3d(0, 100%, 0)' } : { transform: 'translate3d(0, 0, 0)' }]">
-        <li v-for="(sublink, i) in link.sublink" class="nav-sublink">
-          <a :href="sublink.link">{{ capFL(sublink.title) }}</a>
-        </li>
-      </ul>
-    </div> -->
-
-    <div class="menu-overlay" @click="toggleOverlay"
-    :class="{ 'overlay-active': mobileNav, 'overlay-non-active': !mobileNav }">
-      <h2>click to close</h2>
-    </div>
+    <div class="menu-overlay" @click="toggleOverlay"></div>
 
   </header>
 </template>
@@ -77,26 +79,41 @@
     methods: {
       toggleMobileNav() {
         this.mobileNav = !this.mobileNav;
+        let menu = document.querySelector(".mobile-nav");
+        let overlay = document.querySelector(".menu-overlay");
+
         if (this.menuActive == false) {
-          if (document.body.classList.contains("menu-non-active")){document.body.classList.remove("menu-non-active");};
-          if (!(document.body.classList.contains("menu-active"))){document.body.classList.add("menu-active");};
+          menu.classList.remove("menu-non-active");
+          menu.classList.add("menu-active");
+
+          overlay.style.display = "block";
+          overlay.style.opacity = 0.6;
 
           this.menuActive = true;
-          return;
         }
         else {
-          if (document.body.classList.contains("menu-active")){document.body.classList.remove("menu-active");};
-          if (!(document.body.classList.contains("menu-non-active"))){document.body.classList.add("menu-non-active");};
-          return;
-        }
+          menu.classList.remove("menu-active");
+          menu.classList.add("menu-non-active");
+
+          overlay.style.display = "none";
+          overlay.style.opacity = 0;
+        };
+
+        
       },
 
       toggleOverlay() {
         this.mobileNav = false;
         this.menuActive = false;
+        let menu = document.querySelector(".mobile-nav");
+        let overlay = document.querySelector(".menu-overlay");
 
-        if (document.body.classList.contains("menu-active")){document.body.classList.remove("menu-active");};
-        if (!(document.body.classList.contains("menu-non-active"))){document.body.classList.add("menu-non-active");};
+        menu.classList.remove("menu-active");
+        menu.classList.add("menu-non-active");
+
+        overlay.style.display = "none";
+        overlay.style.opacity = 0;
+
         return;
       },
 

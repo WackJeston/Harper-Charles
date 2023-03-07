@@ -1,5 +1,5 @@
 <template>
-  <div class="cart-functions web-box dk">
+  <div class="cart-functions dk">
     <strong>{{ this.itemCountQuantity }} items | Total: £{{ this.totalPrice.toFixed(2) }}</strong>
     <a href="/checkout" class="page-button padding">Checkout</a>
   </div>
@@ -14,7 +14,7 @@
 
       <div class="cart-item-content">
         <div class="cart-item-top-row">
-          <h3><a :href="'/product-page/' + item.productId">{{ item.title }}</a></h3>
+          <a :href="'/product-page/' + item.productId"><h3>{{ item.title }}</h3></a>
           <strong class="price" :id="'price' + item.id">£{{ (item.price * item.quantity).toFixed(2) }}</strong>
         </div>
         <div v-if="this.variants[item.id]" class="variants-container">

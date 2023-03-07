@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-  <main class="auth lt" id="loginPage">
+  <main class="auth dk" id="loginPage">
 
     <h1>Login</h1>
 

@@ -1,19 +1,19 @@
 @use 'site/v';
 
 main#loginPage {
-  padding: 10vh 20px 100px 20px;
+  padding: calc(10vh + v.$header-height) 20px 100px 20px;
 }
 
 main#signupPage {
-  padding: 5vh 20px 100px 20px;
+  padding: calc(5vh + v.$header-height) 20px 100px 20px;
 }
 
 main#verify-email-Page {
-  padding: 10vh 20px 100px 20px;
+  padding: calc(10vh + v.$header-height) 20px 100px 20px;
 }
 
 main#email-verified {
-  padding: 10vh 20px 100px 20px;
+  padding: calc(10vh + v.$header-height) 20px 100px 20px;
 }
 
 main#verify-email-Page h3, main#verify-email-Page p, main#email-verified .web-box h3 {

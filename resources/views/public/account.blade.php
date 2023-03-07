@@ -3,7 +3,7 @@
 @section('title', 'Account')
 
 @section('content')
-  <main class="lt" id="account">
+  <main class="dk" id="account">
 
     <h2>Account</h2>
 

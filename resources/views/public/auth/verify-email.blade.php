@@ -3,7 +3,7 @@
 @section('title', 'Verify Email')
 
 @section('content')
-  <main class="auth lt" id="verify-email-Page">
+  <main class="auth dk" id="verify-email-Page">
 
     @if ($errors->any())
       <div id="publicerror" class="lt limited">
