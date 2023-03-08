@@ -17,7 +17,7 @@
 }
 
 #products-carousel .lz-slide {
-  height: 300px;
+  height: calc(300px + v.$header-height);
 }
 
 #products-carousel .lz-overlay {

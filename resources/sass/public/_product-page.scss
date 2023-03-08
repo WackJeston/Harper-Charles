@@ -18,7 +18,7 @@
     margin-top: 10px;
   }
   @media (min-width: 700px) {
-    margin-left: 15px;
+    margin-left: 25px;
   }
 }
 
@@ -35,6 +35,27 @@
 .product-page .wb-content form .variants-container {
   display: flex;
   flex-direction: column;
+  @media (min-width: 700px) {
+    max-width: 400px;
+  }
+}
+
+.product-page .wb-content form select {
+  border: 2px solid v.$clear;
+  border-radius: 0;
+}
+
+.product-page .wb-content form select:hover {
+  outline: none;
+  border: 2px solid v.$clear;
+}
+
+.product-page .wb-content form select:focus {
+  outline: none;
+}
+
+.product-page .wb-content form option {
+  border-radius: 0;
 }
 
 .product-page .wb-content form .bottom-row {
@@ -77,6 +98,7 @@
   cursor: pointer;
   min-height: 200px;
   height: 300px;
+  box-shadow: v.$box-shadow;
   @media (min-width: 1000px) {
     height: 500px;
   }

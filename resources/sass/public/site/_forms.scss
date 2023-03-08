@@ -24,12 +24,12 @@ form.web-box i {
   height: 20px;
   width: 20px;
   border-radius: 5px;
-  color: v.$bg-dark;
+  color: v.$almost-black;
   cursor: pointer;
 }
 
 form.web-box i:hover:not(.show-password i) {
-  background-color: v.$bg-dark;
+  background-color: v.$almost-black;
   color: v.$white;
 }
 
@@ -41,21 +41,21 @@ form input, form textarea, form label.file-input-label, form select, .form input
   background-color: white;
   padding: 5px 8px;
   border-radius: 5px;
-  color: v.$bg-dark;
+  color: v.$almost-black;
   background-color: white;
   height: 33px;
   cursor: pointer;
 }
 
-form input:not(.submit), form textarea, form label.file-input-label, form select, .form input {
-  border: 2px solid v.$bg-alt;
+form input:not(.submit), form textarea, form label.file-input-label, form select:not(.product-page .wb-content), .form input {
+  border: 2px solid v.$brand-alt-dark;
 }
 
-form input:focus, form textarea:focus, form label.file-input-label:hover, form select:hover, .form input:focus {
-  outline: 3px solid v.$bg-alt;
+form input:focus, form textarea:focus, form label.file-input-label:hover, form:not(.product-page .wb-content) select:hover, .form input:focus {
+  outline: 3px solid v.$brand-alt-dark;
 }
 
-form input:focus:not(.submit), form textarea:focus, form label.file-input-label:hover, form select:hover, .form input:focus {
+form input:focus:not(.submit), form textarea:focus, form label.file-input-label:hover, form:not(.product-page .wb-content) select:hover, .form input:focus {
   border: 2px solid white;
 }
 
@@ -66,7 +66,7 @@ form textarea {
 }
 
 form .submit {
-  background-color: v.$bg-dark;
+  background-color: v.$almost-black;
   color: v.$white;
   border: none;
   cursor: pointer;
@@ -80,12 +80,8 @@ form .submit:not(form.web-box .submit, .product-page-main .submit) {
 }
 
 form .submit:hover {
-  background-color: v.$hv-main;
+  background-color: v.$brand-alt-light;
   border: none;
-}
-
-form .submit:focus {
-  background-color: v.$hv-alt;
 }
 
 form label.show-password {

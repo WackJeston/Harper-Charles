@@ -105,11 +105,14 @@ button.pb-danger:hover {
 }
 
 .web-box {
-  background-color: v.$white;
   border-radius: 5px;
-  padding: 15px;
   margin-bottom: 20px;
+}
+
+.web-box:not(.product-page-main) {
+  background-color: v.$white;
   box-shadow: v.$box-shadow;
+  padding: 15px;
 }
 
 .web-box.limited {
