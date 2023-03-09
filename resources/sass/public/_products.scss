@@ -1,133 +1,137 @@
 @use 'site/v';
 
 main.products {
-  display: flex;
-  flex-direction: column;
-  // align-items: center;
+	display: flex;
+	flex-direction: column;
+	// align-items: center;
 }
 
 main.products .category-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  max-height: 80px;
-  background-color: v.$brand-alt-dark;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+	max-height: 80px;
+	background-color: v.$brand-alt-dark;
 }
 
 main.products .category-row button {
-  flex-grow: 1;
-  background-color: v.$clear;
-  color: v.$white;
-  min-width: 100px;
+	flex-grow: 1;
+	background-color: v.$clear;
+	min-width: 100px;
 }
 
 main.products .category-row button:hover {
-  background-color: v.$brand-alt-light;
+	background-color: v.$brand-alt-light;
 }
 
-main.products .category-row button:not(:last-child) {
-  // border-right: 1px solid v.$hv-main;
+main.products .category-row button:not(:hover:not(.active)) {
+	color: v.$white;
 }
 
 main.products .category-row button.active {
-  background-color: v.$almost-black;
+	background-color: v.$almost-black;
 }
 
 main.products .category-info {
-  margin: 0 20px;
+	margin: 0 20px;
 }
 
 main.products .category-info h3 {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .card-display-zone {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  width: calc(100vw - 10px);
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	margin: 0 auto;
+	width: calc(100vw - 10px);
+	background-color: v.$white;
 }
 
 .card-display-zone .display-card {
-  display: flex;
-  flex-direction: column;
-  width: calc(50% - 10px);
-  background-color: v.$white;
-  border-radius: 5px;
-  padding: 15px;
-  margin: 5px;
-  box-shadow: v.$box-shadow;
-  @media (max-width:350px) {
-    width: calc(100% - 10px);
-  }
-  @media (min-width:700px) {
-    width: calc(33.33% - 10px);
-  }
-  @media (min-width:1000px) {
-    width: calc(25% - 10px);
-  }
-  @media (min-width:1300px) {
-    width: calc(20% - 10px);
-  }
+	display: flex;
+	flex-direction: column;
+	width: calc(50% - 10px);
+	margin: 5px;
+	padding: 15px;
+	// background-color: v.$white;
+	// border-radius: 5px;
+	// box-shadow: v.$box-shadow;
+
+	@media (max-width:350px) {
+		width: calc(100% - 10px);
+	}
+
+	@media (min-width:700px) {
+		width: calc(33.33% - 10px);
+	}
+
+	@media (min-width:1000px) {
+		width: calc(25% - 10px);
+	}
+
+	@media (min-width:1300px) {
+		width: calc(20% - 10px);
+	}
 }
 
 .card-display-zone a:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .card-display-zone .card-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: lightGray;
-  min-height: 200px;
-  width: 100%;
-  height: 40%;
-  border-radius: 5px;
-  background-size: cover;
-  background-position: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: lightGray;
+	min-height: 200px;
+	width: 100%;
+	height: 40%;
+	border-radius: 5px;
+	background-size: cover;
+	background-position: center;
 }
 
 .card-display-zone .card-image i {
-  color: v.$white;
-  font-size: 3rem;
+	color: v.$white;
+	font-size: 3rem;
 }
 
 .card-display-zone .card-content h3 {
-  margin: 10px 0 5px 0;
+	margin: 10px 0 5px 0;
 }
 
 .card-display-zone .card-content p {
-  margin: 0;
+	margin: 0;
 }
 
 .card-display-zone .button-row {
-  display: flex;
-  width: 100%;
-  padding-top: 5px;
-  margin-top: auto;
+	display: flex;
+	width: 100%;
+	padding-top: 5px;
+	margin-top: auto;
 }
 
 .card-display-zone .button-row a {
-  flex-grow: 1;
+	flex-grow: 1;
 }
 
 .card-display-zone .button-row a:not(.card-display-zone .button-row a:last-child) {
-  margin-right: 5px;
+	margin-right: 5px;
 }
 
 .card-display-zone .button-row button {
-  width: 100%;
-  background-color: v.$almost-black;
-  padding: 5px 6px 6px 6px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+	width: 100%;
+	background-color: v.$almost-black;
+	padding: 5px 6px 6px 6px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
 }
 
 .card-display-zone .button-row button:hover {
-  background-color: v.$brand-alt-light
+	background-color: v.$brand-alt-light
 }

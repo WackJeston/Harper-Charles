@@ -1,19 +1,22 @@
 // Base Colours
 $background: rgba(235, 235, 235, 1);
-$header: rgba(255, 255, 255, .8);
+$header: rgba(255, 255, 255, 1);
 
 
 // Brand Colours
 $brand-main: #0f6a6b;
-$brand-alt-light: #AEAEAE;
-$brand-alt-dark: #595959;
+$brand-alt-light: #cecfd0;
+// $brand-alt-light: #AEAEAE;
+$brand-alt-dark: #5E6264;
+// $brand-alt-dark: #878C8F;
 
 
 // Base Colours
 $solid-black: rgba(0, 0, 0, 1);
 $clear: rgba(0, 0, 0, 0);
 $almost-white: rgba(230, 230, 230, 1);
-$almost-black: rgba(40, 40, 40, 1);
+$almost-black: #231f20;
+// $almost-black: rgba(40, 40, 40, 1);
 
 $white: white;
 $black: black;
@@ -52,4 +55,4 @@ $landingzone-height: 100vh;
 
 
 // Box Shadows 
-$box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.2);
+$box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);

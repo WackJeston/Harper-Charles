@@ -3,9 +3,9 @@
 @section('title', 'Login')
 
 @section('content')
-  <main class="auth dk" id="loginPage">
+  <main class="auth" id="loginPage">
 
-    <h1>Login</h1>
+    <h1 class="dk">Login</h1>
 
     @if ($errors->any())
       <div id="publicerror" class="lt limited">
@@ -23,7 +23,7 @@
       <publiclogin />
     </div>
 
-    <div class="auth-nav">
+    <div class="auth-nav dk">
       <p>Dont have an account?</p>
       <a href="/sign-up"><button class="page-button" type="button" name="button">Sign Up</button></a>
     </div>

@@ -1,192 +1,201 @@
 @use 'v';
 
 body {
-  position: relative;
-  overflow: hidden;
-  transition: all 200ms ease;
+	position: relative;
+	overflow: hidden;
+	transition: all 200ms ease;
 }
 
 .page-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: v.$background;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	background-color: v.$background;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
 }
 
 .page-margin {
-  margin-left: 20px;
-  margin-right: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 main {
-  padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 ul {
-  display: flex;
-  list-style: none;
+	display: flex;
+	list-style: none;
 }
 
 .page-button-row {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 0 auto;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 0 auto;
 }
 
 button {
-  padding: 6px 9px;
-  font-size: 1rem;
-  cursor: pointer;
+	padding: 6px 9px;
+	font-size: 1rem;
+	cursor: pointer;
 }
 
-button.page-button, a.page-button {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: v.$almost-black;
-  color: v.$white;
-  border-radius: 5px;
-  cursor: pointer;
+button.page-button,
+a.page-button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: v.$almost-black;
+	color: v.$white;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .page-button.padding {
-  padding: 5px 10px;
+	padding: 5px 10px;
 }
 
-button.page-button:not(:last-child), a.page-button:not(:last-child) {
-  margin-right: 10px;
+button.page-button:not(:last-child),
+a.page-button:not(:last-child) {
+	margin-right: 10px;
 }
 
-button.page-button:hover, a.page-button:hover {
-  background-color: v.$brand-alt-light;;
+button.page-button:hover,
+a.page-button:hover {
+	background-color: v.$brand-alt-light;
+	color: v.$black;
 }
 
 button.page-button i {
-  font-size: 1.1rem;
-  color: v.$white;
-  margin-right: 5px;
+	font-size: 1.1rem;
+	color: v.$white;
+	margin-right: 5px;
 }
 
 button.button-active {
-  background-color: v.$almost-black
+	background-color: v.$almost-black
 }
 
-button.pb-success, button.pb-danger {
-  margin: 0 5px 10px 0;
-  color: v.$white;
+button.pb-success,
+button.pb-danger {
+	margin: 0 5px 10px 0;
+	color: v.$white;
 }
 
 button.pb-success {
-  background-color: v.$pale-green;
+	background-color: v.$pale-green;
 }
 
 button.pb-success:hover {
-  background-color: v.$pale-green-darker;
+	background-color: v.$pale-green-darker;
 }
 
 button.pb-danger {
-  background-color: v.$pale-red;
+	background-color: v.$pale-red;
 }
 
 button.pb-danger:hover {
-  background-color: v.$pale-red-darker;
+	background-color: v.$pale-red-darker;
 }
 
 .fa-toggle-off {
-  color: v.$pale-red;
+	color: v.$pale-red;
 }
 
 .fa-toggle-on {
-  color: v.$pale-green;
+	color: v.$pale-green;
 }
 
 .web-box {
-  border-radius: 5px;
-  margin-bottom: 20px;
+	border-radius: 5px;
+	margin-bottom: 20px;
 }
 
 .web-box:not(.product-page-main) {
-  background-color: v.$white;
-  box-shadow: v.$box-shadow;
-  padding: 15px;
+	background-color: v.$white;
+	box-shadow: v.$box-shadow;
+	padding: 15px;
 }
 
 .web-box.limited {
-  max-width: 600px;
+	max-width: 600px;
 }
 
 .web-box h3 {
-  font-size: 1.4rem;
-  margin: 0 0 0 10px;
+	font-size: 1.4rem;
+	margin: 0 0 0 10px;
 }
 
 .web-box ul {
-  margin: 0;
-  padding: 10px;
+	margin: 0;
+	padding: 10px;
 }
 
 .web-box .wb-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  @media (max-width: 700px) {
-    flex-direction: column;
-  }
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	@media (max-width: 700px) {
+		flex-direction: column;
+	}
 }
 
 
 .clear-box {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 30px 40px 30px;
-  color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px 30px 40px 30px;
+	color: white;
 }
 
 .clear-box.center {
-  align-items: center;
-  text-align: center;
+	align-items: center;
+	text-align: center;
 }
 
 .clear-box h2 {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .clear-box p {
-  font-size: 1.1rem;
+	font-size: 1.1rem;
 }
 
 
 // Hover Styles ---------------------------------------
-.lt .hover:hover, .hover:hover h2, .hover:hover li, .hover:hover i {
-  cursor: pointer;
-  color: v.$hv-main;
+.lt .hover:hover,
+.hover:hover h2,
+.hover:hover li,
+.hover:hover i {
+	cursor: pointer;
+	color: v.$hv-main;
 }
 
 .hover-background:hover {
-  background-color: v.$brand-alt-dark;
-  color: v.$white;
-  cursor: pointer;
+	background-color: v.$brand-alt-dark;
+	color: v.$white;
+	cursor: pointer;
 }
 
 .hover-background:hover i {
-  color: v.$white;
+	color: v.$white;
 }
 
 
 // Alerts ---------------------------------------
 .alert-box {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  margin: 0 0 10px 0;
-  padding: 10px 30px 10px 15px;
-  border-radius: 5px;
-  color: v.$white;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin: 0 0 10px 0;
+	padding: 10px 30px 10px 15px;
+	border-radius: 5px;
+	color: v.$white;
+	width: 100%;
 }
 
 // .alert-box:not(.auth .alert-box) {
@@ -198,109 +207,110 @@ button.pb-danger:hover {
 // }
 
 .alert-box.error {
-  background-color: v.$pale-red;
+	background-color: v.$pale-red;
 }
 
 .alert-box.success {
-  background-color: v.$pale-green-darker;
+	background-color: v.$pale-green-darker;
 }
 
 // ToDo: Fix floating alert right margin collasping
 .floating .alert-box {
-  position: absolute;
-  z-index: 4;
-  bottom: 10px;
-  right: 10px;
-  max-width: 400px;
+	position: absolute;
+	z-index: 4;
+	bottom: 10px;
+	right: 10px;
+	max-width: 400px;
 }
 
 .limited .alert-box {
-  max-width: 600px;
+	max-width: 600px;
 }
 
 .alert-box h3 {
-  margin: 0;
+	margin: 0;
 }
 
 .alert-box i {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  font-size: 1rem;
-  top: 10px;
-  right: 10px;
-  height: 20px;
-  width: 20px;
-  border-radius: 5px;
-  color: v.$white;
-  cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	font-size: 1rem;
+	top: 10px;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	color: v.$white;
+	cursor: pointer;
 }
 
 .alert-box i:hover {
-  background-color: v.$white;
+	background-color: v.$white;
 }
 
 .alert-box.error i:hover {
-  color: v.$pale-red;
+	color: v.$pale-red;
 }
 
 .alert-box.success i:hover {
-  color: v.$pale-green;
+	color: v.$pale-green;
 }
 
 .warning-overlay {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-color: v.$trans-semi;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: v.$trans-semi;
 }
 
 .warning-box {
-  width: 90%;
-  padding: 10px 15px;
+	width: 90%;
+	padding: 10px 15px;
 }
 
-.warning-box p, .warning-box h3 {
-  margin: 0;
-  padding: 0;
+.warning-box p,
+.warning-box h3 {
+	margin: 0;
+	padding: 0;
 }
 
 .warning-box .row {
-  display: flex;
-  width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .warning-box .row button {
-  color: v.$white;
-  margin-top: 10px;
-  margin-bottom: 4px;
+	color: v.$white;
+	margin-top: 10px;
+	margin-bottom: 4px;
 }
 
 .warning-box .row a {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 .warning-box button.delete {
-  background-color: v.$pale-red;
-  flex-grow: 1;
-  min-width: 100px;
+	background-color: v.$pale-red;
+	flex-grow: 1;
+	min-width: 100px;
 }
 
 .warning-box button.cancel {
-  background-color: v.$pale-green;
-  flex-grow: 5;
+	background-color: v.$pale-green;
+	flex-grow: 5;
 }
 
 .warning-box button.delete:hover {
-  background-color: v.$pale-red-darker;
+	background-color: v.$pale-red-darker;
 }
 
 .warning-box button.cancel:hover {
-  background-color: v.$pale-green-darker;
+	background-color: v.$pale-green-darker;
 }

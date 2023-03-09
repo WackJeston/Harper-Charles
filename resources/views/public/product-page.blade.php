@@ -6,7 +6,7 @@
   <main class="product-page page-margin dk">
 
     @if ($errors->any())
-      <div id="alerterror" class="lt">
+      <div id="alerterror" class="lt"
         <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif

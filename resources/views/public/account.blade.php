@@ -8,7 +8,7 @@
     <h2>Account</h2>
 
     @if ($errors->any())
-      <div id="alerterror" class="lt">
+      <div id="alerterror" class="lt"
         <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif

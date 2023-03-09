@@ -1,355 +1,364 @@
 @use 'v';
 
 body {
-  position: relative;
-  overflow: hidden;
-  transition: all 200ms ease;
+	position: relative;
+	overflow: hidden;
+	transition: all 200ms ease;
 }
 
-.site-container {
-
-}
+.site-container {}
 
 .admin-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: v.$bg-main;
-  overflow-y: auto;
-  overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	background-color: v.$bg-main;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 main {
-  margin: 10px 10px 10px 10px;
+	margin: 10px 10px 10px 10px;
 }
 
-main h1, main h2 {
-  margin: 0 0 5px 0;
+main h1,
+main h2 {
+	margin: 0 0 5px 0;
 }
 
 .link-trail {
-  position: relative;
-  top: -8px;
-  left: -4px;
+	position: relative;
+	top: -8px;
+	left: -4px;
 }
 
 .link-trail i {
-  font-size: 0.9rem;
-  opacity: .8;
+	font-size: 0.9rem;
+	opacity: .8;
 }
 
 .link-trail a:hover {
-  color: v.$alt-main;
-  text-decoration: underline;
+	color: v.$alt-main;
+	text-decoration: underline;
 }
 
 .web-box {
-  background-color: v.$white;
-  border-radius: 5px;
-  box-shadow: 0 0 6px -2px v.$trans-semi;
-  padding: 15px;
-  margin-bottom: 10px;
+	background-color: v.$white;
+	border-radius: 5px;
+	box-shadow: 0 0 6px -2px v.$trans-semi;
+	padding: 15px;
+	margin-bottom: 10px;
 }
 
 .web-box .wb-row {
-  display: flex;
-  flex-direction: row;
-  @media (max-width: 570px) {
-    flex-direction: column;
-  }
+	display: flex;
+	flex-direction: row;
+
+	@media (max-width: 570px) {
+		flex-direction: column;
+	}
 }
 
 .web-box h3 {
-  font-size: 1.4rem;
-  margin: 0 0 10px 0;
+	font-size: 1.4rem;
+	margin: 0 0 10px 0;
 }
 
 .web-box ul {
-  margin: 0;
-  padding: 10px;
-  @media (min-width: 571px) {
-    min-width: 300px;
-    max-width: calc(50% - 15px);
-  }
+	margin: 0;
+	padding: 10px;
+
+	@media (min-width: 571px) {
+		min-width: 300px;
+		max-width: calc(50% - 15px);
+	}
 }
 
 .web-box li {
-  margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .web-box .text-box {
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 6px -2px v.$trans-semi;
-  padding: 15px;
-  margin: 10px 5px 15px -10px;
-  @media (max-width: 570px) {
-    margin: 10px -10px 15px -10px;
-  }
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 0 6px -2px v.$trans-semi;
+	padding: 15px;
+	margin: 10px 5px 15px -10px;
+
+	@media (max-width: 570px) {
+		margin: 10px -10px 15px -10px;
+	}
 }
 
 .wb-row .wb-image {
-  flex-grow: 1;
-  border-radius: 3px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  @media (min-width: 571px) {
-    max-width: 800px;
-    max-height: 100%;
-  }
-  @media (max-width: 570px) {
-    width: 100%;
-    height: 300px;
-  }
+	flex-grow: 1;
+	border-radius: 3px;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	@media (min-width: 571px) {
+		max-width: 800px;
+		max-height: 100%;
+	}
+
+	@media (max-width: 570px) {
+		width: 100%;
+		height: 300px;
+	}
 }
 
 .profile-main .wb-row .wb-image {
-  margin-left: auto;
-  min-height: 300px;
+	margin-left: auto;
+	min-height: 300px;
 }
 
 .image-viewer {
-  display: flex;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  padding: 40px;
-  max-width: 100%;
-  max-height: 100%;
-  background-color: v.$trans-dark;
-  z-index: 6;
+	display: flex;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	padding: 40px;
+	max-width: 100%;
+	max-height: 100%;
+	background-color: v.$trans-dark;
+	z-index: 6;
 }
 
 .viewer-image {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: calc(100vw - 80px);
-  max-height: calc(100vh - 80px);
-  object-fit: contain;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: calc(100vw - 80px);
+	max-height: calc(100vh - 80px);
+	object-fit: contain;
 }
 
 .image-viewer .fa-xmark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 3;
-  color: v.$white;
-  cursor: pointer;
-  border-radius: 3px;
-  font-size: 1.1rem;
-  width: 18px;
-  height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 3;
+	color: v.$white;
+	cursor: pointer;
+	border-radius: 3px;
+	font-size: 1.1rem;
+	width: 18px;
+	height: 18px;
 }
 
 .image-viewer .fa-xmark:hover {
-  color: v.$black;
-  background-color: v.$white;
+	color: v.$black;
+	background-color: v.$white;
 }
 
 ul {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
+	display: flex;
+	flex-direction: column;
+	list-style: none;
 }
 
 button {
-  padding: 6px 8px;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
+	padding: 6px 8px;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
 }
 
 button.page-button {
-  margin: 0 5px 10px 0;
-  background-color: v.$alt-main;
-  color: v.$white;
+	margin: 0 5px 10px 0;
+	background-color: v.$alt-main;
+	color: v.$white;
 }
 
 button.page-button:hover {
-  background-color: v.$alt-semi-dark;
+	background-color: v.$alt-semi-dark;
 }
 
 button.page-button i {
-  font-size: 1.1rem;
-  color: white;
-  margin-right: 5px;
+	font-size: 1.1rem;
+	color: white;
+	margin-right: 5px;
 }
 
 button.button-active {
-  background-color: v.$dull-yellow-dark;
+	background-color: v.$dull-yellow-dark;
 }
 
 button.button-active:hover {
-  background-color: v.$dull-yellow;
+	background-color: v.$dull-yellow;
 }
 
-button.pb-success, button.pb-danger {
-  margin: 0 5px 10px 0;
-  color: v.$white;
+button.pb-success,
+button.pb-danger {
+	margin: 0 5px 10px 0;
+	color: v.$white;
 }
 
 button.pb-success {
-  background-color: v.$pale-green;
+	background-color: v.$pale-green;
 }
 
 button.pb-success:hover {
-  background-color: v.$pale-green-darker;
+	background-color: v.$pale-green-darker;
 }
 
 button.pb-danger {
-  background-color: v.$pale-red;
+	background-color: v.$pale-red;
 }
 
 button.pb-danger:hover {
-  background-color: v.$pale-red-darker;
+	background-color: v.$pale-red-darker;
 }
 
 .fa-toggle-off {
-  color: v.$pale-red;
+	color: v.$pale-red;
 }
 
 .fa-toggle-on {
-  color: v.$pale-green;
+	color: v.$pale-green;
 }
 
 // Alerts ---------------------------------------
 .alert-box {
-  display: flex;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 0 0 10px 0;
-  padding: 10px 30px 10px 15px;
-  border-radius: 5px;
-  color: white;
+	display: flex;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 10px 0;
+	padding: 10px 30px 10px 15px;
+	border-radius: 5px;
+	color: white;
 }
 
 .alert-box.error {
-  background-color: v.$pale-red;
+	background-color: v.$pale-red;
 }
 
 .alert-box.success {
-  background-color: v.$pale-green;
+	background-color: v.$pale-green;
 }
 
 .alert-box h3 {
-  margin: 0;
+	margin: 0;
 }
 
 .alert-box i {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  font-size: 1rem;
-  top: 10px;
-  right: 10px;
-  height: 20px;
-  width: 20px;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	font-size: 1rem;
+	top: 10px;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	color: white;
+	cursor: pointer;
 }
 
 .alert-box i:hover {
-  background-color: white;
+	background-color: white;
 }
 
 .alert-box.error i:hover {
-  color: v.$pale-red;
+	color: v.$pale-red;
 }
 
 .alert-box.success i:hover {
-  color: v.$pale-green;
+	color: v.$pale-green;
 }
 
 .warning-overlay {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-color: v.$trans-semi;
-  z-index: 6;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: v.$trans-semi;
+	z-index: 6;
 }
 
 .warning-box {
-  width: 90%;
-  padding: 10px 15px;
+	width: 90%;
+	padding: 10px 15px;
 }
 
-.warning-box p, .warning-box h3 {
-  margin: 0;
-  padding: 0;
+.warning-box p,
+.warning-box h3 {
+	margin: 0;
+	padding: 0;
 }
 
 .warning-box .row {
-  display: flex;
-  width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .warning-box .row button {
-  color: v.$white;
-  margin-top: 10px;
-  margin-bottom: 4px;
+	color: v.$white;
+	margin-top: 10px;
+	margin-bottom: 4px;
 }
 
 .warning-box .row a {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 .warning-box button.delete {
-  background-color: v.$pale-red;
-  flex-grow: 1;
-  min-width: 100px;
+	background-color: v.$pale-red;
+	flex-grow: 1;
+	min-width: 100px;
 }
 
 .warning-box button.cancel {
-  background-color: v.$pale-green;
-  flex-grow: 5;
+	background-color: v.$pale-green;
+	flex-grow: 5;
 }
 
 .warning-box button.delete:hover {
-  background-color: v.$pale-red-darker;
+	background-color: v.$pale-red-darker;
 }
 
 .warning-box button.cancel:hover {
-  background-color: v.$pale-green-darker;
+	background-color: v.$pale-green-darker;
 }
 
 
 // Hover Styles ---------------------------------------
-.hover:hover, .hover:hover h2, .hover:hover li, .hover:hover i {
-  cursor: pointer;
-  text-decoration: none;
-  color: v.$bg-dark;
+.hover:hover,
+.hover:hover h2,
+.hover:hover li,
+.hover:hover i {
+	cursor: pointer;
+	text-decoration: none;
+	color: v.$bg-dark;
 }
 
 .hover-outline:hover {
-  outline: 1px solid v.$white;
-  border-radius: 3px;
-  padding: 5px;
+	outline: 1px solid v.$white;
+	border-radius: 3px;
+	padding: 5px;
 }
 
 .hover-background:hover {
-  background-color: v.$bg-semi-light;
-  color: v.$white;
-  cursor: pointer;
+	background-color: v.$bg-semi-light;
+	color: v.$white;
+	cursor: pointer;
 }
 
 
 // Media Queries
 @media (max-width: 650px) {
-  .hide-mobile {
-    display: none;
-  }
+	.hide-mobile {
+		display: none;
+	}
 }
