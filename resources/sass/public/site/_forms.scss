@@ -1,120 +1,164 @@
 @use 'v';
 
 form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
-form.web-box {
-  position: relative;
+form .input-label-container {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	margin-bottom: 8px;
 }
 
-form.web-box .submit {
-  margin-right: auto;
+form .input-label-container:first-child {
+	margin-right: 15px;
 }
 
-form.web-box i {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  height: 20px;
-  width: 20px;
-  border-radius: 5px;
-  color: v.$almost-black;
-  cursor: pointer;
+form.web-box,
+.web-box form {
+	position: relative;
 }
 
-form.web-box i:hover:not(.show-password i) {
-  background-color: v.$almost-black;
-  color: v.$white;
+form.web-box .submit,
+.web-box form .submit {
+	margin-right: auto;
 }
 
-form input:not(form input:last-child), form textarea, form label.file-input-label, form select {
-  margin-bottom: 10px;
+form.web-box i,
+.web-box form i {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	color: v.$almost-black;
+	cursor: pointer;
 }
 
-form input, form textarea, form label.file-input-label, form select, .form input {
-  background-color: white;
-  padding: 5px 8px;
-  border-radius: 5px;
-  color: v.$almost-black;
-  background-color: white;
-  height: 33px;
-  cursor: pointer;
+form.web-box i:hover:not(.show-password i),
+.web-box form i:hover:not(.show-password i) {
+	background-color: v.$almost-black;
+	color: v.$white;
 }
 
-form input:not(.submit), form textarea, form label.file-input-label, form select:not(.product-page .wb-content), .form input {
-  border: 2px solid v.$brand-alt-dark;
+form input:not(form input:last-child, .checkbox-container input, .submit),
+form textarea,
+form label.file-input-label,
+form select {
+	margin-bottom: 10px;
 }
 
-form input:focus, form textarea:focus, form label.file-input-label:hover, form:not(.product-page .wb-content) select:hover, .form input:focus {
-  outline: 3px solid v.$brand-alt-dark;
+form input:not(.checkbox-container input, .submit),
+form textarea,
+form label.file-input-label,
+form select,
+.form input:not(.checkbox-container input, .submit) {
+	background-color: v.$white;
+	padding: 5px 8px;
+	border-radius: 5px;
+	color: v.$almost-black;
+	background-color: v.$white;
+	height: 33px;
+	min-width: 50px;
+	cursor: pointer;
 }
 
-form input:focus:not(.submit), form textarea:focus, form label.file-input-label:hover, form:not(.product-page .wb-content) select:hover, .form input:focus {
-  border: 2px solid white;
+form input:not(.checkbox-container input, .submit),
+form textarea,
+form label.file-input-label,
+form select:not(.product-page .wb-content),
+.form input:not(.checkbox-container input, .submit) {
+	border: 2px solid v.$brand-alt-light;
+}
+
+form input:focus:not(.checkbox-container input, .submit),
+form textarea:focus,
+form label.file-input-label:hover,
+form:not(.product-page .wb-content) select:hover,
+.form input:focus:not(.checkbox-container input, .submit) {
+	outline: 3px solid v.$brand-alt-light;
+}
+
+form input:focus:not(.checkbox-container input, .submit),
+form textarea:focus,
+form label.file-input-label:hover,
+form:not(.product-page .wb-content) select:hover,
+.form input:focus:not(.checkbox-container input, .submit) {
+	border: 2px solid white;
 }
 
 form textarea {
-  resize: vertical;
-  min-height: 33px;
-  overflow: hidden;
+	resize: vertical;
+	min-height: 33px;
+	overflow: hidden;
 }
 
 form .submit {
-  background-color: v.$almost-black;
-  color: v.$white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 1rem;
+	background-color: v.$almost-black;
+	border: none;
+	color: v.$white;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 1rem;
+	height: 33px;
+	padding: 5px 10px;
 }
 
-form .submit:not(form.web-box .submit, .product-page-main .submit) {
-  width: 80%;
-  margin: 5px auto 5px auto;
+form .submit:not(.web-box .submit, .product-page-main .submit) {
+	width: 80%;
+	margin: 5px auto 5px auto;
 }
 
 form .submit:hover {
-  background-color: v.$brand-alt-light;
-  border: none;
+	background-color: v.$brand-alt-light;
+	border: none;
+	color: v.$black;
 }
 
 form label.show-password {
-  position: relative;
-  margin: 0 0 2px 3px;
+	position: relative;
+	margin: 0 0 2px 3px;
 }
 
-form label:not(.file-input-label, .show-password), .form label {
-  font-weight: bold;
-  line-height: 20px;
-  margin-left: 2px;
+form label:not(.file-input-label, .show-password),
+.form label {
+	font-weight: bold;
+	line-height: 20px;
+	margin-left: 2px;
+}
+
+form label {
+	min-width: 50px;
 }
 
 form span {
-  color: v.$pale-red;
+	color: v.$pale-red;
 }
 
-form p,  {
-  width: 80%;
-  margin: 5px auto 5px auto;
-  text-align: center;
+form p,
+{
+width: 80%;
+margin: 5px auto 5px auto;
+text-align: center;
 }
 
 form i {
-  font-size: 1rem;
-  position: absolute;
-  top: 10px;
-  right: 7px;
-  z-index: 1;
+	font-size: 1rem;
+	position: absolute;
+	top: 10px;
+	right: 7px;
+	z-index: 1;
 }
 
 form input.file-input {
-  width: 0.1px;
+	width: 0.1px;
 	height: 0.1px;
 	opacity: 0;
 	overflow: hidden;
@@ -123,24 +167,39 @@ form input.file-input {
 }
 
 form label.file-input-label {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 8px;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  cursor: pointer;
-  background-color: v.$white;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding-left: 8px;
+	max-width: 300px;
+	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	cursor: pointer;
+	background-color: v.$white;
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
 }
 
 form label.file-input-label::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+	display: none;
+	/* Chrome, Safari and Opera */
 }
 
 form label i {
-  cursor: pointer;
+	cursor: pointer;
+}
+
+form .checkbox-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 5px 0;
+}
+
+form .checkbox-container input {
+	margin: 0 5px 0 0;
 }

@@ -86,17 +86,12 @@ header .desktop-nav {
 	font-size: 1.4rem;
 }
 
-.desktop-nav .user-button,
-.desktop-nav .user-button i {
-	// color: v.$white;
-}
-
 .desktop-nav .user-button.logged-in {
 	background-color: v.$brand-alt-light;
 }
 
-.desktop-nav .user-button:not(.user-button:hover) {
-	// background-color: v.$brand-alt-light;
+.desktop-nav .user-button.logged-in:hover {
+	background-color: v.$brand-alt-dark;
 }
 
 .desktop-nav .fa-solid.fa-user {
@@ -104,7 +99,7 @@ header .desktop-nav {
 }
 
 header #user-menu-container {
-	display: flex;
+	// display: flex;
 	overflow: hidden;
 	position: absolute;
 	top: 100%;

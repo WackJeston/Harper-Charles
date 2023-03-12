@@ -29,7 +29,7 @@
 			<i @click='toggleMobileNav' class="fa-solid fa-bars hover-background" id="nav-menu-button"></i>
 		</nav>
 
-		<div id="user-menu-container">
+		<div id="user-menu-container" :style="[this.userMenuActive ? { display: 'flex' } : { display: 'none' }]">
 			<div v-if="this.sessionuser" id="user-menu"
 				:style="[this.userMenuActive ? { transform: 'translate3d(0, 0, 0)' } : { transform: 'translate3d(0, -100%, 0)' }]">
 				<a v-for="(sublink, i) in this.userlinks" :href="sublink['link']">

@@ -1,29 +1,60 @@
 @use 'site/v';
 
 #checkout-page {
-  margin: 0 20px;
+	margin: v.$header-height 20px 20px 20px;
 }
 
 #checkout-timeline {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto 20px auto;
-  color: v.$white;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto 20px auto;
+}
+
+#checkout-timeline i {
+	color: v.$almost-black;
 }
 
 #checkout-timeline div {
-  height: 4px;
-  flex-grow: 1;
-  background-color: v.$white;
-  margin: 0 10px;
-  border-radius: 2px;
+	height: 4px;
+	flex-grow: 1;
+	background-color: v.$almost-black;
+	margin: 0 10px;
+	border-radius: 2px;
 }
 
 #checkout-page .web-box {
-  max-width: 1300px;
+	max-width: 1300px;
 }
 
+#checkoutaddresses {
+	display: flex;
+
+	@media (max-width: 1000px) {
+		flex-direction: column;
+	}
+}
+
+#checkoutaddresses form {
+	// min-width: 250px;
+	margin: 10px;
+}
+
+// #checkoutaddresses form:first-child {
+// 	@media (max-width: 1000px) {
+// 		margin-right: 20px;
+// 	}
+// }
+
+// #checkoutaddresses form:last-child {
+// 	@media (max-width: 1000px) {
+// 		margin-left: 20px;
+// 	}
+// }
+
+#checkoutaddresses form h3 {
+	margin: 0 0 10px 0;
+}

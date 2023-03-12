@@ -3,9 +3,9 @@
 @section('title', 'Checkout')
 
 @section('content')
-  <main class="auth dk" id="checkout-page">
+  <main class="auth" id="checkout-page">
 
-    <h1>Checkout</h1>
+    <h1 class="title dk">Checkout</h1>
 
     @if ($errors->any())
       <div id="publicerror" class="lt">
@@ -20,15 +20,15 @@
     @endif
 
     <div id="checkout-timeline">
-      <i class="fa-regular fa-circle"></i>
+      <i class="fa-solid fa-circle"></i>
       <div></div>
       <i class="fa-regular fa-circle"></i>
       <div></div>
       <i class="fa-regular fa-circle"></i>
     </div>
 
-    <div id="checkout" class="checkout-main web-box">
-      <checkout />
+    <div id="checkoutaddresses" class="web-box dk">
+      <checkoutaddresses />
     </div>
 
   </main>
