@@ -10,7 +10,7 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	max-width: 1000px;
+	max-width: 800px;
 	margin: 0 auto 20px auto;
 }
 
@@ -27,34 +27,53 @@
 }
 
 #checkout-page .web-box {
-	max-width: 1300px;
+	max-width: 800px;
 }
 
 #checkoutaddresses {
 	display: flex;
+	flex-direction: column;
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid v.$almost-black;
+}
 
-	@media (max-width: 1000px) {
-		flex-direction: column;
-	}
+#checkoutaddresses h3 {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding-left: 20px;
+	width: 100%;
+	height: 60px;
+	background-color: v.$brand-alt-light;
+}
+
+#checkoutaddresses h3:hover {
+	background-color: v.$brand-alt-dark;
+	color: v.$white;
+	cursor: pointer;
+}
+
+#checkoutaddresses h3:hover i {
+	color: v.$white;
+}
+
+#checkoutaddresses h3 i {
+	margin: 0 20px 0 auto;
 }
 
 #checkoutaddresses form {
-	// min-width: 250px;
-	margin: 10px;
+	max-height: 1000px;
+	padding: 20px;
+	overflow-y: hidden;
+	transition: all 300ms ease;
 }
 
-// #checkoutaddresses form:first-child {
-// 	@media (max-width: 1000px) {
-// 		margin-right: 20px;
-// 	}
-// }
+#checkoutaddresses form:not(.last-child) {
+	border-bottom: 1px solid v.$almost-black;
+}
 
-// #checkoutaddresses form:last-child {
-// 	@media (max-width: 1000px) {
-// 		margin-left: 20px;
-// 	}
-// }
-
-#checkoutaddresses form h3 {
-	margin: 0 0 10px 0;
+#checkoutaddresses form .submit {
+	min-width: 80px;
+	margin-top: 10px;
 }
