@@ -11,10 +11,12 @@ form .input-label-container {
 	flex-direction: column;
 	flex-grow: 1;
 	margin-bottom: 8px;
+	min-width: 50px;
 }
 
-form .input-label-container:first-child {
-	margin-right: 15px;
+form .input-label-container input,
+form .input-label-container label {
+	min-width: 50px;
 }
 
 form.web-box,
@@ -47,6 +49,8 @@ form.web-box i:hover:not(.show-password i),
 	background-color: v.$almost-black;
 	color: v.$white;
 }
+
+form.web-box .wb-row {}
 
 form input:not(form input:last-child, .checkbox-container input, .submit),
 form textarea,

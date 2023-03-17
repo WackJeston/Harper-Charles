@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
           $table->id();
           $table->integer('userId');
+					$table->string('type', 50)->nullable();
           $table->boolean('defaultBilling')->default(0);
           $table->boolean('defaultShipping')->default(0);
           $table->string('firstName', 100);

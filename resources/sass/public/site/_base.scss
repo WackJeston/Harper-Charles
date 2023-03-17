@@ -138,12 +138,13 @@ button.pb-danger:hover {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+}
 
+.web-box .wb-row:not(form .wb-row) {
 	@media (max-width: 700px) {
 		flex-direction: column;
 	}
 }
-
 
 .clear-box {
 	display: flex;
