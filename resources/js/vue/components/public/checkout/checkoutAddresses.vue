@@ -17,6 +17,12 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
+				<i class="fa-solid fa-square-xmark">
+					<div class="popup-label">Delete Address</div>
+				</i>
+				<i class="fa-solid fa-square-check">
+					<div class="popup-label">Make Default</div>
+				</i>
 				<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
 			</ul>
 		</div>
