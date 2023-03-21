@@ -26,7 +26,7 @@ return new class extends Migration
           $table->string('line2', 200)->nullable();
           $table->string('line3', 200)->nullable();
           $table->string('city', 100);
-          $table->string('region', 100);
+          $table->string('region', 100)->nullable();
           $table->string('country', 100);
           $table->string('postCode', 50);
           $table->string('phone', 20);

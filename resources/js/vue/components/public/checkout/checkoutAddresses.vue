@@ -5,72 +5,90 @@
 		<i v-else class="fa-solid fa-angle-down"></i>
 	</h3>
 
-	<form @submit.prevent="deliveryAdd" enctype="multipart/form-data"
-		:style="[!this.delivery ? { maxHeight: '0px', padding: '0px 20px' } : { maxHeight: '1000px', padding: '20px' }]">
-		<input type="hidden" name="_token" :value="csrf">
-
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="firstname">First Name<span> *</span></label>
-				<input type="text" name="firstname" required>
-			</div>
-
-			<div class="input-label-container">
-				<label for="lastname">Last Name<span> *</span></label>
-				<input type="text" name="lastname" required>
-			</div>
+	<div id="delivery-container"
+		:style="[!this.delivery ? { maxHeight: '0px', padding: '0px 20px' } : { maxHeight: '2000px', padding: '20px' }]">
+		<div class="saved-addresses">
+			<ul v-for="(address, i) in this.deliveryaddresses" class="saved-address" :id="'address-' + address.id"
+				:class="[address.defaultShipping == 1 ? 'selected-address' : '']"
+				@click="this.selectAddress('delivery', address.id)">
+				<li>{{ address.firstName }} {{ address.lastName }}</li>
+				<li>{{ address.line1 }}</li>
+				<li>{{ address.city }}, {{ address.region }}</li>
+				<li>{{ address.country }}</li>
+				<li>{{ address.postCode }}</li>
+				<li>{{ address.phone }}</li>
+				<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
+			</ul>
 		</div>
 
-		<label for="line1">Address Line 1<span> *</span></label>
-		<input type="text" name="line1" required>
+		<form @submit.prevent="deliveryAdd" enctype="multipart/form-data">
+			<input type="hidden" name="_token" :value="csrf">
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="line2">Address Line 2</label>
-				<input type="text" name="line2">
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="firstname">First Name<span> *</span></label>
+					<input type="text" name="firstname" required maxlength="100">
+				</div>
+
+				<div class="input-label-container">
+					<label for="lastname">Last Name<span> *</span></label>
+					<input type="text" name="lastname" required maxlength="100">
+				</div>
 			</div>
 
-			<div class="input-label-container">
-				<label for="line3">Address Line 3</label>
-				<input type="text" name="line3">
-			</div>
-		</div>
+			<label for="company">Company</label>
+			<input type="text" name="company" maxlength="100">
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="city">City / Town<span> *</span></label>
-				<input type="text" name="city" required>
-			</div>
+			<label for="line1">Address Line 1<span> *</span></label>
+			<input type="text" name="line1" required maxlength="200">
 
-			<div class="input-label-container">
-				<label for="region">County</label>
-				<input type="text" name="region">
-			</div>
-		</div>
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="line2">Address Line 2</label>
+					<input type="text" name="line2" maxlength="200">
+				</div>
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="country">Country<span> *</span></label>
-				<input type="text" name="country" required>
+				<div class="input-label-container">
+					<label for="line3">Address Line 3</label>
+					<input type="text" name="line3" maxlength="200">
+				</div>
 			</div>
 
-			<div class="input-label-container">
-				<label for="postcode">Postcode<span> *</span></label>
-				<input type="text" name="postcode" required>
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="city">City / Town<span> *</span></label>
+					<input type="text" name="city" required maxlength="100">
+				</div>
+
+				<div class="input-label-container">
+					<label for="region">County</label>
+					<input type="text" name="region" maxlength="100">
+				</div>
 			</div>
-		</div>
 
-		<label for="phone">Phone<span> *</span></label>
-		<input type="tel" name="phone" required
-			pattern="(\s*\(?0\d{4}\)?(\s*|-)\d{3}(\s*|-)\d{3}\s*)|(\s*\(?0\d{3}\)?(\s*|-)\d{3}(\s*|-)\d{4}\s*)|(\s*(7|8)(\d{7}|\d{3}(\-|\s{1})\d{4})\s*)">
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="country">Country<span> *</span></label>
+					<input type="text" name="country" required maxlength="100">
+				</div>
 
-		<div class="checkbox-container">
-			<input type="checkbox" name="defaultdelivery">
-			<label for="defaultdelivery">Make this your default delivery address.</label>
-		</div>
+				<div class="input-label-container">
+					<label for="postcode">Postcode<span> *</span></label>
+					<input type="text" name="postcode" required maxlength="50">
+				</div>
+			</div>
 
-		<input class="submit" type="submit" name="submit" value="Save">
-	</form>
+			<label for="phone">Phone<span> *</span></label>
+			<input type="tel" name="phone" required maxlength="20">
+
+			<div class="checkbox-container">
+				<input type="checkbox" name="defaultdelivery">
+				<label for="defaultdelivery">Make this your default delivery address.</label>
+			</div>
+
+			<input class="submit" type="submit" name="submit" value="Save">
+		</form>
+	</div>
 
 	<h3 @click="this.billing = !this.billing">
 		Billing Address
@@ -78,105 +96,158 @@
 		<i v-else class="fa-solid fa-angle-down"></i>
 	</h3>
 
-	<form @submit.prevent="billingAdd" enctype="multipart/form-data" class="last-child"
-		:style="[!this.billing ? { maxHeight: '0px', padding: '0px 20px' } : { maxHeight: '1000px', padding: '20px' }]">
-		<input type="hidden" name="_token" :value="csrf">
-
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="firstname">First Name<span> *</span></label>
-				<input type="text" name="firstname" required>
-			</div>
-
-			<div class="input-label-container">
-				<label for="lastname">Last Name<span> *</span></label>
-				<input type="text" name="lastname" required>
-			</div>
+	<div id="billing-container"
+		:style="[!this.billing ? { maxHeight: '0px', padding: '0px 20px' } : { maxHeight: '2000px', padding: '20px' }]">
+		<div class="saved-addresses">
+			<ul v-for="(address, i) in this.billingaddresses" class="saved-address" :id="'address-' + address.id"
+				:class="[address.defaultBilling == 1 ? 'selected-address' : '']"
+				@click="this.selectAddress('billing', address.id)">
+				<li>{{ address.firstName }} {{ address.lastName }}</li>
+				<li>{{ address.line1 }}</li>
+				<li>{{ address.city }}, {{ address.region }}</li>
+				<li>{{ address.country }}</li>
+				<li>{{ address.postCode }}</li>
+				<li>{{ address.phone }}</li>
+				<i v-if="address.defaultBilling == 1" class="fa-regular fa-circle-check"></i>
+			</ul>
 		</div>
 
-		<label for="line1">Address Line 1<span> *</span></label>
-		<input type="text" name="line1" required>
+		<form @submit.prevent="billingAdd" enctype="multipart/form-data">
+			<input type="hidden" name="_token" :value="csrf">
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="line2">Address Line 2</label>
-				<input type="text" name="line2">
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="firstname">First Name<span> *</span></label>
+					<input type="text" name="firstname" required maxlength="100">
+				</div>
+
+				<div class="input-label-container">
+					<label for="lastname">Last Name<span> *</span></label>
+					<input type="text" name="lastname" required maxlength="100">
+				</div>
 			</div>
 
-			<div class="input-label-container">
-				<label for="line3">Address Line 3</label>
-				<input type="text" name="line3">
-			</div>
-		</div>
+			<label for="company">Company</label>
+			<input type="text" name="company" maxlength="100">
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="city">City / Town<span> *</span></label>
-				<input type="text" name="city" required>
-			</div>
+			<label for="line1">Address Line 1<span> *</span></label>
+			<input type="text" name="line1" required maxlength="200">
 
-			<div class="input-label-container">
-				<label for="region">County</label>
-				<input type="text" name="region">
-			</div>
-		</div>
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="line2">Address Line 2</label>
+					<input type="text" name="line2" maxlength="200">
+				</div>
 
-		<div class="wb-row">
-			<div class="input-label-container">
-				<label for="country">Country<span> *</span></label>
-				<input type="text" name="country" required>
+				<div class="input-label-container">
+					<label for="line3">Address Line 3</label>
+					<input type="text" name="line3" maxlength="200">
+				</div>
 			</div>
 
-			<div class="input-label-container">
-				<label for="postcode">Postcode<span> *</span></label>
-				<input type="text" name="postcode" required>
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="city">City / Town<span> *</span></label>
+					<input type="text" name="city" required maxlength="100">
+				</div>
+
+				<div class="input-label-container">
+					<label for="region">County</label>
+					<input type="text" name="region" maxlength="100">
+				</div>
 			</div>
-		</div>
 
-		<label for="phone">Phone<span> *</span></label>
-		<input type="tel" name="phone" required
-			pattern="(\s*\(?0\d{4}\)?(\s*|-)\d{3}(\s*|-)\d{3}\s*)|(\s*\(?0\d{3}\)?(\s*|-)\d{3}(\s*|-)\d{4}\s*)|(\s*(7|8)(\d{7}|\d{3}(\-|\s{1})\d{4})\s*)">
+			<div class="wb-row">
+				<div class="input-label-container">
+					<label for="country">Country<span> *</span></label>
+					<input type="text" name="country" required maxlength="100">
+				</div>
 
-		<div class="checkbox-container">
-			<input type="checkbox" name="defaultbilling">
-			<label for="defaultbilling">Make this your default billing address.</label>
-		</div>
+				<div class="input-label-container">
+					<label for="postcode">Postcode<span> *</span></label>
+					<input type="text" name="postcode" required maxlength="50">
+				</div>
+			</div>
 
-		<input class="submit" type="submit" name="submit" value="Save">
-	</form>
+			<label for="phone">Phone<span> *</span></label>
+			<input type="tel" name="phone" required maxlength="20">
+
+			<div class="checkbox-container">
+				<input type="checkbox" name="defaultbilling">
+				<label for="defaultbilling">Make this your default billing address.</label>
+			</div>
+
+			<input class="submit" type="submit" name="submit" value="Save">
+		</form>
+	</div>
 </template>
 
 <script>
 export default {
+	props: [
+		'deliveryaddresses',
+		'defaultdelivery',
+		'billingaddresses',
+		'defaultbilling',
+	],
+
 	data() {
 		return {
 			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 			delivery: true,
+			deliverySelected: this.defaultdelivery,
 			billing: false,
+			billingSelected: this.defaultbilling,
 		}
 	},
 
 	methods: {
+		selectAddress(type, id) {
+			let previousTick = document.querySelector('#' + type + '-container .selected-address i');
+			if (previousTick != null) {
+				previousTick.remove();
+			}
+			let previousAddress = document.querySelector('#' + type + '-container .selected-address');
+			if (previousAddress != null) {
+				previousAddress.classList.remove('selected-address');
+			}
+
+			let newAddress = document.querySelector('#' + type + '-container #address-' + id);
+			newAddress.classList.add('selected-address');
+			let innerAddress = newAddress.innerHTML + '<i class="fa-regular fa-circle-check"></i>';
+			newAddress.innerHTML = innerAddress;
+
+			if (type == 'delivery') {
+				this.deliverySelected = id;
+			} else if (type == 'billing') {
+				this.billingSelected = id;
+			}
+		},
+
 		async deliveryAdd(submitEvent) {
 			try {
 				this.values = '';
+				this.type = 'delivery';
 
 				for (var i = 1; i < submitEvent.target.length; i++) {
 					if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
 						if (i == 1) {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
 							this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
+
 						} else if (submitEvent.target[i].type == 'checkbox') {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
 							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
+
 						} else if (submitEvent.target[i].name != 'submit') {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
 							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
 						}
 					}
 				}
 
-				console.log(this.values);
-
 				this.result = await this.$http.post(
-					'/checkoutAddAddress/delivery/' + this.values,
+					'/checkoutAddAddress/' + this.type + '/' + this.values,
 					{ name: "delivery-add" }
 				);
 			} catch (err) {
@@ -184,15 +255,56 @@ export default {
 				console.log(err);
 			} finally {
 				console.log('----SUCCESS----');
-				console.log(this.result);
-				// if (this.result.data['success']) {
-				// 	this.cartAlert('Item added to cart.');
-				// } else {
-				// 	window.location.href = '/loginCart';
-				// }
+				console.log(this.result.data);
+
+				let addresses = document.querySelector('#delivery-container .saved-addresses');
+				let addressHtml = '<ul class="saved-address" id="address-' + this.result.data.id + '"><li>' + this.result.data.firstName + ' ' + this.result.data.lastName + '</li><li>' + this.result.data.line1 + '</li><li>' + this.result.data.city + (this.result.data.region ? ', ' + this.result.data.region : '') + '</li><li>' + this.result.data.country + '</li><li>' + this.result.data.postCode + '</li><li>' + this.result.data.phone + '</li></ul>';
+				addresses.innerHTML += addressHtml;
+
+				this.selectAddress('delivery', this.result.data.id);
 			}
 		},
 
+		async billingAdd(submitEvent) {
+			try {
+				this.values = '';
+				this.type = 'billing';
+
+				for (var i = 1; i < submitEvent.target.length; i++) {
+					if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
+						if (i == 1) {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
+							this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
+
+						} else if (submitEvent.target[i].type == 'checkbox') {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
+							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
+
+						} else if (submitEvent.target[i].name != 'submit') {
+							console.log(submitEvent.target[i].name + ' = ' + submitEvent.target[i].value);
+							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
+						}
+					}
+				}
+
+				this.result = await this.$http.post(
+					'/checkoutAddAddress/' + this.type + '/' + this.values,
+					{ name: "billing-add" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.result.data);
+
+				let addresses = document.querySelector('#billing-container .saved-addresses');
+				let addressHtml = '<ul class="saved-address" id="address-' + this.result.data.id + '"><li>' + this.result.data.firstName + ' ' + this.result.data.lastName + '</li><li>' + this.result.data.line1 + '</li><li>' + this.result.data.city + (this.result.data.region ? ', ' + this.result.data.region : '') + '</li><li>' + this.result.data.country + '</li><li>' + this.result.data.postCode + '</li><li>' + this.result.data.phone + '</li></ul>';
+				addresses.innerHTML += addressHtml;
+
+				this.selectAddress('billing', this.result.data.id);
+			}
+		},
 	},
 }
 </script>

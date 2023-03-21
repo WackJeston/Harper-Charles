@@ -11,6 +11,7 @@ class Address extends Model
 
   protected $fillable = [
     'userId',
+		'type',
     'defaultBilling',
     'defaultShipping',
     'firstName',

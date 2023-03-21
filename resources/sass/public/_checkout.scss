@@ -35,7 +35,6 @@
 	flex-direction: column;
 	padding: 0;
 	overflow: hidden;
-	// border: 1px solid v.$almost-black;
 	box-shadow: none;
 }
 
@@ -63,8 +62,9 @@
 	margin: 0 20px 0 auto;
 }
 
-#checkoutaddresses form {
-	max-height: 1000px;
+#checkoutaddresses #delivery-container,
+#checkoutaddresses #billing-container {
+	max-height: 700px;
 	padding: 20px;
 	overflow-y: hidden;
 	transition: all 300ms ease;
@@ -80,8 +80,66 @@
 }
 
 #checkoutaddresses form .input-label-container:first-child {
-	// @media (min-width: 700px) {
-	// 	margin-right: 15px;
-	// }
 	margin-right: 15px;
+}
+
+#checkoutaddresses .saved-addresses {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+#checkoutaddresses .saved-address {
+	display: flex;
+	flex-direction: column;
+	border-radius: 5px;
+	background-color: v.$brand-alt-light;
+	margin-bottom: 20px;
+	padding: 10px;
+	position: relative;
+
+	@media (min-width: 700px) {
+		width: calc(33.3% - 13px);
+	}
+
+	@media (min-width: 500px) and (max-width: 700px) {
+		width: calc(50% - 10px);
+	}
+
+	@media (max-width: 500px) {
+		width: 100%;
+	}
+}
+
+#checkoutaddresses .saved-address:not(.selected-address) {
+	cursor: pointer;
+}
+
+#checkoutaddresses .saved-address:hover,
+#checkoutaddresses .selected-address {
+	background-color: v.$brand-alt-dark;
+}
+
+#checkoutaddresses .saved-address:hover li,
+#checkoutaddresses .selected-address li {
+	color: v.$white;
+}
+
+#checkoutaddresses .selected-address i {
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	color: v.$pale-green;
+	background-color: v.$brand-alt-dark;
+	padding: 9px;
+	border-radius: 5px;
+}
+
+#checkoutaddresses .saved-address li {
+	margin: 0 0 0 3px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
