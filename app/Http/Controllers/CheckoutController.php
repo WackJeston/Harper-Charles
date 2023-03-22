@@ -73,14 +73,22 @@ class CheckoutController extends Controller
 		return $result;
 	}
 
-	public function defaultAddress($type, $addressId)
+	public function defaultAddress($type, $id)
 	{
 		if ($type == 'billing') {
 			Address::where('userId', auth()->user()->id)->where('type', 'billing')->update(['defaultBilling' => 0]);
-			Address::where('id', $addressId)->update(['defaultBilling' => 1]);
+			Address::where('id', $id)->update(['defaultBilling' => 1]);
 		} else {
 			Address::where('userId', auth()->user()->id)->where('type', 'delivery')->update(['defaultShipping' => 0]);
-			Address::where('id', $addressId)->update(['defaultShipping' => 1]);
+			Address::where('id', $id)->update(['defaultShipping' => 1]);
 		}
 	}
+
+	public function deleteAddress($id)
+	{
+		$address = Address::where('id', $id)->first();
+		$address->delete();
+
+		return true;
+	}	
 }

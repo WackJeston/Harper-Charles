@@ -60,6 +60,8 @@ Route::controller(CartController::class)->group(function () {
 Route::controller(CheckoutController::class)->group(function () {
   Route::get('/checkout', 'show');
   Route::post('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
+  Route::post('/checkoutDeleteAddress/{id}', 'deleteAddress');
+  Route::post('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
 });
 
 Route::get('/products/{id}', [ProductsController::class, 'show']);

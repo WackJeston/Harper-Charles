@@ -125,7 +125,9 @@
 }
 
 #checkoutaddresses .saved-address:hover,
-#checkoutaddresses .selected-address {
+#checkoutaddresses .saved-address:hover i,
+#checkoutaddresses .selected-address,
+#checkoutaddresses .selected-address i {
 	background-color: v.$brand-alt-dark;
 }
 
@@ -138,32 +140,39 @@
 	position: absolute;
 	right: 1px;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 #checkoutaddresses .selected-address .fa-circle-check {
 	bottom: 1px;
 	color: v.$pale-green;
-	background-color: v.$brand-alt-dark;
 	padding: 9px;
 }
 
 #checkoutaddresses .saved-address .fa-square-xmark {
 	top: 1px;
 	padding: 9px 9px 5px 9px;
-	color: v.$clear
 }
 
 #checkoutaddresses .saved-address .fa-square-check {
 	top: 35px;
 	padding: 5px 9px 9px 9px;
-	color: v.$clear
+}
+
+#checkoutaddresses .saved-address .fa-square-xmark,
+#checkoutaddresses .saved-address .fa-square-check {
+	display: flex;
+	color: v.$white;
+}
+
+#checkoutaddresses .saved-address:not(.selected-address, :hover) .fa-square-xmark,
+#checkoutaddresses .saved-address:not(.selected-address, :hover) .fa-square-check {
+	background-color: v.$brand-alt-light;
 }
 
 #checkoutaddresses .saved-address:hover .fa-square-xmark,
 #checkoutaddresses .saved-address:hover .fa-square-check {
-	background-color: v.$brand-alt-dark;
-	color: v.$white;
-	cursor: pointer;
+	display: flex;
 }
 
 #checkoutaddresses .saved-address .fa-square-xmark:hover {

@@ -17,11 +17,15 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i class="fa-solid fa-square-xmark">
-					<div class="popup-label">Delete Address</div>
+				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+					<div class="popup-label-container">
+						<span class="popup-label">Delete Address</span>
+					</div>
 				</i>
-				<i class="fa-solid fa-square-check">
-					<div class="popup-label">Make Default</div>
+				<i @click="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square-check popup-label-button">
+					<div class="popup-label-container">
+						<span class="popup-label">Make Default</span>
+					</div>
 				</i>
 				<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
 			</ul>
@@ -114,6 +118,16 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
+				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+					<div class="popup-label-container">
+						<span class="popup-label">Delete Address</span>
+					</div>
+				</i>
+				<i @click="this.defaultAddress('billing', address.id)" class="fa-solid fa-square-check popup-label-button">
+					<div class="popup-label-container">
+						<span class="popup-label">Make Default</span>
+					</div>
+				</i>
 				<i v-if="address.defaultBilling == 1" class="fa-regular fa-circle-check"></i>
 			</ul>
 		</div>
@@ -202,14 +216,14 @@ export default {
 			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 			delivery: true,
 			deliverySelected: this.defaultdelivery,
-			billing: false,
+			billing: true,
 			billingSelected: this.defaultbilling,
 		}
 	},
 
 	methods: {
 		selectAddress(type, id) {
-			let previousTick = document.querySelector('#' + type + '-container .selected-address i');
+			let previousTick = document.querySelector('#' + type + '-container .selected-address .fa-circle-check');
 			if (previousTick != null) {
 				previousTick.remove();
 			}
@@ -227,6 +241,40 @@ export default {
 				this.deliverySelected = id;
 			} else if (type == 'billing') {
 				this.billingSelected = id;
+			}
+		},
+
+		async deleteAddress(id) {
+			try {
+				this.result = await this.$http.post(
+					'/checkoutDeleteAddress/' + id,
+					{ name: "delete-address" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.result.data);
+				if (this.result.data == true) {
+					let address = document.querySelector('#address-' + id);
+					address.remove();
+				}
+			}
+		},
+
+		async defaultAddress(type, id) {
+			try {
+				this.result = await this.$http.post(
+					'/checkoutDefaultAddress/' + type + '/' + id,
+					{ name: "default-address" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.result.data);
 			}
 		},
 
@@ -264,7 +312,28 @@ export default {
 				console.log(this.result.data);
 
 				let addresses = document.querySelector('#delivery-container .saved-addresses');
-				let addressHtml = '<ul class="saved-address" id="address-' + this.result.data.id + '"><li>' + this.result.data.firstName + ' ' + this.result.data.lastName + '</li><li>' + this.result.data.line1 + '</li><li>' + this.result.data.city + (this.result.data.region ? ', ' + this.result.data.region : '') + '</li><li>' + this.result.data.country + '</li><li>' + this.result.data.postCode + '</li><li>' + this.result.data.phone + '</li></ul>';
+
+				let addressHtml = '';
+				addressHtml += '<ul class="saved-address" id="address-';
+				addressHtml += this.result.data.id;
+				addressHtml += '"><li>';
+				addressHtml += this.result.data.firstName;
+				addressHtml += ' ';
+				addressHtml += this.result.data.lastName;
+				addressHtml += '</li><li>';
+				addressHtml += this.result.data.line1;
+				addressHtml += '</li><li>';
+				addressHtml += this.result.data.city;
+				addressHtml += (this.result.data.region ? ', ' + this.result.data.region : '');
+				addressHtml += '</li><li>';
+				addressHtml += this.result.data.country;
+				addressHtml += '</li><li>';
+				addressHtml += this.result.data.postCode;
+				addressHtml += '</li><li>';
+				addressHtml += this.result.data.phone;
+				addressHtml += '</li><i class="fa-solid fa-square-xmark popup-label-button"><div class="popup-label-container"><span class="popup-label">Delete Address</span></div></i>';
+				addressHtml += '<i class="fa-solid fa-square-check popup-label-button"><div class="popup-label-container"><span class="popup-label">Make Default</span></div></i><i class="fa-regular fa-circle-check"></i></ul>';
+
 				addresses.innerHTML += addressHtml;
 
 				this.selectAddress('delivery', this.result.data.id);

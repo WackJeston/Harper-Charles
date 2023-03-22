@@ -166,6 +166,30 @@ button.pb-danger:hover {
 	font-size: 1.1rem;
 }
 
+.popup-label-container {
+	position: relative;
+	display: flex;
+}
+
+.popup-label-button:hover .popup-label {
+	display: flex;
+}
+
+.popup-label {
+	display: none;
+	position: absolute;
+	right: 26px;
+	bottom: 4px;
+	white-space: nowrap;
+	background-color: v.$almost-black;
+	color: v.$white;
+	padding: 6px 8px 4px 8px;
+	border-radius: 5px;
+	font-size: .6rem;
+	z-index: 4;
+	letter-spacing: 0.1rem;
+}
+
 
 // Hover Styles ---------------------------------------
 .lt .hover:hover,
