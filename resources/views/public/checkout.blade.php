@@ -28,7 +28,12 @@
     </div>
 
     <div id="checkoutaddresses" class="web-box dk">
-      <checkoutaddresses :deliveryaddresses="{{ $deliveryAddresses }}" :defaultdelivery="{{ $defaultDelivery }}" :billingaddresses="{{ $billingAddresses }}" :defaultbilling="{{ $defaultBilling }}" />
+      <checkoutaddresses 
+				:deliveryaddresses="{{ $deliveryAddresses }}" 
+				:defaultdelivery="{{ $defaultDelivery }}" 
+				:billingaddresses="{{ $billingAddresses }}" 
+				:defaultbilling="{{ $defaultBilling }}" 
+			/>
     </div>
 
   </main>

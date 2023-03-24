@@ -58,7 +58,13 @@
 	color: v.$white;
 }
 
-#checkoutaddresses h3 i {
+#checkoutaddresses h3 i:not(.fa-angle-up, .fa-angle-done) {
+	margin-right: 10px;
+	font-size: 1.2rem;
+}
+
+#checkoutaddresses h3 .fa-angle-up,
+#checkoutaddresses h3 .fa-angle-down {
 	margin: 0 20px 0 auto;
 }
 
@@ -96,8 +102,12 @@
 	flex-direction: column;
 	border-radius: 5px;
 	background-color: v.$brand-alt-light;
-	margin-bottom: 20px;
 	padding: 10px;
+}
+
+#checkoutaddresses .saved-address,
+#checkoutaddresses .saved-address-placeholder {
+	margin-bottom: 20px;
 	position: relative;
 
 	@media (min-width: 700px) {
@@ -113,10 +123,9 @@
 	}
 }
 
-#checkoutaddresses .saved-address:last-child {
-	@media (min-width: 700px) {
-		margin-right: auto;
-		margin-left: 20px;
+#checkoutaddresses .saved-address-placeholder {
+	@media (max-width: 500px) {
+		display: none;
 	}
 }
 
@@ -132,7 +141,8 @@
 }
 
 #checkoutaddresses .saved-address:hover li,
-#checkoutaddresses .selected-address li {
+#checkoutaddresses .selected-address li,
+#checkoutaddresses .selected-address {
 	color: v.$white;
 }
 
