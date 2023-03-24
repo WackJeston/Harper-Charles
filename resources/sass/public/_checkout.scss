@@ -93,7 +93,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	gap: 20px;
 	margin-bottom: 20px;
 }
 
@@ -103,15 +103,10 @@
 	border-radius: 5px;
 	background-color: v.$brand-alt-light;
 	padding: 10px;
-}
-
-#checkoutaddresses .saved-address,
-#checkoutaddresses .saved-address-placeholder {
-	margin-bottom: 20px;
 	position: relative;
 
 	@media (min-width: 700px) {
-		width: calc(33.3% - 13px);
+		width: calc(33.3% - 14px);
 	}
 
 	@media (min-width: 500px) and (max-width: 700px) {
@@ -120,12 +115,6 @@
 
 	@media (max-width: 500px) {
 		width: 100%;
-	}
-}
-
-#checkoutaddresses .saved-address-placeholder {
-	@media (max-width: 500px) {
-		display: none;
 	}
 }
 

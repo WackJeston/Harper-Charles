@@ -33,8 +33,6 @@
 				</i>
 				<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
 			</ul>
-
-			<div v-if="this.deliveryaddresses.length % 2 == 1" class="saved-address-placeholder"></div>
 		</div>
 
 		<form @submit.prevent="deliveryAdd" enctype="multipart/form-data">
@@ -251,22 +249,6 @@ export default {
 			}
 		},
 
-		addressPlaceholder(type) {
-			let old = document.querySelector('.saved-address-placeholder');
-			if (old != null) {
-				old.remove();
-			}
-
-			let addresses = document.querySelector('#' + type + '-container .saved-addresses');
-
-			if (addresses.childElementCount % 2 == 1) {
-				let placeholder = document.createElement('div');
-				placeholder.classList.add('saved-address-placeholder');
-
-				addresses.appendChild(placeholder);
-			}
-		},
-
 		async deleteAddress(type, id) {
 			try {
 				this.result = await this.$http.post(
@@ -280,7 +262,6 @@ export default {
 				if (this.result.data == true) {
 					let address = document.querySelector('#address-' + id);
 					address.remove();
-					this.addressPlaceholder(type);
 				}
 			}
 		},
@@ -380,7 +361,6 @@ export default {
 				addresses.appendChild(addressHtml);
 
 				this.selectAddress('delivery', this.result.data.id);
-				this.addressPlaceholder('delivery');
 			}
 		},
 
@@ -416,7 +396,6 @@ export default {
 				addresses.innerHTML += addressHtml;
 
 				this.selectAddress('billing', this.result.data.id);
-				this.addressPlaceholder('billing');
 			}
 		},
 	},
