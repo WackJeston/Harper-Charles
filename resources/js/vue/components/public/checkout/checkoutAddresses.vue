@@ -18,10 +18,9 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress('delivery', address.id)" @click.stop="this.selectAddress"
+				<i @click="this.deleteAddress(address.id)" @click.stop="this.selectAddress"
 					class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
-
 						<span class="popup-label">Delete Address</span>
 					</div>
 				</i>
@@ -35,7 +34,7 @@
 			</ul>
 		</div>
 
-		<form @submit.prevent="deliveryAdd" enctype="multipart/form-data">
+		<form @submit.prevent="this.addressAdd($event, 'delivery')" enctype="multipart/form-data">
 			<input type="hidden" name="_token" :value="csrf">
 
 			<div class="wb-row">
@@ -123,7 +122,7 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress('billing', address.id)" class="fa-solid fa-square-xmark popup-label-button">
+				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
 					</div>
@@ -137,7 +136,7 @@
 			</ul>
 		</div>
 
-		<form @submit.prevent="billingAdd" enctype="multipart/form-data">
+		<form @submit.prevent="this.addressAdd($event, 'billing')" enctype="multipart/form-data">
 			<input type="hidden" name="_token" :value="csrf">
 
 			<div class="wb-row">
@@ -249,8 +248,16 @@ export default {
 			}
 		},
 
-		async deleteAddress(type, id) {
+		addCustomListener(type, id) {
+			console.log('addCustomListener');
+			let button = document.querySelector('#address-' + id + ' .fa-square-' + type);
+			button.addEventListener('click', function (id2 = id) { this.deleteAddress(id2); });
+		},
+
+		async deleteAddress(id) {
 			try {
+				console.log('deleteAddress');
+
 				this.result = await this.$http.post(
 					'/checkoutDeleteAddress/' + id,
 					{ name: "delete-address" }
@@ -280,10 +287,9 @@ export default {
 			}
 		},
 
-		async deliveryAdd(submitEvent) {
+		async addressAdd(submitEvent, type) {
 			try {
 				this.values = '';
-				this.type = 'delivery';
 
 				for (var i = 1; i < submitEvent.target.length; i++) {
 					if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
@@ -300,7 +306,7 @@ export default {
 				}
 
 				this.result = await this.$http.post(
-					'/checkoutAddAddress/' + this.type + '/' + this.values,
+					'/checkoutAddAddress/' + type + '/' + this.values,
 					{ name: "delivery-add" }
 				);
 			} catch (err) {
@@ -340,6 +346,10 @@ export default {
 				innerAddressHtml3.appendChild(innerAddressHtml2);
 				let innerAddressHtml4 = document.createElement('i');
 				innerAddressHtml4.setAttribute('class', 'fa-solid fa-square-xmark popup-label-button');
+				// innerAddressHtml4.setAttribute('onclick', (id = this.result.data.id) => { this.deleteAddress(id); });
+				// innerAddressHtml4.onclick = function (id = this.result.data.id) { this.deleteAddress(id); };
+				// innerAddressHtml4.onclick = this.deleteAddress(this.result.data.id);
+				// innerAddressHtml4.addEventListener('click', function (id = this.result.data.id) { this.deleteAddress(id); });
 				innerAddressHtml4.appendChild(innerAddressHtml3);
 
 				addressHtml.appendChild(innerAddressHtml4);
@@ -360,42 +370,11 @@ export default {
 				let addresses = document.querySelector('#delivery-container .saved-addresses');
 				addresses.appendChild(addressHtml);
 
-				this.selectAddress('delivery', this.result.data.id);
-			}
-		},
+				console.log('add address');
 
-		async billingAdd(submitEvent) {
-			try {
-				this.values = '';
-				this.type = 'billing';
+				this.addCustomListener('xmark', this.result.data.id);
 
-				for (var i = 1; i < submitEvent.target.length; i++) {
-					if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
-						if (i == 1) {
-							this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
-
-						} else if (submitEvent.target[i].type == 'checkbox') {
-							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
-
-						} else if (submitEvent.target[i].name != 'submit') {
-							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
-						}
-					}
-				}
-
-				this.result = await this.$http.post(
-					'/checkoutAddAddress/' + this.type + '/' + this.values,
-					{ name: "billing-add" }
-				);
-			} catch (err) {
-				console.log('----ERROR----');
-				console.log(err);
-			} finally {
-				let addresses = document.querySelector('#billing-container .saved-addresses');
-				let addressHtml = '<ul class="saved-address" id="address-' + this.result.data.id + '"><li>' + this.result.data.firstName + ' ' + this.result.data.lastName + '</li><li>' + this.result.data.line1 + '</li><li>' + this.result.data.city + (this.result.data.region ? ', ' + this.result.data.region : '') + '</li><li>' + this.result.data.country + '</li><li>' + this.result.data.postCode + '</li><li>' + this.result.data.phone + '</li></ul>';
-				addresses.innerHTML += addressHtml;
-
-				this.selectAddress('billing', this.result.data.id);
+				this.selectAddress(type, this.result.data.id);
 			}
 		},
 	},
