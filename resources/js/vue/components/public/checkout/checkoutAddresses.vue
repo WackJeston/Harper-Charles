@@ -18,7 +18,7 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress(address.id)" .stop="this.selectAddress"
+				<i @click="this.deleteAddress(address.id)" @click.stop="this.selectAddress"
 					class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
@@ -252,8 +252,9 @@ export default {
 			console.log('addCustomListener');
 			let button = document.querySelector('#address-' + id + ' .fa-square-' + type);
 
-			button.addEventListener('onclick', this.deleteAddress(id));
-			// button.addEventListener('onclick', (id2 = id) => { this.deleteAddress(id2); });
+			// button.addEventListener('onclick', this.deleteAddress(id));
+			let self = this;
+			button.addEventListener('click', function () { self.deleteAddress(id) }, false);
 			// button.addEventListener('click', 'this.deleteAddress(' + id + ')');
 
 			console.log('addCustomListener complete');
@@ -318,10 +319,12 @@ export default {
 				console.log('----ERROR----');
 				console.log(err);
 			} finally {
+				let self = this;
 
 				let addressHtml = document.createElement('ul');
 				addressHtml.setAttribute('class', 'saved-address');
 				addressHtml.setAttribute('id', 'address-' + this.result.data.id);
+				addressHtml.addEventListener('click', function () { self.selectAddress(type, self.result.data.id) }, false);
 
 				let tempHtml = document.createElement('li');
 				tempHtml.innerHTML = this.result.data.firstName + ' ' + this.result.data.lastName;
@@ -351,6 +354,9 @@ export default {
 				innerAddressHtml3.appendChild(innerAddressHtml2);
 				let innerAddressHtml4 = document.createElement('i');
 				innerAddressHtml4.setAttribute('class', 'fa-solid fa-square-xmark popup-label-button');
+
+				innerAddressHtml4.addEventListener('click', function () { self.deleteAddress(self.result.data.id) }, false);
+
 				// innerAddressHtml4.setAttribute('onclick', (id = this.result.data.id) => { this.deleteAddress(id); });
 				// innerAddressHtml4.onclick = function (id = this.result.data.id) { this.deleteAddress(id); };
 				// innerAddressHtml4.onclick = 'deleteAddress(' + this.result.data.id + ')';
@@ -379,7 +385,7 @@ export default {
 
 				console.log('add address');
 
-				this.addCustomListener('xmark', this.result.data.id);
+				// this.addCustomListener('xmark', this.result.data.id);
 
 				this.selectAddress(type, this.result.data.id);
 			}
