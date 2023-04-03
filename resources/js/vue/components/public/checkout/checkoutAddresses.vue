@@ -209,9 +209,9 @@
 <script>
 export default {
 	props: [
-		'deliveryaddresses',
+		'deliveryaddressespre',
 		'defaultdelivery',
-		'billingaddresses',
+		'billingaddressespre',
 		'defaultbilling',
 	],
 
@@ -219,8 +219,10 @@ export default {
 		return {
 			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 			delivery: true,
+			deliveryaddresses: this.deliveryaddressespre,
 			deliverySelected: this.defaultdelivery,
 			billing: true,
+			billingaddresses: this.billingaddressespre,
 			billingSelected: this.defaultbilling,
 		}
 	},
@@ -246,18 +248,6 @@ export default {
 			} else if (type == 'billing') {
 				this.billingSelected = id;
 			}
-		},
-
-		addCustomListener(type, id) {
-			console.log('addCustomListener');
-			let button = document.querySelector('#address-' + id + ' .fa-square-' + type);
-
-			// button.addEventListener('onclick', this.deleteAddress(id));
-			let self = this;
-			button.addEventListener('click', function () { self.deleteAddress(id) }, false);
-			// button.addEventListener('click', 'this.deleteAddress(' + id + ')');
-
-			console.log('addCustomListener complete');
 		},
 
 		async deleteAddress(id) {
@@ -319,75 +309,14 @@ export default {
 				console.log('----ERROR----');
 				console.log(err);
 			} finally {
-				let self = this;
+				this.deliveryaddresses.push(this.result.data);
 
-				let addressHtml = document.createElement('ul');
-				addressHtml.setAttribute('class', 'saved-address');
-				addressHtml.setAttribute('id', 'address-' + this.result.data.id);
-				addressHtml.addEventListener('click', function () { self.selectAddress(type, self.result.data.id) }, false);
+				// console.log(this.result.data.id);
 
-				let tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.firstName + ' ' + this.result.data.lastName;
-				addressHtml.appendChild(tempHtml);
-				tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.line1;
-				addressHtml.appendChild(tempHtml);
-				tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.city + (this.result.data.region ? ', ' + this.result.data.region : '');
-				addressHtml.appendChild(tempHtml);
-				tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.country;
-				addressHtml.appendChild(tempHtml);
-				tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.postCode;
-				addressHtml.appendChild(tempHtml);
-				tempHtml = document.createElement('li');
-				tempHtml.innerHTML = this.result.data.phone;
-				addressHtml.appendChild(tempHtml);
+				// let addresses = document.querySelector('#' + type + '-container');
+				// console.log(addresses);
 
-				let innerAddressHtml1 = document.createTextNode('Delete Address');
-				let innerAddressHtml2 = document.createElement('span');
-				innerAddressHtml2.setAttribute('class', 'popup-label');
-				innerAddressHtml2.appendChild(innerAddressHtml1);
-				let innerAddressHtml3 = document.createElement('div');
-				innerAddressHtml3.setAttribute('class', 'popup-label-container');
-				innerAddressHtml3.appendChild(innerAddressHtml2);
-				let innerAddressHtml4 = document.createElement('i');
-				innerAddressHtml4.setAttribute('class', 'fa-solid fa-square-xmark popup-label-button');
-
-				innerAddressHtml4.addEventListener('click', function () { self.deleteAddress(self.result.data.id) }, false);
-
-				// innerAddressHtml4.setAttribute('onclick', (id = this.result.data.id) => { this.deleteAddress(id); });
-				// innerAddressHtml4.onclick = function (id = this.result.data.id) { this.deleteAddress(id); };
-				// innerAddressHtml4.onclick = 'deleteAddress(' + this.result.data.id + ')';
-				// innerAddressHtml4.setAttribute('onclick', 'deleteAddress(' + this.result.data.id + ')');
-				// innerAddressHtml4.setAttribute('onclick', 'deleteAddress(' + this.result.data.id + ')');
-				// innerAddressHtml4.addEventListener('click', function (id = this.result.data.id) { this.deleteAddress(id); });
-				innerAddressHtml4.appendChild(innerAddressHtml3);
-
-				addressHtml.appendChild(innerAddressHtml4);
-
-				innerAddressHtml1 = document.createTextNode('Make Default');
-				innerAddressHtml2 = document.createElement('span');
-				innerAddressHtml2.setAttribute('class', 'popup-label');
-				innerAddressHtml2.appendChild(innerAddressHtml1);
-				innerAddressHtml3 = document.createElement('div');
-				innerAddressHtml3.setAttribute('class', 'popup-label-container');
-				innerAddressHtml3.appendChild(innerAddressHtml2);
-				innerAddressHtml4 = document.createElement('i');
-				innerAddressHtml4.setAttribute('class', 'fa-solid fa-square-check popup-label-button');
-				innerAddressHtml4.appendChild(innerAddressHtml3);
-
-				addressHtml.appendChild(innerAddressHtml4);
-
-				let addresses = document.querySelector('#delivery-container .saved-addresses');
-				addresses.appendChild(addressHtml);
-
-				console.log('add address');
-
-				// this.addCustomListener('xmark', this.result.data.id);
-
-				this.selectAddress(type, this.result.data.id);
+				// this.selectAddress(type, this.result.data.id)
 			}
 		},
 	},

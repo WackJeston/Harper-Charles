@@ -29,9 +29,9 @@
 
     <div id="checkoutaddresses" class="web-box dk">
       <checkoutaddresses 
-				:deliveryaddresses="{{ $deliveryAddresses }}" 
+				:deliveryaddressespre="{{ $deliveryAddresses }}" 
 				:defaultdelivery="{{ $defaultDelivery }}" 
-				:billingaddresses="{{ $billingAddresses }}" 
+				:billingaddressespre="{{ $billingAddresses }}" 
 				:defaultbilling="{{ $defaultBilling }}" 
 			/>
     </div>

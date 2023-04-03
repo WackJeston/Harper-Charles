@@ -118,7 +118,6 @@ accountFunctions.component('accountfunctions', Accountfunctions).mount('#account
 const cartItems = Vue.createApp({})
 cartItems.use(VueAxios, axios)
 cartItems.component('cartitems', Cartitems).mount('#cartitems')
-accountFunctions.component('accountfunctions', Accountfunctions).mount('#accountfunctions')
 
 
 const checkoutAddresses = Vue.createApp({})
