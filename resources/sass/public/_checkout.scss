@@ -170,11 +170,6 @@
 	background-color: v.$brand-alt-light;
 }
 
-#checkoutaddresses .saved-address:hover .fa-square-xmark,
-#checkoutaddresses .saved-address:hover .fa-square-check {
-	display: flex;
-}
-
 #checkoutaddresses .saved-address .fa-square-xmark:hover {
 	color: v.$pale-red;
 }

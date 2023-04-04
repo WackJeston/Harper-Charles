@@ -18,13 +18,13 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress(address.id)" @click.stop="this.selectAddress"
+				<i @click="this.deleteAddress(address.id)" @click.stop="this.selectAddress('delivery', address.id)"
 					class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
 					</div>
 				</i>
-				<i @click="this.defaultAddress('delivery', address.id)" @click.stop="this.selectAddress"
+				<i @click="this.defaultAddress('delivery', address.id)" @click.stop="this.selectAddress('delivery', address.id)"
 					class="fa-solid fa-square-check popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Make Default</span>
@@ -311,12 +311,9 @@ export default {
 			} finally {
 				this.deliveryaddresses.push(this.result.data);
 
-				// console.log(this.result.data.id);
-
-				// let addresses = document.querySelector('#' + type + '-container');
-				// console.log(addresses);
-
-				// this.selectAddress(type, this.result.data.id)
+				setTimeout(() => {
+					this.selectAddress(type, this.result.data.id);
+				}, 10);
 			}
 		},
 	},
