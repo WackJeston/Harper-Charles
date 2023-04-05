@@ -179,7 +179,8 @@ button.pb-danger:hover {
 	display: none;
 	position: absolute;
 	right: 26px;
-	bottom: 4px;
+	bottom: 0;
+	line-height: 10px;
 	white-space: nowrap;
 	background-color: v.$almost-black;
 	color: v.$white;

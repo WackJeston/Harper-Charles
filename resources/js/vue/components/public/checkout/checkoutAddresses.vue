@@ -18,14 +18,13 @@
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress(address.id)" @click.stop="this.selectAddress('delivery', address.id)"
-					class="fa-solid fa-square-xmark popup-label-button">
+				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
 					</div>
 				</i>
-				<i @click="this.defaultAddress('delivery', address.id)" @click.stop="this.selectAddress('delivery', address.id)"
-					class="fa-solid fa-square-check popup-label-button">
+				<i @click="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
+					<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
 					<div class="popup-label-container">
 						<span class="popup-label">Make Default</span>
 					</div>
@@ -279,7 +278,13 @@ export default {
 				console.log('----ERROR----');
 				console.log(err);
 			} finally {
+				let oldDefault = document.querySelector('#' + type + '-container .star-selected');
+				if (oldDefault != null) {
+					oldDefault.classList.remove('star-selected');
+				}
 
+				let newDefault = document.querySelector('#' + type + '-container #address-' + id + ' .fa-star');
+				newDefault.classList.add('star-selected');
 			}
 		},
 
