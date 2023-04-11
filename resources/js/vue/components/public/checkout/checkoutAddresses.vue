@@ -11,19 +11,19 @@
 		<div class="saved-addresses">
 			<ul v-for="(address, i) in this.deliveryaddresses" class="saved-address" :id="'address-' + address.id"
 				:class="[address.defaultShipping == 1 ? 'selected-address' : '']"
-				@click="this.selectAddress('delivery', address.id)">
+				@click.stop="this.selectAddress($event, 'delivery', address.id)">
 				<li>{{ address.firstName }} {{ address.lastName }}</li>
 				<li>{{ address.line1 }}</li>
 				<li>{{ address.city }}, {{ address.region }}</li>
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+				<i @click.stop="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
 					</div>
 				</i>
-				<i @click="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
+				<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
 					<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
 					<div class="popup-label-container">
 						<span class="popup-label">Make Default</span>
@@ -103,7 +103,7 @@
 	</div>
 
 	<h3 @click="this.billing = !this.billing">
-		<i class="fa-solid fa-building-columns"></i>
+		<i class="fa-solid fa-house-chimney"></i>
 		Billing Address
 		<i v-if="this.billing" class="fa-solid fa-angle-up"></i>
 		<i v-else class="fa-solid fa-angle-down"></i>
@@ -114,19 +114,20 @@
 		<div class="saved-addresses">
 			<ul v-for="(address, i) in this.billingaddresses" class="saved-address" :id="'address-' + address.id"
 				:class="[address.defaultBilling == 1 ? 'selected-address' : '']"
-				@click="this.selectAddress('billing', address.id)">
+				@click.stop="this.selectAddress($event, 'billing', address.id)">
 				<li>{{ address.firstName }} {{ address.lastName }}</li>
 				<li>{{ address.line1 }}</li>
 				<li>{{ address.city }}, {{ address.region }}</li>
 				<li>{{ address.country }}</li>
 				<li>{{ address.postCode }}</li>
 				<li>{{ address.phone }}</li>
-				<i @click="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+				<i @click.stop="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
 					<div class="popup-label-container">
 						<span class="popup-label">Delete Address</span>
 					</div>
 				</i>
-				<i @click="this.defaultAddress('billing', address.id)" class="fa-solid fa-square-check popup-label-button">
+				<i @click.stop="this.defaultAddress('billing', address.id)" class="fa-solid fa-square popup-label-button">
+					<i class="fa-solid fa-star" :class="[address.defaultBilling == 1 ? 'star-selected' : '']"></i>
 					<div class="popup-label-container">
 						<span class="popup-label">Make Default</span>
 					</div>
@@ -227,32 +228,45 @@ export default {
 	},
 
 	methods: {
-		selectAddress(type, id) {
-			let previousTick = document.querySelector('#' + type + '-container .selected-address .fa-circle-check');
-			if (previousTick != null) {
-				previousTick.remove();
-			}
-			let previousAddress = document.querySelector('#' + type + '-container .selected-address');
-			if (previousAddress != null) {
-				previousAddress.classList.remove('selected-address');
-			}
+		selectAddress(submitEvent, type, id) {
+			const buttons = [
+				'fa-solid fa-square-xmark popup-label-button',
+				'fa-solid fa-square popup-label-button',
+				'fa-solid fa-star'
+			];
 
-			let newAddress = document.querySelector('#' + type + '-container #address-' + id);
-			newAddress.classList.add('selected-address');
-			let innerAddress = newAddress.innerHTML + '<i class="fa-regular fa-circle-check"></i>';
-			newAddress.innerHTML = innerAddress;
+			if (submitEvent == null || !buttons.includes(submitEvent.target.className)) {
+				let previousTicks = document.querySelectorAll('#' + type + '-container .fa-circle-check');
+				previousTicks.forEach(tick => {
+					tick.remove();
+				});
 
-			if (type == 'delivery') {
-				this.deliverySelected = id;
-			} else if (type == 'billing') {
-				this.billingSelected = id;
+				let previousAddress = document.querySelector('#' + type + '-container .selected-address');
+				if (previousAddress != null) {
+					previousAddress.classList.remove('selected-address');
+				}
+
+				let newAddress = document.querySelector('#' + type + '-container #address-' + id);
+				newAddress.classList.add('selected-address');
+				let innerAddress = newAddress.innerHTML + '<i class="fa-regular fa-circle-check"></i>';
+				newAddress.innerHTML = innerAddress;
+
+				if (type == 'delivery') {
+					this.deliverySelected = id;
+				} else if (type == 'billing') {
+					this.billingSelected = id;
+				}
+
+			} else if (submitEvent.target.className == buttons[0]) {
+				this.deleteAddress(id);
+
+			} else if (submitEvent.target.className == buttons[1] || submitEvent.target.className == buttons[2]) {
+				this.defaultAddress(type, id);
 			}
 		},
 
 		async deleteAddress(id) {
 			try {
-				console.log('deleteAddress');
-
 				this.result = await this.$http.post(
 					'/checkoutDeleteAddress/' + id,
 					{ name: "delete-address" }
@@ -317,7 +331,11 @@ export default {
 				this.deliveryaddresses.push(this.result.data);
 
 				setTimeout(() => {
-					this.selectAddress(type, this.result.data.id);
+					this.selectAddress(null, type, this.result.data.id);
+
+					if (this.result.data.defaultShipping == 1) {
+						this.defaultAddress(type, this.result.data.id);
+					}
 				}, 10);
 			}
 		},
