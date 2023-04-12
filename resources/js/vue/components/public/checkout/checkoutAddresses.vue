@@ -16,7 +16,7 @@
 					<li>{{ address.country }}</li>
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
-					<i @click.stop="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+					<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete Address</span>
 						</div>
@@ -39,7 +39,7 @@
 			</button>
 
 			<form @submit.prevent="this.addressAdd($event, 'delivery')" enctype="multipart/form-data"
-				:style="[this.deliveryForm == false ? { maxHeight: '0px' } : { maxHeight: '1000px' }]">
+				:style="[(this.deliveryForm == true || this.deliveryaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 
 				<div class="wb-row first-child">
@@ -126,7 +126,7 @@
 					<li>{{ address.country }}</li>
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
-					<i @click.stop="this.deleteAddress(address.id)" class="fa-solid fa-square-xmark popup-label-button">
+					<i @click.stop="this.deleteAddress('billing', address.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete Address</span>
 						</div>
@@ -141,15 +141,18 @@
 				</ul>
 			</div>
 
-			<button class="address-toggle page-button" @click="this.billingForm = !this.billingForm">
+			<button v-if="this.billingaddresses.length > 0" class="address-toggle page-button"
+				@click="this.billingForm = !this.billingForm">
+				<i v-if="this.billingForm" class="fa-solid fa-angle-up"></i>
+				<i v-else class="fa-solid fa-angle-down"></i>
 				Add New Address
 			</button>
 
 			<form @submit.prevent="this.addressAdd($event, 'billing')" enctype="multipart/form-data"
-				:style="[!this.deliveryForm ? { maxHeight: '0px' } : { maxHeight: '1000px' }]">
+				:style="[(this.billingForm == true || this.billingaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 
-				<div class="wb-row">
+				<div class="wb-row first-child">
 					<div class="input-label-container">
 						<label for="firstname">First Name<span> *</span></label>
 						<input type="text" name="firstname" required maxlength="100">
@@ -240,10 +243,6 @@ export default {
 		}
 	},
 
-	mounted() {
-		console.log(this.deliveryaddresses);
-	},
-
 	methods: {
 		selectAddress(submitEvent, type, id) {
 			const buttons = [
@@ -275,14 +274,14 @@ export default {
 				}
 
 			} else if (submitEvent.target.className == buttons[0]) {
-				this.deleteAddress(id);
+				this.deleteAddress(type, id);
 
 			} else if (submitEvent.target.className == buttons[1] || submitEvent.target.className == buttons[2]) {
 				this.defaultAddress(type, id);
 			}
 		},
 
-		async deleteAddress(id) {
+		async deleteAddress(type, id) {
 			try {
 				this.result = await this.$http.post(
 					'/checkoutDeleteAddress/' + id,
@@ -293,14 +292,20 @@ export default {
 				console.log(err);
 			} finally {
 				if (this.result.data == true) {
-					// let address = document.querySelector('#address-' + id);
-					// address.remove();
+					if (type == 'delivery') {
+						this.deliveryaddresses.forEach(address => {
+							if (address.id == id) {
+								this.deliveryaddresses.splice(this.deliveryaddresses.indexOf(), 1);
+							}
+						});
 
-					this.deliveryaddresses.forEach(address => {
-						if (address.id == id) {
-							this.deliveryaddresses.splice(this.deliveryaddresses.indexOf(), 1);
-						}
-					});
+					} else if (type == 'billing') {
+						this.billingaddresses.forEach(address => {
+							if (address.id == id) {
+								this.billingaddresses.splice(this.billingaddresses.indexOf(), 1);
+							}
+						});
+					}
 				}
 			}
 		},
@@ -355,8 +360,10 @@ export default {
 			} finally {
 				if (type == 'delivery') {
 					this.deliveryaddresses.push(this.result.data);
+					this.deliveryForm = false;
 				} else if (type == 'billing') {
 					this.billingaddresses.push(this.result.data);
+					this.billingForm = false;
 				}
 
 				setTimeout(() => {
