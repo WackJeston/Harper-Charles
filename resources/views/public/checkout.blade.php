@@ -27,7 +27,7 @@
       <i class="fa-regular fa-circle"></i>
     </div>
 
-    <div id="checkoutaddresses" class="web-box dk">
+    <div id="checkoutaddresses" class="dk">
       <checkoutaddresses 
 				:deliveryaddressespre="{{ $deliveryAddresses }}" 
 				:defaultdelivery="{{ $defaultDelivery }}" 
