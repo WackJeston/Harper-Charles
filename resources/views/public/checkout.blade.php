@@ -5,7 +5,7 @@
 @section('content')
   <main class="auth" id="checkout-page">
 
-    <h1 class="title dk">Checkout</h1>
+    <h1 class="title dk" id="deliveryMarker">Checkout</h1>
 
     @if ($errors->any())
       <div id="publicerror" class="lt">
@@ -29,9 +29,9 @@
 
     <div id="checkoutaddresses" class="dk">
       <checkoutaddresses 
-				:deliveryaddressespre="{{ $deliveryAddresses }}" 
+				:deliveryaddressespre="{{ json_encode($deliveryAddresses) }}" 
 				:defaultdelivery="{{ $defaultDelivery }}" 
-				:billingaddressespre="{{ $billingAddresses }}" 
+				:billingaddressespre="{{ json_encode($billingAddresses) }}" 
 				:defaultbilling="{{ $defaultBilling }}" 
 			/>
     </div>

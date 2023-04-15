@@ -75,6 +75,10 @@ button.page-button i {
 	margin-right: 5px;
 }
 
+button.page-button:hover i {
+	color: v.$black;
+}
+
 button.button-active {
 	background-color: v.$almost-black
 }

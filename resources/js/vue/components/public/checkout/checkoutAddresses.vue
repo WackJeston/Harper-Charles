@@ -1,8 +1,9 @@
 <template>
 	<div class="web-box">
-		<h3>
+		<h3 id="delivery-header">
 			<i class="fa-solid fa-house-chimney"></i>
 			Delivery Address
+			<p></p>
 		</h3>
 
 		<div id="delivery-container">
@@ -42,7 +43,7 @@
 				:style="[(this.deliveryForm == true || this.deliveryaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 
-				<div class="wb-row first-child">
+				<div :style="[this.deliveryaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
 					<div class="input-label-container">
 						<label for="firstname">First Name<span> *</span></label>
 						<input type="text" name="firstname" required maxlength="100">
@@ -104,15 +105,16 @@
 					<label for="defaultdelivery">Make this your default delivery address.</label>
 				</div>
 
-				<input class="submit" type="submit" name="submit" value="Save">
+				<input id="billingMarker" class="submit" type="submit" name="submit" value="Save">
 			</form>
 		</div>
 	</div>
 
 	<div class="web-box">
-		<h3>
+		<h3 id="billing-header">
 			<i class="fa-solid fa-house-chimney"></i>
 			Billing Address
+			<p></p>
 		</h3>
 
 		<div id="billing-container">
@@ -152,7 +154,7 @@
 				:style="[(this.billingForm == true || this.billingaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 
-				<div class="wb-row first-child">
+				<div :style="[this.billingaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
 					<div class="input-label-container">
 						<label for="firstname">First Name<span> *</span></label>
 						<input type="text" name="firstname" required maxlength="100">
@@ -214,10 +216,15 @@
 					<label for="defaultbilling">Make this your default billing address.</label>
 				</div>
 
-				<input class="submit" type="submit" name="submit" value="Save">
+				<input id="billingMarker" class="submit" type="submit" name="submit" value="Save">
 			</form>
 		</div>
 	</div>
+
+	<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
+		Continue to payment
+		<i class="fa-solid fa-angles-right"></i>
+	</button>
 </template>
 
 <script>
@@ -243,7 +250,48 @@ export default {
 		}
 	},
 
+	mounted() {
+		console.log(this.defaultbilling);
+		console.log(this.billingSelected);
+	},
+
 	methods: {
+		checkoutContinue() {
+			if (this.deliverySelected != 0 && this.billingSelected != 0) {
+				window.location.href = '/checkoutContinueAddresses/' + this.deliverySelected + '/' + this.billingSelected;
+
+			} else {
+				if (this.billingSelected == 0) {
+					this.errorMessage('billing');
+				} else {
+					this.errorMessage('billing', false);
+				}
+
+				if (this.deliverySelected == 0) {
+					this.errorMessage('delivery');
+				} else {
+					this.errorMessage('delivery', false);
+				}
+			}
+		},
+
+		errorMessage(type, toggle = true) {
+			let header = document.querySelector('#' + type + '-header');
+			let errorMessage = document.querySelector('#' + type + '-header p');
+
+			if (toggle == true) {
+				window.location.href = '#' + type + 'Marker';
+
+				header.style.backgroundColor = '#FF6666';
+				errorMessage.innerHTML = 'Please select a ' + type + ' address.';
+
+			} else {
+				header.style.backgroundColor = '#5E6264';
+				errorMessage.innerHTML = '';
+			}
+
+		},
+
 		selectAddress(submitEvent, type, id) {
 			const buttons = [
 				'fa-solid fa-square-xmark popup-label-button',
@@ -293,16 +341,22 @@ export default {
 			} finally {
 				if (this.result.data == true) {
 					if (type == 'delivery') {
+						this.deliverySelected = 0;
+
 						this.deliveryaddresses.forEach(address => {
 							if (address.id == id) {
-								this.deliveryaddresses.splice(this.deliveryaddresses.indexOf(), 1);
+								let index = this.deliveryaddresses.indexOf(address);
+								this.deliveryaddresses.splice(index, 1);
 							}
 						});
 
 					} else if (type == 'billing') {
+						this.billingSelected = 0;
+
 						this.billingaddresses.forEach(address => {
 							if (address.id == id) {
-								this.billingaddresses.splice(this.billingaddresses.indexOf(), 1);
+								let index = this.billingaddresses.indexOf(address);
+								this.billingaddresses.splice(index, 1);
 							}
 						});
 					}
@@ -365,6 +419,9 @@ export default {
 					this.billingaddresses.push(this.result.data);
 					this.billingForm = false;
 				}
+
+				let form = document.querySelector('#' + type + '-container form');
+				form.reset();
 
 				setTimeout(() => {
 					this.selectAddress(null, type, this.result.data.id);

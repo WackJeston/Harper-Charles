@@ -52,6 +52,15 @@
 	font-size: 1.2rem;
 }
 
+#checkoutaddresses h3 p {
+	display: flex;
+	margin: 0 20px 0 auto;
+	font-size: 1rem;
+	font-weight: 400;
+	color: v.$white;
+	text-transform: lowercase;
+}
+
 #checkoutaddresses button.address-toggle {
 	display: flex;
 	align-items: center;
@@ -75,10 +84,6 @@
 
 #checkoutaddresses form:not(.last-child) {
 	border-bottom: 1px solid v.$white;
-}
-
-#checkoutaddresses form .first-child {
-	margin-top: 20px;
 }
 
 #checkoutaddresses form .submit {
@@ -205,4 +210,17 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+#checkoutaddresses #continue {
+	display: flex;
+	align-items: center;
+	max-width: 200px;
+	margin: 0 0 0 auto;
+}
+
+#checkoutaddresses #continue i {
+	font-size: 1rem;
+	// color: v.$white;
+	margin: 0 0 0 10px;
 }

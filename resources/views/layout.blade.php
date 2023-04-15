@@ -7,7 +7,7 @@
 
     @hasSection('title')
       @if (str_contains(url()->current(), '/admin'))
-        <title>{{ env('APP_NAME') }} | Admin @yield('title')</title>
+        <title>Admin | @yield('title')</title>
       @else
         <title>{{ env('APP_NAME') }} | @yield('title')</title>
       @endif

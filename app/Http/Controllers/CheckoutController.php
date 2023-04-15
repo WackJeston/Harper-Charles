@@ -3,29 +3,52 @@ namespace App\Http\Controllers;
 
 Use DB;
 use App\Models\Address;
+use App\Models\Checkout;
 
 class CheckoutController extends Controller
 {
-  public function show() 
+  public function show($action) 
   {
     $sessionUser = auth()->user();
 
-		$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
-		$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
-		$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
+		if ($action == 'addresses') {
+			$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
+			$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
+			$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
 
-		$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-		$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
-		$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
+			$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
+			$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
+			$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
 
-    return view('public/checkout', compact(
-      'sessionUser',
-			'deliveryAddresses',
-			'defaultDelivery',
-			'billingAddresses',
-			'defaultBilling'
-    ));
+			return view('public/checkout', compact(
+				'sessionUser',
+				'action',
+				'deliveryAddresses',
+				'defaultDelivery',
+				'billingAddresses',
+				'defaultBilling'
+			));
+		
+		} elseif ($action == 'payment') {
+
+			return view('public/checkout', compact(
+				'sessionUser',
+				'action',
+			));
+		}
   }
+
+	public function continueAddress($delivery, $billing)
+	{
+		Checkout::create([
+			'userId' => auth()->user()->id,
+			'deliveryAddressId' => $delivery,
+			'billingAddressId' => $billing,
+			'status' => 'payment'
+		]);
+
+		return redirect('/checkout/payment');
+	}
 
 	public function addAddress($type, $addressData)
 	{
