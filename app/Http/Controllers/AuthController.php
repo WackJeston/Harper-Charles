@@ -132,6 +132,16 @@ class AuthController extends Controller
       'password' => Hash::make($request->password),
     ]);
 
+		$options = [
+			'email' => $user->email,
+			'name' => $user->firstname . ' ' . $user->lastname,
+			'metadata' => [
+				'id' => $user->id,
+			],
+		];
+
+		$stripeUser = $user->createAsStripeCustomer($options);
+
     event(new Registered($user));
 
     return redirect('/verify-email/' . $user->id);

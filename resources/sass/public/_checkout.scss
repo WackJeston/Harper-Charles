@@ -35,7 +35,7 @@
 	box-shadow: none;
 }
 
-#checkoutaddresses h3 {
+.checkout-section h3 {
 	display: flex;
 	align-items: center;
 	margin: 0;
@@ -46,13 +46,13 @@
 	color: v.$white;
 }
 
-#checkoutaddresses h3 i {
+.checkout-section h3 i {
 	color: v.$white;
 	margin-right: 10px;
 	font-size: 1.2rem;
 }
 
-#checkoutaddresses h3 p {
+.checkout-section h3 p {
 	display: flex;
 	margin: 0 20px 0 auto;
 	font-size: 1rem;
@@ -61,41 +61,41 @@
 	text-transform: lowercase;
 }
 
-#checkoutaddresses button.address-toggle {
+.checkout-section button.address-toggle {
 	display: flex;
 	align-items: center;
 	margin: 10px 0 0 auto;
 }
 
-#checkoutaddresses button.address-toggle:hover i {
+.checkout-section button.address-toggle:hover i {
 	color: v.$black;
 }
 
-#checkoutaddresses #delivery-container,
-#checkoutaddresses #billing-container {
+
+.checkout-section .checkout-container {
 	padding: 20px;
 }
 
-#checkoutaddresses form {
+.checkout-section form {
 	max-width: 1000px;
 	overflow-y: hidden;
 	transition: all 300ms ease;
 }
 
-#checkoutaddresses form:not(.last-child) {
+.checkout-section form:not(.last-child) {
 	border-bottom: 1px solid v.$white;
 }
 
-#checkoutaddresses form .submit {
+.checkout-section form .submit {
 	min-width: 80px;
 	margin-top: 10px;
 }
 
-#checkoutaddresses form .input-label-container:first-child {
+.checkout-section form .input-label-container:first-child {
 	margin-right: 15px;
 }
 
-#checkoutaddresses .saved-addresses {
+.checkout-section .saved-addresses {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -103,7 +103,7 @@
 	// margin-bottom: 20px;
 }
 
-#checkoutaddresses .saved-address {
+.checkout-section .saved-address {
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
@@ -124,67 +124,67 @@
 	}
 }
 
-#checkoutaddresses .saved-address:not(.selected-address) {
+.checkout-section .saved-address:not(.selected-address) {
 	cursor: pointer;
 }
 
-#checkoutaddresses .saved-address:hover,
-#checkoutaddresses .saved-address:hover i:not(.fa-star),
-#checkoutaddresses .selected-address,
-#checkoutaddresses .selected-address i:not(.fa-star) {
+.checkout-section .saved-address:hover,
+.checkout-section .saved-address:hover i:not(.fa-star),
+.checkout-section .selected-address,
+.checkout-section .selected-address i:not(.fa-star) {
 	background-color: v.$brand-alt-dark;
 }
 
-#checkoutaddresses .saved-address:hover li,
-#checkoutaddresses .selected-address li,
-#checkoutaddresses .selected-address {
+.checkout-section .saved-address:hover li,
+.checkout-section .selected-address li,
+.checkout-section .selected-address {
 	color: v.$white;
 }
 
-#checkoutaddresses .saved-address i:not(.fa-star) {
+.checkout-section .saved-address i:not(.fa-star) {
 	position: absolute;
 	right: 1px;
 	border-radius: 5px;
 	cursor: pointer;
 }
 
-#checkoutaddresses .selected-address .fa-circle-check {
+.checkout-section .selected-address .fa-circle-check {
 	bottom: 1px;
 	color: v.$pale-green;
 	padding: 9px;
 }
 
-#checkoutaddresses .saved-address .fa-square-xmark {
+.checkout-section .saved-address .fa-square-xmark {
 	top: 1px;
 	padding: 9px 9px 5px 9px;
 }
 
-#checkoutaddresses .saved-address .fa-square {
+.checkout-section .saved-address .fa-square {
 	top: 35px;
 	padding: 5px 9px 9px 9px;
 	align-items: center;
 }
 
-#checkoutaddresses .saved-address .fa-square-xmark,
-#checkoutaddresses .saved-address .fa-square {
+.checkout-section .saved-address .fa-square-xmark,
+.checkout-section .saved-address .fa-square {
 	display: flex;
 	color: v.$white;
 }
 
-#checkoutaddresses .saved-address:not(.selected-address, :hover) .fa-square-xmark,
-#checkoutaddresses .saved-address:not(.selected-address, :hover) .fa-square {
+.checkout-section .saved-address:not(.selected-address, :hover) .fa-square-xmark,
+.checkout-section .saved-address:not(.selected-address, :hover) .fa-square {
 	background-color: v.$brand-alt-light;
 }
 
-#checkoutaddresses .saved-address .fa-square-xmark:hover {
+.checkout-section .saved-address .fa-square-xmark:hover {
 	color: v.$pale-red;
 }
 
-#checkoutaddresses .saved-address .fa-square:hover {
+.checkout-section .saved-address .fa-square:hover {
 	color: v.$pale-green;
 }
 
-#checkoutaddresses .fa-square .fa-star {
+.checkout-section .fa-square .fa-star {
 	font-size: 0.8rem;
 	line-height: 0;
 	width: 0;
@@ -192,34 +192,34 @@
 	right: 82%;
 }
 
-#checkoutaddresses .fa-square .fa-star:not(.star-selected, .selected-address, .saved-address:hover) {
+.checkout-section .fa-square .fa-star:not(.star-selected, .selected-address, .saved-address:hover) {
 	color: v.$brand-alt-light;
 }
 
-#checkoutaddresses .selected-address .fa-square .fa-star:not(.star-selected),
-#checkoutaddresses .saved-address:hover .fa-square .fa-star:not(.star-selected) {
+.checkout-section .selected-address .fa-square .fa-star:not(.star-selected),
+.checkout-section .saved-address:hover .fa-square .fa-star:not(.star-selected) {
 	color: v.$brand-alt-dark;
 }
 
-#checkoutaddresses .fa-square .star-selected {
+.checkout-section .fa-square .star-selected {
 	color: v.$dull-yellow;
 }
 
-#checkoutaddresses .saved-address li {
+.checkout-section .saved-address li {
 	margin: 0 0 0 3px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
-#checkoutaddresses #continue {
+.checkout-section #continue {
 	display: flex;
 	align-items: center;
 	max-width: 200px;
 	margin: 0 0 0 auto;
 }
 
-#checkoutaddresses #continue i {
+.checkout-section #continue i {
 	font-size: 1rem;
 	// color: v.$white;
 	margin: 0 0 0 10px;

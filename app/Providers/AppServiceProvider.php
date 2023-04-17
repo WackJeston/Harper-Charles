@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ProductCategories;
 
+use Laravel\Cashier\Cashier;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+			Cashier::calculateTaxes();
+
       Validator::extend('unique_custom', function ($attribute, $value, $parameters)
       {
         list($table, $field, $field2, $field2Value) = $parameters;

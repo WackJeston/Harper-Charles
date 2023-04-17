@@ -3,7 +3,10 @@ namespace App\Http\Controllers;
 
 Use DB;
 use App\Models\Address;
+use App\Models\User;
 use App\Models\Checkout;
+
+
 
 class CheckoutController extends Controller
 {
@@ -31,9 +34,19 @@ class CheckoutController extends Controller
 		
 		} elseif ($action == 'payment') {
 
+			$intentPre = \Stripe\PaymentIntent::create([
+				'amount' => 10,
+				'currency' => env('CASHIER_CURRENCY'),
+			]);
+		
+			$intent = [
+				'clientSecret' => $intentPre->client_secret,
+			];
+
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
+				'intent',
 			));
 		}
   }
@@ -100,7 +113,22 @@ class CheckoutController extends Controller
 	{
 		if ($type == 'billing') {
 			Address::where('userId', auth()->user()->id)->where('type', 'billing')->update(['defaultBilling' => 0]);
-			Address::where('id', $id)->update(['defaultBilling' => 1]);
+
+			$default = Address::where('id', $id)->first();
+			$default->update(['defaultBilling' => 1]);
+
+			$options = [
+				'address' => [
+					'city' => $default->city,
+					'line1' => $default->line1,
+					'line2' => $default->line2,
+					'postal_code' => $default->postCode,
+					'state' => $default->region,
+				],
+			];
+
+			auth()->user()->updateStripeCustomer($options);
+
 		} else {
 			Address::where('userId', auth()->user()->id)->where('type', 'delivery')->update(['defaultShipping' => 0]);
 			Address::where('id', $id)->update(['defaultShipping' => 1]);

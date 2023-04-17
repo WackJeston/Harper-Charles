@@ -6,7 +6,7 @@
 			<p></p>
 		</h3>
 
-		<div id="delivery-container">
+		<div id="delivery-container" class="checkout-container">
 			<div class="saved-addresses">
 				<ul v-for="(address, i) in this.deliveryaddresses" class="saved-address" :id="'address-' + address.id"
 					:class="[address.defaultShipping == 1 ? 'selected-address' : '']"
@@ -117,7 +117,7 @@
 			<p></p>
 		</h3>
 
-		<div id="billing-container">
+		<div id="billing-container" class="checkout-container">
 			<div class="saved-addresses">
 				<ul v-for="(address, i) in this.billingaddresses" class="saved-address" :id="'address-' + address.id"
 					:class="[address.defaultBilling == 1 ? 'selected-address' : '']"
