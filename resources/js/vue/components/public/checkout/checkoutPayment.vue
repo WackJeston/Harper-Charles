@@ -7,58 +7,51 @@
 		</h3>
 
 		<div id="payment-container" class="checkout-container">
-
-			<!-- <form id="payment-form" data-secret="{{ this.intent.client_secret }}">
-				<input type="hidden" name="_token" :value="csrf">
-
-				<div id="payment-element">
-					
-				</div>
-
-				<button id="submit">Submit</button>
-			</form> -->
-
-			<form id="payment-form">
-				<div id="card-element"><!--Stripe.js injects the Card Element--></div>
-				<button id="submit">
-					<div class="spinner hidden" id="spinner"></div>
-					<span id="button-text">Pay now</span>
-				</button>
-				<p id="card-error" role="alert"></p>
-				<p class="result-message hidden">
-					Payment succeeded, see the result in your
-					<a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-				</p>
-			</form>
+			<stripe-checkout ref="paymentRef" :pk="pk" :elements-options="elementsOptions" :confirm-params="confirmParams" />
 		</div>
 	</div>
 
-	<!-- <button @click="this.checkoutContinue()" id="continue" class="page-button padding">
-		Continue to payment
+	<button @click="pay" id="continue" class="page-button padding">
+		Pay Now
 		<i class="fa-solid fa-angles-right"></i>
-	</button> -->
+	</button>
 </template>
 
 <script>
-// import stripe from 'https://js.stripe.com/v3/';
+import { StripeElementPayment } from '@vue-stripe/vue-stripe';
 
 export default {
+	components: {
+		StripeElementPayment,
+	},
+
 	props: [
 		'intent',
 	],
 
 	data() {
+		this.publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
 		return {
 			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+			pk: 'your-publishable-key',
+			elementsOptions: {
+				appearance: {}, // appearance options
+			},
+			confirmParams: {
+				return_url: 'http://localhost:8080/success', // success url
+			},
 		}
 	},
 
 	mounted() {
-
+		this.elementsOptions.clientSecret = this.intent.client_secret;
 	},
 
 	methods: {
-
+		pay() {
+			this.$refs.paymentRef.submit();
+		},
 	},
 }
 </script>

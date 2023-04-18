@@ -34,14 +34,17 @@ class CheckoutController extends Controller
 		
 		} elseif ($action == 'payment') {
 
-			$intentPre = \Stripe\PaymentIntent::create([
+			$stripe = new \Stripe\StripeClient(
+				'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+			);
+
+			$stripe->paymentIntents->create([
 				'amount' => 10,
-				'currency' => env('CASHIER_CURRENCY'),
+				'currency' => env('STRIPE_CURRENCY', 'gbp'),
+				'automatic_payment_methods' => [
+					'enabled' => true,
+				],
 			]);
-		
-			$intent = [
-				'clientSecret' => $intentPre->client_secret,
-			];
 
 			return view('public/checkout', compact(
 				'sessionUser',
