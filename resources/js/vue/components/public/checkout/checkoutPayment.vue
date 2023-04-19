@@ -7,51 +7,42 @@
 		</h3>
 
 		<div id="payment-container" class="checkout-container">
-			<stripe-checkout ref="paymentRef" :pk="pk" :elements-options="elementsOptions" :confirm-params="confirmParams" />
+			<stripe-element-card ref="elementRef" :pk="stripeKey" @token="tokenCreated" />
+			<button @click="submit">Save</button>
 		</div>
 	</div>
 
-	<button @click="pay" id="continue" class="page-button padding">
+	<!-- <button @click="pay" id="continue" class="page-button padding">
 		Pay Now
 		<i class="fa-solid fa-angles-right"></i>
-	</button>
+	</button> -->
 </template>
 
 <script>
-import { StripeElementPayment } from '@vue-stripe/vue-stripe';
+import { StripeElementCard } from '@vue-stripe/vue-stripe';
 
 export default {
 	components: {
-		StripeElementPayment,
+		StripeElementCard,
 	},
-
-	props: [
-		'intent',
-	],
 
 	data() {
-		this.publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-
+		this.stripeKey = process.env.STRIPE_KEY;
 		return {
-			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-			pk: 'your-publishable-key',
-			elementsOptions: {
-				appearance: {}, // appearance options
-			},
-			confirmParams: {
-				return_url: 'http://localhost:8080/success', // success url
-			},
-		}
-	},
-
-	mounted() {
-		this.elementsOptions.clientSecret = this.intent.client_secret;
+			token: null,
+		};
 	},
 
 	methods: {
-		pay() {
-			this.$refs.paymentRef.submit();
+		submit() {
+			// this will trigger the process
+			this.$refs.elementRef.submit();
 		},
-	},
+		tokenCreated(token) {
+			console.log(token);
+			// handle the token
+			// send it to your server
+		},
+	}
 }
 </script>

@@ -49,9 +49,34 @@
 					</div>
 
 					<div id="checkoutpayment" class="dk checkout-section">
-						<checkoutpayment 
-						:intent="{{ json_encode($intent) }}"
-						/>
+						<checkoutpayment />
+
+						{{-- <div class="web-box">
+							<h3 id="checkout-header">
+								<i class="fa-solid fa-wallet"></i>
+								Payment Methods
+								<p></p>
+							</h3>
+					
+							<div id="payment-container" class="checkout-container">
+								<form action="">
+
+									<input id="card-holder-name" type="text">
+
+									<div id="card-element"></div>
+									
+									<button id="card-button" data-secret="{{ $intent->client_secret }}">
+										Update Payment Method
+									</button>
+									
+								</form>
+							</div>
+						</div>
+					
+						<button class="page-button padding" id="continue">
+							Continue To Payments
+							<i class="fa-solid fa-angles-right"></i>
+						</button> --}}
 					</div>
 
 					@break

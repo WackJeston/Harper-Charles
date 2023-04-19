@@ -34,22 +34,26 @@ class CheckoutController extends Controller
 		
 		} elseif ($action == 'payment') {
 
-			$stripe = new \Stripe\StripeClient(
-				'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
-			);
+			// $stripe = new \Stripe\StripeClient(
+			// 	env('STRIPE_SECRET')
+			// );
 
-			$stripe->paymentIntents->create([
-				'amount' => 10,
-				'currency' => env('STRIPE_CURRENCY', 'gbp'),
-				'automatic_payment_methods' => [
-					'enabled' => true,
-				],
-			]);
+			// $stripe->paymentIntents->create([
+			// 	'amount' => 10,
+			// 	'currency' => env('STRIPE_CURRENCY'),
+			// 	'automatic_payment_methods' => [
+			// 		'enabled' => true,
+			// 	],
+			// ]);
+
+			// $user = User::where('id', $sessionUser->id)->first();
+
+			// $intent = $sessionUser->createSetupIntent();
 
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
-				'intent',
+				// 'intent',
 			));
 		}
   }
