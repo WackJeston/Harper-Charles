@@ -55,6 +55,7 @@ Route::controller(CartController::class)->group(function () {
   Route::get('/cart', 'show');
   Route::post('/apiQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
   Route::get('/cartRemove/{item}', 'cartRemove');
+  Route::get('/continueToCheckout', 'continueToCheckout');
 });
 
 Route::controller(CheckoutController::class)->group(function () {
@@ -63,6 +64,7 @@ Route::controller(CheckoutController::class)->group(function () {
   Route::post('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
   Route::post('/checkoutDeleteAddress/{id}', 'deleteAddress');
   Route::post('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
+  Route::post('/checkoutCreatePaymentIntent', 'createPaymentIntent');
 });
 
 Route::get('/products/{id}', [ProductsController::class, 'show']);

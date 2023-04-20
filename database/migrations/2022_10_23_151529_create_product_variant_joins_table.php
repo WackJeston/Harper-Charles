@@ -15,8 +15,8 @@ return new class extends Migration
   {
     Schema::create('product_variant_joins', function (Blueprint $table) {
       $table->id();
-      $table->integer('productId');
-      $table->integer('variantId');
+			$table->foreignId('productId')->constrained('products')->onDelete('cascade');
+			$table->foreignId('variantId')->constrained('product_variants')->onDelete('cascade');
       $table->timestamps();
     });
   }

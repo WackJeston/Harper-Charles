@@ -1,7 +1,7 @@
 <template>
 	<div class="cart-functions dk">
 		<strong>{{ this.itemCountQuantity }} items | Total: £{{ this.totalPrice.toFixed(2) }}</strong>
-		<a href="/checkout/addresses" class="page-button padding">Checkout</a>
+		<a href="/continueToCheckout" class="page-button padding">Checkout</a>
 	</div>
 
 	<div id="cartItemsContainer">

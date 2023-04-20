@@ -17,10 +17,4 @@ class Cart extends Model
     'variantIds',
     'quantity',
   ];
-
-  protected static function booted() {
-    static::deleting(function ($self) {
-      CartVariants::where('cartId', $self->id)->delete();
-    });
-  }
 }

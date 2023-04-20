@@ -49,7 +49,9 @@
 					</div>
 
 					<div id="checkoutpayment" class="dk checkout-section">
-						<checkoutpayment />
+						<checkoutpayment 
+							stripekey="{{ env('STRIPE_KEY') }}"
+						/>
 
 						{{-- <div class="web-box">
 							<h3 id="checkout-header">

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('landing_zone_carousels', function (Blueprint $table) {
           $table->id();
-          $table->integer('landingZoneId')->nullable();
+					$table->foreignId('landingZoneId')->constrained('landing_zones')->onDelete('cascade');
           $table->string('title', 100)->nullable();
           $table->string('subtitle', 100)->nullable();
           $table->string('fileName', 100)->unique();

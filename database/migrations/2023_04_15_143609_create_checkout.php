@@ -15,9 +15,9 @@ return new class extends Migration
     {
       Schema::create('checkout', function (Blueprint $table) {
 				$table->id();
-				$table->integer('userId');
-				$table->integer('deliveryAddressId');
-				$table->integer('billingAddressId');
+				$table->foreignId('userId')->constrained('users')->onDelete('cascade');
+				$table->foreignId('deliveryAddressId')->nullable()->constrained('addresses')->onDelete('cascade');
+				$table->foreignId('billingAddressId')->nullable()->constrained('addresses')->onDelete('cascade');
 				$table->string('status', 50);
 				$table->timestamps();
 			});

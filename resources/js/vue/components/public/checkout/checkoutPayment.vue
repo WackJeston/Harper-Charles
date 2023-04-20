@@ -7,8 +7,9 @@
 		</h3>
 
 		<div id="payment-container" class="checkout-container">
-			<stripe-element-card ref="elementRef" :pk="stripeKey" @token="tokenCreated" />
-			<button @click="submit">Save</button>
+			<stripe-element-payment ref="paymentRef" :pk="pk" :elements-options="elementsOptions"
+				:confirm-params="confirmParams" />
+			<button @click="pay">Pay Now</button>
 		</div>
 	</div>
 
@@ -26,22 +27,46 @@ export default {
 		StripeElementCard,
 	},
 
+	props: [
+		'stripekey',
+	],
+
 	data() {
-		this.stripeKey = process.env.STRIPE_KEY;
 		return {
-			token: null,
+			pk: this.stripekey,
+			elementsOptions: {
+				appearance: {}, // appearance options
+			},
+			confirmParams: {
+				return_url: '/checkout/success', // success url
+			},
 		};
 	},
 
+	mounted() {
+		this.generatePaymentIntent();
+	},
+
 	methods: {
-		submit() {
-			// this will trigger the process
-			this.$refs.elementRef.submit();
+		async generatePaymentIntent() {
+			try {
+				this.paymentIntent = await this.$http.post(
+					'/checkoutCreatePaymentIntent',
+					{ name: "generate-payment-intent" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.paymentIntent);
+				this.elementsOptions.clientSecret = paymentIntent.client_secret;
+			}
+			// const paymentIntent = await apiCallToGeneratePaymentIntent(); // this is just a dummy, create your own API call
 		},
-		tokenCreated(token) {
-			console.log(token);
-			// handle the token
-			// send it to your server
+
+		pay() {
+			this.$refs.paymentRef.submit();
 		},
 	}
 }

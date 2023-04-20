@@ -15,7 +15,7 @@ return new class extends Migration
   {
     Schema::create('product_variants', function (Blueprint $table) {
       $table->id();
-      $table->integer('parentVariantId')->default(0);
+			$table->foreignId('parentVariantId')->nullable()->constrained('product_variants')->onDelete('cascade');
       $table->string('title', 100);
       $table->boolean('show');
       $table->timestamps();

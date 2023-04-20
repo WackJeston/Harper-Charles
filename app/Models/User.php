@@ -46,18 +46,4 @@ class User extends Authenticatable implements MustVerifyEmail
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
-
-	protected static function booted() {
-		static::deleting(function ($self) {
-			$cartItems = Cart::where('userId', $self->id)->get();
-			
-			foreach ($cartItems as $i => $item) {
-				CartVariants::where('cartId', $item->id)->delete();
-			}
-
-			Cart::where('userId', $self->id)->delete();
-			Address::where('userId', $self->id)->delete();
-			Checkout::where('userId', $self->id)->delete();
-		});
-	}
 }

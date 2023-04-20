@@ -25,11 +25,6 @@ class Products extends Model
       foreach ($filesNames as $fileName) {
         deleteS3($fileName);
       }
-
-      ProductImages::where('productId', $self->id)->delete();
-      ProductCategoryJoins::where('productId', $self->id)->delete();
-      ProductVariantJoins::where('productId', $self->id)->delete();
-      Cart::where('productId', $self->id)->delete();
     });
   }
 }

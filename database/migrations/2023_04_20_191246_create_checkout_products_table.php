@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-      Schema::create('product_images', function (Blueprint $table) {
-        $table->id();
+			Schema::create('checkout_products', function (Blueprint $table) {
+				$table->id();
+				$table->foreignId('checkoutId')->constrained('checkout')->onDelete('cascade');
 				$table->foreignId('productId')->constrained('products')->onDelete('cascade');
-        $table->string('name', 100);
-        $table->string('fileName', 100)->unique();
-        $table->boolean('primary');
-        $table->timestamps();
-      });
+				$table->integer('quantity')->default('0');
+				$table->timestamps();
+			});
     }
 
     /**
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('product_images');
+			Schema::dropIfExists('checkout_products');
     }
 };

@@ -35,14 +35,10 @@ class Authenticate extends Middleware
         }
       }
     } elseif (str_ends_with(url()->current(), '/admin')) {
-      if (Auth::check()) {
+      if (Auth::check() && auth()->user()['admin'] == 1) {
         return redirect("/admin/dashboard");
       }
     }
-
-    // if (str_contains(url()->current(), '/verify-email')) {
-    //   dd($request);
-    // }
 
     return $next($request);
   }

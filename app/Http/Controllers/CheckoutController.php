@@ -5,6 +5,8 @@ Use DB;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Checkout;
+use App\Models\CheckoutProduct;
+use App\Models\CheckoutProductsVariant;
 
 
 
@@ -58,10 +60,11 @@ class CheckoutController extends Controller
 		}
   }
 
+
+	// ADDRESSES --------------------------------------------------
 	public function continueAddress($delivery, $billing)
 	{
-		Checkout::create([
-			'userId' => auth()->user()->id,
+		Checkout::where('userId', auth()->user()->id)->update([
 			'deliveryAddressId' => $delivery,
 			'billingAddressId' => $billing,
 			'status' => 'payment'
@@ -149,4 +152,10 @@ class CheckoutController extends Controller
 
 		return true;
 	}	
+
+
+	// PAYMENT --------------------------------------------------
+	public function createPaymentIntent() {
+
+	}
 }
