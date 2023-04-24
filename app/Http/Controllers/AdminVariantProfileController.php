@@ -91,7 +91,7 @@ class AdminVariantProfileController extends Controller
     ]);
 
     ProductVariants::create([
-      'parentvariantid' => $id,
+      'parentVariantId' => $id,
       'title' => $request->title,
       'show' => 0,
     ]);

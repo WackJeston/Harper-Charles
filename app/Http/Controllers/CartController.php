@@ -79,24 +79,22 @@ class CartController extends Controller
 
 		$cartProducts = Cart::where('userId', auth()->user()->id)->get();
 
-		// foreach ($cartProducts as $i => $product) {
-		// 	$checkoutProduct = CheckoutProduct::create([
-		// 		'checkoutId' => $checkout->id,
-		// 		'productId' => $product->productId,
-		// 		'quantity' => $product->quantity,
-		// 	]);
+		foreach ($cartProducts as $i => $product) {
+			$checkoutProduct = CheckoutProduct::create([
+				'checkoutId' => $checkout->id,
+				'productId' => $product->productId,
+				'quantity' => $product->quantity,
+			]);
 
-		// 	dd($checkoutProduct);
+			$cartVariants = CartVariants::where('cartId', $product->id)->get();
 
-		// 	$cartVariants = CartVariants::where('cartId', $product->id)->get();
-
-		// 	foreach ($cartVariants as $i2 => $variant) {
-		// 		CheckoutProductVariant::create([
-		// 			'checkoutProductId' => $checkoutProduct->id,
-		// 			'variantId' => $variant->variantId,
-		// 		]);
-		// 	}
-		// }
+			foreach ($cartVariants as $i2 => $variant) {
+				CheckoutProductVariant::create([
+					'checkoutProductId' => $checkoutProduct->id,
+					'variantId' => $variant->variantId,
+				]);
+			}
+		}
 
 		return redirect('/checkout/addresses');
 	}

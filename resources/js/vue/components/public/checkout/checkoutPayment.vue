@@ -13,10 +13,12 @@
 		</div>
 	</div>
 
-	<!-- <button @click="pay" id="continue" class="page-button padding">
-		Pay Now
-		<i class="fa-solid fa-angles-right"></i>
-	</button> -->
+	<!-- <div class="checkout-button-container">
+		<button @click="pay" id="continue" class="page-button padding">
+			Pay Now
+			<i class="fa-solid fa-angles-right"></i>
+		</button>
+	</div> -->
 </template>
 
 <script>

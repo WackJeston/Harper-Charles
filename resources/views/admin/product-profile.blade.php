@@ -30,7 +30,7 @@
       :images="{{ json_encode($images) }}"
       :imagecount="{{ json_encode($imageCount) }}"
       :categories="{{ json_encode($categories) }}"
-      :allcategories="{{ $allCategories }}"
+      :allcategories="{{ json_encode($allCategories) }}"
       :variants="{{ json_encode($variants) }}"
       :allvariants="{{ json_encode($allVariants) }}"
     />

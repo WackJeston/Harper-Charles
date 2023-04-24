@@ -221,10 +221,12 @@
 		</div>
 	</div>
 
-	<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
-		Continue to payment
-		<i class="fa-solid fa-angles-right"></i>
-	</button>
+	<div class="checkout-button-container">
+		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
+			Continue to payment
+			<i class="fa-solid fa-angles-right"></i>
+		</button>
+	</div>
 </template>
 
 <script>

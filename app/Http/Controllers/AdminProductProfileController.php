@@ -22,23 +22,14 @@ class AdminProductProfileController extends Controller
       return redirect('/admin/products');
     }
 
-    $product = DB::table('products')
-      ->select('id', 'title', 'subtitle', 'description', 'productNumber', 'price', 'created_at', DB::raw('COUNT(Join1.categoryId) as categoryCount'))
-
-      ->leftJoin(DB::raw("(SELECT
-        productId,
-        categoryId
-        FROM product_category_joins)
-        Join1"),
-        function($join)
-        {
-          $join->on('products.id', '=', 'Join1.productId');
-        })
-
-        ->where('id', $id)
-        ->groupBy('id')
-        ->limit(1)
-    ->get();
+    $product = DB::select(sprintf('SELECT 
+			p.*,
+			COUNT(pcj.id) AS categoryCount
+			FROM products AS p
+			LEFT JOIN product_category_joins AS pcj ON pcj.productId=p.id
+			WHERE p.id = "%d"
+			GROUP BY p.id', $id
+		));
 
     $product = $product[0];
 
@@ -53,30 +44,22 @@ class AdminProductProfileController extends Controller
 
     $primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
 
-    $categories = DB::table('product_categories')
-      ->select('id', 'title', 'subtitle')
+    $categories = DB::select('SELECT 
+			pc.id,
+			pc.title,
+			pc.subtitle
+			FROM product_categories AS pc
+			INNER JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id'
+		);
 
-      ->leftJoin(DB::raw("(SELECT
-        productId,
-        categoryId
-        FROM product_category_joins)
-        Join1"),
-        function($join)
-        {
-          $join->on('product_categories.id', '=', 'Join1.categoryId');
-        })
-
-      ->where('Join1.productId', $id)
-      ->groupBy('id')
-    ->get();
-
-    $categoryIds = [];
-
-    foreach ($categories as $i => $category) {
-      array_push($categoryIds, $category->id);
-    }
-
-    $allCategories = ProductCategories::select('id', 'title')->whereNotIn('id', $categoryIds)->get();
+		$allCategories = DB::select(sprintf('SELECT 
+			pc.id,
+			pc.title
+			FROM product_categories AS pc
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id 
+			WHERE pcj.productId IS NULL
+			OR pcj.productId != "%d"', $id,
+		));
 
     $variants = DB::select(sprintf('SELECT
       pv.id,
@@ -86,8 +69,8 @@ class AdminProductProfileController extends Controller
       INNER JOIN product_variants AS pv ON pv.id=pvj.variantId
       INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
       WHERE pvj.productId = "%d"
-      ORDER BY pv2.title, pv.title
-    ', $id));
+      ORDER BY pv2.title, pv.title', $id
+		));
 
     $allVariantRecords = DB::select(sprintf('SELECT
       pv.id,
@@ -95,11 +78,11 @@ class AdminProductProfileController extends Controller
       GROUP_CONCAT(pv2.id, "|", pv2.title ORDER BY pv2.title) AS options
       FROM product_variants AS pv
       INNER JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
-      WHERE pv.parentVariantId = 0
+      WHERE pv.parentVariantId IS NULL
       AND pv2.id NOT IN (SELECT variantId FROM product_variant_joins WHERE productId = "%d")
       GROUP BY pv.id
-      ORDER BY pv.title
-    ', $id));
+      ORDER BY pv.title', $id
+		));
 
     $allVariants = [];
 

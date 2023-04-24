@@ -20,7 +20,7 @@ class AdminVariantController extends Controller
       pv.show
       FROM product_variants AS pv
       LEFT JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
-      WHERE pv.parentVariantId = 0
+      WHERE pv.parentVariantId IS NULL
       GROUP BY pv.id
     ');
 
@@ -52,7 +52,6 @@ class AdminVariantController extends Controller
     ]);
 
     ProductVariants::create([
-      'parentVariantId' => 0,
       'title' => $request->title,
       'show' => 0,
     ]);

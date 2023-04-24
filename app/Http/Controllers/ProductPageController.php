@@ -35,7 +35,7 @@ class ProductPageController extends Controller
       FROM product_variants AS pv
       INNER JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
       INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv2.id
-      WHERE pv.parentVariantId = 0
+      WHERE pv.parentVariantId IS NULL
       AND pvj.productId = "%d"
       AND pv.show = 1
       AND pv2.show = 1
