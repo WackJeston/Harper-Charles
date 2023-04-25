@@ -16,7 +16,7 @@ class CartController extends Controller
   public function show()
   {
     if (!auth()->user()) {
-      return redirect("/login")->with('message', 'Please login before viewing your cart.');
+      return redirect("/login")->withErrors(['1' => 'Please login before viewing your cart.']);
     }
 
     $sessionUser = auth()->user();
@@ -72,29 +72,6 @@ class CartController extends Controller
   }
 
 	public function continueToCheckout() {
-		// $checkout = Checkout::create([
-		// 	'userId' => auth()->user()->id,
-		// 	'status' => 'addresses',
-		// ]);
-
-		// $cartProducts = Cart::where('userId', auth()->user()->id)->get();
-
-		// foreach ($cartProducts as $i => $product) {
-		// 	$checkoutProduct = CheckoutProduct::create([
-		// 		'checkoutId' => $checkout->id,
-		// 		'productId' => $product->productId,
-		// 		'quantity' => $product->quantity,
-		// 	]);
-
-		// 	$cartVariants = CartVariants::where('cartId', $product->id)->get();
-
-		// 	foreach ($cartVariants as $i2 => $variant) {
-		// 		CheckoutProductVariant::create([
-		// 			'checkoutProductId' => $checkoutProduct->id,
-		// 			'variantId' => $variant->variantId,
-		// 		]);
-		// 	}
-		// }
 
 		Checkout::createCheckout();
 

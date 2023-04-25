@@ -45,31 +45,31 @@ export default {
 		};
 	},
 
-	// mounted() {
-	// 	this.generatePaymentIntent();
-	// },
+	mounted() {
+		this.generatePaymentIntent();
+	},
 
-	// methods: {
-	// 	async generatePaymentIntent() {
-	// 		try {
-	// 			this.paymentIntent = await this.$http.post(
-	// 				'/checkoutCreatePaymentIntent',
-	// 				{ name: "generate-payment-intent" }
-	// 			);
-	// 		} catch (err) {
-	// 			console.log('----ERROR----');
-	// 			console.log(err);
-	// 		} finally {
-	// 			console.log('----SUCCESS----');
-	// 			console.log(this.paymentIntent);
-	// 			this.elementsOptions.clientSecret = paymentIntent.client_secret;
-	// 		}
-	// 		// const paymentIntent = await apiCallToGeneratePaymentIntent(); // this is just a dummy, create your own API call
-	// 	},
+	methods: {
+		async generatePaymentIntent() {
+			try {
+				this.paymentIntent = await this.$http.post(
+					'/checkoutCreatePaymentIntent',
+					{ name: "generate-payment-intent" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.paymentIntent);
+				this.elementsOptions.clientSecret = paymentIntent.client_secret;
+			}
+			// const paymentIntent = await apiCallToGeneratePaymentIntent(); // this is just a dummy, create your own API call
+		},
 
-	// 	pay() {
-	// 		this.$refs.paymentRef.submit();
-	// 	},
-	// }
+		pay() {
+			this.$refs.paymentRef.submit();
+		},
+	}
 }
 </script>

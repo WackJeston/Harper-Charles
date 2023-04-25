@@ -31,14 +31,26 @@ class Authenticate extends Middleware
         if ($request->ajax()) {
           return response('Unauthorized.', 401);
         } else {
-          return redirect("/admin")->withErrors(['email' => 'Access Denied.']);
+          return redirect("/admin")->withErrors(['1' => 'Access Denied.']);
         }
       }
+
     } elseif (str_ends_with(url()->current(), '/admin')) {
       if (Auth::check() && auth()->user()['admin'] == 1) {
-        return redirect("/admin/dashboard");
+				if ($request->ajax()) {
+          return response('Unauthorized.', 401);
+        } else {
+          return redirect("/admin/dashboard");
+        }
       }
-    }
+
+    } elseif (!str_contains(url()->current(), '/verify-email') && !Auth::check()) {
+			if ($request->ajax()) {
+				return response('Unauthorized.', 401);
+			} else {
+				return redirect("/login")->withErrors(['1' => 'Please login before viewing this page.']);
+			}
+		}
 
     return $next($request);
   }

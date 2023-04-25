@@ -62,7 +62,7 @@ class AuthController extends Controller
 
   public function veiwLoginCart()
   {
-    return redirect("/login")->with('message', 'Please login before adding items to the cart.');
+    return redirect("/login")->withErrors(['1' => 'Please login before adding items your cart.']);
   }
 
   public function authenticateCustomer(Request $request)
@@ -150,7 +150,6 @@ class AuthController extends Controller
 		];
 
 		$stripeUser = $user->createAsStripeCustomer($options);
-
     event(new Registered($user));
 
     return redirect('/verify-email/' . $user->id);
@@ -192,18 +191,21 @@ class AuthController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $user = User::where('id', $id)->first();
+		if ($user = User::where('id', $id)->first()) {
+			if ($user->email_verified_at == null || $user->email_verified_at == '') {
+				$user->email_verified_at = now();
+				$user->save();
+			}
+	
+			$email = $user->email;
+	
+			return view('public/auth/email-verified', compact(
+				'sessionUser',
+				'email',
+			));
 
-    if ($user->email_verified_at == null || $user->email_verified_at == '') {
-      $user->email_verified_at = now();
-      $user->save();
-    }
-
-    $email = $user->email;
-
-    return view('public/auth/email-verified', compact(
-      'sessionUser',
-      'email',
-    ));
+		} else {
+			return redirect('/login')->withErrors(['1' => 'Session expired.']);
+		}
   }
 }

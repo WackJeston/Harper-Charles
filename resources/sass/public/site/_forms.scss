@@ -50,21 +50,24 @@ form.web-box i:hover:not(.show-password i),
 	color: v.$white;
 }
 
-form.web-box .wb-row {}
+form.web-box .wb-row {
+	// placeholder...
+}
 
 form input:not(form input:last-child, .checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
-form select {
+form select,
+.stripe-input {
 	margin-bottom: 10px;
 }
 
 form input:not(.checkbox-container input, .submit),
+.form input:not(.checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
 form select,
-.form input:not(.checkbox-container input, .submit) {
-	background-color: v.$white;
+.stripe-input {
 	padding: 5px 8px;
 	border-radius: 5px;
 	color: v.$almost-black;
@@ -75,26 +78,20 @@ form select,
 }
 
 form input:not(.checkbox-container input, .submit),
+.form input:not(.checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
 form select:not(.product-page .wb-content),
-.form input:not(.checkbox-container input, .submit) {
+.stripe-input {
 	border: 2px solid v.$brand-alt-light;
 }
 
 form input:focus:not(.checkbox-container input, .submit),
+.form input:focus:not(.checkbox-container input, .submit),
 form textarea:focus,
 form label.file-input-label:hover,
 form:not(.product-page .wb-content) select:hover,
-.form input:focus:not(.checkbox-container input, .submit) {
-	outline: 3px solid v.$brand-alt-light;
-}
-
-form input:focus:not(.checkbox-container input, .submit),
-form textarea:focus,
-form label.file-input-label:hover,
-form:not(.product-page .wb-content) select:hover,
-.form input:focus:not(.checkbox-container input, .submit) {
+.stripe-input:focus {
 	border: 2px solid white;
 }
 

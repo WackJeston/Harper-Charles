@@ -24,7 +24,7 @@
 
     <div class="auth-nav">
       <p>Not recieved the email?</p>
-      <a href="/resend-verify-email/{{ $id }}" class="page-button padding">Resend Email</a>
+      <a href="/verify-email-resend/{{ $id }}" class="page-button padding">Resend Email</a>
     </div>
 
 

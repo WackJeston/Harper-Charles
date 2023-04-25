@@ -49,12 +49,12 @@
 					</div>
 
 					<div id="checkoutpayment" class="dk checkout-section">
-						<checkoutpayment 
+						{{-- <checkoutpayment 
 							stripekey="{{ env('STRIPE_KEY') }}"
 							intent="{{ $intent }}"
-						/>
+						/> --}}
 
-						{{-- <div class="web-box">
+						<div class="web-box">
 							<h3 id="checkout-header">
 								<i class="fa-solid fa-wallet"></i>
 								Payment Methods
@@ -64,12 +64,15 @@
 							<div id="payment-container" class="checkout-container">
 								<form action="">
 
-									<input id="card-holder-name" type="text">
+									<label for="card-holder-name">Card Holder Name</label>
+									<input id="card-holder-name" name="card-holder-name" type="text">
 
-									<div id="card-element"></div>
+									<!-- Stripe Elements Placeholder -->
+									<div id="card-element" class="stripe-input"></div>
 									
-									<button id="card-button" data-secret="{{ $intent->client_secret }}">
-										Update Payment Method
+									{{-- <button id="card-button" data-secret="{{ $intent->client_secret }}"> --}}
+									<button id="card-button" class="submit">
+										Add Payment Method
 									</button>
 									
 								</form>
@@ -79,13 +82,43 @@
 						<button class="page-button padding" id="continue">
 							Continue To Payments
 							<i class="fa-solid fa-angles-right"></i>
-						</button> --}}
+						</button>
 					</div>
+
+					<script src="https://js.stripe.com/v3/"></script>
+ 
+					<script>
+						const stripe = Stripe('pk_live_51MQu7XKpS3Hd40FvhFNJYjn8ywdWjH73QNvpNhHJG1EzVcsZVostqvYdW7mAZSRoZDRxDZ99yUuIwUpx6q7R8SJv00dq0cKWcd');
+				
+						const elements = stripe.elements();
+						const cardElement = elements.create('card');
+				
+						cardElement.mount('#card-element');
+
+						const cardHolderName = document.getElementById('card-holder-name');
+						const cardButton = document.getElementById('card-button');
+						
+						cardButton.addEventListener('click', async (e) => {
+							const { paymentMethod, error } = await stripe.createPaymentMethod(
+								'card', cardElement, {
+									billing_details: { name: cardHolderName.value }
+								}
+							);
+					
+							if (error) {
+								console.log('----ERROR----');
+								console.log(error);
+							} else {
+								console.log('----SUCCESS----');
+							}
+						});
+					</script>
 
 					@break
 				@default
 						
 		@endswitch
+
 
   </main>
 @endsection

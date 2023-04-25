@@ -29,7 +29,7 @@ use App\Http\Controllers\AdminVariantController;
 use App\Http\Controllers\AdminVariantProfileController;
 
 
-// PUBLIC
+// PUBLIC -----------------------------------------------------------------------------------
 Route::controller(AuthController::class)->group(function () {
   Route::get('/login', 'veiwLogin');
   Route::get('/loginCart', 'veiwLoginCart');
@@ -38,34 +38,13 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/sign-up', 'veiwSignup');
   Route::get('/customerSignup', 'signupCustomer');
   Route::get('/verify-email/{id}', 'viewVerifyEmailCustomer')->middleware('auth')->name('verification.notice');
-  Route::get('/resend-verify-email/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+  Route::get('/verify-email-resend/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
   Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
 });
 
 Route::get('/', [HomeController::class, 'show']);
 
 Route::get('/contact', [ContactController::class, 'show']);
-
-Route::controller(AccountController::class)->group(function () {
-  Route::get('/account', 'show');
-  Route::post('/accountUpdate/{id}', 'update');
-});
-
-Route::controller(CartController::class)->group(function () {
-  Route::get('/cart', 'show');
-  Route::post('/apiQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
-  Route::get('/cartRemove/{item}', 'cartRemove');
-  Route::get('/continueToCheckout', 'continueToCheckout');
-});
-
-Route::controller(CheckoutController::class)->group(function () {
-  Route::get('/checkout/{action}', 'show');
-  Route::get('/checkoutContinueAddresses/{delivery}/{billing}', 'continueAddress');
-  Route::post('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
-  Route::post('/checkoutDeleteAddress/{id}', 'deleteAddress');
-  Route::post('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
-  Route::post('/checkoutCreatePaymentIntent', 'createPaymentIntent');
-});
 
 Route::get('/products/{id}', [ProductsController::class, 'show']);
 
@@ -74,10 +53,32 @@ Route::controller(ProductPageController::class)->group(function () {
   Route::post('/product-pageCartAdd/{id}/{variantCount}/{selectedVariants}', 'cartAdd');
 });
 
+Route::controller(CartController::class)->group(function () {
+	Route::get('/cart', 'show');
+	Route::post('/apiQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
+	Route::get('/cartRemove/{item}', 'cartRemove');
+	Route::get('/continueToCheckout', 'continueToCheckout');
+});
 
-// ADMIN
+// Auth Middleware
 Route::group( ['middleware' => 'auth' ], function()
 {
+	Route::controller(AccountController::class)->group(function () {
+		Route::get('/account', 'show');
+		Route::post('/accountUpdate/{id}', 'update');
+	});
+
+	Route::controller(CheckoutController::class)->group(function () {
+		Route::get('/checkout/{action}', 'show');
+		Route::get('/checkoutContinueAddresses/{delivery}/{billing}', 'continueAddress');
+		Route::post('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
+		Route::post('/checkoutDeleteAddress/{id}', 'deleteAddress');
+		Route::post('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
+		Route::post('/checkoutCreatePaymentIntent', 'createPaymentIntent');
+	});
+
+
+	// ADMIN -----------------------------------------------------------------------------------
   Route::view('/admin', 'admin/auth/login');
   Route::controller(AuthController::class)->group(function () {
     Route::get('/adminLogin', 'authenticateAdmin');

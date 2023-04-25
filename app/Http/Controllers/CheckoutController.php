@@ -52,15 +52,14 @@ class CheckoutController extends Controller
 
 			// $intent = $sessionUser->createSetupIntent();
 
-			$checkout = Checkout::where('userId', $sessionUser->id)->first();
+			// $checkout = Checkout::where('userId', $sessionUser->id)->first();
 
-			$payment = $sessionUser->pay($checkout->total);
-			$intent = $payment->client_secret;
+			// $payment = $sessionUser->pay($checkout->total);
+			// $intent = $payment->client_secret;
 
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
-				'intent',
 			));
 		}
   }
