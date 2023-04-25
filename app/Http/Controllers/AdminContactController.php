@@ -108,7 +108,7 @@ class AdminContactController extends Controller
   public function createPhone(Request $request)
   {
     $request->validate([
-      'phone' => ['required', 'numeric', Rule::unique('contact', 'value')],
+      'phone' => ['required', Rule::unique('contact', 'value')],
     ]);
 
     $record = new Contact;

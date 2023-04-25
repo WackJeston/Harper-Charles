@@ -52,10 +52,15 @@ class CheckoutController extends Controller
 
 			// $intent = $sessionUser->createSetupIntent();
 
+			$checkout = Checkout::where('userId', $sessionUser->id)->first();
+
+			$payment = $sessionUser->pay($checkout->total);
+			$intent = $payment->client_secret;
+
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
-				// 'intent',
+				'intent',
 			));
 		}
   }
@@ -156,6 +161,10 @@ class CheckoutController extends Controller
 
 	// PAYMENT --------------------------------------------------
 	public function createPaymentIntent() {
+		$payment = $request->user()->pay(
+			$request->get('amount')
+		);
 
+		return $payment->client_secret;
 	}
 }

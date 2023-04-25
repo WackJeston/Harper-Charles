@@ -1,43 +1,43 @@
 @use 'site/v';
 
-.contact {
-  margin-top: v.$header-height;
-}
-
 .contact .content {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  padding: 20px 40px 30px 40px;
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: center;
-  }
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	padding: 20px 40px 30px 40px;
+
+	@media (max-width: 600px) {
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
-.contact .address, .contact .contact-details {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  @media (max-width: 600px) {
-    align-items: center;
-  }
+.contact .address,
+.contact .contact-details {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+
+	@media (max-width: 600px) {
+		align-items: center;
+	}
 }
 
 .contact .contact-details {
-  margin-left: 40px;
-  @media (max-width: 600px) {
-    margin-left: 0;
-    margin-top: 20px;
-  }
+	margin-left: 40px;
+
+	@media (max-width: 600px) {
+		margin-left: 0;
+		margin-top: 20px;
+	}
 }
 
 .contact h3 {
-  margin: 5px 0;
+	margin: 5px 0;
 }
 
 .contact .map {
-  height: 400px;
-  width: 100%;
-  background-color: v.$bg-light;
+	height: 400px;
+	width: 100%;
+	background-color: v.$bg-light;
 }

@@ -51,6 +51,7 @@
 					<div id="checkoutpayment" class="dk checkout-section">
 						<checkoutpayment 
 							stripekey="{{ env('STRIPE_KEY') }}"
+							intent="{{ $intent }}"
 						/>
 
 						{{-- <div class="web-box">

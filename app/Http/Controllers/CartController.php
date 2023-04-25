@@ -7,8 +7,8 @@ use PDO;
 use App\Models\Cart;
 use App\Models\CartVariants;
 use App\Models\Checkout;
-use App\Models\CheckoutProduct;
-use App\Models\CheckoutProductVariant;
+// use App\Models\CheckoutProduct;
+// use App\Models\CheckoutProductVariant;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -72,29 +72,31 @@ class CartController extends Controller
   }
 
 	public function continueToCheckout() {
-		$checkout = Checkout::create([
-			'userId' => auth()->user()->id,
-			'status' => 'addresses',
-		]);
+		// $checkout = Checkout::create([
+		// 	'userId' => auth()->user()->id,
+		// 	'status' => 'addresses',
+		// ]);
 
-		$cartProducts = Cart::where('userId', auth()->user()->id)->get();
+		// $cartProducts = Cart::where('userId', auth()->user()->id)->get();
 
-		foreach ($cartProducts as $i => $product) {
-			$checkoutProduct = CheckoutProduct::create([
-				'checkoutId' => $checkout->id,
-				'productId' => $product->productId,
-				'quantity' => $product->quantity,
-			]);
+		// foreach ($cartProducts as $i => $product) {
+		// 	$checkoutProduct = CheckoutProduct::create([
+		// 		'checkoutId' => $checkout->id,
+		// 		'productId' => $product->productId,
+		// 		'quantity' => $product->quantity,
+		// 	]);
 
-			$cartVariants = CartVariants::where('cartId', $product->id)->get();
+		// 	$cartVariants = CartVariants::where('cartId', $product->id)->get();
 
-			foreach ($cartVariants as $i2 => $variant) {
-				CheckoutProductVariant::create([
-					'checkoutProductId' => $checkoutProduct->id,
-					'variantId' => $variant->variantId,
-				]);
-			}
-		}
+		// 	foreach ($cartVariants as $i2 => $variant) {
+		// 		CheckoutProductVariant::create([
+		// 			'checkoutProductId' => $checkoutProduct->id,
+		// 			'variantId' => $variant->variantId,
+		// 		]);
+		// 	}
+		// }
+
+		Checkout::createCheckout();
 
 		return redirect('/checkout/addresses');
 	}
