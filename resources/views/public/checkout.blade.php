@@ -79,16 +79,22 @@
 							</div>
 						</div>
 					
-						<button class="page-button padding" id="continue">
-							Continue To Payments
+						{{-- <button class="page-button padding" id="continue">
+							Continue To Payment
 							<i class="fa-solid fa-angles-right"></i>
-						</button>
+						</button> --}}
 					</div>
 
 					<script src="https://js.stripe.com/v3/"></script>
  
 					<script>
-						const stripe = Stripe('pk_live_51MQu7XKpS3Hd40FvhFNJYjn8ywdWjH73QNvpNhHJG1EzVcsZVostqvYdW7mAZSRoZDRxDZ99yUuIwUpx6q7R8SJv00dq0cKWcd');
+						// const form = document.querySelector('#payment-container form');
+
+						// form.addEventListener('submit', function(event) {
+						// 	event.preventDefault();
+						// });
+
+						const stripe = Stripe('pk_test_51MQu7XKpS3Hd40Fv2WokrlsM0f769XlgMIv1r1lIMRQHSp5UCGs7UT86vH5GFX0MpTTtUgeOpGulniVCU1MxVWYx00Eai1ijBR');
 				
 						const elements = stripe.elements();
 						const cardElement = elements.create('card');
@@ -99,18 +105,35 @@
 						const cardButton = document.getElementById('card-button');
 						
 						cardButton.addEventListener('click', async (e) => {
-							const { paymentMethod, error } = await stripe.createPaymentMethod(
-								'card', cardElement, {
-									billing_details: { name: cardHolderName.value }
-								}
-							);
-					
-							if (error) {
+							try {
+								const { paymentMethod, error } = await stripe.createPaymentMethod(
+									'card', cardElement, {
+										billing_details: { name: cardHolderName.value }
+									}
+								);
+								
+							} catch (error) {
 								console.log('----ERROR----');
 								console.log(error);
-							} else {
+
+							} finally {
 								console.log('----SUCCESS----');
+								console.log(paymentMethod);
 							}
+
+							// const { paymentMethod, error } = await stripe.createPaymentMethod(
+							// 	'card', cardElement, {
+							// 		billing_details: { name: cardHolderName.value }
+							// 	}
+							// );
+					
+							// if (error) {
+							// 	console.log('----ERROR----');
+							// 	console.log(error);
+							// } else {
+							// 	console.log('----SUCCESS----');
+							// 	console.log(paymentMethod);
+							// }
 						});
 					</script>
 
