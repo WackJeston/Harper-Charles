@@ -36,26 +36,8 @@ class CheckoutController extends Controller
 		
 		} elseif ($action == 'payment') {
 
-			// $stripe = new \Stripe\StripeClient(
-			// 	env('STRIPE_SECRET')
-			// );
-
-			// $stripe->paymentIntents->create([
-			// 	'amount' => 10,
-			// 	'currency' => env('STRIPE_CURRENCY'),
-			// 	'automatic_payment_methods' => [
-			// 		'enabled' => true,
-			// 	],
-			// ]);
-
 			// $user = User::where('id', $sessionUser->id)->first();
-
-			// $intent = $sessionUser->createSetupIntent();
-
-			// $checkout = Checkout::where('userId', $sessionUser->id)->first();
-
-			// $payment = $sessionUser->pay($checkout->total);
-			// $intent = $payment->client_secret;
+			// dd($user->paymentMethods());
 
 			return view('public/checkout', compact(
 				'sessionUser',
