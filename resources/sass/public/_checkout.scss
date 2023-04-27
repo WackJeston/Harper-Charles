@@ -103,6 +103,14 @@
 	margin-right: 15px;
 }
 
+.checkout-section form select {
+	// max-width: 80%;
+}
+
+.checkout-section form .width-control {
+	// max-width: 50%;
+}
+
 .checkout-section .saved-addresses {
 	display: flex;
 	flex-direction: row;

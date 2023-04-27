@@ -50,10 +50,6 @@ form.web-box i:hover:not(.show-password i),
 	color: v.$white;
 }
 
-form.web-box .wb-row {
-	// placeholder...
-}
-
 form input:not(form input:last-child, .checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,

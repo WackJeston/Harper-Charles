@@ -34,7 +34,8 @@
 						:deliveryaddressespre="{{ json_encode($deliveryAddresses) }}" 
 						:defaultdelivery="{{ $defaultDelivery }}" 
 						:billingaddressespre="{{ json_encode($billingAddresses) }}" 
-						:defaultbilling="{{ $defaultBilling }}" 
+						:defaultbilling="{{ $defaultBilling }}"
+						:countries="{{ json_encode($countries) }}"
 						/>
 					</div>
 
@@ -51,6 +52,8 @@
 					<div id="checkoutpayment" class="dk checkout-section">
 						<checkoutpayment 
 							stripekey="{{ env('STRIPE_KEY') }}"
+							:stripeid="{{ $sessionUser->stripe_id }}"
+							:billingaddress="{{ json_encode($billingAddress) }}"
 						/>
 					</div>
 

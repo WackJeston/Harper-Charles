@@ -6,11 +6,8 @@
 			<p></p>
 		</h3>
 
-		<form @submit.prevent="this.addPaymentMethod()" id="payment-container" class="checkout-container">
+		<form @submit.prevent="addPaymentMethod()" id="payment-container" class="checkout-container">
 			<input type="hidden" name="_token" :value="csrf">
-
-			<label for="card-holder-name">Card Holder Name</label>
-			<input id="card-holder-name" name="card-holder-name" type="text">
 
 			<!-- Stripe Elements Placeholder -->
 			<div id="card-element" class="stripe-input"></div>
@@ -34,6 +31,8 @@
 export default {
 	props: [
 		'stripekey',
+		'stripeid',
+		'billingaddress',
 	],
 
 	data() {
@@ -43,6 +42,8 @@ export default {
 	},
 
 	mounted() {
+		console.log(this.billingaddress);
+
 		this.stripe = Stripe(this.stripekey);
 
 		this.elements = this.stripe.elements();
@@ -51,7 +52,6 @@ export default {
 		this.cardElement.mount('#card-element');
 
 		this.cardHolderName = document.getElementById('card-holder-name');
-		this.cardButton = document.getElementById('card-button');
 	},
 
 	methods: {
@@ -59,9 +59,21 @@ export default {
 			try {
 				this.paymentMethod = await this.stripe.createPaymentMethod(
 					'card', this.cardElement, {
-					billing_details: { name: this.cardHolderName.value }
-				}
-				);
+					billing_details: {
+						address: {
+							city: this.billingaddress.city,
+							country: this.billingaddress.country,
+							line1: this.billingaddress.line1,
+							line2: this.billingaddress.line2,
+							postal_code: this.billingaddress.postCode,
+							state: this.billingaddress.region,
+						},
+						email: this.billingaddress.email,
+						name: this.billingaddress.firstName + ' ' + this.billingaddress.lastName,
+						phone: this.billingaddress.phone,
+					},
+					customer: this.stripeid,
+				});
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);

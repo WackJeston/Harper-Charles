@@ -27,9 +27,10 @@ return new class extends Migration
 				$table->string('line3', 200)->nullable();
 				$table->string('city', 100);
 				$table->string('region', 100)->nullable();
-				$table->string('country', 100);
+				$table->string('country', 10);
 				$table->string('postCode', 50);
 				$table->string('phone', 20);
+				$table->string('email', 100);
 				$table->string('deliveryNote', 2000)->nullable();
 				$table->timestamps();
 			});

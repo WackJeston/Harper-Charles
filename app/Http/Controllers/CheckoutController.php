@@ -25,23 +25,34 @@ class CheckoutController extends Controller
 			$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
 			$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
 
+			$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
+
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
 				'deliveryAddresses',
 				'defaultDelivery',
 				'billingAddresses',
-				'defaultBilling'
+				'defaultBilling',
+				'countries',
 			));
 		
 		} elseif ($action == 'payment') {
+			$billingAddress = DB::select('SELECT
+				a.*
+				FROM addresses AS a
+				INNER JOIN checkout AS c ON c.billingAddressId = a.id
+				WHERE c.userId = ?
+				LIMIT 1', 
+				[$sessionUser->id]
+			);
 
-			// $user = User::where('id', $sessionUser->id)->first();
-			// dd($user->paymentMethods());
+			$billingAddress = $billingAddress[0];
 
 			return view('public/checkout', compact(
 				'sessionUser',
 				'action',
+				'billingAddress',
 			));
 		}
   }
@@ -100,6 +111,7 @@ class CheckoutController extends Controller
 			'country' => $address['country'],
 			'postCode' => $address['postcode'],
 			'phone' => $address['phone'],
+			'email' => $address['email'],
 		]);
 
 		return $result;

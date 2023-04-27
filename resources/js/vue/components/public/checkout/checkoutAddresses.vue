@@ -17,6 +17,7 @@
 					<li>{{ address.country }}</li>
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
+					<li>{{ address.email }}</li>
 					<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete Address</span>
@@ -88,17 +89,29 @@
 				<div class="wb-row">
 					<div class="input-label-container">
 						<label for="country">Country<span> *</span></label>
-						<input type="text" name="country" required maxlength="100">
+						<select type="text" name="country" required maxlength="100" class="width-control">
+							<option value="">Select Country</option>
+							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
+						</select>
 					</div>
 
 					<div class="input-label-container">
 						<label for="postcode">Postcode<span> *</span></label>
-						<input type="text" name="postcode" required maxlength="50">
+						<input type="text" name="postcode" required maxlength="50" class="width-control">
 					</div>
 				</div>
 
-				<label for="phone">Phone<span> *</span></label>
-				<input type="tel" name="phone" required maxlength="20">
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="phone">Phone<span> *</span></label>
+						<input type="tel" name="phone" required maxlength="20">
+					</div>
+
+					<div class="input-label-container">
+						<label for="email">email<span> *</span></label>
+						<input type="email" name="email" required maxlength="100">
+					</div>
+				</div>
 
 				<div class="checkbox-container">
 					<input type="checkbox" name="defaultdelivery">
@@ -128,6 +141,7 @@
 					<li>{{ address.country }}</li>
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
+					<li>{{ address.email }}</li>
 					<i @click.stop="this.deleteAddress('billing', address.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete Address</span>
@@ -208,8 +222,17 @@
 					</div>
 				</div>
 
-				<label for="phone">Phone<span> *</span></label>
-				<input type="tel" name="phone" required maxlength="20">
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="phone">Phone<span> *</span></label>
+						<input type="tel" name="phone" required maxlength="20">
+					</div>
+
+					<div class="input-label-container">
+						<label for="email">email<span> *</span></label>
+						<input type="email" name="email" required maxlength="100">
+					</div>
+				</div>
 
 				<div class="checkbox-container">
 					<input type="checkbox" name="defaultbilling">
@@ -236,6 +259,7 @@ export default {
 		'defaultdelivery',
 		'billingaddressespre',
 		'defaultbilling',
+		'countries',
 	],
 
 	data() {

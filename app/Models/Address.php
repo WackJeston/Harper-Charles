@@ -25,6 +25,7 @@ class Address extends Model
     'country',
     'postCode',
     'phone',
+    'email',
     'deliveryNote',
   ];
 }
