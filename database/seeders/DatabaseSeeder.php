@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use DB;
+use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,8 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('countries')->truncate();
- 
+      $landingZones = [
+				[
+					'location' => 'home',
+					'show' => 1,
+					'created_at' => date("Y-m-d H:i:s"),
+					'updated_at' => date("Y-m-d H:i:s"),
+				],
+			];
+
+			DB::table('landing_zones')->insert($landingZones);
+
+
+			
 			$countries = [
 				['name' => 'Afghanistan', 'code' => 'AF'],
 				['name' => 'Åland Islands', 'code' => 'AX'],
@@ -270,5 +282,6 @@ class DatabaseSeeder extends Seeder
 			];
 
 			DB::table('countries')->insert($countries);
+
     }
 }

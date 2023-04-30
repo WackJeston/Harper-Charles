@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('cart_variants', function (Blueprint $table) {
             $table->id();
-						$table->foreignId('cartId')->constrained('cart')->onDelete('cascade');
-						$table->foreignId('variantId')->constrained('product_variants')->onDelete('cascade');
+						$table->foreignId('cartId')->constrained('cart')->onUpdate('cascade')->onDelete('cascade');
+						$table->foreignId('variantId')->constrained('product_variants')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

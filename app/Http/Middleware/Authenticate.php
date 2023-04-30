@@ -26,16 +26,7 @@ class Authenticate extends Middleware
   public function handle($request, Closure $next, ...$guards)
   {
 
-    if(str_contains(url()->current(), '/admin/')){
-      if (!Auth::check() || auth()->user()['admin'] == 0) {
-        if ($request->ajax()) {
-          return response('Unauthorized.', 401);
-        } else {
-          return redirect("/admin")->withErrors(['1' => 'Access Denied.']);
-        }
-      }
-
-    } elseif (str_ends_with(url()->current(), '/admin')) {
+    if (str_ends_with(url()->current(), '/admin')) {
       if (Auth::check() && auth()->user()['admin'] == 1) {
 				if ($request->ajax()) {
           return response('Unauthorized.', 401);
@@ -44,7 +35,16 @@ class Authenticate extends Middleware
         }
       }
 
-    } elseif (!str_contains(url()->current(), '/verify-email') && !Auth::check()) {
+    } elseif(str_contains(url()->current(), '/admin/')){
+      if (!Auth::check() || auth()->user()['admin'] == 0) {
+        if ($request->ajax()) {
+          return response('Unauthorized.', 401);
+        } else {
+          return redirect("/admin")->withErrors(['1' => 'Access Denied.']);
+        }
+      }
+
+    } elseif (!str_contains(url()->current(), '/admin') && !str_contains(url()->current(), '/verify-email') && !Auth::check()) {
 			if ($request->ajax()) {
 				return response('Unauthorized.', 401);
 			} else {

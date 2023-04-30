@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('product_category_images', function (Blueprint $table) {
             $table->id();
-						$table->foreignId('categoryId')->constrained('product_categories')->onDelete('cascade');
+						$table->foreignId('categoryId')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name', 100);
             $table->string('fileName', 100)->unique();
             $table->boolean('primary');
