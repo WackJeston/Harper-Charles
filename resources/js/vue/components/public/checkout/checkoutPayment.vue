@@ -57,7 +57,7 @@ export default {
 	methods: {
 		async addPaymentMethod() {
 			try {
-				this.paymentMethod = await this.stripe.createPaymentMethod(
+				this.result = await this.stripe.createPaymentMethod(
 					'card', this.cardElement, {
 					billing_details: {
 						address: {
@@ -79,9 +79,25 @@ export default {
 				console.log(err);
 			} finally {
 				console.log('----SUCCESS----');
-				console.log(this.paymentMethod);
+				console.log(this.result.paymentMethod.id);
+				this.addPaymentMethod2(this.result.paymentMethod.id);
 			}
-		}
+		},
+
+		async addPaymentMethod2(id) {
+			try {
+				this.result = await this.$http.post(
+					'/checkoutAddPaymentMethod/' + id,
+					{ name: "add-payment-method-2" }
+				);
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			} finally {
+				console.log('----SUCCESS----');
+				console.log(this.result);
+			}
+		},
 	}
 }
 </script>

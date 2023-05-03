@@ -38,6 +38,7 @@ class CheckoutController extends Controller
 			));
 		
 		} elseif ($action == 'payment') {
+
 			$billingAddress = DB::select('SELECT
 				a.*
 				FROM addresses AS a
@@ -153,11 +154,9 @@ class CheckoutController extends Controller
 
 
 	// PAYMENT --------------------------------------------------
-	public function createPaymentIntent() {
-		$payment = $request->user()->pay(
-			$request->get('amount')
-		);
+	public function addPaymentMethod($id) {
+		$result = auth()->user()->addPaymentMethod($id);
 
-		return $payment->client_secret;
+		return $result;
 	}
 }
