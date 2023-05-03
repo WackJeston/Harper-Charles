@@ -88,16 +88,16 @@
 
 				<div class="wb-row">
 					<div class="input-label-container">
-						<label for="country">Country<span> *</span></label>
-						<select type="text" name="country" required maxlength="100" class="width-control">
-							<option value="">Select Country</option>
-							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
-						</select>
+						<label for="postcode">Postcode<span> *</span></label>
+						<input type="text" name="postcode" required maxlength="50">
 					</div>
 
 					<div class="input-label-container">
-						<label for="postcode">Postcode<span> *</span></label>
-						<input type="text" name="postcode" required maxlength="50" class="width-control">
+						<label for="country">Country<span> *</span></label>
+						<select type="text" name="country" required maxlength="100">
+							<option value="">Select Country</option>
+							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
+						</select>
 					</div>
 				</div>
 
@@ -212,13 +212,16 @@
 
 				<div class="wb-row">
 					<div class="input-label-container">
-						<label for="country">Country<span> *</span></label>
-						<input type="text" name="country" required maxlength="100">
+						<label for="postcode">Postcode<span> *</span></label>
+						<input type="text" name="postcode" required maxlength="50">
 					</div>
 
 					<div class="input-label-container">
-						<label for="postcode">Postcode<span> *</span></label>
-						<input type="text" name="postcode" required maxlength="50">
+						<label for="country">Country<span> *</span></label>
+						<select type="text" name="country" required maxlength="100">
+							<option value="">Select Country</option>
+							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
+						</select>
 					</div>
 				</div>
 

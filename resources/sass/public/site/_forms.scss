@@ -12,11 +12,13 @@ form .input-label-container {
 	flex-grow: 1;
 	margin-bottom: 8px;
 	min-width: 50px;
+	width: 20%;
 }
 
 form .input-label-container input,
 form .input-label-container label,
-form .input-label-container select {
+form .input-label-container select,
+form .input-label-container option {
 	min-width: 50px;
 }
 
@@ -64,13 +66,14 @@ form input:not(.checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
 form select,
-.stripe-input {
+form option,
+form .stripe-input {
+	display: flex;
 	padding: 5px 8px;
 	border-radius: 5px;
 	color: v.$almost-black;
 	background-color: v.$white;
 	height: 33px;
-	min-width: 50px;
 	cursor: pointer;
 }
 
@@ -87,9 +90,8 @@ form input:focus:not(.checkbox-container input, .submit),
 .form input:focus:not(.checkbox-container input, .submit),
 form textarea:focus,
 form label.file-input-label:hover,
-form:not(.product-page .wb-content) select:hover,
 .stripe-input:focus {
-	border: 2px solid white;
+	border: 2px solid v.$white;
 }
 
 form textarea {
