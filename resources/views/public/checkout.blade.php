@@ -54,6 +54,7 @@
 							stripekey="{{ env('STRIPE_KEY') }}"
 							:stripeid="{{ $sessionUser->stripe_id }}"
 							:billingaddress="{{ json_encode($billingAddress) }}"
+							:paymentmethods="{{ json_encode($paymentMethods) }}"
 						/>
 					</div>
 

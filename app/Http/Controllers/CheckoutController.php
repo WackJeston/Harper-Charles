@@ -39,6 +39,20 @@ class CheckoutController extends Controller
 		
 		} elseif ($action == 'payment') {
 
+			$paymentMethods = [];
+
+			// dd(auth()->user()->paymentMethods());
+
+			foreach (auth()->user()->paymentMethods() as $i => $method) {
+				$paymentMethods[$i] = [
+					'id' => $method->id,
+					'name' => $method->billing_details->name,
+					'brand' => ucfirst($method->card->brand),
+					'last4' => $method->card->last4,
+					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
+				];
+			};
+
 			$billingAddress = DB::select('SELECT
 				a.*
 				FROM addresses AS a
@@ -54,6 +68,7 @@ class CheckoutController extends Controller
 				'sessionUser',
 				'action',
 				'billingAddress',
+				'paymentMethods',
 			));
 		}
   }
@@ -156,6 +171,12 @@ class CheckoutController extends Controller
 	// PAYMENT --------------------------------------------------
 	public function addPaymentMethod($id) {
 		$result = auth()->user()->addPaymentMethod($id);
+
+		return $result;
+	}
+
+	public function deletePaymentMethod($id) {
+		$result = auth()->user()->deletePaymentMethod($id);
 
 		return $result;
 	}

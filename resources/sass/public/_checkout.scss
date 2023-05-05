@@ -69,13 +69,13 @@
 	text-transform: lowercase;
 }
 
-.checkout-section button.address-toggle {
+.checkout-section button.record-toggle {
 	display: flex;
 	align-items: center;
 	margin: 10px 0 0 auto;
 }
 
-.checkout-section button.address-toggle:hover i {
+.checkout-section button.record-toggle:hover i {
 	color: v.$black;
 }
 
@@ -103,14 +103,14 @@
 	margin-right: 15px;
 }
 
-.checkout-section .saved-addresses {
+.checkout-section .saved-records-container {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 20px;
 }
 
-.checkout-section .saved-address {
+.checkout-section .saved-record {
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
@@ -131,63 +131,65 @@
 	}
 }
 
-.checkout-section .saved-address:not(.selected-address) {
+.checkout-section .saved-record:not(.selected-record) {
 	cursor: pointer;
 }
 
-.checkout-section .saved-address:hover,
-.checkout-section .saved-address:hover i:not(.fa-star),
-.checkout-section .selected-address,
-.checkout-section .selected-address i:not(.fa-star) {
+.checkout-section .saved-record:hover,
+.checkout-section .saved-record:hover i:not(.fa-star),
+.checkout-section .selected-record,
+.checkout-section .selected-record i:not(.fa-star) {
 	background-color: v.$brand-alt-dark;
 }
 
-.checkout-section .saved-address:hover li,
-.checkout-section .selected-address li,
-.checkout-section .selected-address {
+.checkout-section .saved-record:hover li,
+.checkout-section .saved-record:hover li i,
+.checkout-section .selected-record li,
+.checkout-section .selected-record li i,
+.checkout-section .selected-record {
 	color: v.$white;
 }
 
-.checkout-section .saved-address i:not(.fa-star) {
+.checkout-section .saved-record i:not(.fa-star, .fa-brands) {
 	position: absolute;
 	right: 1px;
 	border-radius: 5px;
 	cursor: pointer;
 }
 
-.checkout-section .selected-address .fa-circle-check {
+.checkout-section .selected-record .fa-circle-check {
 	bottom: 1px;
 	color: v.$pale-green;
 	padding: 9px;
 }
 
-.checkout-section .saved-address .fa-square-xmark {
+.checkout-section .saved-record .fa-square-xmark {
 	top: 1px;
 	padding: 9px 9px 5px 9px;
 }
 
-.checkout-section .saved-address .fa-square {
+.checkout-section .saved-record .fa-square {
 	top: 35px;
 	padding: 5px 9px 9px 9px;
 	align-items: center;
 }
 
-.checkout-section .saved-address .fa-square-xmark,
-.checkout-section .saved-address .fa-square {
+.checkout-section .saved-record .fa-square-xmark,
+.checkout-section .saved-record .fa-square {
 	display: flex;
 	color: v.$white;
 }
 
-.checkout-section .saved-address:not(.selected-address, :hover) .fa-square-xmark,
-.checkout-section .saved-address:not(.selected-address, :hover) .fa-square {
+.checkout-section .saved-record:not(.selected-record, :hover) .fa-square-xmark,
+.checkout-section .saved-record:not(.selected-record, :hover) .fa-square {
 	background-color: v.$brand-alt-light;
 }
 
-.checkout-section .saved-address .fa-square-xmark:hover {
+.checkout-section .saved-record .fa-square-xmark:hover {
 	color: v.$pale-red;
 }
 
-.checkout-section .saved-address .fa-square:hover {
+.checkout-section .saved-record .fa-square:hover {
 	color: v.$pale-green;
 }
 
@@ -199,12 +201,12 @@
 	right: 82%;
 }
 
-.checkout-section .fa-square .fa-star:not(.star-selected, .selected-address, .saved-address:hover) {
+.checkout-section .fa-square .fa-star:not(.star-selected, .selected-record, .saved-record:hover) {
 	color: v.$brand-alt-light;
 }
 
-.checkout-section .selected-address .fa-square .fa-star:not(.star-selected),
-.checkout-section .saved-address:hover .fa-square .fa-star:not(.star-selected) {
+.checkout-section .selected-record .fa-square .fa-star:not(.star-selected),
+.checkout-section .saved-record:hover .fa-square .fa-star:not(.star-selected) {
 	color: v.$brand-alt-dark;
 }
 
@@ -212,11 +214,16 @@
 	color: v.$dull-yellow;
 }
 
-.checkout-section .saved-address li {
+.checkout-section .saved-record li {
 	margin: 0 0 0 3px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.checkout-section .saved-record li i {
+	margin-right: auto;
+	font-size: 1.1rem;
 }
 
 .checkout-section #continue {
