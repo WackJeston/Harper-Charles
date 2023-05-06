@@ -1,8 +1,38 @@
 <template>
 	<div class="web-box">
 		<h3 id="checkout-header">
+			<i class="fa-solid fa-cube"></i>
+			Products
+			<p></p>
+		</h3>
+
+		<div id="products-container" class="checkout-container">
+			<div class="saved-records-container">
+
+
+				<!-- Products -->
+				<ul v-for="(product, i) in this.products" class="saved-record selected-record">
+					<h4 class="saved-record-label">{{ product.title }}</h4>
+					<li>{{ product.subtitle }}</li>
+					<li>Quantity: {{ product.quantity }}</li>
+					<li>£{{ product.price }}</li>
+					<!-- <i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
+						<div class="popup-label-container">
+							<span class="popup-label">Delete method</span>
+						</div>
+					</i> -->
+
+					<a :href="'/product-page/' + product.id" class="wb-image"
+					:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
+				</ul>
+			</div>
+		</div>
+	</div>
+		
+	<div class="web-box">
+		<h3 id="checkout-header">
 			<i class="fa-solid fa-check-to-slot"></i>
-			Review Order
+			Order Details
 			<p></p>
 		</h3>
 
@@ -41,38 +71,6 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="web-box">
-		<h3 id="checkout-header">
-			<i class="fa-solid fa-cube"></i>
-			Products
-			<p></p>
-		</h3>
-
-		<div id="products-container" class="checkout-container">
-			<div class="saved-records-container">
-
-
-				<!-- Products -->
-				<ul v-for="(product, i) in this.products" class="saved-record selected-record">
-					<h4 class="saved-record-label">{{ product.title }}</h4>
-					<li>{{ product.subtitle }}</li>
-					<li>Quantity: {{ product.quantity }}</li>
-					<li>£{{ product.price }}</li>
-					<!-- <i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
-						<div class="popup-label-container">
-							<span class="popup-label">Delete method</span>
-						</div>
-					</i> -->
-
-					<a :href="'/product-page/' + product.id" class="wb-image"
-					:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
-				</ul>
-			</div>
-		</div>
-	</div>
-		
-		
 
 	<div class="checkout-button-container">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
