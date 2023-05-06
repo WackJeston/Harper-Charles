@@ -12,6 +12,7 @@
 						:class="[address.defaultShipping == 1 ? 'selected-record' : '']"
 						@click.stop="this.selectAddress($event, 'delivery', address.id)">
 						<li>{{ address.firstName }} {{ address.lastName }}</li>
+						<li>{{ address.company }}</li>
 						<li>{{ address.line1 }}</li>
 						<li>{{ address.city }}, {{ address.region }}</li>
 						<li>{{ address.country }}</li>
@@ -136,6 +137,7 @@
 					:class="[address.defaultBilling == 1 ? 'selected-record' : '']"
 					@click.stop="this.selectAddress($event, 'billing', address.id)">
 					<li>{{ address.firstName }} {{ address.lastName }}</li>
+					<li>{{ address.company }}</li>
 					<li>{{ address.line1 }}</li>
 					<li>{{ address.city }}, {{ address.region }}</li>
 					<li>{{ address.country }}</li>
@@ -249,7 +251,7 @@
 
 	<div class="checkout-button-container">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
-			Continue to payment
+			Payment Methods
 			<i class="fa-solid fa-angles-right"></i>
 		</button>
 	</div>

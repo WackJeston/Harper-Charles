@@ -17,6 +17,28 @@ class CheckoutController extends Controller
     $sessionUser = auth()->user();
 
 		switch ($action) {
+			default: // addresses
+				$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
+				$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
+				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
+
+				$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
+				$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
+				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
+
+				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
+
+				return view('public/checkout', compact(
+					'sessionUser',
+					'action',
+					'deliveryAddresses',
+					'defaultDelivery',
+					'billingAddresses',
+					'defaultBilling',
+					'countries',
+				));
+				break;
+
 			case 'payment':
 				$paymentMethods = [];
 
@@ -48,30 +70,78 @@ class CheckoutController extends Controller
 					'paymentMethods',
 				));
 				break;
-			
+
 			case 'review':
-				dd(Checkout::where('userId', auth()->user()->id)->first());
-				break;
-			
-			default: // addresses
-				$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
-				$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
-				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
+				$checkout = DB::select('SELECT 
+					c.id,
+					SUM(cp.quantity) AS `count`,
+					SUM(p.price * cp.quantity) AS `total`
+					FROM checkout AS c
+					LEFT JOIN checkout_products AS cp ON cp.checkoutId=c.id
+					LEFT JOIN products AS p ON p.id=cp.productId
+					WHERE c.userId=?
+					GROUP BY c.id',
+					[$sessionUser->id]
+				);
 
-				$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-				$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
-				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
+				$checkout = $checkout[0];
 
-				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
+				$products = DB::select('SELECT
+					p.id,
+					p.title,
+					p.subtitle,
+					p.price,
+					cp.quantity,
+					pi.fileName,
+					GROUP_CONCAT(pv2.title, ": ", pv.title) AS `variants`
+					FROM checkout AS c
+					LEFT JOIN checkout_products AS cp ON cp.checkoutId=c.id
+					LEFT JOIN products AS p ON p.id=cp.productId
+					LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
+					LEFT JOIN checkout_product_variants AS cpv ON cpv.checkoutProductId=cp.id
+					LEFT JOIN product_variants AS pv ON pv.id=cpv.variantId
+					LEFT JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
+					WHERE c.userId=?
+					GROUP BY p.id',
+					[$sessionUser->id]
+				);
+
+				$addresses = DB::select('SELECT
+					a.id,
+					a.type,
+					CONCAT(a.firstName, " ", a.lastName) AS `name`,
+					a.company,
+					a.line1,
+					a.city,
+					a.region,
+					a.country,
+					a.postCode,
+					a.phone,
+					a.email
+					FROM checkout AS c
+					LEFT JOIN addresses AS a ON a.id=c.deliveryAddressId OR a.id=c.billingAddressId
+					WHERE c.userId=?
+					GROUP BY a.id',
+					[$sessionUser->id]
+				);
+
+				$method = $sessionUser->findPaymentMethod(Checkout::where('userId', $sessionUser->id)->first()->paymentMethodId);
+
+				$paymentMethod = [
+					'id' => $method->id,
+					'brand' => ucfirst($method->card->brand),
+					'last4' => $method->card->last4,
+					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
+					'postcode' => $method->billing_details->address->postal_code,
+				];
 
 				return view('public/checkout', compact(
 					'sessionUser',
 					'action',
-					'deliveryAddresses',
-					'defaultDelivery',
-					'billingAddresses',
-					'defaultBilling',
-					'countries',
+					'checkout',
+					'products',
+					'addresses',
+					'paymentMethod',
 				));
 				break;
 		}
