@@ -18,6 +18,7 @@ return new class extends Migration
 				$table->foreignId('userId')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
 				$table->foreignId('deliveryAddressId')->nullable()->constrained('addresses')->onUpdate('cascade')->onDelete('cascade');
 				$table->foreignId('billingAddressId')->nullable()->constrained('addresses')->onUpdate('cascade')->onDelete('cascade');
+				$table->string('paymentMethodId', 200)->nullable()->default(null);
 				$table->decimal('total', 9, 3)->default(0);
 				$table->string('status', 50);
 				$table->timestamps();

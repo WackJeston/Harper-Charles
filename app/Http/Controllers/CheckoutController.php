@@ -16,60 +16,64 @@ class CheckoutController extends Controller
   {
     $sessionUser = auth()->user();
 
-		if ($action == 'addresses') {
-			$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
-			$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
-			$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
+		switch ($action) {
+			case 'payment':
+				$paymentMethods = [];
 
-			$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-			$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
-			$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
+				foreach (auth()->user()->paymentMethods() as $i => $method) {
+					$paymentMethods[$i] = [
+						'id' => $method->id,
+						'brand' => ucfirst($method->card->brand),
+						'last4' => $method->card->last4,
+						'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
+						'postcode' => $method->billing_details->address->postal_code,
+					];
+				};
 
-			$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
+				$billingAddress = DB::select('SELECT
+					a.*
+					FROM addresses AS a
+					INNER JOIN checkout AS c ON c.billingAddressId = a.id
+					WHERE c.userId = ?
+					LIMIT 1', 
+					[$sessionUser->id]
+				);
 
-			return view('public/checkout', compact(
-				'sessionUser',
-				'action',
-				'deliveryAddresses',
-				'defaultDelivery',
-				'billingAddresses',
-				'defaultBilling',
-				'countries',
-			));
-		
-		} elseif ($action == 'payment') {
+				$billingAddress = $billingAddress[0];
 
-			$paymentMethods = [];
+				return view('public/checkout', compact(
+					'sessionUser',
+					'action',
+					'billingAddress',
+					'paymentMethods',
+				));
+				break;
+			
+			case 'review':
+				dd(Checkout::where('userId', auth()->user()->id)->first());
+				break;
+			
+			default: // addresses
+				$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
+				$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
+				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
 
-			// dd(auth()->user()->paymentMethods());
+				$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
+				$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
+				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
 
-			foreach (auth()->user()->paymentMethods() as $i => $method) {
-				$paymentMethods[$i] = [
-					'id' => $method->id,
-					'name' => $method->billing_details->name,
-					'brand' => ucfirst($method->card->brand),
-					'last4' => $method->card->last4,
-					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
-				];
-			};
+				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
 
-			$billingAddress = DB::select('SELECT
-				a.*
-				FROM addresses AS a
-				INNER JOIN checkout AS c ON c.billingAddressId = a.id
-				WHERE c.userId = ?
-				LIMIT 1', 
-				[$sessionUser->id]
-			);
-
-			$billingAddress = $billingAddress[0];
-
-			return view('public/checkout', compact(
-				'sessionUser',
-				'action',
-				'billingAddress',
-				'paymentMethods',
-			));
+				return view('public/checkout', compact(
+					'sessionUser',
+					'action',
+					'deliveryAddresses',
+					'defaultDelivery',
+					'billingAddresses',
+					'defaultBilling',
+					'countries',
+				));
+				break;
 		}
   }
 
@@ -169,6 +173,16 @@ class CheckoutController extends Controller
 
 
 	// PAYMENT --------------------------------------------------
+	public function continuePayment($paymentMethod)
+	{
+		Checkout::where('userId', auth()->user()->id)->update([
+			'paymentMethodId' => $paymentMethod,
+			'status' => 'review',
+		]);
+
+		return redirect('/checkout/review');
+	}
+
 	public function addPaymentMethod($id) {
 		$result = auth()->user()->addPaymentMethod($id);
 

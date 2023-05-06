@@ -1,5 +1,5 @@
 <template>
-	<div class="web-box">
+	<div class="web-box" id="paymentMarker">
 		<h3 id="checkout-header">
 			<i class="fa-solid fa-wallet"></i>
 			Payment Methods
@@ -11,7 +11,6 @@
 				<ul v-for="(method, i) in this.paymentMethods" class="saved-record" :id="'method-' + method.id"
 					:class="[method.defaultShipping == 1 ? 'selected-record' : '']"
 					@click.stop="this.selectPaymentMethod($event, method.id)">
-					<li>{{ method.name }}</li>
 					<li>
 						{{ method.brand }} 
 						<i v-if="method.brand == 'Amex'" class="fa-brands fa-cc-amex"></i>
@@ -23,7 +22,7 @@
 					</li>
 					<li>{{ method.last4 }}</li>
 					<li>{{ method.exp }}</li>
-					<li>{{ method.country }}</li>
+					<li>{{ method.postcode }}</li>
 					<i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete method</span>
@@ -58,7 +57,7 @@
 		
 
 	<div class="checkout-button-container">
-		<button @click="pay" id="continue" class="page-button padding">
+		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
 			Pay Now
 			<i class="fa-solid fa-angles-right"></i>
 		</button>
@@ -79,7 +78,7 @@ export default {
 			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 			form: this.paymentmethods.length > 0 ? false : true,
 			paymentMethods: this.paymentmethods,
-			methodSelected: null,
+			methodSelected: 0,
 		}
 	},
 
@@ -97,6 +96,30 @@ export default {
 	},
 
 	methods: {
+		checkoutContinue() {
+			if (this.methodSelected != 0) {
+				window.location.href = '/checkoutContinuePayment/' + this.methodSelected;
+			} else {
+				this.errorMessage();
+			}
+		},
+
+		errorMessage(toggle = true) {
+			let header = document.querySelector('#checkout-header');
+			let errorMessage = document.querySelector('#checkout-header p');
+
+			if (toggle == true) {
+				window.location.href = '#paymentMarker';
+
+				header.style.backgroundColor = '#FF6666';
+				errorMessage.innerHTML = 'Please select a payment address.';
+
+			} else {
+				header.style.backgroundColor = '#5E6264';
+				errorMessage.innerHTML = '';
+			}
+		},
+
 		selectPaymentMethod(submitEvent, id) {
 			const buttons = [
 				'fa-solid fa-square-xmark popup-label-button',
@@ -114,12 +137,13 @@ export default {
 					previousMethod.classList.remove('selected-record');
 				}
 
-				let newMethod = document.querySelector('#payment-container #method-' + id);
-				newMethod.classList.add('selected-record');
-				let innerMethod = newMethod.innerHTML + '<i class="fa-regular fa-circle-check"></i>';
-				newMethod.innerHTML = innerMethod;
+				let targetMethod = document.querySelector('#payment-container #method-' + id);
+				targetMethod.classList.add('selected-record');
+				let innerMethod = targetMethod.innerHTML + '<i class="fa-regular fa-circle-check"></i>';
+				targetMethod.innerHTML = innerMethod;
 
 				this.methodSelected = id;
+				this.errorMessage(false);
 
 			} else if (submitEvent.target.className == buttons[0]) {
 				this.deletePaymentMethod(id);
@@ -191,29 +215,23 @@ export default {
 				this.brand = this.brandFirstLetter + this.brandRest;
 				this.expYear = this.result.data.card.exp_year.toString().slice(2, 4);
 
-				this.newMethod = {};
+				let newMethod = [];
 
-				this.newMethod['id'] = this.result.data.id,
-				this.newMethod['name'] = this.result.data.billing_details.name,
-				this.newMethod['brand'] = this.brand,
-				this.newMethod['last4'] = this.result.data.card.last4,
-				this.newMethod['exp'] = this.result.data.card.exp_month + '/' + this.expYear,
+				newMethod['id'] = this.result.data.id;
+				newMethod['brand'] = this.brand;
+				newMethod['last4'] = this.result.data.card.last4;
+				newMethod['exp'] = this.result.data.card.exp_month + '/' + this.expYear;
+				newMethod['postcode'] = this.result.data.billing_details.address.postal_code;
 
-				console.log(this.newMethod);
-
-				this.paymentMethods.push(this.newMethod);
+				this.paymentMethods.push(newMethod);
 				this.form = false;
 
 				let form = document.querySelector('#payment-container form');
 				form.reset();
 
-				// setTimeout(() => {
-				// 	this.selectAddress(null, type, this.result.data.id);
-
-				// 	if (this.result.data.defaultShipping == 1 || this.result.data.defaultBilling == 1) {
-				// 		this.defaultAddress(type, this.result.data.id);
-				// 	}
-				// }, 10);
+				setTimeout(() => {
+					this.selectPaymentMethod(null, this.result.data.id);
+				}, 10);
 			}
 		},
 	}

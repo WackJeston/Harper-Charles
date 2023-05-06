@@ -349,6 +349,8 @@ export default {
 				} else if (type == 'billing') {
 					this.billingSelected = id;
 				}
+				
+				this.errorMessage(type, false);
 
 			} else if (submitEvent.target.className == buttons[0]) {
 				this.deleteAddress(type, id);

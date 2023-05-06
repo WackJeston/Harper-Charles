@@ -74,6 +74,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::post('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
 		Route::post('/checkoutDeleteAddress/{id}', 'deleteAddress');
 		Route::post('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
+		Route::post('/checkoutContinuePayment/{paymentMethod}', 'continuePayment');
 		Route::post('/checkoutAddPaymentMethod/{id}', 'addPaymentMethod');
 		Route::post('/checkoutDeletePaymentMethod/{id}', 'deletePaymentMethod');
 	});
