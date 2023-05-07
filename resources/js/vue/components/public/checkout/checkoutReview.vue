@@ -2,8 +2,8 @@
 	<div class="web-box">
 		<h3 id="checkout-header">
 			<i class="fa-solid fa-cube"></i>
-			Products
-			<p></p>
+			Items
+			<p>{{ checkout.count }} Items | Total: £{{ checkout.total }}</p>
 		</h3>
 
 		<div id="products-container" class="checkout-container">
@@ -12,18 +12,22 @@
 
 				<!-- Products -->
 				<ul v-for="(product, i) in this.products" class="saved-record selected-record">
-					<h4 class="saved-record-label">{{ product.title }}</h4>
+					<a :href="'/product-page/' + product.id" class="saved-record-label-container">
+						<h4 class="saved-record-label">{{ product.title }}</h4>
+					</a>
 					<li>{{ product.subtitle }}</li>
 					<li>Quantity: {{ product.quantity }}</li>
 					<li>£{{ product.price }}</li>
+					<li class="record-image-container">
+						<a :href="'/product-page/' + product.id" class="record-image"
+						:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
+					</li>
+
 					<!-- <i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
 						<div class="popup-label-container">
 							<span class="popup-label">Delete method</span>
 						</div>
 					</i> -->
-
-					<a :href="'/product-page/' + product.id" class="wb-image"
-					:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
 				</ul>
 			</div>
 		</div>
@@ -32,7 +36,7 @@
 	<div class="web-box">
 		<h3 id="checkout-header">
 			<i class="fa-solid fa-check-to-slot"></i>
-			Order Details
+			Details
 			<p></p>
 		</h3>
 
@@ -40,16 +44,16 @@
 			<div class="saved-records-container">
 
 				<!-- Checkout -->
-				<ul class="saved-record selected-record">
-					<h4 class="saved-record-label">Summary</h4>
-					<li>Reference Number: {{ checkout.id }}</li>
-					<li>Items: {{ checkout.count }}</li>
-					<li>Total: £{{ checkout.total }}</li>
-					<!-- <i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
-						<div class="popup-label-container">
-							<span class="popup-label">Delete method</span>
-						</div>
-					</i> -->
+				<ul v-for="(address, i) in this.addresses" class="saved-record selected-record">
+					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ address.type }} Address</h4>
+					<li>{{ address.firstName }} {{ address.lastName }}</li>
+					<li>{{ address.company }}</li>
+					<li>{{ address.line1 }}</li>
+					<li>{{ address.city }}, {{ address.region }}</li>
+					<li>{{ address.country }}</li>
+					<li>{{ address.postCode }}</li>
+					<li>{{ address.phone }}</li>
+					<li>{{ address.email }}</li>
 				</ul>
 
 				<!-- Payment Mathod -->
