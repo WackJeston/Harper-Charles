@@ -17,14 +17,38 @@ class CheckoutController extends Controller
     $sessionUser = auth()->user();
 
 		switch ($action) {
-			default: // addresses
-				$deliveryAddresses = Address::where('userId', $sessionUser->id)->where('type', 'delivery')->orderBy('defaultShipping', 'desc')->get();
-				$defaultDelivery = $deliveryAddresses->where('defaultShipping', 1)->first();
+			// default: // addresses
+			case 'addresses':
+				Checkout::createCheckout();
+
+				$defaultDelivery = Address::where('userId', $sessionUser->id)->where('defaultShipping', 1)->first();
 				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
 
+				$deliveryAddresses = DB::select('SELECT
+					a.*,
+					co.name AS countryName
+					FROM addresses AS a
+					INNER JOIN countries AS co ON co.code=a.country
+					WHERE a.userId=?
+					AND a.type="delivery"
+					ORDER BY defaultShipping DESC, firstName, lastName',
+					[$sessionUser->id]
+				);
+
 				$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-				$defaultBilling = $billingAddresses->where('defaultBilling', 1)->first();
+				$defaultBilling = Address::where('userId', $sessionUser->id)->where('defaultBilling', 1)->first();
 				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
+
+				$billingAddresses = DB::select('SELECT
+					a.*,
+					co.name AS countryName
+					FROM addresses AS a
+					INNER JOIN countries AS co ON co.code=a.country
+					WHERE a.userId=?
+					AND a.type="billing"
+					ORDER BY defaultBilling DESC, firstName, lastName',
+					[$sessionUser->id]
+				);
 
 				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
 
@@ -40,6 +64,12 @@ class CheckoutController extends Controller
 				break;
 
 			case 'payment':
+				$checkout = Checkout::where('userId', $sessionUser->id)->first();
+
+				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
+					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
+				}
+
 				$paymentMethods = [];
 
 				foreach (auth()->user()->paymentMethods() as $i => $method) {
@@ -72,6 +102,16 @@ class CheckoutController extends Controller
 				break;
 
 			case 'review':
+				$checkout = Checkout::where('userId', $sessionUser->id)->first();
+
+				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
+					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
+
+				} elseif ($checkout->paymentMethodId == null) {
+					return redirect('/checkout/payment')->withErrors(['1' => 'Please select a payment method.']);
+				}
+
+
 				$checkout = DB::select('SELECT 
 					c.id,
 					SUM(cp.quantity) AS `count`,
@@ -114,12 +154,13 @@ class CheckoutController extends Controller
 					a.line1,
 					a.city,
 					a.region,
-					a.country,
+					co.name AS country,
 					a.postCode,
 					a.phone,
 					a.email
 					FROM checkout AS c
 					LEFT JOIN addresses AS a ON a.id=c.deliveryAddressId OR a.id=c.billingAddressId
+					INNER JOIN countries AS co ON co.code=a.country
 					WHERE c.userId=?
 					GROUP BY a.id',
 					[$sessionUser->id]

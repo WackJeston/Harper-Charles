@@ -13,11 +13,16 @@
       </div>
     @endif
 
-    @if (session()->has('message'))
-      <div id="publicmessage" class="lt">
-        <publicmessage successmessage="{{ session()->get('message') }}" />
+    @if (session()->has('success') || session()->has('info'))
+      <div id="publicalert" class="lt">
+        <publicalert 
+				message="{{ session()->has('success') ? session()->get('success') : session()->get('info') }}"
+				type="{{ session()->has('success') ? 'success' : 'info' }}"
+				/>
       </div>
     @endif
+
+
 
 		@switch($action)
 			@case('addresses')

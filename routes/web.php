@@ -57,7 +57,6 @@ Route::controller(CartController::class)->group(function () {
 	Route::get('/cart', 'show');
 	Route::post('/apiQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
 	Route::get('/cartRemove/{item}', 'cartRemove');
-	Route::get('/continueToCheckout', 'continueToCheckout');
 });
 
 // Auth Middleware

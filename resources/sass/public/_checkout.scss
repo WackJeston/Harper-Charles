@@ -26,6 +26,10 @@
 	border-radius: 2px;
 }
 
+#checkout-page .alert-box {
+	max-width: 800px;
+}
+
 #checkout-page .web-box {
 	max-width: 800px;
 	display: flex;
@@ -41,6 +45,10 @@
 	align-items: flex-end;
 	max-width: 800px;
 	margin: 0 auto 0 auto;
+}
+
+#checkout-page .checkout-button-container span {
+	margin-left: auto;
 }
 
 .checkout-section h3 {
@@ -252,7 +260,7 @@
 	margin: 0 0 0 5px;
 	// font-size: 1.1rem;
 	max-width: 300px;
-	text-align: center;
+	// text-align: center;
 	background-color: v.$brand-alt-light;
 	color: v.$brand-alt-dark;
 	border-radius: 3px;
@@ -264,7 +272,7 @@
 	}
 
 	@media (min-width: 700px) and (max-width: 800px) {
-		font-size: 0.7rem;
+		font-size: 0.8rem;
 	}
 	
 	@media (min-width: 500px) and (max-width: 700px) {
@@ -277,24 +285,24 @@
 }
 
 .checkout-section .saved-record h4 i {
-	font-size: 0.8rem;
+	// font-size: 0.8rem;
 	color: v.$brand-alt-dark;
 	margin-right: 3px;
 	
 	@media (min-width: 800px) {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
 
 	@media (min-width: 700px) and (max-width: 800px) {
-		font-size: 0.7rem;
+		font-size: 0.6rem;
 	}
 	
 	@media (min-width: 500px) and (max-width: 700px) {
-		font-size: 0.8rem;
+		font-size: 0.6rem;
 	}
 	
 	@media (max-width: 500px) {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
 }
 

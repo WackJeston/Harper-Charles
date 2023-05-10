@@ -14,6 +14,7 @@ import Vuefooter from './vue/components/public/site/vueFooter.vue'
 
 import Publicerror from './vue/components/public/site/publicError.vue'
 import Publicmessage from './vue/components/public/site/publicMessage.vue'
+import Publicalert from './vue/components/public/site/publicAlert.vue'
 
 import Publiclogin from './vue/components/public/auth/login.vue'
 import Publicsignup from './vue/components/public/auth/signup.vue'
@@ -97,6 +98,9 @@ publicError.component('publicerror', Publicerror).mount('#publicerror')
 
 const publicMessage = createApp({})
 publicMessage.component('publicmessage', Publicmessage).mount('#publicmessage')
+
+const publicAlert = createApp({})
+publicAlert.component('publicalert', Publicalert).mount('#publicalert')
 
 
 const publicLogin = createApp({})

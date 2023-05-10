@@ -249,6 +249,10 @@ button.pb-danger:hover {
 	background-color: v.$pale-green-darker;
 }
 
+.alert-box.info {
+	background-color: v.$baby-blue-darker;
+}
+
 // ToDo: Fix floating alert right margin collasping
 .floating .alert-box {
 	position: absolute;
@@ -290,7 +294,11 @@ button.pb-danger:hover {
 }
 
 .alert-box.success i:hover {
-	color: v.$pale-green;
+	color: v.$pale-green-darker;
+}
+
+.alert-box.info i:hover {
+	color: v.$baby-blue-darker;
 }
 
 .warning-overlay {

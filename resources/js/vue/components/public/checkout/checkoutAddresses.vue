@@ -251,7 +251,7 @@
 
 	<div class="checkout-button-container">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
-			Payment Methods
+			Payment Method
 			<i class="fa-solid fa-angles-right"></i>
 		</button>
 	</div>

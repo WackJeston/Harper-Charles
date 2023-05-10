@@ -70,11 +70,4 @@ class CartController extends Controller
     Cart::where('id', $item)->delete();
     CartVariants::where('cartId', $item)->delete();
   }
-
-	public function continueToCheckout() {
-
-		Checkout::createCheckout();
-
-		return redirect('/checkout/addresses');
-	}
 }

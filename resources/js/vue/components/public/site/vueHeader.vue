@@ -8,11 +8,12 @@
 			</a>
 
 			<ul id="header-nav-links">
-				<li class="nav-link hover-background">
-					<a href="/cart" class="nav-link-contents icon-link">
+				
+				<a href="/cart" class="nav-link hover-background">
+					<li class="nav-link-contents icon-link">
 						<i class="fa-solid fa-cart-shopping"></i>
-					</a>
-				</li>
+					</li>
+				</a>
 
 				<li @click="(userMenuActive = !userMenuActive) && (sublinksActive = false)"
 					class="nav-link hover-background user-button" :class="[this.sessionuser ? 'logged-in' : '']">
