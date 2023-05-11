@@ -70,13 +70,15 @@ a.page-button:hover {
 	color: v.$black;
 }
 
-button.page-button i {
+button.page-button i,
+a.page-button i {
 	font-size: 1.1rem;
 	color: v.$white;
 	margin-right: 5px;
 }
 
-button.page-button:hover i {
+button.page-button:hover i,
+a.page-button:hover i {
 	color: v.$black;
 }
 

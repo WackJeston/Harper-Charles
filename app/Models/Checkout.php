@@ -15,19 +15,27 @@ class Checkout extends Model
 		'userId',
 		'deliveryAddressId',
 		'billingAddressId',
+		'paymentMethodId',
+		'total',
 		'status',
 	];
 
 
-	public static function createCheckout() {
-		Self::where('userId', auth()->user()->id)->delete();
+	public static function createCheckout(int $userId = 0) :int {
+		if ($userId == 0) {
+			$user = auth()->user();
+		} else {
+			$user = User::find($userId);
+		}
+
+		Self::where('userId', $user->id)->delete();
 
 		$checkout = Self::create([
-			'userId' => auth()->user()->id,
+			'userId' => $user->id,
 			'status' => 'addresses',
 		]);
 
-		$cartProducts = Cart::where('userId', auth()->user()->id)->get();
+		$cartProducts = Cart::where('userId', $user->id)->get();
 
 		foreach ($cartProducts as $i => $product) {
 			$checkoutProduct = CheckoutProduct::create([
@@ -47,9 +55,11 @@ class Checkout extends Model
 		}
 
 		Self::calculateTotal($checkout->id);
+
+		return $checkout->id;
 	}
 
-	public static function calculateTotal($checkoutId) {
+	public static function calculateTotal(int $checkoutId) :float {
 		$checkoutItems = CheckoutProduct::select('productId')->where('checkoutId', $checkoutId)->get();
 		$total = 0;
 
@@ -64,5 +74,7 @@ class Checkout extends Model
 		Self::where('id', $checkoutId)->update([
 			'total' => $total,
 		]);
+
+		return $total;
 	}
 }

@@ -42,13 +42,21 @@
 #checkout-page .checkout-button-container {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-end;
+	align-items: flex-start;
 	max-width: 800px;
 	margin: 0 auto 0 auto;
 }
 
-#checkout-page .checkout-button-container span {
+#checkout-page .checkout-button-container .page-button {
 	margin-left: auto;
+}
+
+#checkout-page .checkout-button-container span {
+	padding: 5px 10px;
+	font-size: 1rem;
+	margin: 0;
+	border-radius: 5px;
+	background-color: v.$white;
 }
 
 .checkout-section h3 {

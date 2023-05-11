@@ -3,10 +3,11 @@ namespace App\Http\Controllers;
 
 Use DB;
 use App\Models\Address;
-use App\Models\User;
 use App\Models\Checkout;
 use App\Models\CheckoutProduct;
 use App\Models\CheckoutProductsVariant;
+use App\Models\Order;
+use App\Models\User;
 
 
 
@@ -304,5 +305,18 @@ class CheckoutController extends Controller
 		$result = auth()->user()->deletePaymentMethod($id);
 
 		return $result;
+	}
+
+
+	// REVIEW --------------------------------------------------
+	public function continueReview()
+	{
+		$order = Order::createOrder();
+
+		if ($order == 0) {
+			return redirect('/checkout/addresses');
+		}
+
+		return redirect('/order-successful/' . $order->id);
 	}
 }

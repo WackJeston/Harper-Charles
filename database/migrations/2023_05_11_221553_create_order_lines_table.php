@@ -13,10 +13,11 @@ return new class extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('checkout_product_variants', function (Blueprint $table) {
+		Schema::create('order_lines', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('checkoutProductId')->constrained('checkout_products')->onUpdate('cascade')->onDelete('cascade');
-			$table->foreignId('variantId')->constrained('product_variants')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreignId('orderId')->constrained('orders')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreignId('productId')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
+			$table->integer('quantity')->default('0');
 			$table->timestamps();
 		});
 	}
@@ -28,6 +29,6 @@ return new class extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('checkout_product_variants');
+		Schema::dropIfExists('order_lines');
 	}
 };

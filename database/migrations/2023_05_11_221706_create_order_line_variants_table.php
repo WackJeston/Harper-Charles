@@ -13,9 +13,9 @@ return new class extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('checkout_product_variants', function (Blueprint $table) {
+		Schema::create('order_line_variants', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('checkoutProductId')->constrained('checkout_products')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreignId('orderLineId')->constrained('order_lines')->onUpdate('cascade')->onDelete('cascade');
 			$table->foreignId('variantId')->constrained('product_variants')->onUpdate('cascade')->onDelete('cascade');
 			$table->timestamps();
 		});
@@ -28,6 +28,6 @@ return new class extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('checkout_product_variants');
+		Schema::dropIfExists('order_line_variants');
 	}
 };
