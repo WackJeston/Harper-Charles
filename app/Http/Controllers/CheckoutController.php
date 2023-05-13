@@ -73,7 +73,7 @@ class CheckoutController extends Controller
 
 				$paymentMethods = [];
 
-				foreach (auth()->user()->paymentMethods() as $i => $method) {
+				foreach ($sessionUser->paymentMethods() as $i => $method) {
 					$paymentMethods[$i] = [
 						'id' => $method->id,
 						'brand' => ucfirst($method->card->brand),
@@ -94,11 +94,16 @@ class CheckoutController extends Controller
 
 				$billingAddress = $billingAddress[0];
 
+				// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
+				// $payment = $sessionUser->pay(1);
+				// $clientSecret = $payment->client_secret;
+
 				return view('public/checkout', compact(
 					'sessionUser',
 					'action',
 					'billingAddress',
 					'paymentMethods',
+					// 'clientSecret',
 				));
 				break;
 
@@ -176,7 +181,7 @@ class CheckoutController extends Controller
 					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
 					'postcode' => $method->billing_details->address->postal_code,
 				];
-
+				
 				return view('public/checkout', compact(
 					'sessionUser',
 					'action',

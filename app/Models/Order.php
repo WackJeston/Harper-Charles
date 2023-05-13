@@ -39,8 +39,6 @@ class Order extends Model
 			$checkout->paymentMethodId,
 		);
 
-		dd($transaction);
-
 		$order = Self::create([
 			'userId' => $checkout->userId,
 			'deliveryAddressId' => $checkout->deliveryAddressId,

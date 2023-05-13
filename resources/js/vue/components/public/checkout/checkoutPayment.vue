@@ -46,11 +46,24 @@
 				<div id="card-element" class="stripe-input"
 				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
-				<!-- <button id="card-button" data-secret="{{ $intent->client_secret }}"> -->
 				<button id="card-button" class="submit" type="submit">
 					Add Payment Method
 				</button>
 			</form>
+			
+			<!-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) -->
+			<!-- <form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form"
+			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '300px' } : { maxHeight: '0px' }]">
+				<input type="hidden" name="_token" :value="csrf"> -->
+
+				<!-- Stripe Elements Placeholder -->
+				<!-- <div id="payment-element" class="stripe-input"
+				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
+
+				<button id="payment-button" class="submit" type="submit">
+					Add Payment Method
+				</button>
+			</form> -->
 		</div>
 	</div>
 		
@@ -71,6 +84,7 @@ export default {
 		'stripeid',
 		'billingaddress',
 		'paymentmethods',
+		'clientsecret',
 	],
 
 	data() {
@@ -83,16 +97,29 @@ export default {
 	},
 
 	mounted() {
-		console.log(this.billingaddress);
-
 		this.stripe = Stripe(this.stripekey);
-
 		this.elements = this.stripe.elements();
-		this.cardElement = this.elements.create('card');
+		this.cardElement = this.elements.create('payment');
 
 		this.cardElement.mount('#card-element');
 
 		this.cardHolderName = document.getElementById('card-holder-name');
+
+		// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
+		// this.options = {
+		// 	mode: 'payment',
+		// 	clientSecret: this.clientsecret,
+		// 	currency: 'gbp',
+		// 	// Fully customizable with appearance API.
+		// 	// appearance: {/*...*/},
+		// };
+
+		// // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
+		// this.elements = this.stripe.elements(this.options);
+
+		// // Create and mount the Payment Element
+		// this.paymentElement = elements.create('payment');
+		// paymentElement.mount('#payment-element');
 	},
 
 	methods: {

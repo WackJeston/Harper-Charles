@@ -62,6 +62,8 @@
 						:stripeid="{{ $sessionUser->stripe_id }}"
 						:billingaddress="{{ json_encode($billingAddress) }}"
 						:paymentmethods="{{ json_encode($paymentMethods) }}"
+						{{-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) --}}
+						{{-- :clientsecret="{{ json_encode($clientSecret) }}" --}}
 					/>
 				</div>
 
