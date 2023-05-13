@@ -99,7 +99,7 @@ export default {
 	mounted() {
 		this.stripe = Stripe(this.stripekey);
 		this.elements = this.stripe.elements();
-		this.cardElement = this.elements.create('payment');
+		this.cardElement = this.elements.create('card');
 
 		this.cardElement.mount('#card-element');
 
@@ -235,6 +235,7 @@ export default {
 				console.log(err);
 			} finally {
 				console.log('----SUCCESS----');
+				console.log(this.result);
 
 				this.brand = this.result.data.card.brand;
 				this.brandFirstLetter = this.brand.charAt(0).toUpperCase();

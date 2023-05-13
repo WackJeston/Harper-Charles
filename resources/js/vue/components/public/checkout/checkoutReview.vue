@@ -78,7 +78,7 @@
 
 	<div class="checkout-button-container">
 		<span>{{ checkout.count }} Items | Total: £{{ checkout.total }}</span>
-		<a href="/checkoutContinueReview" id="continue" class="page-button padding">
+		<a :href="'/checkoutContinueReview/' + this.checkout.userId" id="continue" class="page-button padding">
 			Pay Now
 			<i class="fa-solid fa-angles-right"></i>
 		</a>
@@ -101,7 +101,7 @@ export default {
 	},
 
 	mounted() {
-		
+		console.log(this.checkout);
 	},
 
 	methods: {

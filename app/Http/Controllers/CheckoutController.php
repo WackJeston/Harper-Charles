@@ -120,6 +120,7 @@ class CheckoutController extends Controller
 
 				$checkout = DB::select('SELECT 
 					c.id,
+					c.userId,
 					SUM(cp.quantity) AS `count`,
 					SUM(p.price * cp.quantity) AS `total`
 					FROM checkout AS c
@@ -181,7 +182,7 @@ class CheckoutController extends Controller
 					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
 					'postcode' => $method->billing_details->address->postal_code,
 				];
-				
+
 				return view('public/checkout', compact(
 					'sessionUser',
 					'action',
@@ -314,9 +315,9 @@ class CheckoutController extends Controller
 
 
 	// REVIEW --------------------------------------------------
-	public function continueReview()
+	public function continueReview(int $userId = 0)
 	{
-		$order = Order::createOrder();
+		$order = Order::createOrder($userId);
 
 		if ($order == 0) {
 			return redirect('/checkout/addresses');

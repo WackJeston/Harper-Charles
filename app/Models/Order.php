@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Cashier\Exceptions\IncompletePayment;
 
 class Order extends Model
 {
@@ -18,7 +19,7 @@ class Order extends Model
 		'status',
 	];
 
-	public static function createOrder(int $userId = 0) :int {
+	public static function createOrder(int $userId = 0) {
 		if ($userId == 0) {
 			$user = auth()->user();
 		} else {
@@ -34,38 +35,53 @@ class Order extends Model
 		Checkout::calculateTotal($checkoutId->id);
 		$checkout = Checkout::where('userId', $user->id)->first();
 
-		$transaction = $user->charge(
-			$checkout->total * 100,
-			$checkout->paymentMethodId,
-		);
-
-		$order = Self::create([
-			'userId' => $checkout->userId,
-			'deliveryAddressId' => $checkout->deliveryAddressId,
-			'billingAddressId' => $checkout->billingAddressId,
-			'paymentMethodId' => $checkout->paymentMethodId,
-			'total' => $checkout->total,
-		]);
-
-		$checkoutProducts = CheckoutProduct::where('checkoutId', $checkout->id)->get();
-
-		foreach ($checkoutProducts as $i => $product) {
-			$orderLine = OrderLine::create([
-				'orderId' => $order->id,
-				'productId' => $product->productId,
-				'quantity' => $product->quantity,
-			]);
-
-			$checkoutVariants = CheckoutProductVariant::where('checkoutProductId', $product->id)->get();
-
-			foreach ($cartVariants as $i2 => $variant) {
-				OrderLineVariant::create([
-					'orderLineId' => $orderLine->id,
-					'variantId' => $variant->variantId,
-				]);
+		if (!$user->hasIncompletePayment($checkout->paymentMethodId)) {
+			try {
+				$paymentCharge = $user->charge(
+					$checkout->total * 100, 
+					$checkout->paymentMethodId,
+				);
+			} catch (IncompletePayment $exception) {
+				return redirect()->route(
+					'cashier.payment',
+					[$exception->payment->id, 'redirect' => '/checkoutContinueReview/' . $user->id]
+				);
 			}
+	
+			// $transaction = $user->charge(
+			// 	$checkout->total * 100,
+			// 	$checkout->paymentMethodId,
+			// );
+		
+		} else {
+			$order = Self::create([
+				'userId' => $checkout->userId,
+				'deliveryAddressId' => $checkout->deliveryAddressId,
+				'billingAddressId' => $checkout->billingAddressId,
+				'paymentMethodId' => $checkout->paymentMethodId,
+				'total' => $checkout->total,
+			]);
+	
+			$checkoutProducts = CheckoutProduct::where('checkoutId', $checkout->id)->get();
+	
+			foreach ($checkoutProducts as $i => $product) {
+				$orderLine = OrderLine::create([
+					'orderId' => $order->id,
+					'productId' => $product->productId,
+					'quantity' => $product->quantity,
+				]);
+	
+				$checkoutVariants = CheckoutProductVariant::where('checkoutProductId', $product->id)->get();
+	
+				foreach ($checkoutVariants as $i2 => $variant) {
+					OrderLineVariant::create([
+						'orderLineId' => $orderLine->id,
+						'variantId' => $variant->variantId,
+					]);
+				}
+			}
+	
+			return $order->id;
 		}
-
-		return $order->id;
 	}
 }
