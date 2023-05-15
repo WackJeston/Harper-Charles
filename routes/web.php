@@ -77,6 +77,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::post('/checkoutAddPaymentMethod/{id}', 'addPaymentMethod');
 		Route::post('/checkoutDeletePaymentMethod/{id}', 'deletePaymentMethod');
 		Route::get('/checkoutContinueReview/{userId}', 'continueReview');
+		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
 

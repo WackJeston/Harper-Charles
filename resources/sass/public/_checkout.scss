@@ -119,6 +119,11 @@
 	margin-right: 15px;
 }
 
+.checkout-section .stripe-element {
+	// display: flex;
+	padding: 5px 5px 10px 5px;
+}
+
 .checkout-section .saved-records-container {
 	display: flex;
 	flex-direction: row;

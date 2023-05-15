@@ -5,7 +5,7 @@
 @section('content')
   <main class="auth" id="checkout-page">
 
-    <h1 class="title dk" id="deliveryMarker">Checkout</h1>
+		<h1 id="deliveryMarker">Checkout</h1>
 
     @if ($errors->any())
       <div id="publicerror" class="lt">
@@ -63,7 +63,8 @@
 						:billingaddress="{{ json_encode($billingAddress) }}"
 						:paymentmethods="{{ json_encode($paymentMethods) }}"
 						{{-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) --}}
-						{{-- :clientsecret="{{ json_encode($clientSecret) }}" --}}
+						:clientsecret="{{ $clientSecret }}"
+						:total="{{ $total }}"
 					/>
 				</div>
 
@@ -92,7 +93,7 @@
 					/>
 				</div>
 				
-				@break						
+				@break
 		@endswitch
 
 

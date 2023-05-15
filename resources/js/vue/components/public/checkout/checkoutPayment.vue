@@ -2,7 +2,7 @@
 	<div class="web-box" id="paymentMarker">
 		<h3 id="checkout-header">
 			<i class="fa-solid fa-wallet"></i>
-			Payment Methods
+			Payment Method
 			<p></p>
 		</h3>
 
@@ -38,32 +38,32 @@
 				Add Payment Method
 			</button>
 
-			<form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data"
+			<!-- <form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data"
 			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '300px' } : { maxHeight: '0px' }]">
-				<input type="hidden" name="_token" :value="csrf">
+				<input type="hidden" name="_token" :value="csrf"> -->
 
 				<!-- Stripe Elements Placeholder -->
-				<div id="card-element" class="stripe-input"
+				<!-- <div id="card-element" class="stripe-input"
 				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
 				<button id="card-button" class="submit" type="submit">
 					Add Payment Method
 				</button>
-			</form>
+			</form> -->
 			
 			<!-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) -->
-			<!-- <form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form"
-			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '300px' } : { maxHeight: '0px' }]">
-				<input type="hidden" name="_token" :value="csrf"> -->
+			<form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form"
+			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '800px' } : { maxHeight: '0px' }]">
+				<input type="hidden" name="_token" :value="csrf">
 
 				<!-- Stripe Elements Placeholder -->
-				<!-- <div id="payment-element" class="stripe-input"
+				<div id="payment-element" class="stripe-element"
 				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
 				<button id="payment-button" class="submit" type="submit">
 					Add Payment Method
 				</button>
-			</form> -->
+			</form>
 		</div>
 	</div>
 		
@@ -85,6 +85,7 @@ export default {
 		'billingaddress',
 		'paymentmethods',
 		'clientsecret',
+		'total',
 	],
 
 	data() {
@@ -98,28 +99,30 @@ export default {
 
 	mounted() {
 		this.stripe = Stripe(this.stripekey);
-		this.elements = this.stripe.elements();
-		this.cardElement = this.elements.create('card');
+		// this.elements = this.stripe.elements();
 
-		this.cardElement.mount('#card-element');
+		// this.cardElement = this.elements.create('card');
 
-		this.cardHolderName = document.getElementById('card-holder-name');
+		// this.cardElement.mount('#card-element');
+
+		// this.cardHolderName = document.getElementById('card-holder-name');
 
 		// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
-		// this.options = {
-		// 	mode: 'payment',
-		// 	clientSecret: this.clientsecret,
-		// 	currency: 'gbp',
-		// 	// Fully customizable with appearance API.
-		// 	// appearance: {/*...*/},
-		// };
+		this.options = {
+			mode: 'payment',
+			clientSecret: this.clientsecret,
+			currency: 'gbp',
+			amount: this.total * 100,
+			// Fully customizable with appearance API.
+			// appearance: {/*...*/},
+		};
 
-		// // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
-		// this.elements = this.stripe.elements(this.options);
+		// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
+		this.elements = this.stripe.elements(this.options);
 
-		// // Create and mount the Payment Element
-		// this.paymentElement = elements.create('payment');
-		// paymentElement.mount('#payment-element');
+		// Create and mount the Payment Element
+		this.paymentElement = this.elements.create('payment');
+		this.paymentElement.mount('#payment-element');
 	},
 
 	methods: {
@@ -200,7 +203,7 @@ export default {
 		async addPaymentMethod() {
 			try {
 				this.result = await this.stripe.createPaymentMethod(
-					'card', this.cardElement, {
+					'payment', this.paymentElement, {
 					billing_details: {
 						address: {
 							city: this.billingaddress.city,
@@ -220,6 +223,7 @@ export default {
 				console.log('----ERROR----');
 				console.log(err);
 			} finally {
+				console.log('Result: ' + this.result);
 				this.addPaymentMethod2(this.result.paymentMethod.id);
 			}
 		},

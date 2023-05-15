@@ -82,6 +82,20 @@
         @yield('content')
       </div>
 
+		@elseif (str_contains(url()->current(), '/checkout'))
+			<div class="page-container">
+				<header id="checkout-header" class="lt">
+					<nav class="desktop-nav">
+						<a href="/" class="title">
+							<h2 id="header-title">{{ env('APP_NAME') }}</h2>
+							<h2 id="header-title-mini">{{ env('APP_NAME_MINI') }}</h2>
+						</a>
+					</nav>
+				</header>
+
+				@yield('content')
+			</div>
+
     @else
       <div id="vuemenu">
         <vuemenu
@@ -92,7 +106,7 @@
         />
       </div>
 
-      <div class="page-container lt">
+      <div class="page-container">
         <div id="vueheader">
           <vueheader
             sitetitle="{{ env('APP_NAME') }}"

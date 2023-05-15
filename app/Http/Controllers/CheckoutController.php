@@ -95,15 +95,20 @@ class CheckoutController extends Controller
 				$billingAddress = $billingAddress[0];
 
 				// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
-				// $payment = $sessionUser->pay(1);
-				// $clientSecret = $payment->client_secret;
+				$payment = $sessionUser->pay(
+					$checkout->total * 100
+				);
+				$clientSecret = $payment->client_secret;
+
+				$total = $checkout->total;
 
 				return view('public/checkout', compact(
 					'sessionUser',
 					'action',
 					'billingAddress',
 					'paymentMethods',
-					// 'clientSecret',
+					'clientSecret',
+					'total',
 				));
 				break;
 
@@ -317,12 +322,21 @@ class CheckoutController extends Controller
 	// REVIEW --------------------------------------------------
 	public function continueReview(int $userId = 0)
 	{
-		$order = Order::createOrder($userId);
+		$orderId = Order::createOrder($userId);
 
-		if ($order == 0) {
-			return redirect('/checkout/addresses');
+		if ($orderId == 0) {
+			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
 
-		return redirect('/order-successful/' . $order->id);
+		return redirect('/order-successful/' . $orderId);
+	}
+
+	public function orderSuccessful()
+	{
+		$sessionUser = auth()->user();
+
+		return view('public/order-successful', compact(
+			'sessionUser',
+		));
 	}
 }

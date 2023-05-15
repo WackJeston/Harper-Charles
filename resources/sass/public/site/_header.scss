@@ -45,9 +45,18 @@ header .desktop-nav {
 	justify-content: flex-end;
 	padding: 0 0 0 20px;
 	height: 100%;
-	background-color: v.$header;
 	position: relative;
 	z-index: 5;
+}
+
+header .desktop-nav:not(#checkout-page) {
+	background-color: v.$header;
+}
+
+header#checkout-header .desktop-nav {
+	background-color: v.$brand-alt-dark;
+	// color: v.$white;
+	// border-bottom: 1px solid v.$brand-alt-light;
 }
 
 .desktop-nav #nav-menu-button {
