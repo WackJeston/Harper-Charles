@@ -4,6 +4,36 @@
 	margin: v.$header-height 20px 20px 20px;
 }
 
+#checkout-page .checkout-title {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 800px;
+	margin: 40px auto 20px auto;
+}
+
+#checkout-page .checkout-title h1,
+#checkout-page .checkout-title p {
+	text-align: center;
+	color: v.$almost-black;
+	margin: 0 0 2px 0;
+}
+
+#checkout-page .checkout-title h1 {
+	@media (min-width: 700px) {
+		font-size: 2rem;
+	}
+
+	@media (min-width: 500px) and (max-width: 700px) {
+		font-size: 1.8rem;
+	}
+
+	@media (max-width: 500px) {
+		font-size: 1.6rem;
+	}
+}
+
 #checkout-timeline {
 	display: flex;
 	flex-direction: row;
@@ -61,28 +91,45 @@
 
 .checkout-section h3 {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	margin: 0;
-	padding-left: 20px;
+	padding: 0 20px;
 	width: 100%;
-	height: 60px;
+	min-height: 60px;
+	max-height: 200px;
 	background-color: v.$brand-alt-dark;
 	color: v.$white;
 }
 
 .checkout-section h3 i {
 	color: v.$white;
-	margin-right: 10px;
+	margin: 20px 10px 20px 0;
 	font-size: 1.2rem;
 }
 
 .checkout-section h3 p {
 	display: flex;
-	margin: 0 20px 0 auto;
 	font-size: 1rem;
 	font-weight: 400;
 	color: v.$white;
 	text-transform: capitalize;
+	padding-left: 20px;
+}
+
+.checkout-section h3 p:not(#checkoutreview h3 p) {
+	@media (min-width: 600px) {
+		margin: 10px 0 10px auto;
+	}
+
+	@media (max-width: 600px) {
+		margin: 0 0 10px 0;
+	}
+}
+
+#checkoutreview h3 p {
+	margin: 10px 0 10px auto;
+	padding-left: 20px;
 }
 
 .checkout-section button.record-toggle {
@@ -157,9 +204,7 @@
 }
 
 .checkout-section .saved-record:hover,
-.checkout-section .saved-record:hover i:not(.fa-star, .saved-record h4 i),
-.checkout-section .selected-record,
-.checkout-section .selected-record i:not(.fa-star, .saved-record h4 i) {
+.checkout-section .selected-record {
 	background-color: v.$brand-alt-dark;
 }
 
@@ -171,27 +216,52 @@
 	color: v.$white;
 }
 
-.checkout-section .saved-record i:not(.fa-star, .saved-record h4 i, .fa-brands) {
+.checkout-section .selected-record .fa-circle-check {
 	position: absolute;
 	right: 1px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.checkout-section .selected-record .fa-circle-check {
 	bottom: 1px;
 	color: v.$pale-green;
 	padding: 9px;
+	background-color: v.$brand-alt-dark;
 }
 
-.checkout-section .saved-record .fa-square-xmark {
-	top: 1px;
-	padding: 9px 9px 5px 9px;
+.checkout-section .saved-record .record-buttons {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	right: 0;
+	padding: 9px 9px;
+	border-radius: 5px;
 }
 
-.checkout-section .saved-record .fa-square {
-	top: 35px;
-	padding: 5px 9px 9px 9px;
+.checkout-section .saved-record .record-buttons:not(#checkoutreview) {
+	top: 0;
+}
+
+#checkoutreview .saved-record .record-buttons {
+	bottom: 0;
+}
+
+.checkout-section .selected-record .record-buttons,
+.checkout-section .saved-record:hover .record-buttons {
+	background-color: v.$brand-alt-dark;
+}
+
+.checkout-section .saved-record .record-buttons:not(.selected-record .record-buttons, .saved-record:hover .record-buttons) {
+	background-color: v.$brand-alt-light;
+}
+
+.checkout-section .saved-record .record-buttons i:not(.fa-square i) {
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 0;
+}
+
+.checkout-section .saved-record .record-buttons i:not(.fa-square i, :last-child) {
+	padding: 0 0 5px 0;
+}
+
+.checkout-section .saved-record .record-buttons .fa-square {
 	align-items: center;
 }
 
@@ -201,20 +271,20 @@
 	color: v.$white;
 }
 
-.checkout-section .saved-record:not(.selected-record, :hover) .fa-square-xmark,
-.checkout-section .saved-record:not(.selected-record, :hover) .fa-square {
-	background-color: v.$brand-alt-light;
-}
-
 .checkout-section .saved-record .fa-square-xmark:hover {
 	color: v.$pale-red;
 }
 
-.checkout-section .saved-record .fa-square:hover {
+#checkoutaddresses .saved-record .fa-square:hover {
 	color: v.$pale-green;
 }
 
-.checkout-section .fa-square .fa-star {
+#checkoutreview .saved-record .fa-square:hover {
+	color: v.$brand-alt-light;
+}
+
+.checkout-section .fa-square .fa-star,
+.checkout-section .fa-square .fa-pencil {
 	font-size: 0.8rem;
 	line-height: 0;
 	width: 0;
@@ -227,7 +297,8 @@
 }
 
 .checkout-section .selected-record .fa-square .fa-star:not(.star-selected),
-.checkout-section .saved-record:hover .fa-square .fa-star:not(.star-selected) {
+.checkout-section .saved-record:hover .fa-square .fa-star:not(.star-selected),
+.checkout-section .fa-square .fa-pencil {
 	color: v.$brand-alt-dark;
 }
 
@@ -267,7 +338,7 @@
 	display: flex;
 }
 
-.checkout-section .saved-record h4 {
+.checkout-section .saved-record .saved-record-label {
 	display: flex;
 	align-items: center;
 	margin: 0 0 0 5px;

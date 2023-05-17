@@ -1,6 +1,6 @@
 <template>
 	<div class="web-box" id="paymentMarker">
-		<h3 id="checkout-header">
+		<h3 class="checkout-header">
 			<i class="fa-solid fa-wallet"></i>
 			Payment Method
 			<p></p>
@@ -23,11 +23,14 @@
 					<li>{{ method.last4 }}</li>
 					<li>{{ method.exp }}</li>
 					<li>{{ method.postcode }}</li>
-					<i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
-						<div class="popup-label-container">
-							<span class="popup-label">Delete method</span>
-						</div>
-					</i>
+					<div class="record-buttons">
+						<i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
+							<div class="popup-label-container">
+								<span class="popup-label">Delete method</span>
+							</div>
+						</i>
+					</div>
+						
 					<i v-if="method.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
 				</ul>
 			</div>
@@ -37,21 +40,7 @@
 				<i v-else class="fa-solid fa-angle-down"></i>
 				Add Payment Method
 			</button>
-
-			<!-- <form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data"
-			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '300px' } : { maxHeight: '0px' }]">
-				<input type="hidden" name="_token" :value="csrf"> -->
-
-				<!-- Stripe Elements Placeholder -->
-				<!-- <div id="card-element" class="stripe-input"
-				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
-
-				<button id="card-button" class="submit" type="submit">
-					Add Payment Method
-				</button>
-			</form> -->
 			
-			<!-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) -->
 			<form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form"
 			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '800px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
@@ -61,7 +50,7 @@
 				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
 				<button id="payment-button" class="submit" type="submit">
-					Add Payment Method
+					Save
 				</button>
 			</form>
 		</div>
@@ -125,8 +114,8 @@ export default {
 		},
 
 		errorMessage(toggle = true) {
-			let header = document.querySelector('#checkout-header');
-			let errorMessage = document.querySelector('#checkout-header p');
+			let header = document.querySelector('.checkout-header');
+			let errorMessage = document.querySelector('.checkout-header p');
 
 			if (toggle == true) {
 				window.location.href = '#paymentMarker';

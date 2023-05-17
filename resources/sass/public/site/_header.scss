@@ -43,7 +43,6 @@ header .desktop-nav {
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-end;
-	padding: 0 0 0 20px;
 	height: 100%;
 	position: relative;
 	z-index: 5;
@@ -51,12 +50,19 @@ header .desktop-nav {
 
 header .desktop-nav:not(#checkout-page) {
 	background-color: v.$header;
+	padding: 0 0 0 20px;
 }
 
 header#checkout-header .desktop-nav {
 	background-color: v.$brand-alt-dark;
-	// color: v.$white;
-	// border-bottom: 1px solid v.$brand-alt-light;
+	padding: 0 20px;
+}
+
+header#checkout-header .desktop-nav .title {
+	// justify-content: center;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .desktop-nav #nav-menu-button {

@@ -5,7 +5,20 @@
 @section('content')
   <main class="auth" id="checkout-page">
 
-		<h1 id="deliveryMarker">Checkout</h1>
+		<div id="deliveryMarker" class="checkout-title">
+			<h1>Checkout {{ $action }}</h1>
+			@switch($action)
+				@case('addresses')
+					<p>Please select a delivery address and a billing address.</p>
+					@break
+				@case('payment')
+					<p>Please select a payment method.</p>
+					@break
+				@case('review')
+					<p>Please review your details before completing your order.</p>
+					@break
+			@endswitch
+		</div>
 
     @if ($errors->any())
       <div id="publicerror" class="lt">
@@ -62,7 +75,6 @@
 						:stripeid="{{ $sessionUser->stripe_id }}"
 						:billingaddress="{{ json_encode($billingAddress) }}"
 						:paymentmethods="{{ json_encode($paymentMethods) }}"
-						{{-- STRIPE PAYMENT ELEMENT (Needs Domain Confirmation) --}}
 						:clientsecret="{{ $clientSecret }}"
 						:total="{{ $total }}"
 					/>

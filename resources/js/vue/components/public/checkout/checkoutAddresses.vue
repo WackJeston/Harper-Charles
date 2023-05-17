@@ -19,17 +19,19 @@
 						<li>{{ address.postCode }}</li>
 						<li>{{ address.phone }}</li>
 						<li>{{ address.email }}</li>
-						<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
-							<div class="popup-label-container">
-								<span class="popup-label">Delete Address</span>
-							</div>
-						</i>
-						<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
-							<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
-							<div class="popup-label-container">
-								<span class="popup-label">Make Default</span>
-							</div>
-						</i>
+						<div class="record-buttons">
+							<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
+								<div class="popup-label-container">
+									<span class="popup-label">Delete Address</span>
+								</div>
+							</i>
+							<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
+								<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
+								<div class="popup-label-container">
+									<span class="popup-label">Make Default</span>
+								</div>
+							</i>
+						</div>
 						<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
 					</ul>
 				</div>
@@ -144,17 +146,19 @@
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
 					<li>{{ address.email }}</li>
-					<i @click.stop="this.deleteAddress('billing', address.id)" class="fa-solid fa-square-xmark popup-label-button">
-						<div class="popup-label-container">
-							<span class="popup-label">Delete Address</span>
-						</div>
-					</i>
-					<i @click.stop="this.defaultAddress('billing', address.id)" class="fa-solid fa-square popup-label-button">
-						<i class="fa-solid fa-star" :class="[address.defaultBilling == 1 ? 'star-selected' : '']"></i>
-						<div class="popup-label-container">
-							<span class="popup-label">Make Default</span>
-						</div>
-					</i>
+					<div class="record-buttons">
+						<i @click.stop="this.deleteAddress('billing', address.id)" class="fa-solid fa-square-xmark popup-label-button">
+							<div class="popup-label-container">
+								<span class="popup-label">Delete Address</span>
+							</div>
+						</i>
+						<i @click.stop="this.defaultAddress('billing', address.id)" class="fa-solid fa-square popup-label-button">
+							<i class="fa-solid fa-star" :class="[address.defaultBilling == 1 ? 'star-selected' : '']"></i>
+							<div class="popup-label-container">
+								<span class="popup-label">Make Default</span>
+							</div>
+						</i>
+					</div>
 					<i v-if="address.defaultBilling == 1" class="fa-regular fa-circle-check"></i>
 				</ul>
 			</div>

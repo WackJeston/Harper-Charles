@@ -1,6 +1,6 @@
 <template>
 	<div class="web-box">
-		<h3 id="checkout-header">
+		<h3 class="checkout-header">
 			<i class="fa-solid fa-cube"></i>
 			Items
 			<p>{{ checkout.count }} Items | Total: £{{ checkout.total }}</p>
@@ -22,12 +22,6 @@
 						<a :href="'/product-page/' + product.id" class="record-image"
 						:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
 					</li>
-
-					<!-- <i @click.stop="this.deletePaymentMethod(method.id)" class="fa-solid fa-square-xmark popup-label-button">
-						<div class="popup-label-container">
-							<span class="popup-label">Delete method</span>
-						</div>
-					</i> -->
 				</ul>
 			</div>
 		</div>
@@ -54,6 +48,16 @@
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
 					<li>{{ address.email }}</li>
+					<div class="record-buttons">
+						<a href="/checkout/addresses">
+							<i class="fa-solid fa-square popup-label-button">
+								<i class="fa-solid fa-pencil"></i>
+								<div class="popup-label-container">
+									<span class="popup-label">Change Address</span>
+								</div>
+							</i>
+						</a>
+					</div>
 				</ul>
 
 				<!-- Payment Mathod -->
@@ -71,6 +75,16 @@
 					<li>{{ this.paymentmethod.last4 }}</li>
 					<li>{{ this.paymentmethod.exp }}</li>
 					<li>{{ this.paymentmethod.postcode }}</li>
+					<div class="record-buttons">
+						<a href="/checkout/payment">
+							<i class="fa-solid fa-square popup-label-button">
+								<i class="fa-solid fa-pencil"></i>
+								<div class="popup-label-container">
+									<span class="popup-label">Change Payment Method</span>
+								</div>
+							</i>
+						</a>
+					</div>
 				</ul>
 			</div>
 		</div>
