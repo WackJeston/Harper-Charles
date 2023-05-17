@@ -99,15 +99,7 @@ export default {
 
 	mounted() {
 		this.stripe = Stripe(this.stripekey);
-		// this.elements = this.stripe.elements();
 
-		// this.cardElement = this.elements.create('card');
-
-		// this.cardElement.mount('#card-element');
-
-		// this.cardHolderName = document.getElementById('card-holder-name');
-
-		// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
 		this.options = {
 			mode: 'payment',
 			clientSecret: this.clientsecret,
@@ -117,10 +109,8 @@ export default {
 			// appearance: {/*...*/},
 		};
 
-		// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
 		this.elements = this.stripe.elements(this.options);
 
-		// Create and mount the Payment Element
 		this.paymentElement = this.elements.create('payment');
 		this.paymentElement.mount('#payment-element');
 	},
