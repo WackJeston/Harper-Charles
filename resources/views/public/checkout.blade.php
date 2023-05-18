@@ -3,9 +3,9 @@
 @section('title', 'Checkout')
 
 @section('content')
-  <main class="auth" id="checkout-page">
+  <main id="checkout-page">
 
-		<div id="deliveryMarker" class="checkout-title">
+		<div id="deliveryMarker" class="checkout-title section-width">
 			<h1>Checkout {{ $action }}</h1>
 			@switch($action)
 				@case('addresses')
@@ -21,13 +21,13 @@
 		</div>
 
     @if ($errors->any())
-      <div id="publicerror" class="lt">
+      <div id="publicerror" class="lt section-width">
         <publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
     @if (session()->has('success') || session()->has('info'))
-      <div id="publicalert" class="lt">
+      <div id="publicalert" class="lt section-width">
         <publicalert 
 				message="{{ session()->has('success') ? session()->get('success') : session()->get('info') }}"
 				type="{{ session()->has('success') ? 'success' : 'info' }}"
@@ -39,7 +39,7 @@
 
 		@switch($action)
 			@case('addresses')
-				<div id="checkout-timeline">
+				<div id="checkout-timeline" class="section-width">
 					<i class="fa-solid fa-circle"></i>
 					<div></div>
 					<i class="fa-regular fa-circle"></i>
@@ -59,7 +59,7 @@
 
 				@break
 			@case('payment')
-				<div id="checkout-timeline">
+				<div id="checkout-timeline" class="section-width">
 					<a href="/checkout/addresses">
 						<i class="fa-solid fa-circle-check"></i>
 					</a>
@@ -84,7 +84,7 @@
 				@break
 
 			@case('review')
-				<div id="checkout-timeline">
+				<div id="checkout-timeline" class="section-width">
 					<a href="/checkout/addresses">
 						<i class="fa-solid fa-circle-check"></i>
 					</a>

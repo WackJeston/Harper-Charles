@@ -331,12 +331,69 @@ class CheckoutController extends Controller
 		return redirect('/order-successful/' . $orderId);
 	}
 
-	public function orderSuccessful()
+	public function orderSuccessful($orderId)
 	{
 		$sessionUser = auth()->user();
 
+		dd($sessionUser->invoicesIncludingPending());
+
+		$order = DB::select('SELECT 
+			o.id,
+			o.userId,
+			SUM(ol.quantity) AS `count`,
+			SUM(p.price * ol.quantity) AS `total`
+			FROM orders AS o
+			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
+			LEFT JOIN products AS p ON p.id=ol.productId
+			WHERE o.id=?
+			GROUP BY o.id
+			LIMIT 1',
+			[$orderId]
+		);
+
+		$order = $order[0];
+
+		$products = DB::select('SELECT
+			p.id,
+			p.title,
+			pi.fileName
+			FROM orders AS o
+			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
+			LEFT JOIN products AS p ON p.id=ol.productId
+			LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
+			WHERE o.id=?
+			GROUP BY p.id',
+			[$orderId]
+		);
+
+		$address = DB::select('SELECT
+			a.id,
+			a.type,
+			CONCAT(a.firstName, " ", a.lastName) AS `name`,
+			a.company,
+			a.line1,
+			a.city,
+			a.region,
+			co.name AS country,
+			a.postCode,
+			a.phone,
+			a.email
+			FROM orders AS o
+			LEFT JOIN addresses AS a ON a.id=o.deliveryAddressId
+			INNER JOIN countries AS co ON co.code=a.country
+			WHERE o.id=?
+			GROUP BY a.id
+			LIMIT 1',
+			[$orderId]
+		);
+
+		$address = $address[0];
+
 		return view('public/order-successful', compact(
 			'sessionUser',
+			'order',
+			'products',
+			'address',
 		));
 	}
 }

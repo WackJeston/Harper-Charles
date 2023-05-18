@@ -3,9 +3,12 @@
 @section('title', 'Order Successful')
 
 @section('content')
-  <main class="dk" id="account">
+  <main class="dk order-successful" id="checkout-page">
 
-    <h1>Order Successful</h1>
+    <div id="deliveryMarker" class="checkout-title section-width">
+			<h1>Order Successful</h1>
+			<p>Thank you for choosing to order with us. We will keep you updated about your order by email.</p>
+		</div>
 
     @if ($errors->any())
       <div id="alerterror" class="lt"
@@ -19,8 +22,12 @@
       </div>
     @endif
 
-		<div class="web-box">
-			<p>Testing</p>
+		<div id="checkoutsuccess" class="dk checkout-section">
+			<checkoutsuccess 
+			:order="{{ json_encode($order) }}"
+			:products="{{ json_encode($products) }}"
+			:address="{{ json_encode($address) }}"
+			/>
 		</div>
 
   </main>

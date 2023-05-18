@@ -31,6 +31,7 @@ import Cartitems from './vue/components/public/cartItems.vue'
 import Checkoutaddresses from './vue/components/public/checkout/checkoutAddresses.vue'
 import Checkoutpayment from './vue/components/public/checkout/checkoutPayment.vue'
 import Checkoutreview from './vue/components/public/checkout/checkoutReview.vue'
+import Checkoutsuccess from './vue/components/public/checkout/checkoutSuccess.vue'
 
 import Products from './vue/components/public/products/products.vue'
 import Productpagemain from './vue/components/public/products/productPageMain.vue'
@@ -135,8 +136,10 @@ checkoutPayment.use(VueAxios, axios)
 checkoutPayment.component('checkoutpayment', Checkoutpayment).mount('#checkoutpayment')
 
 const checkoutReview = Vue.createApp({})
-checkoutReview.use(VueAxios, axios)
 checkoutReview.component('checkoutreview', Checkoutreview).mount('#checkoutreview')
+
+const checkoutSuccess = Vue.createApp({})
+checkoutSuccess.component('checkoutsuccess', Checkoutsuccess).mount('#checkoutsuccess')
 
 
 const contactMain = Vue.createApp({})

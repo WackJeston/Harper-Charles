@@ -21,6 +21,14 @@ body {
 	margin-right: 20px;
 }
 
+.section-width {
+	display: flex;
+	width: 100%;
+	max-width: 800px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 main {
 	margin-top: v.$header-height;
 	padding-bottom: 30px;
@@ -47,6 +55,8 @@ button {
 
 button.page-button,
 a.page-button {
+	display: flex;
+	align-items: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	background-color: v.$almost-black;
@@ -74,6 +84,11 @@ button.page-button i,
 a.page-button i {
 	font-size: 1.1rem;
 	color: v.$white;
+	margin-left: 5px;
+}
+
+.page-button .fa-angles-left {
+	margin-left: 0;
 	margin-right: 5px;
 }
 
@@ -186,7 +201,7 @@ button.pb-danger:hover {
 	display: none;
 	position: absolute;
 	right: 26px;
-	bottom: 0;
+	// bottom: 20%;
 	line-height: 10px;
 	white-space: nowrap;
 	background-color: v.$almost-black;
@@ -196,6 +211,14 @@ button.pb-danger:hover {
 	font-size: .6rem;
 	z-index: 4;
 	letter-spacing: 0.1rem;
+}
+
+.popup-label:not(.fa-square .popup-label-container .popup-label) {
+	bottom: 4px;
+}
+
+.fa-square .popup-label-container .popup-label {
+	bottom: -9px;
 }
 
 

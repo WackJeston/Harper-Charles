@@ -86,7 +86,7 @@
 			<div class="page-container">
 				<header id="checkout-header" class="lt">
 					<nav class="desktop-nav">
-						<a href="/" class="title">
+						<a href="/" class="title section-width">
 							<h2 id="header-title">{{ env('APP_NAME') }}</h2>
 							<h2 id="header-title-mini">{{ env('APP_NAME_MINI') }}</h2>
 						</a>

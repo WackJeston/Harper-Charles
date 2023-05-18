@@ -1,5 +1,5 @@
 <template>
-	<div class="web-box">
+	<div class="web-box section-width">
 		<h3 id="delivery-header">
 			<i class="fa-solid fa-house-chimney"></i>
 			Delivery Address
@@ -126,7 +126,7 @@
 			</div>
 		</div>
 
-		<div class="web-box">
+		<div class="web-box section-width">
 			<h3 id="billing-header">
 				<i class="fa-solid fa-house-chimney"></i>
 				Billing Address
@@ -253,7 +253,7 @@
 		</div>
 	</div>
 
-	<div class="checkout-button-container">
+	<div class="checkout-button-container section-width">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
 			Payment Method
 			<i class="fa-solid fa-angles-right"></i>

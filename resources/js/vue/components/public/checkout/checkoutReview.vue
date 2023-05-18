@@ -1,5 +1,5 @@
 <template>
-	<div class="web-box">
+	<div class="web-box section-width">
 		<h3 class="checkout-header">
 			<i class="fa-solid fa-cube"></i>
 			Items
@@ -27,7 +27,7 @@
 		</div>
 	</div>
 		
-	<div class="web-box">
+	<div class="web-box section-width">
 		<h3 id="checkout-header">
 			<i class="fa-solid fa-check-to-slot"></i>
 			Details
@@ -90,7 +90,7 @@
 		</div>
 	</div>
 
-	<div class="checkout-button-container">
+	<div class="checkout-button-container section-width">
 		<span>{{ checkout.count }} Items | Total: £{{ checkout.total }}</span>
 		<a :href="'/checkoutContinueReview/' + this.checkout.userId" id="continue" class="page-button padding">
 			Pay Now
@@ -107,19 +107,5 @@ export default {
 		'addresses',
 		'paymentmethod',
 	],
-
-	data() {
-		return {
-			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-		}
-	},
-
-	mounted() {
-		console.log(this.checkout);
-	},
-
-	methods: {
-		
-	}
 }
 </script>

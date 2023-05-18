@@ -1,5 +1,5 @@
 <template>
-	<div class="web-box" id="paymentMarker">
+	<div class="web-box section-width" id="paymentMarker">
 		<h3 class="checkout-header">
 			<i class="fa-solid fa-wallet"></i>
 			Payment Method
@@ -58,7 +58,7 @@
 		
 		
 
-	<div class="checkout-button-container">
+	<div class="checkout-button-container section-width">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
 			Review Order
 			<i class="fa-solid fa-angles-right"></i>

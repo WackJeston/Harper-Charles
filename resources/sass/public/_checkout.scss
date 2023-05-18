@@ -8,9 +8,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 100%;
-	max-width: 800px;
-	margin: 40px auto 20px auto;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 
 #checkout-page .checkout-title h1,
@@ -39,9 +38,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	width: 100%;
-	max-width: 800px;
-	margin: 0 auto 20px auto;
+	margin-bottom: 20px;
 }
 
 #checkout-timeline i {
@@ -56,12 +53,7 @@
 	border-radius: 2px;
 }
 
-#checkout-page .alert-box {
-	max-width: 800px;
-}
-
 #checkout-page .web-box {
-	max-width: 800px;
 	display: flex;
 	flex-direction: column;
 	padding: 0;
@@ -73,11 +65,17 @@
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-	max-width: 800px;
-	margin: 0 auto 0 auto;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
-#checkout-page .checkout-button-container .page-button {
+#checkout-page .checkout-button-container a,
+#checkout-page .checkout-button-container button {
+	height: 35px;
+}
+
+#checkout-page .checkout-button-container a:last-child,
+#checkout-page .checkout-button-container button:last-child {
 	margin-left: auto;
 }
 
@@ -167,7 +165,6 @@
 }
 
 .checkout-section .stripe-element {
-	// display: flex;
 	padding: 5px 5px 10px 5px;
 }
 
@@ -234,7 +231,7 @@
 	border-radius: 5px;
 }
 
-.checkout-section .saved-record .record-buttons:not(#checkoutreview) {
+.checkout-section .saved-record .record-buttons:not(#checkoutreview .saved-record .record-buttons) {
 	top: 0;
 }
 
@@ -413,6 +410,65 @@
 
 .checkout-section #continue i {
 	font-size: 1rem;
-	// color: v.$white;
-	margin: 0 0 0 10px;
+}
+
+
+// Order Successful
+.order-successful .order-details {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px;
+
+	@media (min-width: 600px) {
+		flex-direction: row;
+	}
+	
+	@media (max-width: 600px) {
+		flex-direction: column;
+	}
+}
+
+.order-successful .order-details #products,
+.order-successful .order-details #delivery-address {
+	display: flex;
+	width: 100%;
+	padding: 0;
+
+	@media (min-width: 600px) {
+		max-width: calc(50% - 10px);
+	}
+	
+	@media (max-width: 600px) {
+		max-width: 100%;
+	}
+}
+
+.order-successful .order-details #delivery-address {
+	flex-direction: column;
+
+	@media (max-width: 600px) {
+		align-items: center;
+		margin-bottom: 20px;
+	}
+}
+
+.order-successful .order-details #products {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 10px;
+
+	@media (max-width: 600px) {
+		justify-content: center;
+	}
+}
+
+.order-successful .order-details #products a {
+	display: flex;
+	width: 100px;
+	height: 100px;
+	margin: 0;
+	border-radius: 5px;
+	background-size: cover;
+	background-position: center;
 }
