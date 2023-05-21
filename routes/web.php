@@ -4,6 +4,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\AuthController;
 
+// SYSTEM
+use App\Http\Controllers\TestController;
+
 // PUBLIC
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
@@ -27,6 +30,12 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCategoryProfileController;
 use App\Http\Controllers\AdminVariantController;
 use App\Http\Controllers\AdminVariantProfileController;
+
+
+// SYSTEM -----------------------------------------------------------------------------------
+Route::controller(TestController::class)->group(function () {
+  Route::get('/test', 'show');
+});
 
 
 // PUBLIC -----------------------------------------------------------------------------------
@@ -183,3 +192,7 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/variant-profileShowOption/{id}/{optionId}/{toggle}', 'showOption');
   });
 });
+
+
+// TEMPLATES -----------------------------------------------------------------------------------
+Route::get('/template/invoice', fn () => view('templates/invoice'));

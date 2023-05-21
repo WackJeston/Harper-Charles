@@ -17,20 +17,16 @@ function uploadS3(string $fileName, string $body = '') {
   $aws = connectS3();
 
   if ($body != '') {
-    $aws->putObject([
-      'Bucket' => $_ENV['AWS_BUCKET'],
-      'Key' => 'assets/' . $fileName,
-      'body' => $body,
-    ]);
-  } else {
-    $aws->putObject([
-      'Bucket' => $_ENV['AWS_BUCKET'],
-      'Key' => 'assets/' . $fileName,
-      'SourceFile' => 'assets/' . $fileName,
-    ]);
-
-    File::delete(public_path() . "/assets/" . $fileName);
+		Storage::disk('local')->put($fileName, $body);
   }
+
+	$aws->putObject([
+		'Bucket' => $_ENV['AWS_BUCKET'],
+		'Key' => 'assets/' . $fileName,
+		'SourceFile' => 'assets/' . $fileName,
+	]);
+
+	File::delete(public_path() . "/assets/" . $fileName);
 }
 
 function deleteS3(string $fileName) {

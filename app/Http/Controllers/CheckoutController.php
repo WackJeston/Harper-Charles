@@ -9,6 +9,8 @@ use App\Models\CheckoutProductsVariant;
 use App\Models\Order;
 use App\Models\User;
 
+use App\Http\Api\InvoiceRenderer;
+
 
 
 class CheckoutController extends Controller
@@ -327,6 +329,8 @@ class CheckoutController extends Controller
 		if ($orderId == 0) {
 			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
+
+		// InvoiceRenderer::render();
 
 		return redirect('/order-successful/' . $orderId);
 	}

@@ -148,9 +148,29 @@ class AppServiceProvider extends ServiceProvider
           ];
         }
 
+				$contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
+
+				$contact = [
+					'email' => [],
+					'phone' => [],
+					'line2' => '',
+					'line3' => '',
+				];
+
+				foreach ($contactResult as $i => $row) {
+					if ($row->type == 'email') {
+						$contact['email'][] = $row->value;
+					} elseif ($row->type == 'phone') {
+						$contact['phone'][] = $row->value;
+					}	else {
+						$contact[$row->type] = $row->value;
+					}
+				}
+
         View::share([
           'publicLinks' => $publicLinks,
           'userLinks' => $userLinks,
+					'contact' => $contact,
         ]);
       }
     }
