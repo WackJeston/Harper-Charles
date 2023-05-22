@@ -23,56 +23,43 @@
 
 		<style>
 			header {
-				height: 60px;
-				/* background-color: red; */
+				height: 40px;
 			}
-
-			header h2:first-child {
+			header h2.title {
 				float: left;
 				margin: 0;
 			}
-
-			header h2:last-child {
+			header h2.brand {
 				float: right;
 				margin: 0;
+			}
+
+			footer {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+			}
+			footer span {
+				font-size: 0.6rem;
 			}
 		</style>
   </head>
 
   <body>
 		<header>
-			<h2>{{ env('APP_NAME') }}</h2>
 			@hasSection('title')
-			<h2>@yield('title')</h2>
+			<h2 class="title">@yield('title')</h2>
 			@endif
+
+			<h2 class="brand">Testing</h2>
+			{{-- <h2 class="brand">{{ env('APP_NAME') }}</h2> --}}
 		</header>
 
     @yield('content')
 
 		<footer>
-			<ul>
-				<li>{{ env('APP_URL') }}</li>
-				@foreach ($contact['email'] as $email)
-				<li>{{ $email }}</li>
-				@endforeach
-				@foreach ($contact['phone'] as $phone)
-				<li>{{ $phone }}</li>
-				@endforeach
-			</ul>
-
-			<ul>
-				<li>{{ $contact['line1'] }}</li>
-				@if ($contact['line2'] != '')
-					<li>{{ $contact['line2'] }}</li>
-				@endif
-				@if ($contact['line3'] != '')
-					<li>{{ $contact['line3'] }}</li>
-				@endif
-				<li>{{ $contact['city'] }}</li>
-				<li>{{ $contact['region'] }}</li>
-				<li>{{ $contact['country'] }}</li>
-				<li>{{ $contact['postcode'] }}</li>
-			</ul>
+			<span>{{ env('APP_NAME') }}</span><br>
+			<span>Comapny No: {{ env('COMPANY_NO') }}. Vat No: {{ env('COMPANY_VAT_NO') }}</span>
 		</footer>
   </body>
 </html>

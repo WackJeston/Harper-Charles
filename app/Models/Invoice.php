@@ -61,10 +61,12 @@ class Invoice extends Model
 			CONCAT(a.firstName, " ", a.lastName) AS `name`,
 			a.company,
 			a.line1,
+			a.line2,
+			a.line3,
 			a.city,
 			a.region,
 			co.name AS country,
-			a.postCode,
+			a.postcode,
 			a.phone,
 			a.email
 			FROM orders AS o
@@ -78,13 +80,37 @@ class Invoice extends Model
 
 		$billingAddress = $billingAddress[0];
 
+		$deliveryAddress = DB::select('SELECT
+			a.id,
+			a.type,
+			CONCAT(a.firstName, " ", a.lastName) AS `name`,
+			a.company,
+			a.line1,
+			a.line2,
+			a.line3,
+			a.city,
+			a.region,
+			co.name AS country,
+			a.postcode,
+			a.phone,
+			a.email
+			FROM orders AS o
+			LEFT JOIN addresses AS a ON a.id=o.deliveryAddressId
+			INNER JOIN countries AS co ON co.code=a.country
+			WHERE o.id=?
+			GROUP BY a.id
+			LIMIT 1',
+			[$orderId]
+		);
+
+		$deliveryAddress = $deliveryAddress[0];
+
 		$data = [
-			'brand' => env('APP_NAME'),
-			'brandMini' => env('APP_NAME_MINI'),
 			'date' => date('d/m/Y'),
 			'order' => $order,
 			'products' => $products,
 			'billingAddress' => $billingAddress,
+			'deliveryAddress' => $deliveryAddress,
 		];
 
 		$pdf = Pdf::loadView('templates/invoice', $data);
