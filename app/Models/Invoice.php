@@ -28,7 +28,8 @@ class Invoice extends Model
 			o.userId,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`,
 			SUM(ol.quantity) AS `count`,
-			SUM(p.price * ol.quantity) AS `total`
+			SUM(p.price * ol.quantity) AS `total`,
+			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
 			FROM orders AS o
 			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
 			LEFT JOIN products AS p ON p.id=ol.productId
@@ -45,7 +46,8 @@ class Invoice extends Model
 			p.id,
 			p.title,
 			p.price,
-			pi.fileName
+			pi.fileName,
+			ol.quantity
 			FROM orders AS o
 			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
 			LEFT JOIN products AS p ON p.id=ol.productId

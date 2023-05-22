@@ -51,8 +51,7 @@
 			<h2 class="title">@yield('title')</h2>
 			@endif
 
-			<h2 class="brand">Testing</h2>
-			{{-- <h2 class="brand">{{ env('APP_NAME') }}</h2> --}}
+			<h2 class="brand">{{ env('APP_NAME') }}</h2>
 		</header>
 
     @yield('content')
