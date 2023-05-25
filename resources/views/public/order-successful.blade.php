@@ -27,6 +27,7 @@
 			:order="{{ json_encode($order) }}"
 			:products="{{ json_encode($products) }}"
 			:address="{{ json_encode($address) }}"
+			:invoice="{{ json_encode($invoice) }}"
 			/>
 		</div>
 

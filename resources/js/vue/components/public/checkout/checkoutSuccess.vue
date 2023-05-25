@@ -4,10 +4,10 @@
 			<i class="fa-solid fa-angles-left"></i>
 			Return To Shop
 		</a>
-		<button class="page-button padding">
-			Download Invoice
+		<a :href="'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.invoice" target="_blank" class="page-button padding">
+			Invoice
 			<i class="fa-solid fa-file-invoice"></i>
-		</button>
+		</a>
 	</div>
 
 	<div class="web-box section-width">
@@ -44,6 +44,7 @@ export default {
 		'order',
 		'products',
 		'address',
+		'invoice',
 	],
 
 	data() {

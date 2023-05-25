@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DB;
+use Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,7 @@ class Invoice extends Model
 		$order = DB::select('SELECT 
 			o.id,
 			o.userId,
+			o.paymentMethodId,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`,
 			SUM(ol.quantity) AS `count`,
 			SUM(p.price * ol.quantity) AS `total`,
@@ -107,24 +109,37 @@ class Invoice extends Model
 
 		$deliveryAddress = $deliveryAddress[0];
 
+		$user = User::find($order->userId);
+
+		$method = $user->findPaymentMethod($order->paymentMethodId);
+
+		$paymentMethod = [
+			'id' => $method->id,
+			'brand' => ucfirst($method->card->brand),
+			'last4' => $method->card->last4,
+			'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
+			'postcode' => $method->billing_details->address->postal_code,
+		];
+
 		$data = [
 			'date' => date('d/m/Y'),
 			'order' => $order,
 			'products' => $products,
 			'billingAddress' => $billingAddress,
 			'deliveryAddress' => $deliveryAddress,
+			'paymentMethod' => $paymentMethod,
 		];
 
 		$pdf = Pdf::loadView('templates/invoice', $data);
 		$fileName = 'order-invoice-' . $orderId . '-' . $_SERVER['REQUEST_TIME'] . '.pdf';
 
-		return $pdf;
+		uploadS3($fileName, $pdf->download());
 
-		// uploadS3($fileName, $pdf->output());
+		$invoice = Invoice::create([
+			'orderId' => $orderId,
+			'fileName' => $fileName,
+		]);
 
-		// $invoice = Invoice::create([
-		// 	'orderId' => $orderId,
-		// 	'fileName' => $fileName,
-		// ]);
+		return $invoice->id;
 	}
 }

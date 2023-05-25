@@ -25,10 +25,12 @@
 			header {
 				height: 40px;
 			}
+
 			header h2.title {
 				float: left;
 				margin: 0;
 			}
+
 			header h2.brand {
 				float: right;
 				margin: 0;
@@ -39,8 +41,61 @@
 				bottom: 0;
 				width: 100%;
 			}
+
 			footer span {
 				font-size: 0.6rem;
+			}
+
+			main p {
+				font-size: 0.8rem;
+				margin: 0 0 0 5px;
+				padding: 0;
+			}
+
+			ul {
+				list-style: none;
+				font-size: 0.9rem;
+			}
+
+			.web-box {
+				background-color: #cecfd0;
+				width: 250px;
+				border-radius: 5px;
+				padding: 10px 15px;
+				margin-bottom: 10px;
+			}
+
+			.web-box p {
+				margin: 0;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			table th, table td {
+				padding: 5px;
+			}
+
+			table th {
+				border-bottom: 1px solid #5E6264;
+			}
+
+			table tbody td {
+				border-bottom: 1px solid #cecfd0;
+			}
+
+			table tbody tr:last-child td {
+				border-bottom: 1px solid #5E6264;
+			}
+
+			table tfoot td.summary {
+				border-bottom: 1px solid #5E6264;
+			}
+
+			table img {
+				border-radius: 3px;
 			}
 		</style>
   </head>

@@ -8,6 +8,7 @@ use App\Models\CheckoutProduct;
 use App\Models\CheckoutProductsVariant;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Invoice;
 
 use App\Http\Api\InvoiceRenderer;
 
@@ -96,7 +97,6 @@ class CheckoutController extends Controller
 
 				$billingAddress = $billingAddress[0];
 
-				// STRIPE PAYMENT ELEMENT (Needs Domain Confirmation)
 				$payment = $sessionUser->pay(
 					$checkout->total * 100
 				);
@@ -330,7 +330,7 @@ class CheckoutController extends Controller
 			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
 
-		// InvoiceRenderer::render();
+		Invoice::createInvoice($orderId);
 
 		return redirect('/order-successful/' . $orderId);
 	}
@@ -338,8 +338,6 @@ class CheckoutController extends Controller
 	public function orderSuccessful($orderId)
 	{
 		$sessionUser = auth()->user();
-
-		dd($sessionUser->invoicesIncludingPending());
 
 		$order = DB::select('SELECT 
 			o.id,
@@ -393,11 +391,16 @@ class CheckoutController extends Controller
 
 		$address = $address[0];
 
+		$invoice = Invoice::where('orderId', $orderId)->first();
+
+		$invoice = $invoice->fileName;
+
 		return view('public/order-successful', compact(
 			'sessionUser',
 			'order',
 			'products',
 			'address',
+			'invoice',
 		));
 	}
 }
