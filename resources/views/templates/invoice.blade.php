@@ -1,6 +1,6 @@
 @extends('pdf')
 
-@section('title', 'Invoice')
+@section('title', 'Document')
 
 @section('content')
 	<style>
@@ -40,6 +40,23 @@
 
 		#invoice-products	table {
 			width: 100%;
+			border-collapse: collapse;
+		}
+
+		table th, table td {
+			padding: 5px;
+		}
+
+		table th {
+			border-bottom: 1px solid #5E6264;
+		}
+
+		table tbody td {
+			border-bottom: 1px solid #cecfd0;
+		}
+
+		table img {
+			border-radius: 3px;
 		}
 	</style>
   <main class="dk order-successful" id="checkout-page">
@@ -103,29 +120,34 @@
 
 		<section id="invoice-products">
 			<table>
-				<title>Products</title>
-				<thead>
+				<thead align="left">
 					<tr>
-						<th width="10%">#</th>
-						<th width="15%"></th>
-						<th width="30%">Title</th>
-						<th width="15%">Quantity</th>
-						<th width="15%">Price</th>
-						<th width="15%">Subtotal</th>
+						<th>#</th>
+						<th></th>
+						<th>Title</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th align="right">Subtotal</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody align="left">
 					@foreach ($products as $i => $product)
 							<tr>
-								<td width="10%">{{ $product->id }}</td>
-								<td width="15%"><img width="20" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $product->fileName }}" alt="{{ $product->title }}"></td>
-								<td width="30%">{{ $product->title }}</td>
-								<td width="15%">{{ $product->quantity }}</td>
-								<td width="15%">{{ $product->price }}</td>
-								<td width="15%">{{ $product->price * $product->quantity }}</td>
+								<td>{{ $product->id }}</td>
+								<td><img width="30" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $product->fileName }}" alt="{{ $product->title }}"></td>
+								<td>{{ $product->title }}</td>
+								<td>{{ $product->quantity }}</td>
+								<td>{{ $product->price }}</td>
+								<td align="right">{{ number_format((float)$product->price * $product->quantity, 2, '.', '') }}</td>
 							</tr>
 					@endforeach
 				</tbody>
+				<tfoot>
+					<tr>
+						<td>Total</td>
+						<td>{{ number_format((float)$order->total, 2, '.', '') }}</td>
+					</tr>
+				</tfoot>
 			</table>
 		</section>
 
