@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,4 +47,52 @@ class User extends Authenticatable implements MustVerifyEmail
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
+
+	public static function getOrders(int $userId = 0) {
+		if ($userId == 0) {
+			$user = auth()->user();
+		} else {
+			$user = User::find($userId);
+		}
+
+		$orders = DB::select('SELECT
+			o.*,
+			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
+			FROM orders AS o
+			WHERE o.userId=?',
+			[$user->id]
+		);
+
+		foreach ($orders as $i => $order) {
+			$order->lines = DB::select('SELECT 
+				ol.id AS `orderLineId`,
+				p.*
+				FROM order_lines AS ol
+				INNER JOIN products AS p ON p.id=ol.productId
+				WHERE ol.orderId=?',
+				[$order->id]
+			);
+
+			foreach($order->lines AS $i2 => $line) {
+				$line->variants = DB::select('SELECT
+					CONCAT(pv2.title, ": ", pv.title) AS `variant`
+					FROM order_line_variants AS olv
+					INNER JOIN product_variants AS pv ON pv.id=olv.variantId AND pv.show=1
+					INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId AND pv2.show=1
+					WHERE olv.orderLineId=?',
+					[$line->orderLineId]
+				);
+
+				$variantsPre = [];
+
+				foreach ($line->variants as $i3 => $variant) {
+					$variantsPre[] = $variant->variant;
+				}
+
+				$line->variants = $variantsPre;
+			}
+		}
+
+		return $orders;
+	}
 }

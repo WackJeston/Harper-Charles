@@ -73,6 +73,7 @@ Route::group( ['middleware' => 'auth' ], function()
 {
 	Route::controller(AccountController::class)->group(function () {
 		Route::get('/account', 'show');
+		Route::get('/account/order', 'orderShow');
 		Route::post('/accountUpdate/{id}', 'update');
 	});
 

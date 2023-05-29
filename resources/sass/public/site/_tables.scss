@@ -1,0 +1,127 @@
+@use 'v';
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+tr:not(tr:first-child) {
+  border-top: 1px solid v.$background;
+  height: 30px;
+}
+
+tr:first-child {
+  height: 35px;
+  border-bottom: 2px solid v.$background;
+}
+
+tr th {
+  white-space: nowrap;
+}
+
+tr th, tr td {
+  padding-left: 7px;
+  text-align: left;
+}
+
+tr th:last-child, tr td:last-child {
+  padding-right: 8px;
+}
+
+tr td div {
+  display: flex;
+  // align-items: center;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+tr td div::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+tr .tr-buttons {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+tr i:not(.primary, .non-primary) {
+  position: relative;
+  font-size: 1.1rem;
+  text-align: right;
+  cursor: pointer;
+  color: v.$brand-alt-dark;
+  margin-top: 3px;
+}
+
+tr i:not(tr:first-child, .primary, .non-primary) {
+  margin-left: 7px;
+}
+
+tr i:hover:not(.primary, .non-primary) {
+  color: v.$brand-alt-dark
+}
+
+tr i:hover .button-label:not(tr .button-label:hover) {
+  display: inline-block;
+}
+
+tr .button-label {
+  margin: 0;
+  padding: 0;
+  display: none;
+  z-index: 2;
+}
+
+tr .button-label p {
+  position: absolute;
+  bottom: -20px;
+  right: 150%;
+  background-color: v.$brand-alt-dark;
+  color: v.$white;
+  padding: 6px 10px 6px 8px;
+  border-radius: 5px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+tr .button-label div {
+  position: absolute;
+  bottom: 3px;
+  right: 125%;
+  height: 12px;
+  width: 12px;
+  background-color: v.$brand-alt-dark;
+  transform: rotate(45deg);
+  border-radius: 0 3px 0 10px;
+}
+
+table .empty-table {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  margin: 20px;
+  width: 100%;
+  opacity: 0.6;
+}
+
+table .empty-table h3 {
+  margin: 0;
+  color: v.$black;
+}
+
+table .primary, table .non-primary {
+  font-size: 1.1rem;
+}
+
+table .primary {
+  color: v.$pale-green;
+}
+
+table .non-primary {
+  color: v.$pale-red;
+}

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Hash;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Models\Order;
 
 
 class AccountController extends Controller
@@ -14,8 +16,11 @@ class AccountController extends Controller
   {
     $sessionUser = auth()->user();
 
+		$orders = User::getOrders($sessionUser->id);
+
     return view('public/account', compact(
       'sessionUser',
+			'orders',
     ));
   }
 

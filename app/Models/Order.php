@@ -37,6 +37,8 @@ class Order extends Model
 
 		$deliveryAddress = Address::find($checkout->deliveryAddressId);
 
+		// TODO: Uncomment for live payments
+		
 		// $transaction = $user->charge(
 		// 	$checkout->total * 100,
 		// 	$checkout->paymentMethodId,

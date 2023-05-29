@@ -1,7 +1,9 @@
 <template>
   <!-- Buttons -->
-  <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
-  @click="show == 'edit' ? show = false : show = 'edit'">Edit Account Details</button>
+	<div class="page-button-row">
+		<button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
+  	@click="show == 'edit' ? show = false : show = 'edit'">Edit Account Details</button>
+	</div>
 
   <!-- Edit -->
   <form class="web-box dk" v-show="show == 'edit'" :action="'/accountUpdate/' + this.user.id" method="POST" enctype="multipart/form-data">
@@ -26,13 +28,44 @@
 
     <button class="submit" type="submit">Update</button>
   </form>
+
+	<table class="web-box">
+		<thead>
+			<tr>
+				<th width="60">#</th>
+				<th>Date</th>
+				<th>Value</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(order, i) in this.orders">
+				<td width="60">{{ order.id }}</td>
+				<td>{{ order.date }}</td>
+				<td>£{{ order.total }}</td>
+				<td>{{ order.status }}</td>
+				<td id="image-column4" class="tr-buttons">
+					<a :href="'/account/order/' + order.id">
+						<i class="fa-solid fa-folder-open">
+							<div class="button-label">
+								<p>Open Record</p>
+								<div></div>
+							</div>
+						</i>
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </template>
 
 
 <script>
   export default {
     props: [
-      'user'
+      'user',
+			'orders',
     ],
 
     data() {
