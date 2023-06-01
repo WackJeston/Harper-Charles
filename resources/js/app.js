@@ -22,7 +22,8 @@ import Publicsignup from './vue/components/public/auth/signup.vue'
 import Homelzcarousel from './vue/components/public/homepage/landingZoneCarousel.vue'
 import Homecategories from './vue/components/public/homepage/productCategories.vue'
 
-import Accountfunctions from './vue/components/public/accountFunctions.vue'
+import Accountfunctions from './vue/components/public/account/accountFunctions.vue'
+import Accountorder from './vue/components/public/account/accountOrder.vue'
 
 import Contactmain from './vue/components/public/contactMain.vue'
 
@@ -120,6 +121,9 @@ homeCategories.component('homecategories', Homecategories).mount('#homecategorie
 
 const accountFunctions = createApp({})
 accountFunctions.component('accountfunctions', Accountfunctions).mount('#accountfunctions')
+
+const accountOrder = createApp({})
+accountOrder.component('accountorder', Accountorder).mount('#accountorder')
 
 
 const cartItems = Vue.createApp({})

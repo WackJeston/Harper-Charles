@@ -8,24 +8,25 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Invoice;
 
 
 class AccountController extends Controller
 {
-  public function show()
-  {
+  public function show() {
     $sessionUser = auth()->user();
+		$action = 'account';
 
 		$orders = User::getOrders($sessionUser->id);
 
     return view('public/account', compact(
       'sessionUser',
+			'action',
 			'orders',
     ));
   }
 
-  public function update(Request $request, $id)
-  {
+  public function update(Request $request, int $id) {
     $request->validate([
       'firstname' => 'max:100',
       'lastname' => 'max:100',
@@ -47,4 +48,20 @@ class AccountController extends Controller
 
     return redirect("/account")->with('message', 'User updated successfully.');
   }
+
+	public function orderShow(int $orderId) {
+    $sessionUser = auth()->user();
+		$action = 'order';
+
+		$order = Order::find($orderId);
+
+		$invoice = Invoice::where('orderId', $orderId)->first();
+
+    return view('public/account', compact(
+      'sessionUser',
+			'action',
+			'order',
+			'invoice',
+    ));
+	}
 }

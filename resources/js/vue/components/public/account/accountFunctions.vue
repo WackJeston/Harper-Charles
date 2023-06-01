@@ -3,6 +3,9 @@
 	<div class="page-button-row">
 		<button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
   	@click="show == 'edit' ? show = false : show = 'edit'">Edit Account Details</button>
+
+		<button class="page-button" type="button" :class="{ 'button-active' : show == 'orders' }"
+  	@click="show == 'orders' ? show = false : show = 'orders'">Orders</button>
 	</div>
 
   <!-- Edit -->
@@ -29,7 +32,9 @@
     <button class="submit" type="submit">Update</button>
   </form>
 
-	<table class="web-box">
+	<!-- Orders Table -->
+	<table class="web-box" v-show="show == 'orders'">
+		<i class="fa-solid fa-xmark" @click="show = false"></i>
 		<thead>
 			<tr>
 				<th width="60">#</th>
@@ -57,7 +62,18 @@
 				</td>
 			</tr>
 		</tbody>
+
+		<div v-show="this.orders == false" class="empty-table">
+			<h3>No Orders</h3>
+		</div>
 	</table>
+
+	<div class="web-box dk section-width">
+		<ul>
+			<li><strong>Name:</strong> {{ this.user.firstName }} {{ this.user.lastName }}</li>
+			<li><strong>Email:</strong> {{ this.user.email }}</li>
+		</ul>
+	</div>
 </template>
 
 

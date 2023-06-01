@@ -5,7 +5,17 @@
 @section('content')
   <main class="dk" id="account">
 
-    <h1 class="section-width"><i class="fa-solid fa-user-gear"></i> Account</h1>
+    <h1 class="section-width">
+			@switch($action)
+				@case('account')
+					<i class="fa-solid fa-user-gear"></i>
+					@break
+				@case('order')
+					<i class="fa-solid fa-box-archive"></i>
+					@break
+			@endswitch
+			 {{ ucfirst($action) }}
+		</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt section-width"
@@ -19,19 +29,25 @@
       </div>
     @endif
 
-    <div id="accountfunctions" class="section-width">
-      <accountfunctions 
-				:user="{{ $sessionUser }}"
-				:orders="{{ json_encode($orders) }}"
-			/>
-    </div>
-
-    <div class="web-box dk section-width">
-			<ul>
-				<li><strong>Name:</strong> {{ $sessionUser['firstName'] }} {{ $sessionUser['lastName'] }}</li>
-				<li><strong>Email:</strong> {{ $sessionUser['email'] }}</li>
-			</ul>
-    </div>
+		@switch($action)
+			@case('account')
+				<div id="accountfunctions" class="section section-width">
+					<accountfunctions 
+						:user="{{ $sessionUser }}"
+						:orders="{{ json_encode($orders) }}"
+					/>
+				</div>
+				@break
+			@case('order')
+				<div id="accountorder" class="section section-width">
+					<accountorder 
+						:user="{{ $sessionUser }}"
+						:order="{{ json_encode($order) }}"
+						:invoice="{{ json_encode($invoice) }}"
+					/>
+				</div>
+				@break
+		@endswitch
 
   </main>
 @endsection

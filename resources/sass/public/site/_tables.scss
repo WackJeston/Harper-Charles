@@ -1,19 +1,42 @@
 @use 'v';
 
 table {
+	position: relative;
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
 
-tr:not(tr:first-child) {
-  border-top: 1px solid v.$background;
+tr {
+	border-bottom: 1px solid v.$background;
+}
+
+thead tr {
+  height: 35px;
+}
+
+tbody tr {
   height: 30px;
 }
 
-tr:first-child {
-  height: 35px;
-  border-bottom: 2px solid v.$background;
+table .fa-xmark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	color: v.$almost-black;
+	cursor: pointer;
+	font-size: 1rem;
+}
+
+table .fa-xmark:hover {
+	background-color: v.$almost-black;
+	color: v.$white;
 }
 
 tr th {
@@ -48,12 +71,12 @@ tr .tr-buttons {
   white-space: nowrap;
 }
 
-tr i:not(.primary, .non-primary) {
+tr i:not(.primary, .non-primary, .fa-xmark) {
   position: relative;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-align: right;
   cursor: pointer;
-  color: v.$brand-alt-dark;
+  color: v.$black;
   margin-top: 3px;
 }
 
@@ -111,7 +134,7 @@ table .empty-table {
 
 table .empty-table h3 {
   margin: 0;
-  color: v.$black;
+  color: v.$brand-alt-dark;
 }
 
 table .primary, table .non-primary {
