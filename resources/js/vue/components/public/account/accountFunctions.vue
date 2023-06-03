@@ -27,7 +27,7 @@
       <i id="show-password" v-show="!showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-solid fa-eye"></i>
       <i id="hide-password" v-show="showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-regular fa-eye-slash"></i>
     </label>
-    <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" value="" required>
+    <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" value="">
 
     <button class="submit" type="submit">Update</button>
   </form>

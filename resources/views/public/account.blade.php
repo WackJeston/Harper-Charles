@@ -9,17 +9,18 @@
 			@switch($action)
 				@case('account')
 					<i class="fa-solid fa-user-gear"></i>
+					{{ ucfirst($action) }}
 					@break
 				@case('order')
 					<i class="fa-solid fa-box-archive"></i>
+					{{ ucfirst($action) }} #{{ $order->id }}
 					@break
 			@endswitch
-			 {{ ucfirst($action) }}
 		</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt section-width"
-        <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
+        <alerterror :errormessages="{{ json_encode($errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
