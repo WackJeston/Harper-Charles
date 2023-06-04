@@ -18,7 +18,13 @@ main#account {
 	flex-direction: column;
 }
 
-#account .web-box ul {
+#account ul.web-box {
 	display: flex;
 	flex-direction: column;
+	margin-top: 0;
+}
+
+#account p {
+	margin: 0 0 5px 0;
+	// font-size: 1.1rem;
 }

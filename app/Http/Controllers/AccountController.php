@@ -56,9 +56,8 @@ class AccountController extends Controller
 		$action = 'order';
 
 		if ($order = Order::getOrder($orderId)) {
-
 			$invoice = Invoice::where('orderId', $orderId)->first();
-			$notes = OrderNote::where('orderId', $orderId)->get();
+			$notes = Order::getNotes($orderId);
 
 			return view('public/account', compact(
 				'sessionUser',
@@ -67,8 +66,30 @@ class AccountController extends Controller
 				'invoice',
 				'notes',
 			));
+
 		} else {
 			return redirect("/account")->withErrors(['1' => 'Order not found.']);
 		}
+	}
+
+	public function orderAddNote(Request $request, int $orderId) {
+		if ($order = Order::find($orderId)) {
+			$request->validate([
+				'note' => 'max:4000',
+			]);
+	
+			OrderNote::create([
+				'admin' => 0,
+				'orderId' => $orderId,
+				'note' => $request->note,
+			]);
+	
+			return redirect("/account/order/" . $orderId)->with('message', 'Note added successfully.');
+
+		} else {
+			return redirect("/account")->withErrors(['1' => 'Order not found.']);
+		}
+
+		
 	}
 }

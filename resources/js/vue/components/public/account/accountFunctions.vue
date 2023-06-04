@@ -37,18 +37,16 @@
 		<i class="fa-solid fa-xmark" @click="show = false"></i>
 		<thead>
 			<tr>
-				<th width="60">#</th>
-				<th>Date</th>
-				<th>Value</th>
+				<th width="40">#</th>
+				<th width="100">Date</th>
 				<th>Status</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr v-for="(order, i) in this.orders">
-				<td width="60">{{ order.id }}</td>
-				<td>{{ order.date }}</td>
-				<td>£{{ order.total }}</td>
+				<td width="40">{{ order.id }}</td>
+				<td width="100">{{ order.date }}</td>
 				<td>{{ order.status }}</td>
 				<td id="image-column4" class="tr-buttons">
 					<a :href="'/account/order/' + order.id">
@@ -68,12 +66,10 @@
 		</div>
 	</table>
 
-	<div class="web-box dk section-width">
-		<ul>
-			<li><strong>Name:</strong> {{ this.user.firstName }} {{ this.user.lastName }}</li>
-			<li><strong>Email:</strong> {{ this.user.email }}</li>
-		</ul>
-	</div>
+	<ul class="web-box dk section-width">
+		<li><strong>Name:</strong> {{ this.user.firstName }} {{ this.user.lastName }}</li>
+		<li><strong>Email:</strong> {{ this.user.email }}</li>
+	</ul>
 </template>
 
 

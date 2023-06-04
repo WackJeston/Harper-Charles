@@ -75,6 +75,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/account', 'show');
 		Route::post('/accountUpdate/{id}', 'update');
 		Route::get('/account/order/{orderId}', 'orderShow');
+		Route::post('/account/orderAddNote/{orderId}', 'orderAddNote');
 	});
 
 	Route::controller(CheckoutController::class)->group(function () {

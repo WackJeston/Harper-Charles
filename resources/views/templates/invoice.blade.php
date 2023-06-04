@@ -99,8 +99,8 @@
 								<td><img width="30" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $line->fileName }}" alt="{{ $line->title }}"></td>
 								<td>{{ $line->title }}</td>
 								<td>{{ $line->quantity }}</td>
-								<td>{{ $line->price }}</td>
-								<td align="right">{{ number_format((float)$line->price * $line->quantity, 2, '.', '') }}</td>
+								<td>£{{ $line->price }}</td>
+								<td align="right">£{{ number_format((float)$line->price * $line->quantity, 2, '.', '') }}</td>
 							</tr>
 					@endforeach
 				</tbody>
@@ -111,7 +111,7 @@
 						<td></td>
 						<td></td>
 						<td class="summary">Total</td>
-						<td align="right" class="summary">{{ number_format((float)$order->total, 2, '.', '') }}</td>
+						<td align="right" class="summary">£{{ number_format((float)$order->total, 2, '.', '') }}</td>
 					</tr>
 				</tfoot>
 			</table>

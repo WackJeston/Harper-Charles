@@ -11,6 +11,7 @@ class OrderNote extends Model
 
 	protected $fillable = [
 		'orderId',
+		'admin',
 		'note',
 	];
 }

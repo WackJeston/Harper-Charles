@@ -145,6 +145,26 @@ button.pb-danger:hover {
 	color: v.$pale-green;
 }
 
+.wb-container-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 10px
+}
+
+.wb-container-row .web-box {
+	margin: 0;
+
+	@media (min-width: 500px) {
+		width: calc(50% - 5px);
+	}
+
+	@media (max-width: 500px) {
+		width: 100%;
+	}
+}
+
 .web-box {
 	border-radius: 5px;
 	margin-bottom: 10px;
@@ -234,7 +254,6 @@ button.pb-danger:hover {
 .fa-square .popup-label-container .popup-label {
 	bottom: -9px;
 }
-
 
 // Hover Styles ---------------------------------------
 .lt .hover:hover,

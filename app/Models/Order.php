@@ -189,4 +189,17 @@ class Order extends Model
 
 		return $order;
 	}
+
+	public static function getNotes(int $orderId) {
+		$notes = DB::select('SELECT
+			o.*,
+			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
+			FROM order_notes AS o
+			WHERE o.orderId=?
+			ORDER BY o.id DESC',
+			[$orderId]
+		);
+
+		return $notes;
+	}
 }

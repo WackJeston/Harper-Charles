@@ -39,6 +39,11 @@ table .fa-xmark:hover {
 	color: v.$white;
 }
 
+tr.dark-row {
+	background-color: v.$brand-alt-dark;
+	color: v.$white;
+}
+
 tr th {
   white-space: nowrap;
 }
@@ -68,6 +73,11 @@ tr td div::-webkit-scrollbar {
 tr td img {
 	margin: 5px 0 0 0;
 	border-radius: 5px;
+}
+
+tr td.padding {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 tr .tr-buttons {
