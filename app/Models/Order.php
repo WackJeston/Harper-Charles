@@ -96,35 +96,97 @@ class Order extends Model
 		return $order->id;
 	}
 
-	public static function getLines(int $orderId) {
-		$lines = DB::select('SELECT 
-			ol.id AS `orderLineId`,
-			p.*
-			FROM order_lines AS ol
-			INNER JOIN products AS p ON p.id=ol.productId
-			WHERE ol.orderId=?',
+	public static function getOrder(int $orderId) {
+		$order = DB::select('SELECT
+			o.id,
+			o.userId,
+			o.paymentMethodId,
+			o.status,
+			CONCAT(u.firstName, " ", u.lastName) AS `name`,
+			SUM(ol.quantity) AS `count`,
+			SUM(p.price * ol.quantity) AS `total`,
+			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
+			FROM orders AS o
+			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
+			LEFT JOIN products AS p ON p.id=ol.productId
+			INNER JOIN users AS u ON u.id=o.userId
+			WHERE o.id=?
+			GROUP BY o.id
+			LIMIT 1',
 			[$orderId]
 		);
 
-		foreach($lines AS $i2 => $line) {
-			$line->variants = DB::select('SELECT
-				CONCAT(pv2.title, ": ", pv.title) AS `variant`
-				FROM order_line_variants AS olv
-				INNER JOIN product_variants AS pv ON pv.id=olv.variantId AND pv.show=1
-				INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId AND pv2.show=1
-				WHERE olv.orderLineId=?',
-				[$line->orderLineId]
-			);
-
-			$variantsPre = [];
-
-			foreach ($line->variants as $i3 => $variant) {
-				$variantsPre[] = $variant->variant;
-			}
-
-			$line->variants = $variantsPre;
+		if (empty($order)) {
+			return false;
 		}
 
-		return $lines;
+		$order = $order[0];
+
+		$order->lines = DB::select('SELECT
+			p.id,
+			p.title,
+			p.price,
+			pi.fileName,
+			ol.quantity
+			FROM orders AS o
+			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
+			LEFT JOIN products AS p ON p.id=ol.productId
+			LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
+			WHERE o.id=?
+			GROUP BY p.id',
+			[$orderId]
+		);
+
+		$order->billingAddress = DB::select('SELECT
+			a.id,
+			a.type,
+			CONCAT(a.firstName, " ", a.lastName) AS `name`,
+			a.company,
+			a.line1,
+			a.line2,
+			a.line3,
+			a.city,
+			a.region,
+			co.name AS country,
+			a.postcode,
+			a.phone,
+			a.email
+			FROM orders AS o
+			LEFT JOIN addresses AS a ON a.id=o.billingAddressId
+			INNER JOIN countries AS co ON co.code=a.country
+			WHERE o.id=?
+			GROUP BY a.id
+			LIMIT 1',
+			[$orderId]
+		);
+
+		$order->billingAddress = $order->billingAddress[0];
+
+		$order->deliveryAddress = DB::select('SELECT
+			a.id,
+			a.type,
+			CONCAT(a.firstName, " ", a.lastName) AS `name`,
+			a.company,
+			a.line1,
+			a.line2,
+			a.line3,
+			a.city,
+			a.region,
+			co.name AS country,
+			a.postcode,
+			a.phone,
+			a.email
+			FROM orders AS o
+			LEFT JOIN addresses AS a ON a.id=o.deliveryAddressId
+			INNER JOIN countries AS co ON co.code=a.country
+			WHERE o.id=?
+			GROUP BY a.id
+			LIMIT 1',
+			[$orderId]
+		);
+
+		$order->deliveryAddress = $order->deliveryAddress[0];
+
+		return $order;
 	}
 }

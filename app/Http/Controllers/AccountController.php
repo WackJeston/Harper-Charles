@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\OrderNote;
 use App\Models\Invoice;
 use App\Models\Address;
 
@@ -54,22 +55,17 @@ class AccountController extends Controller
     $sessionUser = auth()->user();
 		$action = 'order';
 
-		if ($order = Order::find($orderId)) {
-			$orderLines = Order::getLines($orderId);
-
-			$billingAddress = Address::where('id', $order->billingAddressId)->first();
-			$deliveryAddress = Address::where('id', $order->deliveryAddressId)->first();
+		if ($order = Order::getOrder($orderId)) {
 
 			$invoice = Invoice::where('orderId', $orderId)->first();
+			$notes = OrderNote::where('orderId', $orderId)->get();
 
 			return view('public/account', compact(
 				'sessionUser',
 				'action',
 				'order',
-				'orderLines',
-				'billingAddress',
-				'deliveryAddress',
 				'invoice',
+				'notes',
 			));
 		} else {
 			return redirect("/account")->withErrors(['1' => 'Order not found.']);

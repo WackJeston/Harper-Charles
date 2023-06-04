@@ -34,6 +34,22 @@ main {
 	padding-bottom: 30px;
 }
 
+.link-trail {
+	position: relative;
+	top: 2px;
+	left: -10px;
+}
+
+.link-trail i {
+	font-size: 0.9rem;
+	opacity: .8;
+}
+
+.link-trail a:hover {
+	color: v.$brand-alt-dark;
+	text-decoration: underline;
+}
+
 ul {
 	display: flex;
 	list-style: none;
@@ -131,7 +147,7 @@ button.pb-danger:hover {
 
 .web-box {
 	border-radius: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .web-box:not(.product-page-main) {

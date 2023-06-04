@@ -5,6 +5,13 @@
 @section('content')
   <main class="dk" id="account">
 
+		@if ($action == 'order')
+			<div class="link-trail">
+				<i class="fa-solid fa-arrow-left"></i>
+				<a href="/account">Account</a>
+			</div>
+		@endif
+
     <h1 class="section-width">
 			@switch($action)
 				@case('account')
@@ -13,20 +20,23 @@
 					@break
 				@case('order')
 					<i class="fa-solid fa-box-archive"></i>
-					{{ ucfirst($action) }} #{{ $order->id }}
+					{{ ucfirst($action) }}
 					@break
 			@endswitch
 		</h1>
 
     @if ($errors->any())
-      <div id="alerterror" class="lt section-width"
-        <alerterror :errormessages="{{ json_encode($errors) }}" errorcount="{{ count($errors) }}" />
+      <div id="publicerror" class="lt section-width">
+        <publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
-    @if (session()->has('message'))
-      <div id="alertmessage" class="lt section-width">
-        <alertmessage successmessage="{{ session()->get('message') }}" />
+    @if (session()->has('success') || session()->has('info'))
+      <div id="publicalert" class="lt section-width">
+        <publicalert 
+				message="{{ session()->has('success') ? session()->get('success') : session()->get('info') }}"
+				type="{{ session()->has('success') ? 'success' : 'info' }}"
+				/>
       </div>
     @endif
 
@@ -45,6 +55,7 @@
 						:user="{{ $sessionUser }}"
 						:order="{{ json_encode($order) }}"
 						:invoice="{{ json_encode($invoice) }}"
+						:notes="{{ json_encode($notes) }}"
 					/>
 				</div>
 				@break

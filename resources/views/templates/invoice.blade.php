@@ -41,32 +41,32 @@
 
 			<ul class="web-box">
 				<li><strong>Billing Address</strong></li>
-				<li>{{ $billingAddress->line1 }}</li>
-				@if ($billingAddress->line2 != '')
-					<li>{{ $billingAddress->line2 }}</li>
+				<li>{{ $order->billingAddress->line1 }}</li>
+				@if ($order->billingAddress->line2 != '')
+					<li>{{ $order->billingAddress->line2 }}</li>
 				@endif
-				@if ($billingAddress->line3 != '')
-					<li>{{ $billingAddress->line3 }}</li>
+				@if ($order->billingAddress->line3 != '')
+					<li>{{ $order->billingAddress->line3 }}</li>
 				@endif
-				<li>{{ $billingAddress->city }}</li>
-				<li>{{ $billingAddress->region }}</li>
-				<li>{{ $billingAddress->country }}</li>
-				<li>{{ $billingAddress->postcode }}</li>
+				<li>{{ $order->billingAddress->city }}</li>
+				<li>{{ $order->billingAddress->region }}</li>
+				<li>{{ $order->billingAddress->country }}</li>
+				<li>{{ $order->billingAddress->postcode }}</li>
 			</ul>
 
 			<ul class="web-box">
 				<li><strong>Delivery Address</strong></li>
-				<li>{{ $deliveryAddress->line1 }}</li>
-				@if ($deliveryAddress->line2 != '')
-					<li>{{ $deliveryAddress->line2 }}</li>
+				<li>{{ $order->deliveryAddress->line1 }}</li>
+				@if ($order->deliveryAddress->line2 != '')
+					<li>{{ $order->deliveryAddress->line2 }}</li>
 				@endif
-				@if ($deliveryAddress->line3 != '')
-					<li>{{ $deliveryAddress->line3 }}</li>
+				@if ($order->deliveryAddress->line3 != '')
+					<li>{{ $order->deliveryAddress->line3 }}</li>
 				@endif
-				<li>{{ $deliveryAddress->city }}</li>
-				<li>{{ $deliveryAddress->region }}</li>
-				<li>{{ $deliveryAddress->country }}</li>
-				<li>{{ $deliveryAddress->postcode }}</li>
+				<li>{{ $order->deliveryAddress->city }}</li>
+				<li>{{ $order->deliveryAddress->region }}</li>
+				<li>{{ $order->deliveryAddress->country }}</li>
+				<li>{{ $order->deliveryAddress->postcode }}</li>
 			</ul>
 
 			<ul class="web-box">
@@ -93,14 +93,14 @@
 					</tr>
 				</thead>
 				<tbody align="left">
-					@foreach ($products as $i => $product)
+					@foreach ($order->lines as $i => $line)
 							<tr>
-								<td width="1">{{ $product->id }}</td>
-								<td><img width="30" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $product->fileName }}" alt="{{ $product->title }}"></td>
-								<td>{{ $product->title }}</td>
-								<td>{{ $product->quantity }}</td>
-								<td>{{ $product->price }}</td>
-								<td align="right">{{ number_format((float)$product->price * $product->quantity, 2, '.', '') }}</td>
+								<td width="1">{{ $line->id }}</td>
+								<td><img width="30" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $line->fileName }}" alt="{{ $line->title }}"></td>
+								<td>{{ $line->title }}</td>
+								<td>{{ $line->quantity }}</td>
+								<td>{{ $line->price }}</td>
+								<td align="right">{{ number_format((float)$line->price * $line->quantity, 2, '.', '') }}</td>
 							</tr>
 					@endforeach
 				</tbody>
