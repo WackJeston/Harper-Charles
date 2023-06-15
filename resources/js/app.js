@@ -7,8 +7,11 @@ import VueAxios from 'vue-axios'
 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 
+// GLOBAL
+import Table from './vue/components/global/table.vue'
+
 // PUBLIC
-import Vueheader from './vue/components/public/site/vueHeader.vue'
+
 import Vuemenu from './vue/components/public/site/vueMenu.vue'
 import Vuefooter from './vue/components/public/site/vueFooter.vue'
 
@@ -82,7 +85,9 @@ import Variantprofilefunctions from './vue/components/admin/variant-profile/vari
 
 
 
-
+// GLOBAL 
+const table = createApp({})
+table.component('table', Table).mount('#table')
 
 // PUBLIC
 const vueHeader = createApp({})

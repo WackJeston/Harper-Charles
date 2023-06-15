@@ -8,8 +8,10 @@ class TestController extends Controller
 {
   public function show()
   {
-    $pdf = Invoice::createInvoice(16);
+    $sessionUser = auth()->user();
 
-		return $pdf->stream();
+    return view('system/test', compact(
+      'sessionUser',
+    ));
   }
 }
