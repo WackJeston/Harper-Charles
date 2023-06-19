@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductPageController;
 
 // ADMIN
+use App\Http\Controllers\AdminTestController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\AdminUsersController;
@@ -98,6 +99,8 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/adminLogin', 'authenticateAdmin');
     Route::get('/adminLogout', 'logoutAdmin');
   });
+
+	Route::get('/admin/test', [AdminTestController::class, 'show']);
 
   Route::get('/admin/dashboard', [AdminDashboardController::class, 'show']);
 

@@ -93,6 +93,11 @@ class AppServiceProvider extends ServiceProvider
               ],
             ],
           ],
+					$test = [
+						"title"=>"test",
+						"link"=>"/admin/test",
+						"icon"=>"fa-solid fa-flask-vial",
+					],
         ];
 
         View::share([
