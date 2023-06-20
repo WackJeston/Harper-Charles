@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use File;
+use App\dataTable;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\ProductImages;
@@ -15,9 +16,23 @@ class AdminProductsController extends Controller
 
     $product = Products::all();
 
+		$productsTable = new DataTable();
+		$productsTable->setQuery('SELECT * FROM products');
+
+		$productsTable->addColumn('id', '#', true);
+		$productsTable->addColumn('title', 'Title');
+		$productsTable->addColumn('subtitle', 'Subtitle');
+		$productsTable->addColumn('productNumber', 'Product Number');
+
+		$productsTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+
+		$productsTable = $productsTable->output();
+
+
     return view('/admin/products', compact(
       'sessionUser',
       'product',
+			'productsTable'
     ));
   }
 

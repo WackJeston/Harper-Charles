@@ -18,7 +18,11 @@ class AdminTestController extends Controller
 		$dataTable->addColumn('productNumber', 'Product Number');
 		$dataTable->addColumn('price', 'Price');
 
+		$dataTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+
 		$table = $dataTable->output();
+
+		// dd($table);
 
     return view('admin/test', compact(
       'sessionUser',

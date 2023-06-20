@@ -7,18 +7,18 @@
 		</thead>
 
 		<tbody>
-			<tr v-for="(row, i) in this.records">
-				<td v-for="(column, i) in this.columns"><div>{{ row[column.name] }}</div></td>
-				<!-- <td class="tr-buttons">
-					<a :href="'/admin/product-profile/' + product.id">
-						<i class="fa-solid fa-arrow-up-right-from-square">
-							<div class="button-label">
-								<p>Manage Product</p>
+			<tr v-for="(record, i) in this.records">
+				<td v-for="(column, i2) in this.columns"><div>{{ record[column.name] }}</div></td>
+				<td v-if="this.buttons.length >= 1" class="tr-buttons">
+					<a v-for="(button, i3) in this.buttons" :href="record.buttonLinks[i3]">
+						<i :class="button.icon">
+							<div v-if="button.label != null" class="button-label">
+								<p>{{ button.label }}</p>
 								<div></div>
 							</div>
 						</i>
 					</a>
-				</td> -->
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -34,6 +34,7 @@
     data() {
 			this.columns = this.table.columns;
 			this.records = this.table.records;
+			this.buttons = this.table.buttons;
     },
   };
 </script>

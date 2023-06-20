@@ -23,9 +23,9 @@
       <productscreate />
     </div>
 
-    <div id="productstable" class="dk">
-      <productstable :products="{{ json_encode($product) }}" />
-    </div>
+		<div id="datatable" class="dk">
+			<datatable :table="{{ json_encode($productsTable) }}" />
+		</div>
 
   </main>
 @endsection
