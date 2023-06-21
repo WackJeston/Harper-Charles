@@ -52,6 +52,11 @@ tr th:last-child, tr td:last-child {
   padding-right: 8px;
 }
 
+tr td:not(.tr-buttons) {
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 tr td div {
   display: flex;
   // align-items: center;

@@ -34,6 +34,7 @@ class DataTable
 		$this->table['columns'][] = [
 			'name' => $name,
 			'title' => $title,
+			'hideMobile' => $hideMobile,
 		];
 	}
 
