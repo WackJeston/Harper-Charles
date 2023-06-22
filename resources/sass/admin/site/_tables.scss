@@ -4,7 +4,7 @@ table {
 	position: relative;
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 tr {
@@ -19,26 +19,6 @@ tbody tr {
   height: 30px;
 }
 
-table .fa-xmark {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	height: 20px;
-	width: 20px;
-	border-radius: 5px;
-	color: v.$black;
-	cursor: pointer;
-	font-size: 1rem;
-}
-
-table .fa-xmark:hover {
-	background-color: v.$black;
-	color: v.$white;
-}
-
 tr th {
   white-space: nowrap;
 }
@@ -46,6 +26,7 @@ tr th {
 tr th, tr td {
   padding-left: 7px;
   text-align: left;
+	min-width: 30px;
 }
 
 tr th:last-child, tr td:last-child {
@@ -163,4 +144,24 @@ table .pagination-controls {
 	display: flex;
 	flex-direction: row;
 	margin-left: auto;
+}
+
+table .fa-xmark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	color: v.$black;
+	cursor: pointer;
+	font-size: 1rem;
+}
+
+table .fa-xmark:hover {
+	background-color: v.$black;
+	color: v.$white;
 }

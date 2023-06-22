@@ -8,7 +8,7 @@
 
 		<tbody>
 			<tr v-for="(record, i) in this.records">
-				<td v-for="(column, i2) in this.columns" :width="[column.name == 'id' ? 1 : 3]">{{ record[column.name] }}</td>
+				<td v-for="(column, i2) in this.columns" :style="[column.name == 'id' ?? {maxWidth: '50px'}]">{{ record[column.name] }}</td>
 				<td v-if="this.buttons.length >= 1" class="tr-buttons">
 					<a v-for="(button, i3) in this.buttons" :href="record.buttonLinks[i3]">
 						<i :class="button.icon">
