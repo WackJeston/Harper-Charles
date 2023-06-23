@@ -2,7 +2,7 @@
   <table class="web-box">
 		<thead>
 			<tr>
-				<th v-for="(column, i) in this.columns">{{ column.title }}</th>
+				<th v-for="(column, i) in this.columns" :style="[column.name == 'id' ?? {maxWidth: '50px'}]">{{ column.title }}</th>
 			</tr>
 		</thead>
 
@@ -36,5 +36,29 @@
 			this.records = this.table.records;
 			this.buttons = this.table.buttons;
     },
+
+		mounted() {
+			this.getColumnWidth();
+		},
+
+		methods: {
+			getColumnWidth() {
+				let buttonsWidth = document.querySelector('.tr-buttons').offsetWidth + 50;
+				let columnWidthCount = 0;
+
+				this.columns.forEach(column => {
+					if (column.name != 'id') {
+						columnWidthCount += column.width;
+					}
+				});
+
+				this.columns.forEach(column => {
+					if (column.name != 'id') {
+						column.newWidth = 'calc(' + Math.floor((100 / columnWidthCount) * column.width) + '% - ' + Math.floor((buttonsWidth / columnWidthCount) * column.width) + 'px)';
+						console.log(column.newWidth);
+					}
+				});
+			}
+		}
   };
 </script>

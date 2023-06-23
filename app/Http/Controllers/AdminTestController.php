@@ -14,8 +14,8 @@ class AdminTestController extends Controller
 		$dataTable->setQuery('SELECT * FROM products');
 
 		$dataTable->addColumn('id', '#');
-		$dataTable->addColumn('title', 'Title');
-		$dataTable->addColumn('productNumber', 'Product Number');
+		$dataTable->addColumn('title', 'Title', 3);
+		$dataTable->addColumn('productNumber', 'Product Number', 2);
 		$dataTable->addColumn('price', 'Price');
 
 		$dataTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');

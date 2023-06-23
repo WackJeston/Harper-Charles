@@ -26,7 +26,7 @@ class DataTable
 		$this->table['primary'] = $column;
 	}
 
-	public function addColumn(string $name, string $title = null, bool $hideMobile = false) {
+	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false) {
 		if ($title == null) {
 			$title = $name;
 		}
@@ -35,6 +35,7 @@ class DataTable
 			'name' => $name,
 			'title' => $title,
 			'hideMobile' => $hideMobile,
+			'width' => $width,
 		];
 	}
 

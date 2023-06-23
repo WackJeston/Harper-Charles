@@ -4,7 +4,7 @@ table {
 	position: relative;
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto;
+  table-layout: fixed;
 }
 
 tr {
@@ -27,6 +27,7 @@ tr th, tr td {
   padding-left: 7px;
   text-align: left;
 	min-width: 30px;
+	max-width: calc(16% - 13px);
 }
 
 tr th:last-child, tr td:last-child {
@@ -36,19 +37,6 @@ tr th:last-child, tr td:last-child {
 tr td:not(.tr-buttons) {
 	overflow: hidden;
 	white-space: nowrap;
-}
-
-tr td div {
-  display: flex;
-  // align-items: center;
-  overflow-x: scroll;
-  white-space: nowrap;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-tr td div::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
 }
 
 tr .tr-buttons {
