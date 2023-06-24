@@ -3,11 +3,16 @@
 table {
 	position: relative;
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
+	display: table;
   table-layout: fixed;
 }
 
 tr {
+	display: flex;
+	align-items: center;
+	position: relative;
 	border-bottom: 1px solid v.$bg-main;
 }
 
@@ -27,19 +32,24 @@ tr th, tr td {
   padding-left: 7px;
   text-align: left;
 	min-width: 30px;
-	max-width: calc(16% - 13px);
 }
 
 tr th:last-child, tr td:last-child {
   padding-right: 8px;
 }
 
+tr th:not(.tr-buttons),
 tr td:not(.tr-buttons) {
 	overflow: hidden;
 	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 tr .tr-buttons {
+	position: absolute;
+	right: 0;
+	display: flex;
+	flex-direction: row;
   margin-left: auto;
   text-align: right;
   white-space: nowrap;

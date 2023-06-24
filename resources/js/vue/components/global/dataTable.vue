@@ -2,13 +2,14 @@
   <table class="web-box">
 		<thead>
 			<tr>
-				<th v-for="(column, i) in this.columns" :style="[column.name == 'id' ?? {maxWidth: '50px'}]">{{ column.title }}</th>
+				<th v-for="(column, i) in this.columns" :style="[column.name == 'id' ? {width: '50px'} : {width: `${column.maxWidth}%`}]">{{ column.title }}</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr v-for="(record, i) in this.records">
-				<td v-for="(column, i2) in this.columns" :style="[column.name == 'id' ?? {maxWidth: '50px'}]">{{ record[column.name] }}</td>
+				<td v-for="(column, i2) in this.columns" :style="[column.name == 'id' ? {width: '50px'} : {width: `${column.maxWidth}%`}]">{{ record[column.name] }}</td>
+				
 				<td v-if="this.buttons.length >= 1" class="tr-buttons">
 					<a v-for="(button, i3) in this.buttons" :href="record.buttonLinks[i3]">
 						<i :class="button.icon">
@@ -38,27 +39,18 @@
     },
 
 		mounted() {
-			this.getColumnWidth();
+			this.addButtonsPadding();
 		},
 
 		methods: {
-			getColumnWidth() {
-				let buttonsWidth = document.querySelector('.tr-buttons').offsetWidth + 50;
-				let columnWidthCount = 0;
+			addButtonsPadding() {
+				let width = document.querySelector('.tr-buttons').offsetWidth;
+				let rows = document.querySelectorAll('tr');
 
-				this.columns.forEach(column => {
-					if (column.name != 'id') {
-						columnWidthCount += column.width;
-					}
+				rows.forEach(row => {
+					row.style.paddingRight = width + 'px';
 				});
-
-				this.columns.forEach(column => {
-					if (column.name != 'id') {
-						column.newWidth = 'calc(' + Math.floor((100 / columnWidthCount) * column.width) + '% - ' + Math.floor((buttonsWidth / columnWidthCount) * column.width) + 'px)';
-						console.log(column.newWidth);
-					}
-				});
-			}
+			},
 		}
   };
 </script>

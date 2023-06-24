@@ -36,6 +36,7 @@ class DataTable
 			'title' => $title,
 			'hideMobile' => $hideMobile,
 			'width' => $width,
+			'maxWidth' => $width,
 		];
 	}
 
@@ -60,6 +61,20 @@ class DataTable
 	}
 
 	public function output(): array {
+		$columnWidthCount = 0;
+		
+		foreach ($this->table['columns'] as $i => $column) {
+			if ($column['name'] != 'id') {
+				$columnWidthCount += $column['width'];
+			}
+		}
+
+		foreach ($this->table['columns'] as $i => $column) {
+			if ($column['name'] != 'id') {
+				$this->table['columns'][$i]['maxWidth'] = ((100 / $columnWidthCount) * $column['width']);
+			}
+		}
+
 		return $this->table;
 	}
 }
