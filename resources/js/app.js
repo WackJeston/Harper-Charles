@@ -86,8 +86,8 @@ import Variantprofilefunctions from './vue/components/admin/variant-profile/vari
 
 
 // GLOBAL 
-const dataTable = createApp({})
-dataTable.component('datatable', Datatable).mount('#datatable')
+// const dataTable = createApp({})
+// dataTable.component('datatable', Datatable).mount('#datatable')
 
 // PUBLIC
 const vueHeader = createApp({})

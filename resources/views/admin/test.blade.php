@@ -19,9 +19,11 @@
       </div>
     @endif
 
-		<div id="datatable" class="dk">
+		{{ $dataTable->display() }}
+
+		{{-- <div id="datatable" class="dk">
 			<datatable :table="{{ json_encode($table) }}" />
-		</div>
+		</div> --}}
 
   </main>
 @endsection

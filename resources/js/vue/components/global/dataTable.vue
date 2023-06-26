@@ -47,9 +47,14 @@
 				let width = document.querySelector('.tr-buttons').offsetWidth;
 				let rows = document.querySelectorAll('tr');
 
-				rows.forEach(row => {
-					row.style.paddingRight = width + 'px';
-				});
+				let input = width + 'px';
+
+				setTimeout(
+					rows.forEach(row => {
+						row.style.paddingRight = input;
+					}),
+					500
+				);
 			},
 		}
   };

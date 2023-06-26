@@ -14,11 +14,12 @@ class AdminTestController extends Controller
 		$dataTable->setQuery('SELECT * FROM products');
 
 		$dataTable->addColumn('id', '#');
-		$dataTable->addColumn('title', 'Title', 3);
+		$dataTable->addColumn('title', 'Title');
 		$dataTable->addColumn('productNumber', 'Product Number');
 		$dataTable->addColumn('price', 'Price');
 
 		$dataTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$dataTable->addButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
 
 		$table = $dataTable->output();
 
@@ -26,7 +27,8 @@ class AdminTestController extends Controller
 
     return view('admin/test', compact(
       'sessionUser',
-			'table'
+			'dataTable',
+			'table',
     ));
   }
 }

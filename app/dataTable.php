@@ -77,4 +77,15 @@ class DataTable
 
 		return $this->table;
 	}
+
+	public function display() {
+		echo '
+			<script src="https://dev.harpercharlescompany.com/js/dataTable.js ">
+				console.log("testing testing testing");
+
+				const dataTable = createApp({});
+				dataTable.component("datatable", Datatable).mount("#datatable");
+			</script>
+		';
+	}
 }
