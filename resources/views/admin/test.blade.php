@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('title', 'Test')
+@section('js', 'dataTable')
 
 @section('content')
   <main class="test">
@@ -18,8 +19,6 @@
         <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
-
-		{{ $dataTable->display() }}
 
 		{{-- <div id="datatable" class="dk">
 			<datatable :table="{{ json_encode($table) }}" />
