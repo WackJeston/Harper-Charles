@@ -24,5 +24,7 @@
 			<datatable :table="{{ json_encode($table) }}" />
 		</div> --}}
 
+		{{ $dataTable->display() }}
+
   </main>
 @endsection

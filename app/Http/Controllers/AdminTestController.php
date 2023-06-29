@@ -22,6 +22,7 @@ class AdminTestController extends Controller
 		$dataTable->addButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
 
 		$table = $dataTable->output();
+		// $table = $dataTable->display();
 
 		// dd($table);
 

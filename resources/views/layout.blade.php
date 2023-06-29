@@ -129,17 +129,5 @@
     @endif
 
     <script src="{{ mix('js/app.js') }}"></script>
-
-		@hasSection('js')
-      <script>
-				console.log("testing testing testing");
-
-				// import Datatable from './vue/components/global/dataTable.vue';
-
-				const component = createApp({});
-				component.component(toLowerCase(@yield('js')), Datatable).mount("#" + toLowerCase(@yield('js')));
-			</script>
-    @endif
-
   </body>
 </html>

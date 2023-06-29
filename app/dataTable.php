@@ -71,7 +71,7 @@ class DataTable
 
 		foreach ($this->table['columns'] as $i => $column) {
 			if ($column['name'] != 'id') {
-				$this->table['columns'][$i]['maxWidth'] = ((100 / $columnWidthCount) * $column['width']);
+				$this->table['columns'][$i]['maxWidth'] = round((100 / $columnWidthCount) * $column['width'], 2);
 			}
 		}
 
@@ -79,6 +79,89 @@ class DataTable
 	}
 
 	public function display() {
-		echo '<script src="https://dev.harpercharlescompany.com/js/dataTable.js"></script>';
+		$result = '
+		<table class="web-box">
+			<thead>
+				<tr>';
+
+				foreach ($this->table['columns'] as $i => $column) {
+					$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+
+					$result .= sprintf('<th style="%s">%s</th>', $style, $column['title']);
+				}
+
+				$result .= '
+				</tr>
+			</thead>
+
+			<tbody>';
+					
+				foreach ($this->table['records'] as $i => $record) {
+					$result .= '
+					<tr>';
+					
+					foreach ($this->table['columns'] as $i2 => $column) {
+						$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+
+						$result .= sprintf('<td style="%s">%s</td>', $style, $column['title']);
+						
+						if (count($this->table['buttons']) >= 1) {
+							$result .= '
+							<td class="tr-buttons">';
+
+							foreach ($this->table['buttons'] as $i3 => $button) {
+								$link = $record->buttonLinks[$i3];
+								$icon = $button['icon'];
+
+								$result .= sprintf('
+								<a href="%s">
+									<i class="%s">', $link, $icon);
+
+									if ($button['label'] != null) {
+										$result .= sprintf('
+										<div class="button-label">
+											<p>%s</p>
+											<div></div>
+										</div>', $button['label']);
+									}
+									
+									$result .= '
+									</i>
+								</a>';
+							}
+
+							$result .= '
+							</td>';
+						}
+					}
+
+					$result .='
+					</tr>';
+				}
+				
+			$result .='
+			</tbody>
+		</table>
+
+		<script>
+			window.onload = addButtonsPadding();
+
+			function addButtonsPadding() {
+				let width = document.querySelector(".tr-buttons").offsetWidth;
+				let rows = document.querySelectorAll("tr");
+
+				let input = width + "px";
+
+				setTimeout(
+					rows.forEach(row => {
+						row.style.paddingRight = input;
+					}),
+					500
+				);
+			};
+		</script>
+		';
+
+		echo $result;
 	}
 }
