@@ -65,7 +65,7 @@ tr i:not(.primary, .non-primary, .fa-xmark) {
 }
 
 tr i:not(tr:first-child, .primary, .non-primary) {
-  margin-left: 7px;
+  padding-left: 7px;
 }
 
 tr i:hover:not(.primary, .non-primary) {
@@ -73,7 +73,7 @@ tr i:hover:not(.primary, .non-primary) {
 }
 
 tr i:hover .button-label:not(tr .button-label:hover) {
-  display: inline-block;
+  display: block;
 }
 
 tr .button-label {
@@ -86,7 +86,7 @@ tr .button-label {
 tr .button-label p {
   position: absolute;
   bottom: -20px;
-  right: 150%;
+  right: 117%;
   background-color: v.$bg-dark;
   color: v.$white;
   padding: 6px 10px 6px 8px;
@@ -98,8 +98,8 @@ tr .button-label p {
 
 tr .button-label div {
   position: absolute;
-  bottom: 3px;
-  right: 125%;
+  bottom: 2px;
+  right: 100%;
   height: 12px;
   width: 12px;
   background-color: v.$bg-dark;

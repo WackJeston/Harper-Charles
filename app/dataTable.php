@@ -8,10 +8,11 @@ class DataTable
 {
 	protected $table;
 
-  public function __construct()
+  public function __construct(string $ref = 'default', string $primary = 'id')
 	{
 		$this->table = [
-			'primary' => 'id',
+			'ref' => $ref,
+			'primary' => $primary,
 			'columns' => [],
 			'records' => [],
 			'buttons' => [],
@@ -22,11 +23,7 @@ class DataTable
 		$this->table['records'] = DB::select($query);
 	}
 
-	public function setPrimary(string $column) {
-		$this->table['primary'] = $column;
-	}
-
-	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false) {
+	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false, string $type = 'default') {
 		if ($title == null) {
 			$title = $name;
 		}
@@ -34,9 +31,11 @@ class DataTable
 		$this->table['columns'][] = [
 			'name' => $name,
 			'title' => $title,
-			'hideMobile' => $hideMobile,
 			'width' => $width,
 			'maxWidth' => $width,
+			'mobileMaxWidth' => $width,
+			'hideMobile' => $hideMobile,
+			'type' => $type,
 		];
 	}
 
@@ -62,16 +61,25 @@ class DataTable
 
 	public function output(): array {
 		$columnWidthCount = 0;
+		$mobileColumnWidthCount = 0;
 		
 		foreach ($this->table['columns'] as $i => $column) {
 			if ($column['name'] != 'id') {
 				$columnWidthCount += $column['width'];
+
+				if ($column['hideMobile'] == false) {
+					$mobileColumnWidthCount += $column['width'];
+				}
 			}
 		}
 
 		foreach ($this->table['columns'] as $i => $column) {
 			if ($column['name'] != 'id') {
 				$this->table['columns'][$i]['maxWidth'] = round((100 / $columnWidthCount) * $column['width'], 2);
+
+				if ($column['hideMobile'] == false) {
+					$this->table['columns'][$i]['mobileMaxWidth'] = round((100 / $mobileColumnWidthCount) * $column['width'], 2);
+				};
 			}
 		}
 
@@ -79,15 +87,17 @@ class DataTable
 	}
 
 	public function display() {
-		$result = '
-		<table class="web-box">
+		$result = sprintf('
+		<table class="web-box" id="table-%s">
 			<thead>
-				<tr>';
+				<tr>', $this->table['ref']);
 
 				foreach ($this->table['columns'] as $i => $column) {
 					$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
 
-					$result .= sprintf('<th style="%s">%s</th>', $style, $column['title']);
+
+
+					$result .= sprintf('<th style="width:%s;">%s</th>', $style, $column['title']);
 				}
 
 				$result .= '
@@ -103,64 +113,69 @@ class DataTable
 					foreach ($this->table['columns'] as $i2 => $column) {
 						$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
 
-						$result .= sprintf('<td style="%s">%s</td>', $style, $column['title']);
-						
-						if (count($this->table['buttons']) >= 1) {
-							$result .= '
-							<td class="tr-buttons">';
-
-							foreach ($this->table['buttons'] as $i3 => $button) {
-								$link = $record->buttonLinks[$i3];
-								$icon = $button['icon'];
-
-								$result .= sprintf('
-								<a href="%s">
-									<i class="%s">', $link, $icon);
-
-									if ($button['label'] != null) {
-										$result .= sprintf('
-										<div class="button-label">
-											<p>%s</p>
-											<div></div>
-										</div>', $button['label']);
-									}
-									
-									$result .= '
-									</i>
-								</a>';
-							}
-
-							$result .= '
-							</td>';
+						if ($column['type'] == 'currency') {
+							$record->{$column['name']} = '£' . $record->{$column['name']};
 						}
+
+						$result .= sprintf('<td style="width:%s;">%s</td>', $style, $record->{$column['name']});
 					}
 
-					$result .='
+					if (count($this->table['buttons']) >= 1) {
+						$result .= '
+						<td class="tr-buttons">';
+
+						foreach ($this->table['buttons'] as $i3 => $button) {
+							$link = $record->buttonLinks[$i3];
+							$icon = $button['icon'];
+
+							$result .= sprintf('
+							<a href="%s">
+								<i class="%s">', $link, $icon);
+
+								if ($button['label'] != null) {
+									$result .= sprintf('
+									<div class="button-label">
+										<p>%s</p>
+										<div></div>
+									</div>', $button['label']);
+								}
+								
+								$result .= '
+								</i>
+							</a>';
+						}
+
+						$result .= '
+						</td>';
+					}
+
+					$result .= '
 					</tr>';
 				}
 				
-			$result .='
+			$result .= '
 			</tbody>
-		</table>
+		</table>';
 
+		$result .= sprintf('
 		<script>
 			window.onload = addButtonsPadding();
 
 			function addButtonsPadding() {
-				let width = document.querySelector(".tr-buttons").offsetWidth;
-				let rows = document.querySelectorAll("tr");
+				setTimeout(function() {
+					let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
+					let rows = document.querySelectorAll("#table-%1$s tr");
 
-				let input = width + "px";
+					console.log(width);
 
-				setTimeout(
+					let input = width + "px";
+
 					rows.forEach(row => {
 						row.style.paddingRight = input;
-					}),
-					500
-				);
+					});
+				}, 500);
 			};
-		</script>
-		';
+		</script>', $this->table['ref']);
 
 		echo $result;
 	}

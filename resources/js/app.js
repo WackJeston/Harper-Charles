@@ -7,8 +7,6 @@ import VueAxios from 'vue-axios'
 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 
-// GLOBAL
-import Datatable from './vue/components/global/dataTable.vue'
 
 // PUBLIC
 import Vueheader from './vue/components/public/site/vueHeader.vue'
@@ -84,10 +82,6 @@ import Variantstable from './vue/components/admin/variants/variantsTable.vue'
 import Variantprofilefunctions from './vue/components/admin/variant-profile/variantProfileFunctions.vue'
 
 
-
-// GLOBAL 
-// const dataTable = createApp({})
-// dataTable.component('datatable', Datatable).mount('#datatable')
 
 // PUBLIC
 const vueHeader = createApp({})
