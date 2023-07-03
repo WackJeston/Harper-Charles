@@ -20,12 +20,10 @@
     @endif
 
     <div id="variantscreate" class="dk">
-      <variantscreate :variants="{{ json_encode($variants) }}" />
+      <variantscreate />
     </div>
 
-    <div id="variantstable" class="dk">
-      <variantstable :variants="{{ json_encode($variants) }}" />
-    </div>
+    {{ $variantsTable->display() }}
 
   </main>
 @endsection

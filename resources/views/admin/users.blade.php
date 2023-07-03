@@ -23,9 +23,7 @@
       <userscreate />
     </div>
 
-    <div id="userstable" class="dk">
-      <userstable :users="{{ json_encode($users) }}" />
-    </div>
+		{{ $usersTable->display() }}
 
   </main>
 @endsection

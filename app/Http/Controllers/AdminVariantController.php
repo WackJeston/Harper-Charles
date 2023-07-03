@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use App\dataTable;
 use App\Models\ProductVariants;
 use App\Models\Products;
 
@@ -13,20 +14,31 @@ class AdminVariantController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $variants = DB::select('SELECT
-      pv.id,
-      pv.title,
-      COUNT(pv2.id) AS children,
-      pv.show
-      FROM product_variants AS pv
-      LEFT JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
-      WHERE pv.parentVariantId IS NULL
-      GROUP BY pv.id
-    ');
+    $variantsTable = new DataTable();
+		
+		$variantsTable->setQuery('SELECT
+			pv.id,
+			pv.title,
+			COUNT(pv2.id) AS children,
+			pv.show
+			FROM product_variants AS pv
+			LEFT JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
+			WHERE pv.parentVariantId IS NULL
+			GROUP BY pv.id
+		');
+
+		$variantsTable->addColumn('id', '#');
+		$variantsTable->addColumn('title', 'Title', 2);
+		$variantsTable->addColumn('children', 'Children');
+		// $variantsTable->addColumn('show', 'Show', 1, false, 'toggle');
+
+		$variantsTable->addButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+
+		$variantsTable->output();
 
     return view('admin/variants', compact(
       'sessionUser',
-      'variants',
+      'variantsTable',
     ));
   }
 

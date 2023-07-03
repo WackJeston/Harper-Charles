@@ -14,24 +14,21 @@ class AdminProductsController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $product = Products::all();
-
 		$productsTable = new DataTable();
 		$productsTable->setQuery('SELECT * FROM products');
 
-		$productsTable->addColumn('id', '#', true);
+		$productsTable->addColumn('id', '#');
 		$productsTable->addColumn('title', 'Title');
-		$productsTable->addColumn('subtitle', 'Subtitle');
+		$productsTable->addColumn('subtitle', 'Subtitle', 2);
 		$productsTable->addColumn('productNumber', 'Product Number');
 
 		$productsTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
-		$productsTable = $productsTable->output();
+		$productsTable->output();
 
 
     return view('/admin/products', compact(
       'sessionUser',
-      'product',
 			'productsTable'
     ));
   }

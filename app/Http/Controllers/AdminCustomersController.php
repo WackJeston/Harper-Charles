@@ -6,6 +6,7 @@ use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\dataTable;
 use App\Models\User;
 
 
@@ -15,18 +16,21 @@ class AdminCustomersController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $customers = DB::select('SELECT
-      u.id,
-      CONCAT(u.firstName, " ", u.lastName) AS name,
-      u.email,
-      u.created_at
-      FROM users AS u
-      WHERE u.admin=0
-    ');
+    $customersTable = new DataTable();
+		$customersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name` FROM users WHERE admin = 0');
+
+		$customersTable->addColumn('id', '#');
+		$customersTable->addColumn('name', 'Name');
+		$customersTable->addColumn('email', 'Email', 2);
+		$customersTable->addColumn('created_at', 'Created');
+
+		$customersTable->addButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+
+		$customersTable->output();
 
     return view('admin/customers', compact(
       'sessionUser',
-      'customers',
+      'customersTable',
     ));
   }
 

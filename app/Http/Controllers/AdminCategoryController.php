@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use File;
 use Illuminate\Http\Request;
+use App\dataTable;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryJoins;
 use App\Models\ProductCategoryImages;
@@ -16,33 +17,27 @@ class AdminCategoryController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $categories = DB::table('product_categories')
-      ->select('id', 'title', 'subtitle', 'description', 'show', DB::raw('COUNT(Join1.productId) as productCount'))
+    $categoriesTable = new DataTable();
+		$categoriesTable->setQuery('SELECT
+		 pc.*,
+		 COUNT(p.id) AS products
+		 FROM product_categories AS pc
+		 LEFT JOIN product_category_joins AS p ON pc.id = p.categoryId
+		 GROUP BY pc.id
+		');
 
-      ->leftJoin(DB::raw("(SELECT
-        productId,
-        categoryId
-        FROM product_category_joins)
-        Join1"),
-        function($join)
-        {
-          $join->on('product_categories.id', '=', 'Join1.categoryId');
-        })
+		$categoriesTable->addColumn('id', '#');
+		$categoriesTable->addColumn('title', 'Title', 2);
+		$categoriesTable->addColumn('subtitle', 'Subtitle', 2);
+		$categoriesTable->addColumn('products', 'Products');
 
-        ->groupBy('id')
-    ->get();
+		$categoriesTable->addButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
-    // dd($categories);
-
-    // $categories = ProductCategories::all();
-    $joins = ProductCategoryJoins::all();
-    $products = Products::all();
+		$categoriesTable->output();
 
     return view('admin/categories', compact(
       'sessionUser',
-      'categories',
-      'joins',
-      'products',
+			'categoriesTable'
     ));
   }
 

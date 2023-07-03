@@ -20,12 +20,10 @@
     @endif
 
     <div id="categorycreate" class="dk">
-      <categorycreate :categories="{{ $categories }}" :joins="{{ $joins }}" :products="{{ $products }}" />
+      <categorycreate />
     </div>
 
-    <div id="categorytable" class="dk">
-      <categorytable :categories="{{ $categories }}" :joins="{{ $joins }}" :products="{{ $products }}" />
-    </div>
+		{{ $categoriesTable->display() }}
 
   </main>
 @endsection

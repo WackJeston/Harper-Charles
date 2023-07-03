@@ -23,9 +23,7 @@
       <productscreate />
     </div>
 
-		<div id="datatable" class="dk">
-			<datatable :table="{{ json_encode($productsTable) }}" />
-		</div>
+		{{ $productsTable->display() }}
 
   </main>
 @endsection

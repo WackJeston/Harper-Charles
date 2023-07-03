@@ -23,9 +23,7 @@
       <customerscreate />
     </div>
 
-    <div id="customerstable" class="dk">
-      <customerstable :customers="{{ json_encode($customers) }}" />
-    </div>
+		{{ $customersTable->display() }}
 
   </main>
 @endsection

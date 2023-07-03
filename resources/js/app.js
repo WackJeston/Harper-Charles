@@ -50,19 +50,16 @@ import Adminlogin from './vue/components/admin/auth/login.vue'
 import Admincontactmain from './vue/components/admin/contact/contactMain.vue'
 import Admincontactfunctions from './vue/components/admin/contact/contactFunctions.vue'
 
-import Userstable from './vue/components/admin/users/usersTable.vue'
 import Userscreate from './vue/components/admin/users/usersCreate.vue'
 
 import Userprofilemain from './vue/components/admin/user-profile/userProfileMain.vue'
 import Userprofilefunctions from './vue/components/admin/user-profile/userProfileFunctions.vue'
 
-import Customerstable from './vue/components/admin/customers/customersTable.vue'
 import Customerscreate from './vue/components/admin/customers/customersCreate.vue'
 
 import Customerprofilemain from './vue/components/admin/customer-profile/customerProfileMain.vue'
 import Customerprofilefunctions from './vue/components/admin/customer-profile/customerProfileFunctions.vue'
 
-import Productstable from './vue/components/admin/products/productsTable.vue'
 import Productscreate from './vue/components/admin/products/productsCreate.vue'
 
 import Productprofilemain from './vue/components/admin/product-profile/productProfileMain.vue'
@@ -71,13 +68,11 @@ import Productprofilefunctions from './vue/components/admin/product-profile/prod
 import Lzhomecarousel from './vue/components/admin/landing-zones/home-carousel.vue'
 
 import Categorycreate from './vue/components/admin/categories/categoryCreate.vue'
-import Categorytable from './vue/components/admin/categories/categoryTable.vue'
 
 import Categoryprofilemain from './vue/components/admin/category-profile/categoryProfileMain.vue'
 import Categoryprofilefunctions from './vue/components/admin/category-profile/categoryProfileFunctions.vue'
 
 import Variantscreate from './vue/components/admin/variants/variantsCreate.vue'
-import Variantstable from './vue/components/admin/variants/variantsTable.vue'
 
 import Variantprofilefunctions from './vue/components/admin/variant-profile/variantProfileFunctions.vue'
 
@@ -192,9 +187,6 @@ adminContactFunctions.use(VueAxios, axios)
 adminContactFunctions.component('admincontactfunctions', Admincontactfunctions).mount('#admincontactfunctions')
 
 
-const usersTable = createApp({})
-usersTable.component('userstable', Userstable).mount('#userstable')
-
 const usersCreate = createApp({})
 usersCreate.component('userscreate', Userscreate).mount('#userscreate')
 
@@ -206,9 +198,6 @@ const userProfileFunctions = createApp({})
 userProfileFunctions.component('userprofilefunctions', Userprofilefunctions).mount('#userprofilefunctions')
 
 
-const customersTable = createApp({})
-customersTable.component('customerstable', Customerstable).mount('#customerstable')
-
 const customersCreate = createApp({})
 customersCreate.component('customerscreate', Customerscreate).mount('#customerscreate')
 
@@ -219,9 +208,6 @@ customerProfileMain.component('customerprofilemain', Customerprofilemain).mount(
 const customerProfileFunctions = createApp({})
 customerProfileFunctions.component('customerprofilefunctions', Customerprofilefunctions).mount('#customerprofilefunctions')
 
-
-const productsTable = createApp({})
-productsTable.component('productstable', Productstable).mount('#productstable')
 
 const productsCreate = createApp({})
 productsCreate.component('productscreate', Productscreate).mount('#productscreate')
@@ -241,9 +227,6 @@ lzHomeCarousel.component('lzhomecarousel', Lzhomecarousel).mount('#lzhomecarouse
 const categoryCreate = createApp({})
 categoryCreate.component('categorycreate', Categorycreate).mount('#categorycreate')
 
-const categoryTable = createApp({})
-categoryTable.component('categorytable', Categorytable).mount('#categorytable')
-
 
 const categoryProfileMain = createApp({})
 categoryProfileMain.component('categoryprofilemain', Categoryprofilemain).mount('#categoryprofilemain')
@@ -254,9 +237,6 @@ categoryProfileFunctions.component('categoryprofilefunctions', Categoryprofilefu
 
 const variantsCreate = createApp({})
 variantsCreate.component('variantscreate', Variantscreate).mount('#variantscreate')
-
-const variantsTable = createApp({})
-variantsTable.component('variantstable', Variantstable).mount('#variantstable')
 
 
 const variantProfileFunctions = createApp({})
