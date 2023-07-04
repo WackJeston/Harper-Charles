@@ -28,9 +28,23 @@
       <categoryprofilefunctions :category="{{ json_encode($category) }}" :images="{{ json_encode($images) }}" :imagecount="{{ json_encode($imageCount) }}" :products="{{ json_encode($products) }}" :allproducts="{{ $allProducts }}" />
     </div>
 
-    <div id="categoryprofilemain">
-      <categoryprofilemain :category="{{ json_encode($category) }}" image="{{ $primaryImage }}" />
-    </div>
+		<div class="web-box profile-main">
+			<div class="wb-row">
+				<ul>
+					<li><strong>Title: </strong>{{ $category->title }}</li>
+					@if ($category->subtitle)
+						<li><strong>Subtitle: </strong>{{ $category->subtitle }}</li>
+					@endif
+					@if ($category->description)
+						<li class="text-box"><strong>Description: </strong>{{ $category->description }}</li>
+					@endif
+					@if ($category->created_at)
+						<li><strong>Created At: </strong>{{ $category->created_at }}</li>
+					@endif
+				</ul>
+				<div class="wb-image" style="background-image: {{ 'url(' . env('AWS_ASSET_URL') . $primaryImage . ')' }}"></div>
+			</div>
+		</div>
 
   </main>
 @endsection

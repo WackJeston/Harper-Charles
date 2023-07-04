@@ -22,9 +22,6 @@ class AdminTestController extends Controller
 		$dataTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$dataTable->addButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
 
-		$table = $dataTable->output();
-		// $table = $dataTable->display();
-
 		$table2 = new DataTable('categories');
 		$table2->setQuery('SELECT * FROM product_categories');
 
@@ -34,8 +31,6 @@ class AdminTestController extends Controller
 		$table2->addColumn('created_at', 'Created At');
 
 		$table2->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-
-		$table2->output();
 
 		// dd($table);
 

@@ -5,6 +5,7 @@ use File;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\dataTable;
 use App\Models\Products;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryImages;
@@ -20,30 +21,31 @@ class AdminCategoryProfileController extends Controller
       return redirect('/admin/categories');
     }
 
-    $category = DB::table('product_categories')
-      ->select('id', 'title', 'subtitle', 'description', 'show', 'created_at', DB::raw('COUNT(Join1.productId) as productCount'))
-
-      ->leftJoin(DB::raw("(SELECT
-        productId,
-        categoryId
-        FROM product_category_joins)
-        Join1"),
-        function($join)
-        {
-          $join->on('product_categories.id', '=', 'Join1.categoryId');
-        })
-
-        ->where('id', $id)
-        ->groupBy('id')
-        ->limit(1)
-    ->get();
+    $category = DB::SELECT('SELECT
+			pc.*,
+			COUNT(pcj.id) AS productCount,
+			COUNT(pci.id) AS imageCount
+			FROM product_categories AS pc
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId = pc.id
+			LEFT JOIN product_category_images AS pci ON pci.categoryId = pc.id
+			WHERE pc.id = ?
+			GROUP BY pc.id
+			LIMIT 1',
+			[$id]
+		);
 
     $category = $category[0];
 
-    $images = ProductCategoryImages::all()->where('categoryId', $id);
-    $imageCount = count($images);
+    $imagesTable = new DataTable('images');
+		$imagesTable->setQuery('SELECT * FROM product_category_images WHERE categoryId = ?', [$id]);
 
-    if ($imageCount == 1) {
+		$imagesTable->addColumn('id', '#');
+		$imagesTable->addColumn('name', 'Name', 2);
+		$imagesTable->addColumn('primary', 'Primary', 1, false, 'toggle');
+
+		$imagesTable->addButton('/category-profileDeleteImage/?', 'fa-solid fa-trash', 'Delete Image', 'Are you sure you want to delete this image?');
+
+    if ($category->imageCount == 1) {
       ProductCategoryImages::where('categoryId', $id)->update([
         'primary' => 1,
       ]);
@@ -51,40 +53,29 @@ class AdminCategoryProfileController extends Controller
 
     $primaryImage = ProductCategoryImages::where([['categoryId', $id], ['primary', 1]])->pluck('fileName')->first();
 
-    $products = DB::table('products')
-      ->select('id', 'title', 'subtitle', 'description', 'productNumber')
+    $productsTable = new DataTable('products');
+		$productsTable->setQuery('SELECT
+			p.*
+			FROM products AS p
+			LEFT JOIN product_category_joins AS pcj ON pcj.productId = p.id
+			WHERE pcj.categoryId = ?',
+			[$id]
+		);
 
-      ->leftJoin(DB::raw("(SELECT
-        productId,
-        categoryId
-        FROM product_category_joins)
-        Join1"),
-        function($join)
-        {
-          $join->on('products.id', '=', 'Join1.productId');
-        })
+		$productsTable->addColumn('id', '#');
+		$productsTable->addColumn('title', 'Title', 2);
+		$productsTable->addColumn('productNumber', 'Product Number', 2);
+		$productsTable->addColumn('price', 'Price', 1, false, 'currency');
 
-      ->where('Join1.categoryId', $id)
-      ->groupBy('id')
-    ->get();
-
-    $productIds = [];
-
-    foreach ($products as $i => $product) {
-      array_push($productIds, $product->id);
-    }
-
-    $allProducts = Products::select('id', 'title')->whereNotIn('id', $productIds)->get();
-
+		$productsTable->addButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$productsTable->addButton('/category-profileRemoveProduct/?', 'fa-solid fa-ban', 'Remove Product', 'Are you sure you want to remove this product from this category?');
 
     return view('admin/category-profile', compact(
       'sessionUser',
       'category',
-      'images',
-      'imageCount',
       'primaryImage',
-      'products',
-      'allProducts',
+			'imagesTable',
+			'productsTable',
     ));
   }
 

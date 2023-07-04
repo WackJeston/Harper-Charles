@@ -26,8 +26,6 @@ class AdminCustomersController extends Controller
 
 		$customersTable->addButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
-		$customersTable->output();
-
     return view('admin/customers', compact(
       'sessionUser',
       'customersTable',

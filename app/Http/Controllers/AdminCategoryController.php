@@ -33,8 +33,6 @@ class AdminCategoryController extends Controller
 
 		$categoriesTable->addButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
-		$categoriesTable->output();
-
     return view('admin/categories', compact(
       'sessionUser',
 			'categoriesTable'

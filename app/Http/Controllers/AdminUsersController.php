@@ -26,8 +26,6 @@ class AdminUsersController extends Controller
 
 		$usersTable->addButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
-		$usersTable->output();
-
     return view('admin/users', compact(
       'sessionUser',
       'usersTable',

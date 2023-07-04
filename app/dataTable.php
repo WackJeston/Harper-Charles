@@ -19,7 +19,10 @@ class DataTable
 		];
 	}
 
-	public function setQuery(string $query) {
+	public function setQuery(string $query, array $params = []) {
+		$query = str_replace('?', '%s', $query);
+		$query = vsprintf($query, $params);
+
 		$this->table['records'] = DB::select($query);
 	}
 
@@ -39,7 +42,7 @@ class DataTable
 		];
 	}
 
-	public function addButton(string $url, string $icon, string $label = null) {
+	public function addButton(string $url, string $icon, string $label = null, string $warning = null) {
 		$this->table['buttons'][] = [
 			'icon' => $icon,
 			'label' => $label,
@@ -59,7 +62,7 @@ class DataTable
 		}
 	}
 
-	public function output(): array {
+	public function calculate() {
 		$columnWidthCount = 0;
 		$mobileColumnWidthCount = 0;
 		
@@ -82,11 +85,11 @@ class DataTable
 				};
 			}
 		}
-
-		return $this->table;
 	}
 
 	public function display() {
+		self::calculate();
+
 		$result = sprintf('
 		<table class="web-box" id="table-%s">
 			<thead>
@@ -105,52 +108,59 @@ class DataTable
 			</thead>
 
 			<tbody>';
-					
-				foreach ($this->table['records'] as $i => $record) {
-					$result .= '
-					<tr>';
-					
-					foreach ($this->table['columns'] as $i2 => $column) {
-						$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
 
-						if ($column['type'] == 'currency') {
-							$record->{$column['name']} = '£' . $record->{$column['name']};
-						}
-
-						$result .= sprintf('<td style="width:%s;">%s</td>', $style, $record->{$column['name']});
-					}
-
-					if (count($this->table['buttons']) >= 1) {
+				if (count($this->table['records']) > 0) {
+					foreach ($this->table['records'] as $i => $record) {
 						$result .= '
-						<td class="tr-buttons">';
-
-						foreach ($this->table['buttons'] as $i3 => $button) {
-							$link = $record->buttonLinks[$i3];
-							$icon = $button['icon'];
-
-							$result .= sprintf('
-							<a href="%s">
-								<i class="%s">', $link, $icon);
-
-								if ($button['label'] != null) {
-									$result .= sprintf('
-									<div class="button-label">
-										<p>%s</p>
-										<div></div>
-									</div>', $button['label']);
-								}
-								
-								$result .= '
-								</i>
-							</a>';
+						<tr>';
+						
+						foreach ($this->table['columns'] as $i2 => $column) {
+							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+	
+							if ($column['type'] == 'currency') {
+								$record->{$column['name']} = '£' . $record->{$column['name']};
+							}
+	
+							$result .= sprintf('<td style="width:%s;">%s</td>', $style, $record->{$column['name']});
 						}
-
+	
+						if (count($this->table['buttons']) >= 1) {
+							$result .= '
+							<td class="tr-buttons">';
+	
+							foreach ($this->table['buttons'] as $i3 => $button) {
+								$link = $record->buttonLinks[$i3];
+								$icon = $button['icon'];
+	
+								$result .= sprintf('
+								<a href="%s">
+									<i class="%s">', $link, $icon);
+	
+									if ($button['label'] != null) {
+										$result .= sprintf('
+										<div class="button-label">
+											<p>%s</p>
+											<div></div>
+										</div>', $button['label']);
+									}
+									
+									$result .= '
+									</i>
+								</a>';
+							}
+	
+							$result .= '
+							</td>';
+						}
+	
 						$result .= '
-						</td>';
+						</tr>';
 					}
-
+				} else {
 					$result .= '
-					</tr>';
+					<div class="empty-table">
+						<h3>No Images</h3>
+					</div>';
 				}
 				
 			$result .= '

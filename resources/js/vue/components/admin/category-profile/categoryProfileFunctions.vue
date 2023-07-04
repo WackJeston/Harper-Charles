@@ -59,7 +59,7 @@
   </form>
 
   <!-- Images table -->
-  <table class="web-box" v-show="show == 'images'">
+  <!-- <table class="web-box" v-show="show == 'images'">
     <tr>
       <th id="image-column1">#</th>
       <th id="image-column2">Name</th>
@@ -115,7 +115,7 @@
       <h3>No Images</h3>
     </div>
 
-  </table>
+  </table> -->
 
 
   <!-- Products Form -->
@@ -160,7 +160,7 @@
   </form>
 
   <!-- Products Table -->
-  <table class="web-box" v-show="show == 'products'">
+  <!-- <table class="web-box" v-show="show == 'products'">
 
     <tr>
       <th id="product-column1">#</th>
@@ -199,7 +199,7 @@
       <h3>No Products</h3>
     </div>
 
-  </table>
+  </table> -->
 </template>
 
 
