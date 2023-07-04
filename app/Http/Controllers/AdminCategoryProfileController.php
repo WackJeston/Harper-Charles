@@ -45,6 +45,8 @@ class AdminCategoryProfileController extends Controller
 
 		$imagesTable->addButton('/category-profileDeleteImage/?', 'fa-solid fa-trash', 'Delete Image', 'Are you sure you want to delete this image?');
 
+		$imagesTable = $imagesTable->display(true);
+
     if ($category->imageCount == 1) {
       ProductCategoryImages::where('categoryId', $id)->update([
         'primary' => 1,
@@ -69,6 +71,10 @@ class AdminCategoryProfileController extends Controller
 
 		$productsTable->addButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$productsTable->addButton('/category-profileRemoveProduct/?', 'fa-solid fa-ban', 'Remove Product', 'Are you sure you want to remove this product from this category?');
+
+		$productsTable = $productsTable->display(true);
+
+		// dd($productsTable);
 
     return view('admin/category-profile', compact(
       'sessionUser',

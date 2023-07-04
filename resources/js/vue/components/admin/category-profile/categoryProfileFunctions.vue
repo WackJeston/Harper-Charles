@@ -159,6 +159,8 @@
     <button class="submit" type="submit">Create</button>
   </form>
 
+	<div v-show="show == 'products'">{{this.productstable}}</div>
+
   <!-- Products Table -->
   <!-- <table class="web-box" v-show="show == 'products'">
 
@@ -206,11 +208,9 @@
 <script>
   export default {
     props: [
-      'images',
-      'imagecount',
       'category',
-      'products',
-      'allproducts',
+      'imagestable',
+			'productstable',
     ],
 
     data() {
@@ -223,33 +223,6 @@
     },
 
     methods: {
-      hideMobile() {
-        if (window.innerWidth < 650) {
-          document.querySelector("#image-column1").style.width = "15%";
-          document.querySelector("#image-column2").style.width = "40%";
-          document.querySelector("#image-column3").style.width = "20%";
-          document.querySelector("#image-column4").style.width = "25%";
-        } else {
-          document.querySelector("#image-column1").style.width = "10%";
-          document.querySelector("#image-column2").style.width = "55%";
-          document.querySelector("#image-column3").style.width = "15%";
-          document.querySelector("#image-column4").style.width = "20%";
-        }
-
-        if (window.innerWidth < 650) {
-          document.querySelector("#product-column1").style.width = "10%";
-          document.querySelector("#product-column2").style.width = "40%";
-          document.querySelector("#product-column4").style.width = "30%";
-          document.querySelector("#product-column5").style.width = "20%";
-        } else {
-          document.querySelector("#product-column1").style.width = "10%";
-          document.querySelector("#product-column2").style.width = "30%";
-          document.querySelector("#product-column3").style.width = "25%";
-          document.querySelector("#product-column4").style.width = "20%";
-          document.querySelector("#product-column5").style.width = "15%";
-        }
-      },
-
       showImage(fileName) {
         const imageZone = document.querySelector('.viewer-image');
         imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
@@ -273,14 +246,6 @@
           document.querySelector('.warning-overlay').style.display = 'none';
         }
       },
-    },
-
-    mounted() {
-      this.hideMobile();
-    },
-
-    created() {
-      window.addEventListener('resize', this.hideMobile);
     },
   };
 </script>

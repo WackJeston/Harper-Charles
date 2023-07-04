@@ -87,7 +87,7 @@ class DataTable
 		}
 	}
 
-	public function display() {
+	public function display(bool $return = false) {
 		self::calculate();
 
 		$result = sprintf('
@@ -97,8 +97,6 @@ class DataTable
 
 				foreach ($this->table['columns'] as $i => $column) {
 					$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
-
-
 
 					$result .= sprintf('<th style="width:%s;">%s</th>', $style, $column['title']);
 				}
@@ -167,26 +165,32 @@ class DataTable
 			</tbody>
 		</table>';
 
-		$result .= sprintf('
-		<script>
-			window.onload = addButtonsPadding();
+		// $result .= sprintf('
+		// <script>
+		// 	window.onload = addButtonsPadding();
 
-			function addButtonsPadding() {
-				setTimeout(function() {
-					let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
-					let rows = document.querySelectorAll("#table-%1$s tr");
+		// 	function addButtonsPadding() {
+		// 		setTimeout(function() {
+		// 			let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
+		// 			let rows = document.querySelectorAll("#table-%1$s tr");
 
-					console.log(width);
+		// 			console.log(width);
 
-					let input = width + "px";
+		// 			let input = width + "px";
 
-					rows.forEach(row => {
-						row.style.paddingRight = input;
-					});
-				}, 500);
-			};
-		</script>', $this->table['ref']);
+		// 			rows.forEach(row => {
+		// 				row.style.paddingRight = input;
+		// 			});
+		// 		}, 500);
+		// 	};
+		// </script>', $this->table['ref']);
 
-		echo $result;
+		$result = trim(preg_replace('/\s\s+/', '', $result));
+
+		if ($return == false) {
+			echo $result;
+		} else {
+			return $result;
+		}
 	}
 }
