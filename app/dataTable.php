@@ -52,7 +52,7 @@ class DataTable
 			$url = '/' . $url;
 		}
 
-		if (str_contains(url()->current(), '/admin')) {
+		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', url()->current())) {
 			$url = '/admin' . $url;
 		}
 
@@ -156,9 +156,7 @@ class DataTable
 					}
 				} else {
 					$result .= '
-					<div class="empty-table">
-						<h3>No Images</h3>
-					</div>';
+					<h3>No Records</h3>';
 				}
 				
 			$result .= '

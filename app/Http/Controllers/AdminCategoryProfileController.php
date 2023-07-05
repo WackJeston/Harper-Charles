@@ -70,7 +70,7 @@ class AdminCategoryProfileController extends Controller
 		$productsTable->addColumn('price', 'Price', 1, false, 'currency');
 
 		$productsTable->addButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$productsTable->addButton('/category-profileRemoveProduct/?', 'fa-solid fa-ban', 'Remove Product', 'Are you sure you want to remove this product from this category?');
+		$productsTable->addButton('/category-profileRemoveProduct/' . $id . '/?', 'fa-solid fa-ban', 'Remove Product');
 
 		$productsTable = $productsTable->display(true);
 

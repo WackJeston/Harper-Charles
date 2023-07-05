@@ -7,7 +7,7 @@
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
   @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'images' }"
-  @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.imagecount > 0"> ({{ this.imagecount }})</span></button>
+  @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.category.imageCount > 0"> ({{ this.category.imageCount }})</span></button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'products' }"
   @click="show == 'products' ? show = false : show = 'products'">Products<span v-show="this.category.productCount > 0"> ({{ this.category.productCount }})</span></button>
 
@@ -58,71 +58,14 @@
     <button class="submit" type="submit">Upload</button>
   </form>
 
-  <!-- Images table -->
-  <!-- <table class="web-box" v-show="show == 'images'">
-    <tr>
-      <th id="image-column1">#</th>
-      <th id="image-column2">Name</th>
-      <th id="image-column3">Primary</th>
-      <th id="image-column4"></th>
-    </tr>
-
-    <tr v-for="(image, i) in this.images">
-      <td id="image-column1"><div>{{ image.id }}</div></td>
-      <td id="image-column2"><div>{{ image.name }}</div></td>
-      <td id="image-column3">
-        <div>
-          <i v-if="image.primary" class="fa-solid fa-circle-check primary"></i>
-          <i v-else class="fa-solid fa-circle-xmark non-primary"></i>
-        </div>
-      </td>
-
-      <td id="image-column4" class="tr-buttons">
-        <a :href="'/category-profilePrimaryImage/' + image.id">
-          <i class="fa-solid fa-ranking-star">
-            <div class="button-label">
-              <p>Make Primary</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-        <a @click="showImage(image.fileName)">
-          <i class="fa-solid fa-eye">
-            <div class="button-label">
-              <p>View</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-        <a :href="'/category-profileDeleteImage/' + image.id">
-          <i class="fa-solid fa-trash-can">
-            <div class="button-label">
-              <p>Delete</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-      </td>
-    </tr>
-
-    <div class="image-viewer" v-show="this.imageView">
-      <img class="viewer-image">
-      <div class="viewer-overlay"></div>
-      <i class="fa-solid fa-xmark" @click="closeImage()"></i>
-    </div>
-
-    <div v-show="this.images == false" class="empty-table">
-      <h3>No Images</h3>
-    </div>
-
-  </table> -->
+	<!-- Images Table -->
+	<div v-html="this.imagestable" v-show="show == 'images'"></div>
 
 
   <!-- Products Form -->
   <h3 class="form-title" v-show="show == 'products'">Add Existing Product</h3>
 
   <form class="web-box" v-show="show == 'products'" :action="'/category-profileAddProduct/' + this.category.id" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
 
     <label for="product">Select Product</label>
@@ -137,7 +80,6 @@
   <h3 class="form-title" v-show="show == 'products'">Create New Product</h3>
 
   <form class="web-box" v-show="show == 'products'" :action="'/category-profileCreateProduct/' + this.category.id" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
 
     <label for="title">Title<span> *</span></label>
@@ -159,49 +101,8 @@
     <button class="submit" type="submit">Create</button>
   </form>
 
-	<div v-show="show == 'products'">{{this.productstable}}</div>
-
-  <!-- Products Table -->
-  <!-- <table class="web-box" v-show="show == 'products'">
-
-    <tr>
-      <th id="product-column1">#</th>
-      <th id="product-column2">Title</th>
-      <th id="product-column3" class="hide-mobile">Subtitle</th>
-      <th id="product-column4">Product #</th>
-      <th id="product-column5"></th>
-    </tr>
-
-    <tr v-for="(product, i) in this.products">
-      <td id="product-column1"><div>{{ product.id }}</div></td>
-      <td id="product-column2"><div>{{ product.title }}</div></td>
-      <td id="product-column3" class="hide-mobile"><div>{{ product.subtitle }}</div></td>
-      <td id="product-column4"><div>{{ product.productNumber }}</div></td>
-      <td id="product-column5" class="tr-buttons">
-        <a :href="'/category-profileRemoveProduct/' + this.category.id + '/' + product.id">
-          <i class="fa-solid fa-ban">
-            <div class="button-label">
-              <p>Remove</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-        <a :href="'/admin/product-profile/' + product.id">
-          <i class="fa-solid fa-arrow-up-right-from-square">
-            <div class="button-label">
-              <p>Manage Product</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-      </td>
-    </tr>
-
-    <div v-show="this.products == false" class="empty-table">
-      <h3>No Products</h3>
-    </div>
-
-  </table> -->
+	<!-- Products Table -->
+	<div v-html="this.productstable" v-show="show == 'products'"></div>
 </template>
 
 
