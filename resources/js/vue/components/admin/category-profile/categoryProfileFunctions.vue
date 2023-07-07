@@ -59,7 +59,7 @@
   </form>
 
 	<!-- Images Table -->
-	<div v-html="this.imagestable" v-show="show == 'images'"></div>
+	<div v-html="this.imagestable.content" v-show="show == 'images'"></div>
 
 
   <!-- Products Form -->
@@ -102,7 +102,8 @@
   </form>
 
 	<!-- Products Table -->
-	<div v-html="this.productstable" v-show="show == 'products'"></div>
+	<div v-html="this.productstable.content" v-show="show == 'products'"></div>
+
 </template>
 
 

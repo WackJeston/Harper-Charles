@@ -46,5 +46,10 @@
 			</div>
 		</div>
 
+		@php
+			echo $imagesTable['script'];
+			echo $productsTable['script'];
+		@endphp
+
   </main>
 @endsection

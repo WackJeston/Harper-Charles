@@ -163,32 +163,32 @@ class DataTable
 			</tbody>
 		</table>';
 
-		// $result .= sprintf('
-		// <script>
-		// 	window.onload = addButtonsPadding();
+		$script = sprintf('
+		<script>
+			console.log("ACTION");
 
-		// 	function addButtonsPadding() {
-		// 		setTimeout(function() {
-		// 			let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
-		// 			let rows = document.querySelectorAll("#table-%1$s tr");
+			setTimeout(function() {
+				let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
+				let rows = document.querySelectorAll("#table-%1$s tr");
 
-		// 			console.log(width);
+				let input = width + "px";
 
-		// 			let input = width + "px";
-
-		// 			rows.forEach(row => {
-		// 				row.style.paddingRight = input;
-		// 			});
-		// 		}, 500);
-		// 	};
-		// </script>', $this->table['ref']);
-
-		$result = trim(preg_replace('/\s\s+/', '', $result));
+				rows.forEach(row => {
+					row.style.paddingRight = input;
+				});
+			}, 500);
+		</script>', $this->table['ref']);
 
 		if ($return == false) {
+			$result = trim(preg_replace('/\s\s+/', '', $result . $script));
 			echo $result;
+
 		} else {
-			return $result;
+			$return = [];
+			$return['content'] = trim(preg_replace('/\s\s+/', '', $result));
+			$return['script'] = trim(preg_replace('/\s\s+/', '', $script));
+
+			return $return;
 		}
 	}
 }
