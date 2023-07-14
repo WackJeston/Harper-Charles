@@ -2,6 +2,13 @@
 
 @section('title', 'Category Profile')
 
+@push('head')
+	@php
+		echo $imagesTable['script'];
+		echo $productsTable['script'];
+	@endphp
+@endpush
+
 @section('content')
   <main class="category-profile">
 
@@ -45,11 +52,5 @@
 				<div class="wb-image" style="background-image: {{ 'url(' . env('AWS_ASSET_URL') . $primaryImage . ')' }}"></div>
 			</div>
 		</div>
-
-		@php
-			echo $imagesTable['script'];
-			echo $productsTable['script'];
-		@endphp
-
   </main>
 @endsection

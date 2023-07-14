@@ -114,9 +114,19 @@ class DataTable
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
-	
-							if ($column['type'] == 'currency') {
-								$record->{$column['name']} = '£' . $record->{$column['name']};
+							
+							switch ($column['type']) {
+								case 'currency':
+									$record->{$column['name']} = '£' . $record->{$column['name']};
+									break;
+
+								case 'toggle':
+									if ($record->{$column['name']} == 1) {
+										$record->{$column['name']} = '<i class="fa-solid fa-circle-check toggle-true"></i>';
+									} else {
+										$record->{$column['name']} = '<i class="fa-solid fa-circle-xmark toggle-false"></i>';
+									}
+									break;
 							}
 	
 							$result .= sprintf('<td style="width:%s;">%s</td>', $style, $record->{$column['name']});
@@ -163,27 +173,36 @@ class DataTable
 			</tbody>
 		</table>';
 
-		$script = sprintf('
-		<script>
-			console.log("ACTION");
-
-			setTimeout(function() {
-				let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
-				let rows = document.querySelectorAll("#table-%1$s tr");
-
-				let input = width + "px";
-
-				rows.forEach(row => {
-					row.style.paddingRight = input;
-				});
-			}, 500);
-		</script>', $this->table['ref']);
-
 		if ($return == false) {
+			$script = sprintf('
+			<script>
+				setTimeout(function() {
+					let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
+					let rows = document.querySelectorAll("#table-%1$s tr");
+
+					let input = width + "px";
+
+					rows.forEach(row => {
+						row.style.paddingRight = input;
+					});
+				}, 500);
+			</script>', $this->table['ref']);
+
 			$result = trim(preg_replace('/\s\s+/', '', $result . $script));
 			echo $result;
 
 		} else {
+			$script = sprintf('
+			<script>
+				setTimeout(function() {
+					let rows = document.querySelectorAll("#table-%1$s tr");
+
+					rows.forEach(row => {
+						row.style.paddingRight = "%2$s";
+					});
+				}, 500);
+			</script>', $this->table['ref'], (count($this->table['buttons']) * 40) . 'px');
+
 			$return = [];
 			$return['content'] = trim(preg_replace('/\s\s+/', '', $result));
 			$return['script'] = trim(preg_replace('/\s\s+/', '', $script));

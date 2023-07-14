@@ -163,3 +163,19 @@ table .fa-xmark:hover {
 	background-color: v.$black;
 	color: v.$white;
 }
+
+table td .toggle-true {
+	color: v.$pale-green;
+}
+
+table td .toggle-true:hover {
+	color: v.$pale-green-darker;
+}
+
+table td .toggle-false {
+	color: v.$pale-red;
+}
+
+table td .toggle-false:hover {
+	color: v.$pale-red-darker;
+}
