@@ -125,14 +125,21 @@ class DataTable
 
 								case 'toggle':
 									if ($record->{$column['name']} == 1) {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%s-%s"></i>', $record->{$this->table['primary']}, $column['name']);
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%2$s-%3$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\')"></i>', $this->table['ref'], $column['name'], $record->{$this->table['primary']});
 									} else {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%s-%s"></i>', $record->{$this->table['primary']}, $column['name']);
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%2$s-%3$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\')"></i>', $this->table['ref'], $column['name'], $record->{$this->table['primary']});
+									}
+									break;
+								case 'setPrimary':
+									if ($record->{$column['name']} == 1) {
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%2$s-%3$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\')"></i>', $this->table['ref'], $column['name'], $record->{$this->table['primary']});
+									} else {
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%2$s-%3$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\')"></i>', $this->table['ref'], $column['name'], $record->{$this->table['primary']});
 									}
 									break;
 							}
 	
-							$result .= sprintf('<td style="width:%s;">%s</td>', $style, $tempResult);
+							$result .= sprintf('<td id="column-%s" style="width:%s;">%s</td>', $column['name'], $style, $tempResult);
 						}
 	
 						if (count($this->table['buttons']) >= 1) {
@@ -204,21 +211,57 @@ class DataTable
 			);
 		}
 
-		foreach ($this->table['records'] as $i => $record) {
-			foreach($this->table['columns'] as $i2 => $column) {
-				if ($column['type'] == 'toggle') {
-	
-					dd($record[$column['name']]);
-					
-	
-					$script .= '
-					let button = document.querySelector("#table-' . $this->table['ref'] . ' .'  . $column['name'] . '");
-	
-					addEventListener
-					';
+		$script .= sprintf('
+		function toggleButton(table, column, primary) {
+			$.ajax({
+				url: "/dataTable-toggleButton/" + table + "/" + column + "/%s/" + primary,
+				type: "GET",
+				success: function(result) {
+					let button = document.querySelector("#table-" + table + " #" + column + "-" + primary);
+
+					if (result == 1) {
+						button.classList.remove("toggle-false");
+						button.classList.remove("fa-circle-xmark");
+						
+						button.classList.add("toggle-true");
+						button.classList.add("fa-circle-check");
+					} else {
+						button.classList.remove("toggle-true");
+						button.classList.remove("fa-circle-check");
+
+						button.classList.add("toggle-false");
+						button.classList.add("fa-circle-xmark");
+					}
 				}
-			}
-		}
+			});
+		};', $this->table['primary']);
+
+		$script .= sprintf('
+		function setPrimary(table, column, primary) {
+			$.ajax({
+				url: "/dataTable-setPrimary/" + table + "/" + column + "/%s/" + primary,
+				type: "GET",
+				success: function(result) {
+					let oldPrimary = document.querySelectorAll("#table-" + table + " #column-" + column + " .toggle-true");
+
+					oldPrimary.forEach(primary => {
+						primary.classList.remove("toggle-true");
+						primary.classList.remove("fa-circle-check");
+
+						primary.classList.add("toggle-false");
+						primary.classList.add("fa-circle-xmark");
+					});
+
+					let button = document.querySelector("#table-" + table + " #" + column + "-" + primary);
+
+					button.classList.remove("toggle-false");
+					button.classList.remove("fa-circle-xmark");
+					
+					button.classList.add("toggle-true");
+					button.classList.add("fa-circle-check");
+				}
+			});
+		};', $this->table['primary']);
 
 		$script .= '</script>';
 

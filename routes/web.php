@@ -4,6 +4,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\AuthController;
 
+//DataTable
+use App\Http\Controllers\DataTableController;
+
 // SYSTEM
 use App\Http\Controllers\TestController;
 
@@ -31,6 +34,11 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCategoryProfileController;
 use App\Http\Controllers\AdminVariantController;
 use App\Http\Controllers\AdminVariantProfileController;
+
+
+// DataTable -----------------------------------------------------------------------------------
+Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
+Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'setPrimary']);
 
 
 // SYSTEM -----------------------------------------------------------------------------------

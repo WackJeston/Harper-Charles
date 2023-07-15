@@ -36,12 +36,12 @@ class AdminCategoryProfileController extends Controller
 
     $category = $category[0];
 
-    $imagesTable = new DataTable('images');
+    $imagesTable = new DataTable('product_category_images');
 		$imagesTable->setQuery('SELECT * FROM product_category_images WHERE categoryId = ?', [$id]);
 
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Name', 2);
-		$imagesTable->addColumn('primary', 'Primary', 1, false, 'toggle');
+		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary');
 
 		$imagesTable->addButton('/category-profileDeleteImage/?', 'fa-solid fa-trash', 'Delete Image');
 

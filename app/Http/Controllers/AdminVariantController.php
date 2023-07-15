@@ -30,9 +30,11 @@ class AdminVariantController extends Controller
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title', 2);
 		$variantsTable->addColumn('children', 'Children');
-		// $variantsTable->addColumn('show', 'Show', 1, false, 'toggle');
+		$variantsTable->addColumn('show', 'Show', 1, false, 'toggle');
 
 		$variantsTable->addButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+
+		$variantsTable = $variantsTable->display(true);
 
     return view('admin/variants', compact(
       'sessionUser',
