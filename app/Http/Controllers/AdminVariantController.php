@@ -14,7 +14,7 @@ class AdminVariantController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $variantsTable = new DataTable();
+    $variantsTable = new DataTable('product_variants');
 		
 		$variantsTable->setQuery('SELECT
 			pv.id,
@@ -33,8 +33,6 @@ class AdminVariantController extends Controller
 		$variantsTable->addColumn('show', 'Show', 1, false, 'toggle');
 
 		$variantsTable->addButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-
-		$variantsTable = $variantsTable->display(true);
 
     return view('admin/variants', compact(
       'sessionUser',

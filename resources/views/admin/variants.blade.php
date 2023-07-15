@@ -2,12 +2,6 @@
 
 @section('title', 'Product Variants')
 
-@push('js-bottom')
-	@php
-		echo $variantsTable['script'];
-	@endphp
-@endpush
-
 @section('content')
   <main class="variants">
 
@@ -29,7 +23,7 @@
       <variantscreate />
     </div>
 
-    {{ echo $variantsTable['content']; }}
+    {{ $variantsTable->display() }}
 
   </main>
 @endsection
