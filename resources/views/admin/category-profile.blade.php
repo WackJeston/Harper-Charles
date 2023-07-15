@@ -2,7 +2,7 @@
 
 @section('title', 'Category Profile')
 
-@push('head')
+@push('js-bottom')
 	@php
 		echo $imagesTable['script'];
 		echo $productsTable['script'];

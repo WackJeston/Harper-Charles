@@ -114,22 +114,25 @@ class DataTable
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+
+							$tempResult = $record->{$column['name']};
 							
+							// Column Type Switch
 							switch ($column['type']) {
 								case 'currency':
-									$record->{$column['name']} = '£' . $record->{$column['name']};
+									$tempResult = '£' . $record->{$column['name']};
 									break;
 
 								case 'toggle':
 									if ($record->{$column['name']} == 1) {
-										$record->{$column['name']} = '<i class="fa-solid fa-circle-check toggle-true"></i>';
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%s-%s"></i>', $record->{$this->table['primary']}, $column['name']);
 									} else {
-										$record->{$column['name']} = '<i class="fa-solid fa-circle-xmark toggle-false"></i>';
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%s-%s"></i>', $record->{$this->table['primary']}, $column['name']);
 									}
 									break;
 							}
 	
-							$result .= sprintf('<td style="width:%s;">%s</td>', $style, $record->{$column['name']});
+							$result .= sprintf('<td style="width:%s;">%s</td>', $style, $tempResult);
 						}
 	
 						if (count($this->table['buttons']) >= 1) {
@@ -173,9 +176,10 @@ class DataTable
 			</tbody>
 		</table>';
 
+		$script = '<script>';
+
 		if ($return == false) {
-			$script = sprintf('
-			<script>
+			$script .= sprintf('
 				setTimeout(function() {
 					let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
 					let rows = document.querySelectorAll("#table-%1$s tr");
@@ -185,24 +189,44 @@ class DataTable
 					rows.forEach(row => {
 						row.style.paddingRight = input;
 					});
-				}, 500);
-			</script>', $this->table['ref']);
-
-			$result = trim(preg_replace('/\s\s+/', '', $result . $script));
-			echo $result;
+				}, 500);', $this->table['ref']
+			);
 
 		} else {
-			$script = sprintf('
-			<script>
+			$script .= sprintf('
 				setTimeout(function() {
 					let rows = document.querySelectorAll("#table-%1$s tr");
 
 					rows.forEach(row => {
 						row.style.paddingRight = "%2$s";
 					});
-				}, 500);
-			</script>', $this->table['ref'], (count($this->table['buttons']) * 40) . 'px');
+				}, 500);', $this->table['ref'], (count($this->table['buttons']) * 40) . 'px'
+			);
+		}
 
+		foreach ($this->table['records'] as $i => $record) {
+			foreach($this->table['columns'] as $i2 => $column) {
+				if ($column['type'] == 'toggle') {
+	
+					dd($record[$column['name']]);
+					
+	
+					$script .= '
+					let button = document.querySelector("#table-' . $this->table['ref'] . ' .'  . $column['name'] . '");
+	
+					addEventListener
+					';
+				}
+			}
+		}
+
+		$script .= '</script>';
+
+		if ($return == false) {
+			$result = trim(preg_replace('/\s\s+/', '', $result . $script));
+			echo $result;
+
+		} else {
 			$return = [];
 			$return['content'] = trim(preg_replace('/\s\s+/', '', $result));
 			$return['script'] = trim(preg_replace('/\s\s+/', '', $script));

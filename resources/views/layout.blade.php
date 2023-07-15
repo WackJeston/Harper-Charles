@@ -131,5 +131,5 @@
     <script src="{{ mix('js/app.js') }}"></script>
   </body>
 
-	@stack('head')
+	@stack('js-bottom')
 </html>

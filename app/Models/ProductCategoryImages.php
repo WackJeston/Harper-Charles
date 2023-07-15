@@ -19,4 +19,22 @@ class ProductCategoryImages extends Model
   protected $guarded = [
 
   ];
+
+  protected static function booted() {
+    static::updated(function ($self) {
+			if ($self->isDirty('primary') && $self->primary == 1) {
+				$oldPrimary = ProductCategoryImages::where('primary', 1)->first();
+				$oldPrimary->primary = 0;
+				$oldPrimary->update();
+			}
+    });
+
+		static::created(function ($self) {
+			if ($self->isDirty('primary') && $self->primary == 1) {
+				$oldPrimary = ProductCategoryImages::where('primary', 1)->first();
+				$oldPrimary->primary = 0;
+				$oldPrimary->update();
+			}
+    });
+  }
 }
