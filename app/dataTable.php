@@ -42,7 +42,28 @@ class DataTable
 		];
 	}
 
-	public function addButton(string $url, string $icon, string $label = null, string $click = null) {
+	public function addButton(string $url = null, string $icon, string $label = null, string $click = null) {
+		$this->table['buttons'][] = [
+			'icon' => $icon,
+			'label' => $label,
+			'click' => $click,
+		];
+
+		if (!str_starts_with($url, '/')) {
+			$url = '/' . $url;
+		}
+
+		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', url()->current())) {
+			$url = '/admin' . $url;
+		}
+
+		foreach ($this->table['records'] as $i => $record) {
+			$recordArray = (array) $record;
+			$record->buttonLinks[] = str_replace('?', $recordArray[$this->table['primary']], $url);
+		}
+	}
+
+	public function addButton(string $url = null, string $icon, string $label = null, string $click = null) {
 		$this->table['buttons'][] = [
 			'icon' => $icon,
 			'label' => $label,
@@ -148,12 +169,15 @@ class DataTable
 							<td class="tr-buttons">';
 	
 							foreach ($this->table['buttons'] as $i3 => $button) {
-								$link = $record->buttonLinks[$i3];
-								$icon = $button['icon'];
-	
+								dd($this->table['buttons']);
+
+								if (condition) {
+									# code...
+								}
+
 								$result .= sprintf('
 								<a href="%s">
-									<i class="%s">', $link, $icon);
+									<i class="%s">', $record->buttonLinks[$i3], $button['icon']);
 	
 									if ($button['label'] != null) {
 										$result .= sprintf('
