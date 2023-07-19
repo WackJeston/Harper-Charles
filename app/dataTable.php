@@ -70,13 +70,15 @@ class DataTable
 			'label' => $label,
 		];
 
-		$finalValues = [];
-
-		foreach ($values as $i => $value) {
-			$finalValues[] = $this->table['records'][$i]->{$value};
-		}
-
 		foreach ($this->table['records'] as $i => $record) {
+			$finalValues = [];
+
+			foreach ($values as $i2 => $value) {
+				$tempValue = $record->{$value};
+	
+				$finalValues[] = "'$tempValue'";
+			}
+
 			$record->buttonRecords[] = sprintf('%s(%s);', $function, implode(', ', $finalValues));
 		}
 	}

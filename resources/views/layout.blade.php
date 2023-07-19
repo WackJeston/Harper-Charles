@@ -69,6 +69,14 @@
 
         @yield('content')
 
+				<div class="image-viewer-container">
+					<div class="image-viewer" style="display: none;">
+						<img class="viewer-image">
+						<div class="viewer-overlay"></div>
+						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+					</div>
+				</div>
+
         <div id="adminfooter">
           <Adminfooter
             sitetitle="{{ env('APP_NAME') }}"
@@ -120,10 +128,10 @@
         @yield('content')
 
 				<div class="image-viewer-container">
-					<div class="image-viewer" style="display: none;">
+					<div class="image-viewer">
 						<img class="viewer-image">
 						<div class="viewer-overlay"></div>
-						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+						{{-- <i class="fa-solid fa-xmark" onclick="closeImage()"></i> --}}
 					</div>
 				</div>
 
@@ -196,16 +204,19 @@
 		};
 
 		function showImage(fileName) {
-			const imageZone = document.querySelector('.viewer-image');
+			const imageZone = document.querySelector('.image-viewer');
+			const image = document.querySelector('.viewer-image');
 
-			imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+			image.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
 			
 			imageZone.style.display = 'flex';
 		};
 
 		function closeImage() {
-			const imageZone = document.querySelector('.viewer-image');
-			imageZone.src = '';
+			const imageZone = document.querySelector('.image-viewer');
+			const image = document.querySelector('.viewer-image');
+
+			image.src = '';
 			
 			imageZone.style.display = 'none';
 		};
