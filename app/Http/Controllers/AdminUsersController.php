@@ -24,7 +24,7 @@ class AdminUsersController extends Controller
 		$usersTable->addColumn('email', 'Email', 2);
 		$usersTable->addColumn('created_at', 'Created At');
 
-		$usersTable->addButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$usersTable->addLinkButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
     return view('admin/users', compact(
       'sessionUser',

@@ -119,6 +119,14 @@
 
         @yield('content')
 
+				<div class="image-viewer-container">
+					<div class="image-viewer" style="display: none;">
+						<img class="viewer-image">
+						<div class="viewer-overlay"></div>
+						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+					</div>
+				</div>
+
         <div id="vuefooter">
           <vuefooter
             sitetitle="{{ env('APP_NAME') }}"
@@ -185,6 +193,21 @@
 					button.classList.add("fa-circle-check");
 				}
 			});
+		};
+
+		function showImage(fileName) {
+			const imageZone = document.querySelector('.viewer-image');
+
+			imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+			
+			imageZone.style.display = 'flex';
+		};
+
+		function closeImage() {
+			const imageZone = document.querySelector('.viewer-image');
+			imageZone.src = '';
+			
+			imageZone.style.display = 'none';
 		};
 	</script>
 </html>

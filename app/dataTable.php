@@ -42,11 +42,11 @@ class DataTable
 		];
 	}
 
-	public function addButton(string $url = null, string $icon, string $label = null, string $click = null) {
+	public function addLinkButton(string $url, string $icon, string $label = null) {
 		$this->table['buttons'][] = [
+			'type' => 'link',
 			'icon' => $icon,
 			'label' => $label,
-			'click' => $click,
 		];
 
 		if (!str_starts_with($url, '/')) {
@@ -59,28 +59,25 @@ class DataTable
 
 		foreach ($this->table['records'] as $i => $record) {
 			$recordArray = (array) $record;
-			$record->buttonLinks[] = str_replace('?', $recordArray[$this->table['primary']], $url);
+			$record->buttonRecords[] = str_replace('?', $recordArray[$this->table['primary']], $url);
 		}
 	}
 
-	public function addButton(string $url = null, string $icon, string $label = null, string $click = null) {
+	public function addJsButton(string $function, array $values, string $icon, string $label = null) {
 		$this->table['buttons'][] = [
+			'type' => 'js',
 			'icon' => $icon,
 			'label' => $label,
-			'click' => $click,
 		];
 
-		if (!str_starts_with($url, '/')) {
-			$url = '/' . $url;
-		}
+		$finalValues = [];
 
-		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', url()->current())) {
-			$url = '/admin' . $url;
+		foreach ($values as $i => $value) {
+			$finalValues[] = $this->table['records'][$i]->{$value};
 		}
 
 		foreach ($this->table['records'] as $i => $record) {
-			$recordArray = (array) $record;
-			$record->buttonLinks[] = str_replace('?', $recordArray[$this->table['primary']], $url);
+			$record->buttonRecords[] = sprintf('%s(%s);', $function, implode(', ', $finalValues));
 		}
 	}
 
@@ -169,16 +166,27 @@ class DataTable
 							<td class="tr-buttons">';
 	
 							foreach ($this->table['buttons'] as $i3 => $button) {
-								dd($this->table['buttons']);
+								if ($button['type'] == 'link') {
+									$result .= sprintf('
+									<a href="%s">
+										<i class="%s">', $record->buttonRecords[$i3], $button['icon']);
+		
+										if ($button['label'] != null) {
+											$result .= sprintf('
+											<div class="button-label">
+												<p>%s</p>
+												<div></div>
+											</div>', $button['label']);
+										}
+										
+										$result .= '
+										</i>
+									</a>';
 
-								if (condition) {
-									# code...
-								}
-
-								$result .= sprintf('
-								<a href="%s">
-									<i class="%s">', $record->buttonLinks[$i3], $button['icon']);
-	
+								} elseif ($button['type'] == 'js') {
+									$result .= sprintf('
+									<i onclick="%s" class="%s">', $record->buttonRecords[$i3], $button['icon']);
+		
 									if ($button['label'] != null) {
 										$result .= sprintf('
 										<div class="button-label">
@@ -188,8 +196,8 @@ class DataTable
 									}
 									
 									$result .= '
-									</i>
-								</a>';
+									</i>';
+								}
 							}
 	
 							$result .= '

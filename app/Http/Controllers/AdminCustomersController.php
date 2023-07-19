@@ -24,7 +24,7 @@ class AdminCustomersController extends Controller
 		$customersTable->addColumn('email', 'Email', 2);
 		$customersTable->addColumn('created_at', 'Created');
 
-		$customersTable->addButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$customersTable->addLinkButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
     return view('admin/customers', compact(
       'sessionUser',

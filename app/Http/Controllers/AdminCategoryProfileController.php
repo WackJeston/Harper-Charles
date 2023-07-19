@@ -43,8 +43,8 @@ class AdminCategoryProfileController extends Controller
 		$imagesTable->addColumn('name', 'Name', 2);
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary');
 
-		$imagesTable->addButton('test', 'fa-solid fa-eye', 'View Image', 'showImage(image.fileName)');
-		$imagesTable->addButton('/category-profileDeleteImage/?', 'fa-solid fa-trash', 'Delete Image');
+		$imagesTable->addJsButton('showImage', ['fileName'], 'fa-solid fa-eye', 'View Image');
+		$imagesTable->addLinkButton('/category-profileDeleteImage/?', 'fa-solid fa-trash', 'Delete Image');
 
 		$imagesTable = $imagesTable->display(true);
 
@@ -70,8 +70,8 @@ class AdminCategoryProfileController extends Controller
 		$productsTable->addColumn('productNumber', 'Product Number', 2);
 		$productsTable->addColumn('price', 'Price', 1, false, 'currency');
 
-		$productsTable->addButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$productsTable->addButton('/category-profileRemoveProduct/' . $id . '/?', 'fa-solid fa-ban', 'Remove Product');
+		$productsTable->addLinkButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$productsTable->addLinkButton('/category-profileRemoveProduct/' . $id . '/?', 'fa-solid fa-ban', 'Remove Product');
 
 		$productsTable = $productsTable->display(true);
 

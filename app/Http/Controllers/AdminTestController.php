@@ -19,8 +19,8 @@ class AdminTestController extends Controller
 		$dataTable->addColumn('productNumber', 'Product Number', 2);
 		$dataTable->addColumn('price', 'Price', 1, false, 'currency');
 
-		$dataTable->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$dataTable->addButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
+		$dataTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$dataTable->addLinkButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
 
 		$table2 = new DataTable('categories');
 		$table2->setQuery('SELECT * FROM product_categories');
@@ -30,7 +30,7 @@ class AdminTestController extends Controller
 		$table2->addColumn('subtitle', 'Subtitle', 2);
 		$table2->addColumn('created_at', 'Created At');
 
-		$table2->addButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$table2->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
 		// dd($table);
 
