@@ -24,6 +24,7 @@ class AdminProductsController extends Controller
 
 		$productsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
+		$productsTable = $productsTable->render();
 
     return view('/admin/products', compact(
       'sessionUser',

@@ -13,6 +13,7 @@ class DataTable
 		$this->table = [
 			'ref' => $ref,
 			'primary' => $primary,
+			'count' => 0,
 			'columns' => [],
 			'records' => [],
 			'buttons' => [],
@@ -24,6 +25,8 @@ class DataTable
 		$query = vsprintf($query, $params);
 
 		$this->table['records'] = DB::select($query);
+
+		$this->table['count'] = count($this->table['records']);
 	}
 
 	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false, string $type = 'default') {
@@ -74,7 +77,23 @@ class DataTable
 			$finalValues = [];
 
 			foreach ($values as $i2 => $value) {
-				$tempValue = $record->{$value};
+				$value = explode(':', $value);
+
+				$tempValue = '';
+				
+				switch ($value[0]) {
+					case 'string':
+						$tempValue = $value[1];
+						break;
+					
+					case 'record':
+						$tempValue = $record->{$value[1]};
+						break;
+					
+					case 'url':
+						$tempValue = str_replace('?', $record->{$this->table['primary']}, $value[1]);
+						break;
+				}
 	
 				$finalValues[] = "'$tempValue'";
 			}
@@ -108,7 +127,7 @@ class DataTable
 		}
 	}
 
-	public function display(bool $return = false) {
+	public function render() {
 		self::calculate();
 
 		$result = sprintf('
@@ -171,7 +190,7 @@ class DataTable
 								if ($button['type'] == 'link') {
 									$result .= sprintf('
 									<a href="%s">
-										<i class="%s">', $record->buttonRecords[$i3], $button['icon']);
+										<i class="%s tr-button">', $record->buttonRecords[$i3], $button['icon']);
 		
 										if ($button['label'] != null) {
 											$result .= sprintf('
@@ -187,7 +206,7 @@ class DataTable
 
 								} elseif ($button['type'] == 'js') {
 									$result .= sprintf('
-									<i onclick="%s" class="%s">', $record->buttonRecords[$i3], $button['icon']);
+									<i onclick="%s" class="%s tr-button">', $record->buttonRecords[$i3], $button['icon']);
 		
 									if ($button['label'] != null) {
 										$result .= sprintf('
@@ -218,46 +237,11 @@ class DataTable
 			</tbody>
 		</table>';
 
-		$script = '<script>';
+		$return = [
+			'html' => trim(preg_replace('/\s\s+/', '', $result)),
+			'count' => $this->table['count'],
+		];
 
-		if ($return == false) {
-			$script .= sprintf('
-				setTimeout(function() {
-					let width = document.querySelector("#table-%1$s .tr-buttons").offsetWidth;
-					let rows = document.querySelectorAll("#table-%1$s tr");
-
-					let input = width + "px";
-
-					rows.forEach(row => {
-						row.style.paddingRight = input;
-					});
-				}, 500);', $this->table['ref']
-			);
-
-		} else {
-			$script .= sprintf('
-				setTimeout(function() {
-					let rows = document.querySelectorAll("#table-%1$s tr");
-
-					rows.forEach(row => {
-						row.style.paddingRight = "%2$s";
-					});
-				}, 500);', $this->table['ref'], (count($this->table['buttons']) * 40) . 'px'
-			);
-		}
-
-		$script .= '</script>';
-
-		if ($return == false) {
-			$result = trim(preg_replace('/\s\s+/', '', $result . $script));
-			echo $result;
-
-		} else {
-			$return = [];
-			$return['content'] = trim(preg_replace('/\s\s+/', '', $result));
-			$return['script'] = trim(preg_replace('/\s\s+/', '', $script));
-
-			return $return;
-		}
+		return $return;
 	}
 }

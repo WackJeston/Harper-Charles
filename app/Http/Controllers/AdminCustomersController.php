@@ -26,6 +26,8 @@ class AdminCustomersController extends Controller
 
 		$customersTable->addLinkButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
+		$customersTable = $customersTable->render();
+
     return view('admin/customers', compact(
       'sessionUser',
       'customersTable',

@@ -23,7 +23,9 @@
       <customerscreate />
     </div>
 
-		{{ $customersTable->display() }}
+		@php
+			echo $customersTable['html'];
+		@endphp
 
   </main>
 @endsection

@@ -23,7 +23,9 @@
       <categorycreate />
     </div>
 
-		{{ $categoriesTable->display() }}
+		@php
+			echo $categoriesTable['html'];
+		@endphp
 
   </main>
 @endsection

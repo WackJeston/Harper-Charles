@@ -20,9 +20,9 @@
       </div>
     @endif
 
-		{{ $dataTable->display() }}
+		{{ $dataTable->render() }}
 
-		{{ $table2->display() }}
+		{{ $table2->render() }}
 
   </main>
 @endsection

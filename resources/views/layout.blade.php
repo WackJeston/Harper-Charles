@@ -69,11 +69,20 @@
 
         @yield('content')
 
-				<div class="image-viewer-container">
-					<div class="image-viewer" style="display: none;">
-						<img class="viewer-image">
-						<div class="viewer-overlay"></div>
-						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+				<div class="image-viewer" style="display: none;">
+					<img class="viewer-image">
+					<div class="viewer-overlay"></div>
+					<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+				</div>
+
+				<div class="warning-overlay" style="display: none;" onclick="closeDeleteWarning()">
+					<div class="web-box warning-box dk">
+						<h3 class="warning">WARNING</h3>
+						<p></p>
+						<div class="row">
+							<a id="delete-link"><button type="button" name="delete" class="delete">Delete</button></a>
+							<button type="button" name="cancel" class="cancel" onclick="closeDeleteWarning()">Cancel</button>
+						</div>
 					</div>
 				</div>
 
@@ -128,10 +137,10 @@
         @yield('content')
 
 				<div class="image-viewer-container">
-					<div class="image-viewer">
+					<div class="image-viewer" style="display: none;">
 						<img class="viewer-image">
 						<div class="viewer-overlay"></div>
-						{{-- <i class="fa-solid fa-xmark" onclick="closeImage()"></i> --}}
+						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
 					</div>
 				</div>
 
@@ -150,75 +159,10 @@
 	{{-- Ajax --}}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+	{{-- Custom JS --}}
+	<script src="/js/functions.js"></script>
+
 	<script>
-		function toggleButton(table, column, primaryTable, primaryValue) {
-			$.ajax({
-				url: "/dataTable-toggleButton/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
-				type: "GET",
-				success: function(result) {
-					let button = document.querySelector("#table-" + table + " #" + column + "-" + primaryValue);
-
-					console.log("#table-" + table + " #" + column + "-" + primaryValue);
-
-					if (result == 1) {
-						button.classList.remove("toggle-false");
-						button.classList.remove("fa-circle-xmark");
-						
-						button.classList.add("toggle-true");
-						button.classList.add("fa-circle-check");
-					} else {
-						button.classList.remove("toggle-true");
-						button.classList.remove("fa-circle-check");
-
-						button.classList.add("toggle-false");
-						button.classList.add("fa-circle-xmark");
-					}
-				}
-			});
-		};
-
-		function setPrimary(table, column, primaryTable, primaryValue) {
-			$.ajax({
-				url: "/dataTable-setPrimary/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
-				type: "GET",
-				success: function(result) {
-					let oldPrimarys = document.querySelectorAll("#table-" + table + " #column-" + column + " .toggle-true");
-
-					oldPrimarys.forEach(oldPrimary => {
-						oldPrimary.classList.remove("toggle-true");
-						oldPrimary.classList.remove("fa-circle-check");
-
-						oldPrimary.classList.add("toggle-false");
-						oldPrimary.classList.add("fa-circle-xmark");
-					});
-
-					let button = document.querySelector("#table-" + table + " #" + column + "-" + primaryValue);
-
-					button.classList.remove("toggle-false");
-					button.classList.remove("fa-circle-xmark");
-					
-					button.classList.add("toggle-true");
-					button.classList.add("fa-circle-check");
-				}
-			});
-		};
-
-		function showImage(fileName) {
-			const imageZone = document.querySelector('.image-viewer');
-			const image = document.querySelector('.viewer-image');
-
-			image.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
-			
-			imageZone.style.display = 'flex';
-		};
-
-		function closeImage() {
-			const imageZone = document.querySelector('.image-viewer');
-			const image = document.querySelector('.viewer-image');
-
-			image.src = '';
-			
-			imageZone.style.display = 'none';
-		};
+		setTableMargin();
 	</script>
 </html>

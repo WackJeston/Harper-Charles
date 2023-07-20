@@ -34,6 +34,8 @@ class AdminVariantController extends Controller
 
 		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 
+		$variantsTable = $variantsTable->render();
+
     return view('admin/variants', compact(
       'sessionUser',
       'variantsTable',

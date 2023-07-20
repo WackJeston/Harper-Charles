@@ -7,21 +7,9 @@
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
   @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'images' }"
-  @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.category.imageCount > 0"> ({{ this.category.imageCount }})</span></button>
+  @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.imagestable.count > 0"> ({{ this.imagestable.count }})</span></button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'products' }"
-  @click="show == 'products' ? show = false : show = 'products'">Products<span v-show="this.category.productCount > 0"> ({{ this.category.productCount }})</span></button>
-
-  <!-- Delete Warning -->
-  <div @click="this.delete(0)" class="warning-overlay">
-    <div class="web-box warning-box dk">
-      <h3 class="warning">WARNING</h3>
-      <p>This will permanently delete <strong>Category #{{ this.category.id }}</strong></p>
-      <div class="row">
-        <a :href="'/category-profileDelete/' + this.category.id"><button type="button" name="delete" class="delete">Delete</button></a>
-        <button @click="this.delete(0)" type="button" name="cancel" class="cancel">Cancel</button>
-      </div>
-    </div>
-  </div>
+  @click="show == 'products' ? show = false : show = 'products'">Products<span v-show="this.productstable.count > 0"> ({{ this.productstable.count }})</span></button>
 
   <!-- Edit -->
   <form class="web-box dk" v-show="show == 'edit'" :action="'/category-profileUpdate/' + this.category.id" method="POST" enctype="multipart/form-data">
@@ -59,7 +47,7 @@
   </form>
 
 	<!-- Images Table -->
-	<div v-html="this.imagestable.content" v-show="show == 'images'"></div>
+	<div v-html="this.imagestable.html" v-show="show == 'images'"></div>
 
 
   <!-- Products Form -->
@@ -102,7 +90,7 @@
   </form>
 
 	<!-- Products Table -->
-	<div v-html="this.productstable.content" v-show="show == 'products'"></div>
+	<div v-html="this.productstable.html" v-show="show == 'products'"></div>
 
 </template>
 
@@ -118,7 +106,6 @@
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         show: false,
-        imageView: false,
         files: null,
       };
     },
@@ -126,14 +113,6 @@
     methods: {
       fileSelected(e) {
         this.files = e.target.files;
-      },
-
-      delete(toggle = 1) {
-        if (toggle == 1) {
-          document.querySelector('.warning-overlay').style.display = 'flex';
-        } else {
-          document.querySelector('.warning-overlay').style.display = 'none';
-        }
       },
     },
   };

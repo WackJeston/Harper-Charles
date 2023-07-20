@@ -2,13 +2,6 @@
 
 @section('title', 'Category Profile')
 
-@push('js-bottom')
-	@php
-		echo $imagesTable['script'];
-		echo $productsTable['script'];
-	@endphp
-@endpush
-
 @section('content')
   <main class="category-profile">
 

@@ -23,7 +23,9 @@
       <productscreate />
     </div>
 
-		{{ $productsTable->display() }}
+		@php
+			echo $productsTable['html'];
+		@endphp
 
   </main>
 @endsection

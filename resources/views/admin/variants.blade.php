@@ -23,7 +23,9 @@
       <variantscreate />
     </div>
 
-    {{ $variantsTable->display() }}
+    @php
+			echo $variantsTable['html'];
+		@endphp
 
   </main>
 @endsection

@@ -23,7 +23,9 @@
       <userscreate />
     </div>
 
-		{{ $usersTable->display() }}
+		@php
+			echo $usersTable['html'];
+		@endphp
 
   </main>
 @endsection
