@@ -36,9 +36,23 @@
     />
     </div>
 
-    <div id="productprofilemain" class="dk">
-      <productprofilemain :product="{{ json_encode($product) }}" image="{{ $primaryImage }}" />
-    </div>
+    <div class="web-box profile-main">
+			<div class="wb-row">
+				<ul>
+					<li><strong>Title: </strong>{{ $product->title }}</li>
+					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
+					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
+					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
+					<li><strong>Price: </strong>£{{ $product->price }}</li>
+					@if ($product->created_at)
+						<li><strong>Created At: </strong>{{ $product->created_at }}</li>
+					@endif
+				</ul>
+				@if ($primaryImage)
+					<div class="wb-image" style="background-image: url('https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $primaryImage }}');"></div>
+				@endif
+			</div>
+		</div>
 
   </main>
 @endsection

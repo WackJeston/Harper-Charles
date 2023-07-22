@@ -12,6 +12,7 @@ class DataTable
 	{
 		$this->table = [
 			'ref' => $ref,
+			'tableName' => explode('_REF_', $ref)[0],
 			'primary' => $primary,
 			'count' => 0,
 			'columns' => [],
@@ -143,11 +144,12 @@ class DataTable
 
 				$result .= '
 				</tr>
-			</thead>
+			</thead>';
 
-			<tbody>';
+			if (count($this->table['records']) > 0) {
+				$result .= '
+				<tbody>';
 
-				if (count($this->table['records']) > 0) {
 					foreach ($this->table['records'] as $i => $record) {
 						$result .= '
 						<tr>';
@@ -165,16 +167,16 @@ class DataTable
 
 								case 'toggle':
 									if ($record->{$column['name']} == 1) {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%2$s-%4$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\')"></i>', $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
 									} else {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%2$s-%4$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\')"></i>', $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
 									}
 									break;
 								case 'setPrimary':
 									if ($record->{$column['name']} == 1) {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%2$s-%4$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\')"></i>', $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
 									} else {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%2$s-%4$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\')"></i>', $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
 									}
 									break;
 							}
@@ -228,13 +230,18 @@ class DataTable
 						$result .= '
 						</tr>';
 					}
-				} else {
-					$result .= '
-					<h3>No Records</h3>';
-				}
+
+				$result .= '
+				</tbody>';
+
+			} else {
+				$result .= '
+				<tr class="empty-table">
+					<td><h3>No Records</h3></td>
+				</tr>';
+			}
 				
-			$result .= '
-			</tbody>
+		$result .= '
 		</table>';
 
 		$return = [

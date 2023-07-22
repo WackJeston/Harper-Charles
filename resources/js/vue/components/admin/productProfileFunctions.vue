@@ -14,20 +14,6 @@
 		@click="show == 'variants' ? show = false : show = 'variants'">Variants<span v-show="this.variants.length > 0"> ({{
 			this.variants.length }})</span></button>
 
-
-	<!-- Delete Warning -->
-	<div @click="this.delete(0)" class="warning-overlay">
-		<div class="web-box warning-box dk">
-			<h3 class="warning">WARNING</h3>
-			<p>This will permanently delete <strong>Product #{{ this.product.id }}</strong></p>
-			<div class="row">
-				<a :href="'/product-profileDelete/' + this.product.id"><button type="button" name="delete"
-						class="delete">Delete</button></a>
-				<button @click="this.delete(0)" type="button" name="cancel" class="cancel">Cancel</button>
-			</div>
-		</div>
-	</div>
-
 	<!-- Edit -->
 	<form class="web-box dk" v-show="show == 'edit'" :action="'/product-profileUpdate/' + this.product.id" method="POST"
 		enctype="multipart/form-data">

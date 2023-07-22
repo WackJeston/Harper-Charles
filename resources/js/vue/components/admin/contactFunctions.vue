@@ -3,9 +3,9 @@
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
   @click="show == 'edit' ? show = false : show = 'edit'">Edit Address</button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'email' }"
-  @click="show == 'email' ? show = false : show = 'email'">Manage Emails</button>
+  @click="show == 'email' ? show = false : show = 'email'">Emails<span v-show="this.emailstable.count > 0"> ({{ this.emailstable.count }})</span></button>
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'phone' }"
-  @click="show == 'phone' ? show = false : show = 'phone'">Manage Phones</button>
+  @click="show == 'phone' ? show = false : show = 'phone'">Phones<span v-show="this.phonestable.count > 0"> ({{ this.phonestable.count }})</span></button>
 
   <!-- Edit -->
   <form class="web-box dk" v-show="show == 'edit'" id="updateForm" :action="'/contactUpdateAddress/' + this.lat + '/' + this.lng" method="post" enctype="multipart/form-data">
@@ -69,32 +69,7 @@
   </form>
 
   <!-- Phones table -->
-  <table class="web-box" v-show="show == 'phone'">
-    <tr>
-      <th id="phoneColumn1">#</th>
-      <th id="phoneColumn2">Number</th>
-      <th id="phoneColumn3"></th>
-    </tr>
-
-    <tr v-for="(phone, i) in this.contact['phone']">
-      <td id="phoneColumn1"><div>{{ phone.id }}</div></td>
-      <td id="phoneColumn2"><div>{{ phone.value }}</div></td>
-      <td id="phoneColumn3" class="tr-buttons">
-        <a :href="'/contactDeletePhone/' + phone.id">
-          <i class="fa-solid fa-trash-can">
-            <div class="button-label">
-              <p>Delete Number</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-      </td>
-    </tr>
-
-    <div v-if="!this.contact['phone']" class="empty-table">
-      <h3>No Numbers</h3>
-    </div>
-  </table>
+  <div v-html="this.phonestable.html" v-show="show == 'phone'"></div>
 </template>
 
 
@@ -103,6 +78,7 @@
     props: [
       'contact',
 			'emailstable',
+			'phonestable',
     ],
 
     data() {

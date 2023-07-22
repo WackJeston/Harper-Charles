@@ -108,17 +108,17 @@ tr .button-label div {
 }
 
 table .empty-table {
-  display: flex;
-  justify-content: space-between;
-  white-space: nowrap;
-  margin: 20px;
+	display: flex;
+	align-items: center;
   width: 100%;
   opacity: 0.6;
+	height: 80px;
+	padding-left: 20px;
 }
 
 table .empty-table h3 {
-  margin: 0;
   color: v.$black;
+	margin: 0;
 }
 
 table .primary, table .non-primary {

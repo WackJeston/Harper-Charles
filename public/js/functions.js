@@ -18,14 +18,12 @@ function setTableMargin() {
 	});
 };
 
-function toggleButton(table, column, primaryTable, primaryValue) {
+function toggleButton(table, ref, column, primaryTable, primaryValue) {
 	$.ajax({
 		url: "/dataTable-toggleButton/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
 		type: "GET",
 		success: function(result) {
-			let button = document.querySelector("#table-" + table + " #" + column + "-" + primaryValue);
-
-			console.log("#table-" + table + " #" + column + "-" + primaryValue);
+			let button = document.querySelector("#table-" + ref + " #" + column + "-" + primaryValue);
 
 			if (result == 1) {
 				button.classList.remove("toggle-false");
@@ -44,12 +42,12 @@ function toggleButton(table, column, primaryTable, primaryValue) {
 	});
 };
 
-function setPrimary(table, column, primaryTable, primaryValue) {
+function setPrimary(table, ref, column, primaryTable, primaryValue) {
 	$.ajax({
 		url: "/dataTable-setPrimary/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
 		type: "GET",
 		success: function(result) {
-			let oldPrimarys = document.querySelectorAll("#table-" + table + " #column-" + column + " .toggle-true");
+			let oldPrimarys = document.querySelectorAll("#table-" + ref + " #column-" + column + " .toggle-true");
 
 			oldPrimarys.forEach(oldPrimary => {
 				oldPrimary.classList.remove("toggle-true");
@@ -94,7 +92,7 @@ function showDeleteWarning(type, id, url) {
 	const deleteButton = document.querySelector('.warning-overlay .delete');
 	const deleteLink = document.querySelector('.warning-overlay #delete-link');
 
-	message.innerHTML = 'This will permanently delete <strong>' + type + '#' + id + '</strong>';
+	message.innerHTML = 'This will permanently delete <strong>' + type + ' #' + id + '</strong>';
 	deleteLink.href = url;
 
 	warningZone.style.display = 'flex';

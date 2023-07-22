@@ -4,18 +4,6 @@
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
   @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
 
-  <!-- Delete Warning -->
-  <div @click="this.delete(0)" class="warning-overlay">
-    <div class="web-box warning-box dk">
-      <h3 class="warning">WARNING</h3>
-      <p>This will permanently delete <strong>Customer #{{ this.customer.id }}</strong></p>
-      <div class="row">
-        <a :href="'/customer-profileDelete/' + this.customer.id"><button type="button" name="delete" class="delete">Delete</button></a>
-        <button @click="this.delete(0)" type="button" name="cancel" class="cancel">Cancel</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Edit -->
   <form class="web-box dk" v-show="show == 'edit'" :action="'/customer-profileUpdate/' + this.customer.id" method="POST" enctype="multipart/form-data">
     <i class="fa-solid fa-xmark" @click="show = false"></i>

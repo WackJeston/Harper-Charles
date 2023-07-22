@@ -14,7 +14,7 @@ class AdminVariantController extends Controller
   {
     $sessionUser = auth()->user();
 
-    $variantsTable = new DataTable('product_variants');
+    $variantsTable = new DataTable('product_variants_REF_1');
 		
 		$variantsTable->setQuery('SELECT
 			pv.id,

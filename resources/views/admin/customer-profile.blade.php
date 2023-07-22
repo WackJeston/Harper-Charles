@@ -28,9 +28,14 @@
       <customerprofilefunctions :customer="{{ json_encode($customer) }}" />
     </div>
 
-    <div id="customerprofilemain" class="dk">
-      <customerprofilemain :customer="{{ json_encode($customer) }}" />
-    </div>
+    <div class="web-box profile-main">
+			<div class="wb-row">
+				<ul>
+					<li><strong>Name: </strong>{{ $customer->firstName }} {{ $customer->lastName }}</li>
+					<li><strong>Email: </strong>{{ $customer->email }}</li>
+				</ul>
+			</div>
+		</div>
 
   </main>
 @endsection

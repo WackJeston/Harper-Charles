@@ -9,18 +9,6 @@
   <button class="page-button" type="button" :class="{ 'button-active' : show == 'createOption' }"
   @click="show == 'createOption' ? show = false : show = 'createOption'">Create Option</button>
 
-  <!-- Delete Warning -->
-  <div @click="this.delete(0)" class="warning-overlay">
-    <div class="web-box warning-box dk">
-      <h3 class="warning">WARNING</h3>
-      <p>This will permanently delete <strong>Variant #{{ this.variant.id }}</strong></p>
-      <div class="row">
-        <a :href="'/variant-profileDelete/' + this.variant.id"><button type="button" name="delete" class="delete">Delete</button></a>
-        <button @click="this.delete(0)" type="button" name="cancel" class="cancel">Cancel</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Edit -->
   <form class="web-box dk" v-show="show == 'edit'" :action="'/variant-profileUpdate/' + this.variant.id" method="POST" enctype="multipart/form-data">
     <i class="fa-solid fa-xmark" @click="show = false"></i>

@@ -33,14 +33,26 @@ class AdminContactController extends Controller
 		$emailsTable->addColumn('value', 'Email', 2);
 		$emailsTable->addColumn('updated_at', 'Last Updated', 2);
 
-		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:value', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
+		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:id', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
 
 		$emailsTable = $emailsTable->render();
+
+		$phonesTable = new DataTable('contact');
+		$phonesTable->setQuery('SELECT * FROM contact WHERE type = "phone"');
+
+		$phonesTable->addColumn('id', '#');
+		$phonesTable->addColumn('value', 'Phone', 2);
+		$phonesTable->addColumn('updated_at', 'Last Updated', 2);
+
+		$phonesTable->addJsButton('showDeleteWarning', ['string:Phone', 'record:id', 'url:/contactDeletePhone/?'], 'fa-solid fa-trash-can', 'Delete Phone');
+
+		$phonesTable = $phonesTable->render();
 
     return view('admin/contact', compact(
       'sessionUser',
       'contact',
 			'emailsTable',
+			'phonesTable',
     ));
   }
 

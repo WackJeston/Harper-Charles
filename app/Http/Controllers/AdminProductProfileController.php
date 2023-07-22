@@ -33,14 +33,17 @@ class AdminProductProfileController extends Controller
 
     $product = $product[0];
 
-    $images = ProductImages::all()->where('productId', $id);
-    $imageCount = count($images);
+		$imagesTable = new DataTable('product_images');
+		$imagesTable->setQuery('SELECT * FROM product_images WHERE productId = ?', [$id]);
 
-    if ($imageCount == 1) {
-      ProductImages::where('productId', $id)->update([
-        'primary' => 1,
-      ]);
-    }
+		$imagesTable->addColumn('id', '#');
+		$imagesTable->addColumn('name', 'Title');
+		$imagesTable->addColumn('primary', 'Primary', 1, true, 'setPrimary');
+
+		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
+		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
+
+		$imagesTable->render();
 
     $primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
 
@@ -102,8 +105,7 @@ class AdminProductProfileController extends Controller
     return view('/admin/product-profile', compact(
       'sessionUser',
       'product',
-      'images',
-      'imageCount',
+      'imagesTable',
       'primaryImage',
       'categories',
       'allCategories',
