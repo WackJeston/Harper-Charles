@@ -1,18 +1,10 @@
 <template>
 	<!-- Buttons -->
-	<button @click="this.delete()" class="page-button pb-danger" type="button"><i
-			class="fa-solid fa-trash-can"></i>Delete</button>
-	<button class="page-button" type="button" :class="{ 'button-active': show == 'edit' }"
-		@click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
-	<button class="page-button" type="button" :class="{ 'button-active': show == 'images' }"
-		@click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.imagecount > 0"> ({{
-			this.imagecount }})</span></button>
-	<button class="page-button" type="button" :class="{ 'button-active': show == 'categories' }"
-		@click="show == 'categories' ? show = false : show = 'categories'">Categories<span
-			v-show="this.product.categoryCount > 0"> ({{ this.product.categoryCount }})</span></button>
-	<button class="page-button" type="button" :class="{ 'button-active': show == 'variants' }"
-		@click="show == 'variants' ? show = false : show = 'variants'">Variants<span v-show="this.variants.length > 0"> ({{
-			this.variants.length }})</span></button>
+	<button @click="this.delete()" class="page-button pb-danger" type="button"><i class="fa-solid fa-trash-can"></i>Delete</button>
+	<button class="page-button" type="button" :class="{ 'button-active': show == 'edit' }" @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
+	<button class="page-button" type="button" :class="{ 'button-active': show == 'images' }" @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.imagestable.count > 0"> ({{this.imagestable.count }})</span></button>
+	<button class="page-button" type="button" :class="{ 'button-active': show == 'categories' }" @click="show == 'categories' ? show = false : show = 'categories'">Categories<span v-show="this.categoriestable.count > 0"> ({{ this.categoriestable.count }})</span></button>
+	<button class="page-button" type="button" :class="{ 'button-active': show == 'variants' }" @click="show == 'variants' ? show = false : show = 'variants'">Variants<span v-show="this.variantstable.count > 0"> ({{this.variantstable.count }})</span></button>
 
 	<!-- Edit -->
 	<form class="web-box dk" v-show="show == 'edit'" :action="'/product-profileUpdate/' + this.product.id" method="POST"
@@ -60,67 +52,7 @@
 	</form>
 
 	<!-- Images table -->
-	<table class="web-box" v-show="show == 'images'">
-		<tr>
-			<th id="image-column1">#</th>
-			<th id="image-column2">Title</th>
-			<th id="image-column3">Primary</th>
-			<th id="image-column4"></th>
-		</tr>
-
-		<tr v-for="(image, i) in this.images">
-			<td id="image-column1">
-				<div>{{ image.id }}</div>
-			</td>
-			<td id="image-column2">
-				<div>{{ image.name }}</div>
-			</td>
-			<td id="image-column3">
-				<div>
-					<i v-if="image.primary" class="fa-solid fa-circle-check primary"></i>
-					<i v-else class="fa-solid fa-circle-xmark non-primary"></i>
-				</div>
-			</td>
-
-			<td id="image-column4" class="tr-buttons">
-				<a :href="'/product-profilePrimaryImage/' + image.id">
-					<i class="fa-solid fa-ranking-star">
-						<div class="button-label">
-							<p>Make Primary</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-				<a @click="showImage(image.fileName)">
-					<i class="fa-solid fa-eye">
-						<div class="button-label">
-							<p>View</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-				<a :href="'/product-profileDeleteImage/' + image.id">
-					<i class="fa-solid fa-trash-can">
-						<div class="button-label">
-							<p>Delete</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-			</td>
-		</tr>
-
-		<div class="image-viewer" v-show="this.imageView">
-			<img class="viewer-image">
-			<div class="viewer-overlay"></div>
-			<i class="fa-solid fa-xmark" @click="closeImage()"></i>
-		</div>
-
-		<div v-show="this.images == false" class="empty-table">
-			<h3>No Images</h3>
-		</div>
-
-	</table>
+	<div v-html="this.imagestable.html" v-show="show == 'images'"></div>
 
 
 	<!-- Categories Form -->
@@ -140,48 +72,7 @@
 	</form>
 
 	<!-- Categories Table -->
-	<table class="web-box" v-show="show == 'categories'">
-		<tr>
-			<th id="category-column1">#</th>
-			<th id="category-column2">Title</th>
-			<th id="category-column3">Subtitle</th>
-			<th id="category-column4"></th>
-		</tr>
-
-		<tr v-for="(category, i) in this.categories">
-			<td id="category-column1">
-				<div>{{ category.id }}</div>
-			</td>
-			<td id="category-column2">
-				<div>{{ category.title }}</div>
-			</td>
-			<td id="category-column3">
-				<div>{{ category.subtitle }}</div>
-			</td>
-			<td id="category-column4" class="tr-buttons">
-				<a :href="'/product-profileRemoveCategory/' + this.product.id + '/' + category.id">
-					<i class="fa-solid fa-ban">
-						<div class="button-label">
-							<p>Remove</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-				<a :href="'/admin/category-profile/' + category.id">
-					<i class="fa-solid fa-arrow-up-right-from-square">
-						<div class="button-label">
-							<p>Manage Category</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-			</td>
-		</tr>
-
-		<div v-show="this.categories == false" class="empty-table">
-			<h3>No Categories</h3>
-		</div>
-	</table>
+	<div v-html="this.categoriestable.html" v-show="show == 'categories'"></div>
 
 
 	<!-- Variants Form -->
@@ -203,40 +94,7 @@
 	</form>
 
 	<!-- Variants Table -->
-	<table class="web-box" v-show="show == 'variants'">
-		<tr>
-			<th id="product-column1">#</th>
-			<th id="product-column2">Option</th>
-			<th id="product-column3">Variant</th>
-			<th id="product-column4"></th>
-		</tr>
-
-		<tr v-for="(variant, i) in this.variants">
-			<td id="variant-column1">
-				<div>{{ variant.id }}</div>
-			</td>
-			<td id="variant-column2">
-				<div>{{ variant.title }}</div>
-			</td>
-			<td id="variant-column3">
-				<div>{{ variant.parent }}</div>
-			</td>
-			<td id="variant-column4" class="tr-buttons">
-				<a :href="'/product-profileRemoveVariant/' + this.product.id + '/' + variant.id">
-					<i class="fa-solid fa-ban">
-						<div class="button-label">
-							<p>Remove</p>
-							<div></div>
-						</div>
-					</i>
-				</a>
-			</td>
-		</tr>
-
-		<div v-show="this.variants == false" class="empty-table">
-			<h3>No Variants</h3>
-		</div>
-	</table>
+	<div v-html="this.variantstable.html" v-show="show == 'variants'"></div>
 </template>
 
 
@@ -244,11 +102,10 @@
 export default {
 	props: [
 		'product',
-		'images',
-		'imagecount',
-		'categories',
+		'imagestable',
+		'categoriestable',
 		'allcategories',
-		'variants',
+		'variantstable',
 		'allvariants',
 	],
 
@@ -262,59 +119,9 @@ export default {
 	},
 
 	methods: {
-		showImage(fileName) {
-			const imageZone = document.querySelector('.viewer-image');
-			imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
-			this.imageView = true;
-		},
-
-		closeImage() {
-			const imageZone = document.querySelector('.viewer-image');
-			imageZone.src = '';
-			this.imageView = false;
-		},
-
 		fileSelected(e) {
 			this.files = e.target.files;
 		},
-
-		delete(toggle = 1) {
-			if (toggle == 1) {
-				document.querySelector('.warning-overlay').style.display = 'flex';
-			} else {
-				document.querySelector('.warning-overlay').style.display = 'none';
-			}
-		},
-	},
-
-	mounted() {
-		if (this.categories.length > 0) {
-			document.querySelector("#category-column1").style.width = "15%";
-			document.querySelector("#category-column2").style.width = "30%";
-			document.querySelector("#category-column3").style.width = "40%";
-			document.querySelector("#category-column4").style.width = "15%";
-		}
-
-		if (this.images.length > 0) {
-			if (window.innerWidth < 650) {
-				document.querySelector("#image-column1").style.width = "15%";
-				document.querySelector("#image-column2").style.width = "40%";
-				document.querySelector("#image-column3").style.width = "20%";
-				document.querySelector("#image-column4").style.width = "25%";
-			} else {
-				document.querySelector("#image-column1").style.width = "10%";
-				document.querySelector("#image-column2").style.width = "55%";
-				document.querySelector("#image-column3").style.width = "15%";
-				document.querySelector("#image-column4").style.width = "20%";
-			}
-		}
-
-		if (this.variants.length > 0) {
-			document.querySelector("#variant-column1").style.width = "15%";
-			document.querySelector("#variant-column2").style.width = "35%";
-			document.querySelector("#variant-column3").style.width = "35%";
-			document.querySelector("#variant-column4").style.width = "15%";
-		}
 	},
 };
 </script>

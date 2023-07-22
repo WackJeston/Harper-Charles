@@ -57,7 +57,7 @@ class DataTable
 			$url = '/' . $url;
 		}
 
-		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', url()->current())) {
+		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', $url)) {
 			$url = '/admin' . $url;
 		}
 

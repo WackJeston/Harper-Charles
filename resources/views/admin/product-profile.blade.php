@@ -27,11 +27,10 @@
     <div id="productprofilefunctions" class="dk">
       <productprofilefunctions
       :product="{{ json_encode($product) }}"
-      :images="{{ json_encode($images) }}"
-      :imagecount="{{ json_encode($imageCount) }}"
-      :categories="{{ json_encode($categories) }}"
+      :imagestable="{{ json_encode($imagesTable) }}"
+      :categoriestable="{{ json_encode($categoriesTable) }}"
       :allcategories="{{ json_encode($allCategories) }}"
-      :variants="{{ json_encode($variants) }}"
+      :variantstable="{{ json_encode($variantsTable) }}"
       :allvariants="{{ json_encode($allVariants) }}"
     />
     </div>

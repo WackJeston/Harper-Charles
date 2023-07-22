@@ -28,9 +28,14 @@
       <userprofilefunctions :user="{{ json_encode($user) }}" />
     </div>
 
-    <div id="userprofilemain" class="dk">
-      <userprofilemain :user="{{ json_encode($user) }}" />
-    </div>
+    <div class="web-box profile-main">
+			<div class="wb-row">
+				<ul>
+					<li><strong>Name: </strong>{{ $user->firstName }} {{ $user->lastName }}</li>
+					<li><strong>Email: </strong>{{ $user->email }}</li>
+				</ul>
+			</div>
+		</div>
 
   </main>
 @endsection

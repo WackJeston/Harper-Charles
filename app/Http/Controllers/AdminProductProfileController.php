@@ -5,6 +5,7 @@ use File;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\dataTable;
 use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductCategories;
@@ -43,7 +44,7 @@ class AdminProductProfileController extends Controller
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 
-		$imagesTable->render();
+		$imagesTable = $imagesTable->render();
 
     $primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
 
@@ -55,6 +56,23 @@ class AdminProductProfileController extends Controller
 			INNER JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id'
 		);
 
+		$categoriesTable = new DataTable('product_categories');
+		$categoriesTable->setQuery('SELECT 
+			pc.*
+			FROM product_categories AS pc
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id
+			WHERE pcj.productId = ?
+			GROUP BY pc.id', [$id]
+		);
+
+		$categoriesTable->addColumn('id', '#');
+		$categoriesTable->addColumn('title', 'Title');
+		$categoriesTable->addColumn('subtitle', 'Subtitle');
+
+		$categoriesTable->addLinkButton('product-profileRemoveCategory/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Category');
+
+		$categoriesTable = $categoriesTable->render();
+
 		$allCategories = DB::select(sprintf('SELECT 
 			pc.id,
 			pc.title
@@ -64,16 +82,24 @@ class AdminProductProfileController extends Controller
 			OR pcj.productId != "%d"', $id,
 		));
 
-    $variants = DB::select(sprintf('SELECT
-      pv.id,
-      pv.title,
-      pv2.title AS parent
-      FROM product_variant_joins AS pvj
-      INNER JOIN product_variants AS pv ON pv.id=pvj.variantId
-      INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
-      WHERE pvj.productId = "%d"
-      ORDER BY pv2.title, pv.title', $id
-		));
+		$variantsTable = new DataTable('product_variants');
+		$variantsTable->setQuery('SELECT
+			pv.*,
+			pv2.title AS parent
+			FROM product_variant_joins AS pvj
+			INNER JOIN product_variants AS pv ON pv.id=pvj.variantId
+			INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
+			WHERE pvj.productId = "%d"
+			ORDER BY pv2.title, pv.title', [$id]
+		);
+
+		$variantsTable->addColumn('id', '#');
+		$variantsTable->addColumn('title', 'Title');
+		$variantsTable->addColumn('parent', 'Type');
+
+		$variantsTable->addLinkButton('product-profileRemoveVariant/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Variant');
+
+		$variantsTable = $variantsTable->render();
 
     $allVariantRecords = DB::select(sprintf('SELECT
       pv.id,
@@ -107,9 +133,9 @@ class AdminProductProfileController extends Controller
       'product',
       'imagesTable',
       'primaryImage',
-      'categories',
+      'categoriesTable',
       'allCategories',
-      'variants',
+      'variantsTable',
       'allVariants',
     ));
   }
