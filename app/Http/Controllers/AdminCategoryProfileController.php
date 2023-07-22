@@ -44,7 +44,7 @@ class AdminCategoryProfileController extends Controller
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary');
 
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
-		$imagesTable->addJsButton('showDeleteWarning', ['string:Category', 'record:id', 'url:/category-profileDeleteImage/?'], 'fa-solid fa-trash', 'Delete Image');
+		$imagesTable->addJsButton('showDeleteWarning', ['string:Category', 'record:id', 'url:/category-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 
 		$imagesTable = $imagesTable->render();
 

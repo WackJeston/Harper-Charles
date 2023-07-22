@@ -33,11 +33,14 @@ class AdminContactController extends Controller
 		$emailsTable->addColumn('value', 'Email', 2);
 		$emailsTable->addColumn('updated_at', 'Last Updated', 2);
 
-		
+		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:value', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
+
+		$emailsTable = $emailsTable->render();
 
     return view('admin/contact', compact(
       'sessionUser',
       'contact',
+			'emailsTable',
     ));
   }
 

@@ -55,32 +55,7 @@
   </form>
 
   <!-- Emails table -->
-  <table class="web-box" v-show="show == 'email'">
-    <tr>
-      <th id="emailColumn1">#</th>
-      <th id="emailColumn2">Email</th>
-      <th id="emailColumn3"></th>
-    </tr>
-
-    <tr v-for="(email, i) in this.contact['email']">
-      <td id="emailColumn1"><div>{{ email.id }}</div></td>
-      <td id="emailColumn2"><div>{{ email.value }}</div></td>
-      <td id="emailColumn3" class="tr-buttons">
-        <a :href="'/contactDeleteEmail/' + email.id">
-          <i class="fa-solid fa-trash-can">
-            <div class="button-label">
-              <p>Delete Email</p>
-              <div></div>
-            </div>
-          </i>
-        </a>
-      </td>
-    </tr>
-
-    <div v-if="!this.contact['email']" class="empty-table">
-      <h3>No Emails</h3>
-    </div>
-  </table>
+  <div v-html="this.emailstable.html" v-show="show == 'email'"></div>
 
   <!-- Phones Form -->
   <form class="web-box dk" v-show="show == 'phone'" action="/contactCreatePhone" method="POST" enctype="multipart/form-data">
@@ -126,7 +101,8 @@
 <script>
   export default {
     props: [
-      'contact'
+      'contact',
+			'emailstable',
     ],
 
     data() {
@@ -137,16 +113,6 @@
         lat: 0,
         lng: 0,
       };
-    },
-
-    mounted() {
-      document.querySelector("#emailColumn1").style.width = "20%";
-      document.querySelector("#emailColumn2").style.width = "60%";
-      document.querySelector("#emailColumn3").style.width = "20%";
-
-      document.querySelector("#phoneColumn1").style.width = "20%";
-      document.querySelector("#phoneColumn2").style.width = "60%";
-      document.querySelector("#phoneColumn3").style.width = "20%";
     },
 
     methods: {
