@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\dataTable;
 use App\Models\Contact;
 
 class AdminContactController extends Controller
@@ -24,6 +25,15 @@ class AdminContactController extends Controller
         $contact[$record->type][] = $record;
       }
     }
+
+		$emailsTable = new DataTable('contact');
+		$emailsTable->setQuery('SELECT * FROM contact WHERE type = "email"');
+
+		$emailsTable->addColumn('id', '#');
+		$emailsTable->addColumn('value', 'Email', 2);
+		$emailsTable->addColumn('updated_at', 'Last Updated', 2);
+
+		
 
     return view('admin/contact', compact(
       'sessionUser',

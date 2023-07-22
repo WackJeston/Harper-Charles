@@ -47,34 +47,32 @@ import Alertmessage from './vue/components/admin/site/alertMessage.vue'
 
 import Adminlogin from './vue/components/admin/auth/login.vue'
 
-import Admincontactmain from './vue/components/admin/contact/contactMain.vue'
-import Admincontactfunctions from './vue/components/admin/contact/contactFunctions.vue'
+import Admincontactfunctions from './vue/components/admin/contactFunctions.vue'
 
-import Userscreate from './vue/components/admin/users/usersCreate.vue'
+import Userscreate from './vue/components/admin/usersCreate.vue'
 
-import Userprofilemain from './vue/components/admin/user-profile/userProfileMain.vue'
-import Userprofilefunctions from './vue/components/admin/user-profile/userProfileFunctions.vue'
+import Userprofilemain from './vue/components/admin/userProfileMain.vue'
+import Userprofilefunctions from './vue/components/admin/userProfileFunctions.vue'
 
-import Customerscreate from './vue/components/admin/customers/customersCreate.vue'
+import Customerscreate from './vue/components/admin/customersCreate.vue'
 
-import Customerprofilemain from './vue/components/admin/customer-profile/customerProfileMain.vue'
-import Customerprofilefunctions from './vue/components/admin/customer-profile/customerProfileFunctions.vue'
+import Customerprofilemain from './vue/components/admin/customerProfileMain.vue'
+import Customerprofilefunctions from './vue/components/admin/customerProfileFunctions.vue'
 
-import Productscreate from './vue/components/admin/products/productsCreate.vue'
+import Productscreate from './vue/components/admin/productsCreate.vue'
 
-import Productprofilemain from './vue/components/admin/product-profile/productProfileMain.vue'
-import Productprofilefunctions from './vue/components/admin/product-profile/productProfileFunctions.vue'
+import Productprofilemain from './vue/components/admin/productProfileMain.vue'
+import Productprofilefunctions from './vue/components/admin/productProfileFunctions.vue'
 
-import Lzhomecarousel from './vue/components/admin/landing-zones/home-carousel.vue'
+import Lzhomecarousel from './vue/components/admin/home-carousel.vue'
 
-import Categorycreate from './vue/components/admin/categories/categoryCreate.vue'
+import Categorycreate from './vue/components/admin/categoryCreate.vue'
 
-import Categoryprofilemain from './vue/components/admin/category-profile/categoryProfileMain.vue'
-import Categoryprofilefunctions from './vue/components/admin/category-profile/categoryProfileFunctions.vue'
+import Categoryprofilefunctions from './vue/components/admin/categoryProfileFunctions.vue'
 
-import Variantscreate from './vue/components/admin/variants/variantsCreate.vue'
+import Variantscreate from './vue/components/admin/variantsCreate.vue'
 
-import Variantprofilefunctions from './vue/components/admin/variant-profile/variantProfileFunctions.vue'
+import Variantprofilefunctions from './vue/components/admin/variantProfileFunctions.vue'
 
 
 
@@ -179,9 +177,6 @@ adminLogin.component('adminlogin', Adminlogin).mount('#adminlogin')
 // adminConfirmEmail.component('adminconfirmemail', Adminconfirmemail).mount('#adminconfirmemail')
 
 
-const adminContactMain = createApp({})
-adminContactMain.component('admincontactmain', Admincontactmain).mount('#admincontactmain')
-
 const adminContactFunctions = createApp({})
 adminContactFunctions.use(VueAxios, axios)
 adminContactFunctions.component('admincontactfunctions', Admincontactfunctions).mount('#admincontactfunctions')
@@ -227,9 +222,6 @@ lzHomeCarousel.component('lzhomecarousel', Lzhomecarousel).mount('#lzhomecarouse
 const categoryCreate = createApp({})
 categoryCreate.component('categorycreate', Categorycreate).mount('#categorycreate')
 
-
-const categoryProfileMain = createApp({})
-categoryProfileMain.component('categoryprofilemain', Categoryprofilemain).mount('#categoryprofilemain')
 
 const categoryProfileFunctions = createApp({})
 categoryProfileFunctions.component('categoryprofilefunctions', Categoryprofilefunctions).mount('#categoryprofilefunctions')

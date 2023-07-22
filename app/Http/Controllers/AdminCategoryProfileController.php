@@ -73,9 +73,7 @@ class AdminCategoryProfileController extends Controller
 		$productsTable->addLinkButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$productsTable->addLinkButton('/category-profileRemoveProduct/' . $id . '/?', 'fa-solid fa-ban', 'Remove Product');
 
-		$productsTable = $productsTable->display(true);
-
-		// dd($productsTable);
+		$productsTable = $productsTable->render();
 
     return view('admin/category-profile', compact(
       'sessionUser',
