@@ -18,56 +18,6 @@ function setTableMargin() {
 	});
 };
 
-function toggleButton(table, ref, column, primaryTable, primaryValue) {
-	$.ajax({
-		url: "/dataTable-toggleButton/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
-		type: "GET",
-		success: function(result) {
-			let button = document.querySelector("#table-" + ref + " #" + column + "-" + primaryValue);
-
-			if (result == 1) {
-				button.classList.remove("toggle-false");
-				button.classList.remove("fa-circle-xmark");
-				
-				button.classList.add("toggle-true");
-				button.classList.add("fa-circle-check");
-			} else {
-				button.classList.remove("toggle-true");
-				button.classList.remove("fa-circle-check");
-
-				button.classList.add("toggle-false");
-				button.classList.add("fa-circle-xmark");
-			}
-		}
-	});
-};
-
-function setPrimary(table, ref, column, primaryTable, primaryValue) {
-	$.ajax({
-		url: "/dataTable-setPrimary/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
-		type: "GET",
-		success: function(result) {
-			let oldPrimarys = document.querySelectorAll("#table-" + ref + " #column-" + column + " .toggle-true");
-
-			oldPrimarys.forEach(oldPrimary => {
-				oldPrimary.classList.remove("toggle-true");
-				oldPrimary.classList.remove("fa-circle-check");
-
-				oldPrimary.classList.add("toggle-false");
-				oldPrimary.classList.add("fa-circle-xmark");
-			});
-
-			let button = document.querySelector("#table-" + table + " #" + column + "-" + primaryValue);
-
-			button.classList.remove("toggle-false");
-			button.classList.remove("fa-circle-xmark");
-			
-			button.classList.add("toggle-true");
-			button.classList.add("fa-circle-check");
-		}
-	});
-};
-
 function showImage(fileName) {
 	const imageZone = document.querySelector('.image-viewer');
 	const image = document.querySelector('.viewer-image');
@@ -101,4 +51,56 @@ function showDeleteWarning(type, id, url) {
 function closeDeleteWarning() {
 	const warningZone = document.querySelector('.warning-overlay');
 	warningZone.style.display = 'none';
+};
+
+
+// AJAX
+function toggleButton(table, ref, column, primaryTable, primaryValue) {
+	$.ajax({
+		url: "/dataTable-toggleButton/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue,
+		type: "GET",
+		success: function(result) {
+			let button = document.querySelector("#table-" + ref + " #" + column + "-" + primaryValue);
+
+			if (result == 1) {
+				button.classList.remove("toggle-false");
+				button.classList.remove("fa-circle-xmark");
+				
+				button.classList.add("toggle-true");
+				button.classList.add("fa-circle-check");
+			} else {
+				button.classList.remove("toggle-true");
+				button.classList.remove("fa-circle-check");
+
+				button.classList.add("toggle-false");
+				button.classList.add("fa-circle-xmark");
+			}
+		}
+	});
+};
+
+function setPrimary(table, ref, column, primaryTable, primaryValue, parent, parentId) {
+	$.ajax({
+		url: "/dataTable-setPrimary/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue + "/" + parent + "/" + parentId,
+		type: "GET",
+		success: function(result) {
+			let oldPrimarys = document.querySelectorAll("#table-" + ref + " #column-" + column + " .toggle-true");
+
+			oldPrimarys.forEach(oldPrimary => {
+				oldPrimary.classList.remove("toggle-true");
+				oldPrimary.classList.remove("fa-circle-check");
+
+				oldPrimary.classList.add("toggle-false");
+				oldPrimary.classList.add("fa-circle-xmark");
+			});
+
+			let button = document.querySelector("#table-" + table + " #" + column + "-" + primaryValue);
+
+			button.classList.remove("toggle-false");
+			button.classList.remove("fa-circle-xmark");
+			
+			button.classList.add("toggle-true");
+			button.classList.add("fa-circle-check");
+		}
+	});
 };

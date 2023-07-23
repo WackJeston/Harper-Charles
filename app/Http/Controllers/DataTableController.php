@@ -21,8 +21,13 @@ class DataTableController extends Controller
 		return $value;
 	}
 
-	public function setPrimary(string $table, string $column, string $primaryColumn, $primaryValue):bool {
-		DB::table($table)->where($column, 1)->update([$column => 0]);
+	public function setPrimary(string $table, string $column, string $primaryColumn, $primaryValue, string $parent = null, $parentId = null):bool {
+		if ($parent != null && $parentId != null) {
+			DB::table($table)->where($column, 1)->where($parent, $parentId)->update([$column => 0]);
+		} else {
+			DB::table($table)->where($column, 1)->update([$column => 0]);
+		}
+		
 		DB::table($table)->where($primaryColumn, $primaryValue)->update([$column => 1]);
 
 		return true;

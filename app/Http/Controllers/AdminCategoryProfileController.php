@@ -41,7 +41,7 @@ class AdminCategoryProfileController extends Controller
 
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Name', 2);
-		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary');
+		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:categoryId:' . $id);
 
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Category', 'record:id', 'url:/category-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');

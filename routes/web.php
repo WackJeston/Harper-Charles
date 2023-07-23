@@ -38,7 +38,7 @@ use App\Http\Controllers\AdminVariantProfileController;
 
 // DataTable -----------------------------------------------------------------------------------
 Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
-Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'setPrimary']);
+Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [DataTableController::class, 'setPrimary']);
 
 
 // SYSTEM -----------------------------------------------------------------------------------

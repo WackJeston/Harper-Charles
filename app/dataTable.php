@@ -35,6 +35,12 @@ class DataTable
 			$title = $name;
 		}
 
+		$typeArray = explode(':', $type);
+
+		$type = $typeArray[0];
+		$parent = isset($typeArray[1]) ? $typeArray[1] : null;
+		$parentId = isset($typeArray[2]) ? $typeArray[2] : null;
+
 		$this->table['columns'][] = [
 			'name' => $name,
 			'title' => $title,
@@ -43,6 +49,8 @@ class DataTable
 			'mobileMaxWidth' => $width,
 			'hideMobile' => $hideMobile,
 			'type' => $type,
+			'parent' => $parent,
+			'parentId' => $parentId,
 		];
 	}
 
@@ -167,16 +175,44 @@ class DataTable
 
 								case 'toggle':
 									if ($record->{$column['name']} == 1) {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', 
+											$this->table['tableName'], 
+											$this->table['ref'], 
+											$column['name'], 
+											$this->table['primary'], 
+											$record->{$this->table['primary']}
+										);
 									} else {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="toggleButton(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', 
+											$this->table['tableName'], 
+											$this->table['ref'], 
+											$column['name'], 
+											$this->table['primary'], 
+											$record->{$this->table['primary']}
+										);
 									}
 									break;
 								case 'setPrimary':
 									if ($record->{$column['name']} == 1) {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-check toggle-true" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\', \'%6$s\', \'%7$s\')"></i>', 
+											$this->table['tableName'], 
+											$this->table['ref'], 
+											$column['name'], 
+											$this->table['primary'], 
+											$record->{$this->table['primary']},
+											$column['parent'],
+											$column['parentId'],
+										);
 									} else {
-										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\')"></i>', $this->table['tableName'], $this->table['ref'], $column['name'], $this->table['primary'], $record->{$this->table['primary']});
+										$tempResult = sprintf('<i class="fa-solid fa-circle-xmark toggle-false" id="%3$s-%5$s" onclick="setPrimary(\'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\', \'%5$s\', \'%6$s\', \'%7$s\')"></i>', 
+											$this->table['tableName'], 
+											$this->table['ref'], 
+											$column['name'], 
+											$this->table['primary'], 
+											$record->{$this->table['primary']},
+											$column['parent'],
+											$column['parentId'],
+										);
 									}
 									break;
 							}

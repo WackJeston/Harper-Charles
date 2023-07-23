@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use App\dataTable;
 use App\Models\Products;
 use App\Models\ProductVariants;
 
@@ -32,18 +33,25 @@ class AdminVariantProfileController extends Controller
 
     $variant = $variant[0];
 
-    $subVariants = DB::select(sprintf('SELECT
-      pv.id,
-      pv.title,
-      pv.show
-      FROM product_variants AS pv
-      WHERE pv.parentVariantId = "%d"
-    ', $id));
+		$subVariantsTable = new DataTable('product_variants');
+		$subVariantsTable->setQuery('SELECT
+			pv.*
+			FROM product_variants AS pv
+			WHERE pv.parentVariantId = ?', [$id]
+		);
+
+		$subVariantsTable->addColumn('id', '#');
+		$subVariantsTable->addColumn('title', 'Title');
+		$subVariantsTable->addColumn('show', 'Active', 1, true, 'toggle');
+
+		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
+
+		$subVariantsTable = $subVariantsTable->render();
 
     return view('admin/variant-profile', compact(
       'sessionUser',
       'variant',
-      'subVariants',
+      'subVariantsTable',
     ));
   }
 
@@ -104,18 +112,5 @@ class AdminVariantProfileController extends Controller
     ProductVariants::find($optionId)->delete();
 
     return redirect("/admin/variant-profile/" . $id)->with('message', 'Option deleted successfully.');
-  }
-
-  public function showOption($id, $optionId, $toggle)
-  {
-    ProductVariants::find($optionId)->update([
-      'show' => $toggle,
-    ]);
-
-    if ($toggle == 1) {
-      return redirect("/admin/variant-profile/" . $id)->with('message', "Option is now on.");
-    } else {
-      return redirect("/admin/variant-profile/" . $id)->with('message', "Option is now off.");
-    }
   }
 }
