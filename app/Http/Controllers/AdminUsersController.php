@@ -22,7 +22,7 @@ class AdminUsersController extends Controller
 		$usersTable->addColumn('id', '#');
 		$usersTable->addColumn('name', 'Name');
 		$usersTable->addColumn('email', 'Email', 2);
-		$usersTable->addColumn('created_at', 'Created At');
+		$usersTable->addColumn('created_at', 'Created At', 1, true);
 
 		$usersTable->addLinkButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 

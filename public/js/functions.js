@@ -1,21 +1,63 @@
 function setTableMargin() {
 	let tables = document.querySelectorAll("table");
 
-	tables.forEach(table => {
-		let width = table.querySelector("#" + table.id + " .tr-buttons").offsetWidth;
-		let rows = table.querySelectorAll("#" + table.id + " tr");
-
-		if (width == 0) {
-			let buttonCount = table.querySelector("#" + table.id + " .tr-buttons").childElementCount;
-			width = buttonCount * 35;
-		}
-
-		let input = width + "px";
-
-		rows.forEach(row => {
-			row.style.paddingRight = input;
+	if (tables != null) {
+		tables.forEach(table => {
+			let buttons = table.querySelector("#" + table.id + " .tr-buttons");
+	
+			if (buttons != null) {
+				let width = buttons.offsetWidth;
+				let rows = table.querySelectorAll("#" + table.id + " tr");
+	
+				if (width == 0) {
+					let buttonCount = table.querySelector("#" + table.id + " .tr-buttons").childElementCount;
+					width = (buttonCount * 35) + 10;
+				}
+	
+				let input = width + "px";
+	
+				rows.forEach(row => {
+					row.style.paddingRight = input;
+				});
+			}
 		});
+	}
+};
+
+function hideTableColumnsLoop() {
+	hideTableColumns();
+
+	window.addEventListener('resize', function() {		
+		hideTableColumns();
 	});
+};
+
+function hideTableColumns() {
+	let cells = document.querySelectorAll(".show-mobile-marker");
+	let mobileCells = document.querySelectorAll(".hide-mobile-marker");
+
+	if (window.innerWidth < 800) {
+		cells.forEach(cell => {
+			cell.style.width = cell.getAttribute("data-mobile-width");
+		});
+
+		mobileCells.forEach(cell => {
+			if (cell.classList.contains("hide-mobile") == false) {
+				cell.classList.add("hide-mobile");
+			}
+		});
+
+	} else {
+		cells.forEach(cell => {
+			cell.style.width = cell.getAttribute("data-width");
+		});
+
+		mobileCells.forEach(cell => {
+			if (cell.classList.contains("hide-mobile") == true) {
+				cell.classList.remove("hide-mobile");
+			}
+		});
+	}
 };
 
 function showImage(fileName) {

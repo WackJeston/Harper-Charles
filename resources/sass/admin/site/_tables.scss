@@ -179,3 +179,7 @@ table td .toggle-false {
 table td .toggle-false:hover {
 	color: v.$pale-red-darker;
 }
+
+table .hide-mobile {
+	display: none;
+}

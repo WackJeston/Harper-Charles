@@ -146,8 +146,13 @@ class DataTable
 
 				foreach ($this->table['columns'] as $i => $column) {
 					$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+					$mobileStyle = $column['name'] == 'id' ? '50px' : $column['mobileMaxWidth'] . '%';
 
-					$result .= sprintf('<th style="width:%s;">%s</th>', $style, $column['title']);
+					if ($column['hideMobile'] == true) {
+						$result .= sprintf('<th class="hide-mobile-marker" style="width:%s;">%s</th>', $style, $column['title']);
+					} else {
+						$result .= sprintf('<th class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</th>', $style, $mobileStyle, $column['title']);
+					}
 				}
 
 				$result .= '
@@ -164,6 +169,7 @@ class DataTable
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
+							$mobileStyle = $column['name'] == 'id' ? '50px' : $column['mobileMaxWidth'] . '%';
 
 							$tempResult = $record->{$column['name']};
 							
@@ -216,8 +222,12 @@ class DataTable
 									}
 									break;
 							}
-	
-							$result .= sprintf('<td id="column-%s" style="width:%s;">%s</td>', $column['name'], $style, $tempResult);
+
+							if ($column['hideMobile'] == true) {
+								$result .= sprintf('<td id="column-%s" class="hide-mobile-marker" style="width:%s;">%s</tds>', $column['name'], $style, $tempResult);
+							} else {
+								$result .= sprintf('<td id="column-%s" class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</tds>', $column['name'], $style, $mobileStyle, $tempResult);
+							}
 						}
 	
 						if (count($this->table['buttons']) >= 1) {

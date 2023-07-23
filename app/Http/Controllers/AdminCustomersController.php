@@ -22,7 +22,7 @@ class AdminCustomersController extends Controller
 		$customersTable->addColumn('id', '#');
 		$customersTable->addColumn('name', 'Name');
 		$customersTable->addColumn('email', 'Email', 2);
-		$customersTable->addColumn('created_at', 'Created');
+		$customersTable->addColumn('created_at', 'Created', 1 , true);
 
 		$customersTable->addLinkButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 

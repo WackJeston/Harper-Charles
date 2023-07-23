@@ -28,9 +28,9 @@ class AdminVariantController extends Controller
 		');
 
 		$variantsTable->addColumn('id', '#');
-		$variantsTable->addColumn('title', 'Title', 2);
-		$variantsTable->addColumn('children', 'Children');
-		$variantsTable->addColumn('show', 'Show', 1, false, 'toggle');
+		$variantsTable->addColumn('title', 'Title', 3);
+		$variantsTable->addColumn('children', 'Children', 2);
+		$variantsTable->addColumn('show', 'Show', 2, false, 'toggle');
 
 		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 

@@ -39,7 +39,7 @@ class AdminProductProfileController extends Controller
 
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Title');
-		$imagesTable->addColumn('primary', 'Primary', 1, true, 'setPrimary:productId:' . $id);
+		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:productId:' . $id);
 
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');

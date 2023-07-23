@@ -18,9 +18,9 @@ class AdminProductsController extends Controller
 		$productsTable->setQuery('SELECT * FROM products');
 
 		$productsTable->addColumn('id', '#');
-		$productsTable->addColumn('title', 'Title');
-		$productsTable->addColumn('subtitle', 'Subtitle', 2);
-		$productsTable->addColumn('productNumber', 'Product Number');
+		$productsTable->addColumn('title', 'Title', 3);
+		$productsTable->addColumn('subtitle', 'Subtitle', 4, true);
+		$productsTable->addColumn('productNumber', 'Product Number', 2);
 
 		$productsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 

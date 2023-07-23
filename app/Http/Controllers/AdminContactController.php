@@ -26,23 +26,23 @@ class AdminContactController extends Controller
       }
     }
 
-		$emailsTable = new DataTable('contact');
+		$emailsTable = new DataTable('contact_REF_1');
 		$emailsTable->setQuery('SELECT * FROM contact WHERE type = "email"');
 
 		$emailsTable->addColumn('id', '#');
-		$emailsTable->addColumn('value', 'Email', 2);
-		$emailsTable->addColumn('updated_at', 'Last Updated', 2);
+		$emailsTable->addColumn('value', 'Email');
+		$emailsTable->addColumn('updated_at', 'Last Updated', 1, true);
 
 		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:id', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
 
 		$emailsTable = $emailsTable->render();
 
-		$phonesTable = new DataTable('contact');
+		$phonesTable = new DataTable('contact_REF_2');
 		$phonesTable->setQuery('SELECT * FROM contact WHERE type = "phone"');
 
 		$phonesTable->addColumn('id', '#');
-		$phonesTable->addColumn('value', 'Phone', 2);
-		$phonesTable->addColumn('updated_at', 'Last Updated', 2);
+		$phonesTable->addColumn('value', 'Phone');
+		$phonesTable->addColumn('updated_at', 'Last Updated', 1, true);
 
 		$phonesTable->addJsButton('showDeleteWarning', ['string:Phone', 'record:id', 'url:/contactDeletePhone/?'], 'fa-solid fa-trash-can', 'Delete Phone');
 

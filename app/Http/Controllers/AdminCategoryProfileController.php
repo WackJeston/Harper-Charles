@@ -67,7 +67,7 @@ class AdminCategoryProfileController extends Controller
 
 		$productsTable->addColumn('id', '#');
 		$productsTable->addColumn('title', 'Title', 2);
-		$productsTable->addColumn('productNumber', 'Product Number', 2);
+		$productsTable->addColumn('productNumber', 'Product Number', 2, true);
 		$productsTable->addColumn('price', 'Price', 1, false, 'currency');
 
 		$productsTable->addLinkButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');

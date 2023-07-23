@@ -41,8 +41,8 @@ class AdminVariantProfileController extends Controller
 		);
 
 		$subVariantsTable->addColumn('id', '#');
-		$subVariantsTable->addColumn('title', 'Title');
-		$subVariantsTable->addColumn('show', 'Active', 1, true, 'toggle');
+		$subVariantsTable->addColumn('title', 'Title', 2);
+		$subVariantsTable->addColumn('show', 'Active', 1, false, 'toggle');
 
 		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
 

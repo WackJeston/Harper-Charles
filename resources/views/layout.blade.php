@@ -164,5 +164,6 @@
 
 	<script>
 		setTableMargin();
+		hideTableColumnsLoop();
 	</script>
 </html>

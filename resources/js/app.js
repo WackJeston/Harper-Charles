@@ -186,9 +186,6 @@ const usersCreate = createApp({})
 usersCreate.component('userscreate', Userscreate).mount('#userscreate')
 
 
-const userProfileMain = createApp({})
-userProfileMain.component('userprofilemain', Userprofilemain).mount('#userprofilemain')
-
 const userProfileFunctions = createApp({})
 userProfileFunctions.component('userprofilefunctions', Userprofilefunctions).mount('#userprofilefunctions')
 
@@ -197,9 +194,6 @@ const customersCreate = createApp({})
 customersCreate.component('customerscreate', Customerscreate).mount('#customerscreate')
 
 
-const customerProfileMain = createApp({})
-customerProfileMain.component('customerprofilemain', Customerprofilemain).mount('#customerprofilemain')
-
 const customerProfileFunctions = createApp({})
 customerProfileFunctions.component('customerprofilefunctions', Customerprofilefunctions).mount('#customerprofilefunctions')
 
@@ -207,9 +201,6 @@ customerProfileFunctions.component('customerprofilefunctions', Customerprofilefu
 const productsCreate = createApp({})
 productsCreate.component('productscreate', Productscreate).mount('#productscreate')
 
-
-const productProfileMain = createApp({})
-productProfileMain.component('productprofilemain', Productprofilemain).mount('#productprofilemain')
 
 const productProfileFunctions = createApp({})
 productProfileFunctions.component('productprofilefunctions', Productprofilefunctions).mount('#productprofilefunctions')
