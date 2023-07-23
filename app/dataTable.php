@@ -139,7 +139,7 @@ class DataTable
 	public function render() {
 		self::calculate();
 
-		$result = sprintf('
+		$html = sprintf('
 		<table class="web-box" id="table-%s">
 			<thead>
 				<tr>', $this->table['ref']);
@@ -149,22 +149,22 @@ class DataTable
 					$mobileStyle = $column['name'] == 'id' ? '50px' : $column['mobileMaxWidth'] . '%';
 
 					if ($column['hideMobile'] == true) {
-						$result .= sprintf('<th class="hide-mobile-marker" style="width:%s;">%s</th>', $style, $column['title']);
+						$html .= sprintf('<th class="hide-mobile-marker" style="width:%s;">%s</th>', $style, $column['title']);
 					} else {
-						$result .= sprintf('<th class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</th>', $style, $mobileStyle, $column['title']);
+						$html .= sprintf('<th class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</th>', $style, $mobileStyle, $column['title']);
 					}
 				}
 
-				$result .= '
+				$html .= '
 				</tr>
 			</thead>';
 
 			if (count($this->table['records']) > 0) {
-				$result .= '
+				$html .= '
 				<tbody>';
 
 					foreach ($this->table['records'] as $i => $record) {
-						$result .= '
+						$html .= '
 						<tr>';
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
@@ -224,74 +224,74 @@ class DataTable
 							}
 
 							if ($column['hideMobile'] == true) {
-								$result .= sprintf('<td id="column-%s" class="hide-mobile-marker" style="width:%s;">%s</tds>', $column['name'], $style, $tempResult);
+								$html .= sprintf('<td id="column-%s" class="hide-mobile-marker" style="width:%s;">%s</tds>', $column['name'], $style, $tempResult);
 							} else {
-								$result .= sprintf('<td id="column-%s" class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</tds>', $column['name'], $style, $mobileStyle, $tempResult);
+								$html .= sprintf('<td id="column-%s" class="show-mobile-marker" data-width="%s" data-mobile-width="%s">%s</tds>', $column['name'], $style, $mobileStyle, $tempResult);
 							}
 						}
 	
 						if (count($this->table['buttons']) >= 1) {
-							$result .= '
+							$html .= '
 							<td class="tr-buttons">';
 	
 							foreach ($this->table['buttons'] as $i3 => $button) {
 								if ($button['type'] == 'link') {
-									$result .= sprintf('
+									$html .= sprintf('
 									<a href="%s">
 										<i class="%s tr-button">', $record->buttonRecords[$i3], $button['icon']);
 		
 										if ($button['label'] != null) {
-											$result .= sprintf('
+											$html .= sprintf('
 											<div class="button-label">
 												<p>%s</p>
 												<div></div>
 											</div>', $button['label']);
 										}
 										
-										$result .= '
+										$html .= '
 										</i>
 									</a>';
 
 								} elseif ($button['type'] == 'js') {
-									$result .= sprintf('
+									$html .= sprintf('
 									<i onclick="%s" class="%s tr-button">', $record->buttonRecords[$i3], $button['icon']);
 		
 									if ($button['label'] != null) {
-										$result .= sprintf('
+										$html .= sprintf('
 										<div class="button-label">
 											<p>%s</p>
 											<div></div>
 										</div>', $button['label']);
 									}
 									
-									$result .= '
+									$html .= '
 									</i>';
 								}
 							}
 	
-							$result .= '
+							$html .= '
 							</td>';
 						}
 	
-						$result .= '
+						$html .= '
 						</tr>';
 					}
 
-				$result .= '
+				$html .= '
 				</tbody>';
 
 			} else {
-				$result .= '
+				$html .= '
 				<tr class="empty-table">
 					<td><h3>No Records</h3></td>
 				</tr>';
 			}
 				
-		$result .= '
+		$html .= '
 		</table>';
 
 		$return = [
-			'html' => trim(preg_replace('/\s\s+/', '', $result)),
+			'html' => trim(preg_replace('/\s\s+/', '', $html)),
 			'count' => $this->table['count'],
 		];
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\dataTable;
+use App\dataForm;
 
 class AdminTestController extends Controller
 {
@@ -10,35 +10,20 @@ class AdminTestController extends Controller
   {
     $sessionUser = auth()->user();
 
-		$dataTable = new DataTable('products');
-		$dataTable->setQuery('SELECT * FROM products');
+		$dataForm = new dataForm(request(), '/admin/test');
 
+		$dataForm->addInput('text', 'firstName', 'First Name', null, true, 'John');
+		$dataForm->addInput('text', 'lastName', 'Last Name', null, true, 'Doe');
+		$dataForm->addInput('email', 'email', 'Email', null, true);
+		$dataForm->addInput('password', 'password', 'Password', null, true);
+		$dataForm->addInput('password', 'password_confirmation', 'Confirm Password', null, true);
+		$dataForm->addInput('checkbox', 'realPerson', 'Real Person', null, true);
 
-		$dataTable->addColumn('id', '#');
-		$dataTable->addColumn('title', 'Title', 2);
-		$dataTable->addColumn('productNumber', 'Product Number', 2);
-		$dataTable->addColumn('price', 'Price', 1, false, 'currency');
-
-		$dataTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$dataTable->addLinkButton('duck-page/?', 'fa-solid fa-box', 'Close Record');
-
-		$table2 = new DataTable('categories');
-		$table2->setQuery('SELECT * FROM product_categories');
-
-		$table2->addColumn('id', '#');
-		$table2->addColumn('title', 'Title');
-		$table2->addColumn('subtitle', 'Subtitle', 2);
-		$table2->addColumn('created_at', 'Created At');
-
-		$table2->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-
-		// dd($table);
+		$form = $dataForm->render();
 
     return view('admin/test', compact(
       'sessionUser',
-			'dataTable',
-			'table',
-			'table2',
+			'form',
     ));
   }
 }

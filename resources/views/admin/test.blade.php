@@ -20,9 +20,9 @@
       </div>
     @endif
 
-		{{ $dataTable->render() }}
-
-		{{ $table2->render() }}
+		@php
+			echo $form['html'];
+		@endphp
 
   </main>
 @endsection
