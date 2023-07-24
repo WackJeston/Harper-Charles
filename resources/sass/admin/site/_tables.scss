@@ -13,15 +13,16 @@ tr {
 	display: flex;
 	align-items: center;
 	position: relative;
-	border-bottom: 1px solid v.$bg-main;
 }
 
 thead tr {
   height: 35px;
+	border-bottom: 1px solid v.$gray-1;
 }
 
 tbody tr {
   height: 30px;
+	border-bottom: 1px solid v.$bg-main;
 }
 
 tr th {
