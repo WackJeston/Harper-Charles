@@ -8,68 +8,18 @@
   @click="show == 'phone' ? show = false : show = 'phone'">Phones<span v-show="this.phonestable.count > 0"> ({{ this.phonestable.count }})</span></button>
 
   <!-- Edit -->
-  <form class="web-box dk" v-show="show == 'edit'" id="updateForm" :action="'/contactUpdateAddress/' + this.lat + '/' + this.lng" method="post" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = false"></i>
-    <input type="hidden" name="_token" :value="csrf">
+  <div v-html="this.editform.html" v-show="show == 'edit'"></div>
 
-    <label for="line1">First Line</label>
-    <input v-if="this.contact['line1']" :value="this.contact['line1']" v-once type="text" name="line1" id="line1" maxlength="200">
-    <input v-else type="text" name="line1" id="line1" maxlength="200">
-
-    <label for="line2">Second Line</label>
-    <input v-if="this.contact['line2']" :value="this.contact['line2']" v-once type="text" name="line2" id="line2" maxlength="200">
-    <input v-else type="text" name="line2" id="line2" maxlength="200">
-
-    <label for="line3">Third Line</label>
-    <input v-if="this.contact['line3']" :value="this.contact['line3']" v-once type="text" name="line3" id="line3" maxlength="200">
-    <input v-else type="text" name="line3" id="line3" maxlength="200">
-
-    <label for="city">Town/City</label>
-    <input v-if="this.contact['city']" :value="this.contact['city']" v-once type="text" name="city" id="city" maxlength="200">
-    <input v-else type="text" name="city" id="city" maxlength="200">
-
-    <label for="region">Region</label>
-    <input v-if="this.contact['region']" :value="this.contact['region']" v-once type="text" name="region" maxlength="200">
-    <input v-else type="text" name="region" maxlength="200">
-
-    <label for="country">Country</label>
-    <input v-if="this.contact['country']" :value="this.contact['country']" v-once type="text" name="country" maxlength="200">
-    <input v-else type="text" name="country" maxlength="200">
-
-    <label for="postcode">Post Code</label>
-    <input v-if="this.contact['postcode']" :value="this.contact['postcode']" v-once type="text" name="postcode" id="postcode" maxlength="200">
-    <input v-else type="text" name="postcode" id="postcode" maxlength="200">
-
-    <button class="submit" type="button" @click="update()">Update</button>
+	<form :action="'/contactUpdateAddress/' + this.lat + '/' + this.lng">
   </form>
 
-  <!-- Emails Form -->
-  <form class="web-box dk" v-show="show == 'email'" action="/contactCreateEmail" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = null"></i>
-    <input type="hidden" name="_token" :value="csrf">
+  <!-- Emails -->
+  <div v-html="this.emailform.html" v-show="show == 'email'"></div>
+	<div v-html="this.emailstable.html" v-show="show == 'email'"></div>
 
-    <label for="email">Email<span> *</span></label>
-    <input type="email" name="email" maxlength="200" required>
-
-    <button class="submit" type="submit">Add</button>
-  </form>
-
-  <!-- Emails table -->
-  <div v-html="this.emailstable.html" v-show="show == 'email'"></div>
-
-  <!-- Phones Form -->
-  <form class="web-box dk" v-show="show == 'phone'" action="/contactCreatePhone" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = null"></i>
-    <input type="hidden" name="_token" :value="csrf">
-
-    <label for="phone">Number<span> *</span></label>
-    <input type="tel" name="phone" maxlength="20" required>
-
-    <button class="submit" type="submit">Add</button>
-  </form>
-
-  <!-- Phones table -->
-  <div v-html="this.phonestable.html" v-show="show == 'phone'"></div>
+  <!-- Phones -->
+  <div v-html="this.phoneform.html" v-show="show == 'phone'"></div>
+	<div v-html="this.phonestable.html" v-show="show == 'phone'"></div>
 </template>
 
 
@@ -77,22 +27,21 @@
   export default {
     props: [
       'contact',
+			'editform',
+			'emailform',
 			'emailstable',
+			'phoneform',
 			'phonestable',
     ],
 
     data() {
       return {
-        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         show: false,
-        showPassword: false,
-        lat: 0,
-        lng: 0,
       };
     },
 
     methods: {
-      async update() {
+      async updateAddressMap() {
         try {
           let query = document.getElementById('line1').value.replace(',', '');
           query += ' ' + document.getElementById('line2').value.replace(',', '');
@@ -109,14 +58,24 @@
         } catch (err) {
           console.log(err);
         } finally {
-          this.lat = this.geoData.data.results[0].geometry.location.lat;
-          this.lng = this.geoData.data.results[0].geometry.location.lng;
-
-          setTimeout(() => {
-            document.getElementById('updateForm').submit();
-          }, 10);
+          uploadLatLng(this.geoData.data.results[0].geometry.location.lat, this.geoData.data.results[0].geometry.location.lng);
         }
       },
+
+			async uploadLatLng(lat, lng) {
+				try {
+          this.result = await this.$http.post(
+            'contactUploadLatLng/' + lat + '/' + lng
+          );
+        } catch (err) {
+          console.log(err);
+        } finally {
+					console.log(this.result);
+          setTimeout(() => {
+            document.getElementById('updateAddressMap').submit();
+          }, 10);
+        }
+			},
     },
   };
 </script>

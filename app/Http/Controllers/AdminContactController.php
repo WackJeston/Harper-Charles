@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\dataTable;
+use App\dataForm;
 use App\Models\Contact;
 
 class AdminContactController extends Controller
@@ -26,39 +27,78 @@ class AdminContactController extends Controller
       }
     }
 
+		$editForm = new dataForm(request(), '/contactUpdateAddress', 'Save', 'updateAddressMap()');
+		$editForm->addInput('text', 'line1', 'Line 1', $contact['line1'] ?? null, 200, 1);
+		$editForm->addInput('text', 'line2', 'Line 2', $contact['line2'] ?? null, 200, 0);
+		$editForm->addInput('text', 'line3', 'Line 3', $contact['line3'] ?? null, 200, 0);
+		$editForm->addInput('text', 'city', 'City', $contact['city'] ?? null, 200, 1);
+		$editForm->addInput('text', 'region', 'Region', $contact['region'] ?? null, 200, 1);
+		$editForm->addInput('text', 'country', 'Country', $contact['country'] ?? null, 200, 1);
+		$editForm->addInput('text', 'postcode', 'Postcode', $contact['postcode'] ?? null, 200, 1);
+		$editForm = $editForm->render();
+
+		$emailForm = new dataForm(request(), '/contactCreateEmail', 'Add');
+		$emailForm->addInput('email', 'email', 'Email', null, 200, 1, true);
+		$emailForm = $emailForm->render();
+
 		$emailsTable = new DataTable('contact_REF_1');
 		$emailsTable->setQuery('SELECT * FROM contact WHERE type = "email"');
-
 		$emailsTable->addColumn('id', '#');
 		$emailsTable->addColumn('value', 'Email');
 		$emailsTable->addColumn('updated_at', 'Last Updated', 1, true);
-
 		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:id', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
-
 		$emailsTable = $emailsTable->render();
+
+		$phoneForm = new dataForm(request(), '/contactCreatePhone', 'Add');
+		$phoneForm->addInput('tel', 'phone', 'Phone', null, 20, 1, true);
+		$phoneForm = $phoneForm->render();
 
 		$phonesTable = new DataTable('contact_REF_2');
 		$phonesTable->setQuery('SELECT * FROM contact WHERE type = "phone"');
-
 		$phonesTable->addColumn('id', '#');
 		$phonesTable->addColumn('value', 'Phone');
 		$phonesTable->addColumn('updated_at', 'Last Updated', 1, true);
-
 		$phonesTable->addJsButton('showDeleteWarning', ['string:Phone', 'record:id', 'url:/contactDeletePhone/?'], 'fa-solid fa-trash-can', 'Delete Phone');
-
 		$phonesTable = $phonesTable->render();
 
     return view('admin/contact', compact(
       'sessionUser',
       'contact',
+			'editForm',
+			'emailForm',
 			'emailsTable',
+			'phoneForm',
 			'phonesTable',
     ));
   }
 
-  public function updateAddress(Request $request, $lat, $lng)
+  public function updateAddress(Request $request)
   {
-    $record = Contact::where('type', 'lat')->first();
+    foreach ($request->all() as $i => $value) {
+      if($i != '_token') {
+        $record = Contact::where('type', $i)->first();
+
+        if($record) {
+          if ($value == '') {
+            $record->delete();
+          } else {
+            $record->value = $value;
+            $record->save();
+          }
+        } elseif(!empty($value)) {
+          $record = new Contact;
+          $record->type = $i;
+          $record->value = $value;
+          $record->save();
+        }
+      }
+    }
+
+    return redirect("/admin/contact")->with('message', 'Address updated successfully.');
+  }
+
+	public function uploadLatLng($lat, $lng) {
+		$record = Contact::where('type', 'lat')->first();
 
     if($record) {
       $record->value = $lat;
@@ -82,28 +122,8 @@ class AdminContactController extends Controller
       $record->save();
     }
 
-    foreach ($request->all() as $i => $value) {
-      if($i != '_token') {
-        $record = Contact::where('type', $i)->first();
-
-        if($record) {
-          if ($value == '') {
-            $record->delete();
-          } else {
-            $record->value = $value;
-            $record->save();
-          }
-        } elseif(!empty($value)) {
-          $record = new Contact;
-          $record->type = $i;
-          $record->value = $value;
-          $record->save();
-        }
-      }
-    }
-
-    return redirect("/admin/contact")->with('message', 'Address updated successfully.');
-  }
+		return true;
+	}
 
   public function createEmail(Request $request)
   {

@@ -8,12 +8,13 @@ class DataForm
 {
 	protected $form;
 
-  public function __construct(Request $request, string $action, string $method = 'POST')
+  public function __construct(Request $request, string $action, string $submit = 'Save', string $js = null)
 	{
 		$this->form = [
-			'action' => $action,
-			'method' => $method,
 			'token' => $request->session()->token(),
+			'action' => $action,
+			'submit' => $submit,
+			'js' => $js,
 			'inputs' => [],
 		];
 	}
@@ -33,17 +34,19 @@ class DataForm
 
 	public function render() {
 		$html = sprintf('
-		<form class="web-box dk" href="%s" method="%s">', $this->form['action'], $this->form['method']);
+		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', str_replace(['(', ')'], '', $this->form['js']), $this->form['action']);
 
 			$html .= sprintf('
 			<input type="hidden" name="_token" value="%s" />', $this->form['token']);
 
-			foreach ($this->form['inputs'] as $key => $input) {
+			foreach ($this->form['inputs'] as $i => $input) {
 				switch ($input['type']) {
 					case 'text':
+					case 'email':
+					case 'tel':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input type="text" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input type="%9$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -51,7 +54,8 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span> *</span>' : '',
+							$input['type'],
 						);
 						break;
 					
@@ -59,9 +63,9 @@ class DataForm
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
 						<label for="password" class="show-password">
-							<i id="show-password" class="fa-solid fa-eye"></i>
+							<i class="fa-solid fa-eye"></i>
 						</label>
-						<input type="password" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="password-input" type="password" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -69,7 +73,8 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span> *</span>' : '',
+							$i
 						);
 						break;
 
@@ -93,8 +98,10 @@ class DataForm
 				}
 			}
 
-			$html .= '
-			<button class="submit" type="submit">Save</button>';
+			$js = $this->form['js'] ? sprintf('onclick="%s"', $this->form['js']) : '';
+
+			$html .= sprintf('
+			<button class="submit" type="submit" %s>%s</button>', $js, $this->form['submit']);
 
 		$html .= '
 		</form>';

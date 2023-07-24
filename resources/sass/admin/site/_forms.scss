@@ -15,11 +15,16 @@ form .input-label-container {
 	width: 20%;
 }
 
-form.web-box input,
-form.web-box label,
-form.web-box select,
-form.web-box option {
+form.data-form input,
+form.data-form label,
+form.data-form select,
+form.data-form option,
+form.data-form .checkbox-container {
 	max-width: 600px;
+}
+
+form.data-form .submit {
+	margin-top: 5px;
 }
 
 form .input-label-container input,
@@ -69,12 +74,10 @@ form select,
 }
 
 form input:not(.checkbox-container input, .submit),
-.form input:not(.checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
 form select,
-form option,
-form .stripe-input {
+form option {
 	padding: 5px 8px;
 	border-radius: 5px;
 	color: v.$black;
@@ -83,20 +86,16 @@ form .stripe-input {
 	cursor: pointer;
 }
 
-form input:not(.checkbox-container input, .submit),
-.form input:not(.checkbox-container input, .submit),
-form textarea,
-form label.file-input-label,
-form select:not(.product-page .wb-content),
-.stripe-input {
+form.web-box input:not(.checkbox-container input, .submit),
+form.web-box textarea,
+form.web-box label.file-input-label,
+form.web-box select:not(.product-page .wb-content) {
 	border: 2px solid v.$gray-1;
 }
 
-form input:focus:not(.checkbox-container input, .submit),
-.form input:focus:not(.checkbox-container input, .submit),
-form textarea:focus,
-form label.file-input-label:hover,
-.stripe-input:focus {
+form.web-box input:focus:not(.checkbox-container input, .submit),
+form.web-box textarea:focus,
+form.web-box label.file-input-label:hover {
 	border: 2px solid v.$white;
 }
 
@@ -107,7 +106,7 @@ form textarea {
 }
 
 form .submit {
-	background-color: v.$black;
+	background-color: v.$bg-dark;
 	border: none;
 	color: v.$white;
 	cursor: pointer;
@@ -123,9 +122,8 @@ form .submit:not(.web-box .submit, .product-page-main .submit) {
 }
 
 form .submit:hover {
-	background-color: v.$gray-1;
+	background-color: v.$alt-dark;
 	border: none;
-	color: v.$black;
 }
 
 form label.show-password {
@@ -203,9 +201,13 @@ form .checkbox-container {
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-start;
-	margin: 5px 0;
+	margin: 0 0 10px 5px;
 }
 
 form .checkbox-container input {
 	margin: 0 5px 0 0;
+}
+
+form .checkbox-container label {
+	font-size: 0.9rem;
 }

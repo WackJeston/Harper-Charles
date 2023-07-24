@@ -20,7 +20,14 @@
     @endif
 
     <div id="admincontactfunctions" class="dk">
-      <admincontactfunctions :contact="{{ json_encode($contact) }}" :emailstable="{{ json_encode($emailsTable) }}" :phonestable="{{ json_encode($phonesTable) }}" />
+      <admincontactfunctions 
+				:contact="{{ json_encode($contact) }}"
+				:editform="{{ json_encode($editForm) }}"
+				:emailform="{{ json_encode($emailForm) }}" 
+				:emailstable="{{ json_encode($emailsTable) }}" 
+				:phoneform="{{ json_encode($phoneForm) }}" 
+				:phonestable="{{ json_encode($phonesTable) }}" 
+			/>
     </div>
 
     <div class="web-box contact-main">

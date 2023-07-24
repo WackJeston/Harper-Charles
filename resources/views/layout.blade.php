@@ -161,9 +161,14 @@
 
 	{{-- Custom JS --}}
 	<script src="/js/dataTable.js"></script>
+	<script src="/js/dataForm.js"></script>
 
 	<script>
+		// DataTable
 		setTableMargin();
 		hideTableColumnsLoop();
+
+		// DataForm
+		setPasswordToggles();
 	</script>
 </html>
