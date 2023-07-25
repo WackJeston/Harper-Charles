@@ -162,6 +162,7 @@
 	{{-- Custom JS --}}
 	<script src="/js/dataTable.js"></script>
 	<script src="/js/dataForm.js"></script>
+	<script src="/js/functions.js"></script>
 
 	<script>
 		// DataTable

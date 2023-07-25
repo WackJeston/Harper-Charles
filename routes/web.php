@@ -115,7 +115,7 @@ Route::group( ['middleware' => 'auth' ], function()
   Route::controller(AdminContactController::class)->group(function () {
     Route::get('/admin/contact', 'show');
     Route::post('/contactUpdateAddress', 'updateAddress');
-    Route::post('/contactUploadLatLng/{lat}/{lng}', 'uploadLatLng');
+    Route::get('/contactUploadLatLng/{lat}/{lng}', 'uploadLatLng');
     Route::post('/contactCreateEmail', 'createEmail');
     Route::get('/contactDeleteEmail/{id}', 'deleteEmail');
     Route::post('/contactCreatePhone', 'createPhone');

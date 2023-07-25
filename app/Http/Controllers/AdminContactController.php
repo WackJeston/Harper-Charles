@@ -121,8 +121,6 @@ class AdminContactController extends Controller
       $record->value = $lng;
       $record->save();
     }
-
-		return true;
 	}
 
   public function createEmail(Request $request)

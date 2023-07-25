@@ -46,7 +46,7 @@ class DataForm
 					case 'tel':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input type="%9$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input id="%1$s" type="%9$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -65,7 +65,7 @@ class DataForm
 						<label for="password" class="show-password">
 							<i class="fa-solid fa-eye"></i>
 						</label>
-						<input class="password-input" type="password" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input id="%1$s" class="password-input" type="password" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -81,7 +81,7 @@ class DataForm
 					case 'checkbox':
 						$html .= sprintf('
 						<div class="checkbox-container">
-							<input type="checkbox" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
+							<input id="%1$s" type="checkbox" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
 							<label for="%1$s">%2$s%8$s</label>
 						</div>',
 							$input['name'],
@@ -100,8 +100,13 @@ class DataForm
 
 			$js = $this->form['js'] ? sprintf('onclick="%s"', $this->form['js']) : '';
 
-			$html .= sprintf('
-			<button class="submit" type="submit" %s>%s</button>', $js, $this->form['submit']);
+			if ($this->form['js'] == null) {
+				$html .= sprintf('
+				<button class="submit" type="submit" %s>%s</button>', $js, $this->form['submit']);
+			} else {
+				$html .= sprintf('
+				<button class="submit" type="button" %s>%s</button>', $js, $this->form['submit']);
+			}
 
 		$html .= '
 		</form>';
