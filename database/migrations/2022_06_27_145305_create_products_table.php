@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
-            $table->string('subtitle', 100)->nullable();
+            $table->string('subtitle')->nullable();
             $table->string('description', 5000)->nullable();
             $table->string('specs', 5000)->nullable();
-            $table->string('productNumber', 100)->unique();
+            $table->string('productNumber', 100)->unique()->nullable();
             $table->decimal('price',9,2)->default(0.00);
             $table->timestamps();
         });

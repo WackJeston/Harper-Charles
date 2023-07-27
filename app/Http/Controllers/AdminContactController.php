@@ -37,7 +37,7 @@ class AdminContactController extends Controller
 		$editForm->addInput('text', 'postcode', 'Postcode', $contact['postcode'] ?? null, 200, 1);
 		$editForm = $editForm->render();
 
-		$emailForm = new dataForm(request(), '/contactCreateEmail', 'Add');
+		$emailForm = new DataForm(request(), '/contactCreateEmail', 'Add');
 		$emailForm->addInput('email', 'email', 'Email', null, 200, 1, true);
 		$emailForm = $emailForm->render();
 
@@ -49,7 +49,7 @@ class AdminContactController extends Controller
 		$emailsTable->addJsButton('showDeleteWarning', ['string:Email', 'record:id', 'url:/contactDeleteEmail/?'], 'fa-solid fa-trash-can', 'Delete Email');
 		$emailsTable = $emailsTable->render();
 
-		$phoneForm = new dataForm(request(), '/contactCreatePhone', 'Add');
+		$phoneForm = new DataForm(request(), '/contactCreatePhone', 'Add');
 		$phoneForm->addInput('tel', 'phone', 'Phone', null, 20, 1, true);
 		$phoneForm = $phoneForm->render();
 

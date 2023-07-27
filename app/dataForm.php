@@ -19,7 +19,7 @@ class DataForm
 		];
 	}
 
-	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = 1, int $min = 1, bool $required = false, string $placeholder = null) {
+	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null) {
 		$this->form['inputs'][] = [
 			'type' => $type,
 			'name' => $name,
@@ -56,6 +56,37 @@ class DataForm
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
 							$input['type'],
+						);
+						break;
+
+					case 'textarea':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<textarea id="%1$s" type="text" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
+						);
+						break;
+					
+					case 'num':
+					case 'number':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<input id="%1$s" type="number" name="%1$s" value="%3$s" placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['min'] ? sprintf('min="%s"', $input['min']) : '',
+							$input['max'] ? sprintf('max="%s"', $input['max']) : '',
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
 						);
 						break;
 					
