@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\dataTable;
+use App\dataForm;
 use App\Models\ProductVariants;
 use App\Models\Products;
 
@@ -14,8 +15,11 @@ class AdminVariantController extends Controller
   {
     $sessionUser = auth()->user();
 
+		$createForm = new DataForm(request(), '/variantCreate', 'Add');
+		$createForm->addInput('text', 'title', 'Title', null, 100, 1, true);
+		$createForm = $createForm->render();
+
     $variantsTable = new DataTable('product_variants_REF_1');
-		
 		$variantsTable->setQuery('SELECT
 			pv.id,
 			pv.title,
@@ -26,18 +30,16 @@ class AdminVariantController extends Controller
 			WHERE pv.parentVariantId IS NULL
 			GROUP BY pv.id
 		');
-
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title', 3);
 		$variantsTable->addColumn('children', 'Children', 2);
 		$variantsTable->addColumn('show', 'Show', 2, false, 'toggle');
-
 		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-
 		$variantsTable = $variantsTable->render();
 
     return view('admin/variants', compact(
       'sessionUser',
+			'createForm',
       'variantsTable',
     ));
   }

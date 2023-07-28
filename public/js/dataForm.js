@@ -21,3 +21,22 @@ function setPasswordToggles() {
 		});
 	});
 }
+
+// function setFormValidation() {
+// 	let forms = document.querySelectorAll("form");
+
+// 	forms.forEach(form => {
+// 		let submit = form.querySelector(".submit");
+// 		let inputs = form.querySelectorAll("input");
+
+// 		submit.addEventListener("click", function() {
+// 			inputs.forEach(input => {
+// 				if (input.required && input.value == "") {
+// 					input.classList.add("form-validation-failed");
+// 				} else {
+// 					input.classList.remove("form-validation-failed");
+// 				}
+// 			});
+// 		});
+// 	});
+// }

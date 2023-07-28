@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100)->unique()->nullable();
-            $table->string('subtitle', 100)->nullable();
+            $table->string('subtitle')->nullable();
             $table->string('description', 1000)->nullable();
             $table->boolean('show');
             $table->timestamps();

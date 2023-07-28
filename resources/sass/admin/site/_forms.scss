@@ -146,8 +146,7 @@ form span {
 	color: v.$pale-red;
 }
 
-form p,
-{
+form p {
 width: 80%;
 margin: 5px auto 5px auto;
 text-align: center;
@@ -210,4 +209,8 @@ form .checkbox-container input {
 
 form .checkbox-container label {
 	font-size: 0.9rem;
+}
+
+.form-validation-failed {
+	border: 2px solid v.$pale-red;
 }

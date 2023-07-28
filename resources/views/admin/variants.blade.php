@@ -20,7 +20,7 @@
     @endif
 
     <div id="variantscreate" class="dk">
-      <variantscreate />
+      <variantscreate :createform="{{ json_encode($createForm) }}" />
     </div>
 
     @php

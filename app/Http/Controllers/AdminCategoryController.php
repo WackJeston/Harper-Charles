@@ -6,6 +6,7 @@ use DB;
 use File;
 use Illuminate\Http\Request;
 use App\dataTable;
+use App\dataForm;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryJoins;
 use App\Models\ProductCategoryImages;
@@ -17,6 +18,12 @@ class AdminCategoryController extends Controller
   {
     $sessionUser = auth()->user();
 
+		$createForm = new DataForm(request(), '/categoryCreate', 'Add');
+		$createForm->addInput('text', 'title', 'Title', null, 100, 1, true);
+		$createForm->addInput('text', 'subtitle', 'Subtitle', null, 255, 1);
+		$createForm->addInput('textarea', 'description', 'Description', null, 5000, 1);
+		$createForm = $createForm->render();
+
     $categoriesTable = new DataTable();
 		$categoriesTable->setQuery('SELECT
 		 pc.*,
@@ -25,7 +32,6 @@ class AdminCategoryController extends Controller
 		 LEFT JOIN product_category_joins AS p ON pc.id = p.categoryId
 		 GROUP BY pc.id
 		');
-
 		$categoriesTable->addColumn('id', '#');
 		$categoriesTable->addColumn('title', 'Title', 2);
 		$categoriesTable->addColumn('subtitle', 'Subtitle', 2, true);
@@ -37,6 +43,7 @@ class AdminCategoryController extends Controller
 
     return view('admin/categories', compact(
       'sessionUser',
+			'createForm',
 			'categoriesTable'
     ));
   }

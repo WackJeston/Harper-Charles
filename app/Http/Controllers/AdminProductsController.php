@@ -20,7 +20,7 @@ class AdminProductsController extends Controller
 		$createForm->addInput('text', 'subtitle', 'Subtitle', null, 255, 1);
 		$createForm->addInput('textarea', 'description', 'Description', null, 5000, 1);
 		$createForm->addInput('text', 'productnumber', 'Product Number', null, 100, 1);
-		$createForm->addInput('num', 'price', 'Price', null, null, null, true);
+		$createForm->addInput('number', 'price', 'Price (£)', null, null, null, true);
 		$createForm = $createForm->render();
 
 		$productsTable = new DataTable();
@@ -45,7 +45,7 @@ class AdminProductsController extends Controller
 			'title' => 'required|max:100',
 			'subtitle' => 'max:255',
 			'description' => 'max:5000',
-			'productnumber' => 'required|unique:products|max:100',
+			'productnumber' => 'unique:products|max:100',
 			'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
     ]);
 

@@ -15,6 +15,7 @@ class DataForm
 			'action' => $action,
 			'submit' => $submit,
 			'js' => $js,
+			'id' => strval($js == null ? uniqid() : explode('(', $js)[0]),
 			'inputs' => [],
 		];
 	}
@@ -34,7 +35,7 @@ class DataForm
 
 	public function render() {
 		$html = sprintf('
-		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', str_replace(['(', ')'], '', $this->form['js']), $this->form['action']);
+		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', $this->form['id'], $this->form['action']);
 
 			$html .= sprintf('
 			<input type="hidden" name="_token" value="%s" />', $this->form['token']);
@@ -62,7 +63,7 @@ class DataForm
 					case 'textarea':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<textarea id="%1$s" type="text" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<textarea id="%1$s" type="text" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s /></textarea>',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -78,12 +79,12 @@ class DataForm
 					case 'number':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input id="%1$s" type="number" name="%1$s" value="%3$s" placeholder="%6$s" %7$s />',
+						<input id="%1$s" type="number" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
 							$input['min'] ? sprintf('min="%s"', $input['min']) : '',
-							$input['max'] ? sprintf('max="%s"', $input['max']) : '',
+							$input['max'] ? sprintf('maxlength="%s"', $input['max']) : '',
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
@@ -125,18 +126,15 @@ class DataForm
 							$input['required'] ? '<span> *</span>' : ''
 						);
 						break;
-					
 				}
 			}
 
-			$js = $this->form['js'] ? sprintf('onclick="%s"', $this->form['js']) : '';
-
 			if ($this->form['js'] == null) {
 				$html .= sprintf('
-				<button class="submit" type="submit" %s>%s</button>', $js, $this->form['submit']);
+				<button class="submit" type="submit">%s</button>', $this->form['submit']);
 			} else {
 				$html .= sprintf('
-				<button class="submit" type="button" %s>%s</button>', $js, $this->form['submit']);
+				<button class="submit" type="button" onclick="%s">%s</button>', $this->form['js'], $this->form['submit']);
 			}
 
 		$html .= '

@@ -10,7 +10,7 @@
 <script>
   export default {
 		props: [
-			'createform'
+			'createform',
 		],
 
     data() {
