@@ -27,3 +27,20 @@ function uploadLatLng(lat, lng) {
 		}
 	});
 };
+
+function showDeleteWarning(type, id, url) {
+	const warningZone = document.querySelector('.warning-overlay');
+	const message = document.querySelector('.warning-overlay p');
+	const deleteButton = document.querySelector('.warning-overlay .delete');
+	const deleteLink = document.querySelector('.warning-overlay #delete-link');
+
+	message.innerHTML = 'This will permanently delete <strong>' + type + ' #' + id + '</strong>';
+	deleteLink.href = url;
+
+	warningZone.style.display = 'flex';
+};
+
+function closeDeleteWarning() {
+	const warningZone = document.querySelector('.warning-overlay');
+	warningZone.style.display = 'none';
+};

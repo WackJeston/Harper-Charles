@@ -25,7 +25,7 @@
     @endif
 
     <div id="customerprofilefunctions" class="dk">
-      <customerprofilefunctions :customer="{{ json_encode($customer) }}" />
+      <customerprofilefunctions :customer="{{ json_encode($customer) }}" :editform="{{ json_encode($editForm) }}" />
     </div>
 
     <div class="web-box profile-main">

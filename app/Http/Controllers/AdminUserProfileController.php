@@ -6,6 +6,7 @@ use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\dataForm;
 use App\Models\User;
 
 
@@ -31,9 +32,17 @@ class AdminUserProfileController extends Controller
 
     $user = $user[0];
 
+		$editForm = new dataForm(request(), sprintf('/user-profileUpdate/%d', $id), 'Update');
+		$editForm->addInput('text', 'firstname', 'First Name', $user->firstName, 255, 1, true);
+		$editForm->addInput('text', 'lastname', 'Last Name', $user->lastName, 255, 1, true);
+		$editForm->addInput('email', 'email', 'Email', $user->email, 255, 1, true);
+		$editForm->addInput('password', 'password', 'Password', null, 255, 6, false, 'New Password');
+		$editForm = $editForm->render();
+
     return view('admin/user-profile', compact(
       'sessionUser',
       'user',
+			'editForm',
     ));
   }
 

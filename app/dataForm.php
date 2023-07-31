@@ -33,6 +33,14 @@ class DataForm
 		];
 	}
 
+	public function populateOptions(string $ref, array $options) {
+		foreach ($this->form['inputs'] as $i => $input) {
+			if ($input['name'] == $ref && $input['type'] == 'select') {
+				$this->form['inputs'][$i]['options'] = $options;
+			}
+		}
+	}
+
 	public function render() {
 		$html = sprintf('
 		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', $this->form['id'], $this->form['action']);
@@ -47,7 +55,7 @@ class DataForm
 					case 'tel':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input id="%1$s" type="%9$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input type="%9$s" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -63,7 +71,7 @@ class DataForm
 					case 'textarea':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<textarea id="%1$s" type="text" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s /></textarea>',
+						<textarea type="text" id="%1$s" name="%1$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />%3$s</textarea>',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -79,7 +87,7 @@ class DataForm
 					case 'number':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input id="%1$s" type="number" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
+						<input type="number" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -97,7 +105,7 @@ class DataForm
 						<label for="password" class="show-password">
 							<i class="fa-solid fa-eye"></i>
 						</label>
-						<input id="%1$s" class="password-input" type="password" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="password-input" type="password" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -113,7 +121,7 @@ class DataForm
 					case 'checkbox':
 						$html .= sprintf('
 						<div class="checkbox-container">
-							<input id="%1$s" type="checkbox" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
+							<input type="checkbox" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
 							<label for="%1$s">%2$s%8$s</label>
 						</div>',
 							$input['name'],
@@ -125,6 +133,33 @@ class DataForm
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : ''
 						);
+						break;
+					
+					case 'select':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<select id="%1$s" name="%1$s" value="%3$s" placeholder="%6$s" %7$s>
+							<option></option>',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : ''
+						);
+
+							foreach ($input['options'] as $option) {
+								$html .= sprintf('
+								<option value="%1$s">(#%1$s) %2$s</option>',
+									$option->value,
+									$option->label
+								);
+							}
+
+						$html .= '
+						</select>';
 						break;
 				}
 			}
