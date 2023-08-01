@@ -24,6 +24,7 @@ class AdminProductProfileController extends Controller
       return redirect('/admin/products');
     }
 
+		// Product
     $product = DB::select(sprintf('SELECT 
 			p.*,
 			COUNT(pcj.id) AS categoryCount
@@ -43,6 +44,7 @@ class AdminProductProfileController extends Controller
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
 		$editForm = $editForm->render();
 
+		// Images
 		$imagesTable = new DataTable('product_images');
 		$imagesTable->setQuery('SELECT * FROM product_images WHERE productId = ?', [$id]);
 		$imagesTable->addColumn('id', '#');
@@ -54,6 +56,7 @@ class AdminProductProfileController extends Controller
 
     $primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
 
+		// Categories
 		$allCategories = DB::select(sprintf('SELECT 
 			pc.id AS value,
 			pc.title AS label
@@ -61,7 +64,8 @@ class AdminProductProfileController extends Controller
 			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id 
 			WHERE pcj.productId IS NULL
 			OR pcj.productId != "%d"
-			GROUP BY pc.id', $id,
+			GROUP BY pc.id
+			ORDER BY pc.title', $id,
 		));
 
 		$categoryForm = new DataForm(request(), sprintf('/product-profileAddCategory/%d', $id), 'Add Category');
@@ -83,6 +87,21 @@ class AdminProductProfileController extends Controller
 		$categoriesTable->addLinkButton('product-profileRemoveCategory/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Category');
 		$categoriesTable = $categoriesTable->render();
 
+		// Variants
+		$allVariants = DB::select(sprintf('SELECT
+			pv.id AS value,
+			pv.title AS label,
+			parent.title AS parent
+			FROM product_variants AS pv
+			INNER JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id AND pvj.productId = %d
+			INNER JOIN product_variants AS parent ON parent.id = pv.parentVariantId', $id
+		));
+
+		$variantsForm = new DataForm(request(), sprintf('/product-profileAddVariant/%d', $id), 'Add Variant');
+		$variantsForm->addInput('select', 'variant', 'Variant', null, null, null, true);
+		$variantsForm->populateOptions('variant', $allVariants);
+		$variantsForm = $variantsForm->render();
+
 		$variantsTable = new DataTable('product_variants');
 		$variantsTable->setQuery('SELECT
 			pv.*,
@@ -98,33 +117,6 @@ class AdminProductProfileController extends Controller
 		$variantsTable->addColumn('parent', 'Type');
 		$variantsTable->addLinkButton('product-profileRemoveVariant/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Variant');
 		$variantsTable = $variantsTable->render();
-
-    $allVariantRecords = DB::select(sprintf('SELECT
-      pv.id,
-      pv.title,
-      GROUP_CONCAT(pv2.id, "|", pv2.title ORDER BY pv2.title) AS options
-      FROM product_variants AS pv
-      INNER JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
-      WHERE pv.parentVariantId IS NULL
-      AND pv2.id NOT IN (SELECT variantId FROM product_variant_joins WHERE productId = "%d")
-      GROUP BY pv.id
-      ORDER BY pv.title', $id
-		));
-
-    $allVariants = [];
-
-    foreach ($allVariantRecords as $i => $variant) {
-      $optionsPre = explode(',', $variant->options);
-
-      $allVariants[$i] = [
-        $id = $variant->id,
-        $title = $variant->title,
-      ];
-
-      foreach ($optionsPre as $i2 => $option) {
-        $allVariants[$i][2][$i2] = explode('|', $option);
-      }
-    }
 
     return view('/admin/product-profile', compact(
       'sessionUser',

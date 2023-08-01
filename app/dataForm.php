@@ -36,12 +36,44 @@ class DataForm
 	public function populateOptions(string $ref, array $options) {
 		foreach ($this->form['inputs'] as $i => $input) {
 			if ($input['name'] == $ref && $input['type'] == 'select') {
-				$this->form['inputs'][$i]['options'] = $options;
+				foreach ($options as $i2 => $option) {
+					$input['optionspre'][] = [
+						'value' => $option->value,
+						'label' => $option->label,
+						'parent' => $option->parent ?? null,
+					];
+				}
+			}
+		}
+	}
+
+	public function calculate() {
+		foreach ($this->form['inputs'] as $i => $input) {
+			if ($input['type'] == 'select') {
+				dd($input);
+
+				foreach ($input['optionspre'] as $i2 => $option) {
+					if ($option['parent'] == null) {
+						$input[$option['parent']][] = [
+							'id' => $option['id'],
+							'title' => $option['title'],
+						];
+					} else {
+						$input[] = [
+							'id' => $option['id'],
+							'title' => $option['title'],
+						];
+					}
+				}
+
+				dd($input);
 			}
 		}
 	}
 
 	public function render() {
+		self::calculate();
+
 		$html = sprintf('
 		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', $this->form['id'], $this->form['action']);
 
@@ -152,7 +184,7 @@ class DataForm
 
 							foreach ($input['options'] as $option) {
 								$html .= sprintf('
-								<option value="%1$s">(#%1$s) %2$s</option>',
+								<option value="%1$s">%2$s (#%1$s)</option>',
 									$option->value,
 									$option->label
 								);
