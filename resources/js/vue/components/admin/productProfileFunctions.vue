@@ -9,7 +9,7 @@
 	<!-- Edit -->
 	<div v-html="this.editform.html" v-show="show == 'edit'"></div>
 
-	<!-- Images Form -->
+	<!-- Images -->
 	<form class="web-box dk" v-show="show == 'images'" :action="'/product-profileStoreImage/' + this.product.id"
 		method="POST" enctype="multipart/form-data">
 		<i class="fa-solid fa-xmark" @click="show = false"></i>
@@ -29,32 +29,15 @@
 		<button class="submit" type="submit">Upload</button>
 	</form>
 
-	<!-- Images table -->
+	<div v-html="this.imagesform.html" v-show="show == 'images'"></div>
 	<div v-html="this.imagestable.html" v-show="show == 'images'"></div>
 
 	<!-- Categories -->
 	<div v-html="this.categoryform.html" v-show="show == 'categories'"></div>
 	<div v-html="this.categoriestable.html" v-show="show == 'categories'"></div>
 
-	<!-- Variants Form -->
-	<form class="web-box" v-show="show == 'variants'" :action="'/product-profileAddVariant/' + this.product.id"
-		method="POST" enctype="multipart/form-data">
-		<i class="fa-solid fa-xmark" @click="show = false"></i>
-		<input type="hidden" name="_token" :value="csrf">
-
-		<label for="variant">Select Option</label>
-		<select name="variant">
-			<option></option>
-
-			<optgroup v-for="(variant, i) in this.allvariants" :label="variant[1]">
-				<option v-for="(option, i) in variant[2]" :value="option[0]">{{ option[1] }}</option>
-			</optgroup>
-		</select>
-
-		<button class="submit" type="submit">Add</button>
-	</form>
-
-	<!-- Variants Table -->
+	<!-- Variants -->
+	<div v-html="this.variantsform.html" v-show="show == 'variants'"></div>
 	<div v-html="this.variantstable.html" v-show="show == 'variants'"></div>
 </template>
 
@@ -64,11 +47,12 @@ export default {
 	props: [
 		'product',
 		'editform',
+		'imagesform',
 		'imagestable',
 		'categoryform',
 		'categoriestable',
+		'variantsform',
 		'variantstable',
-		'allvariants',
 	],
 
 	data() {

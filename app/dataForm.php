@@ -30,6 +30,8 @@ class DataForm
 			'min' => $min,
 			'required' => $required,
 			'placeholder' => $placeholder,
+			'options' => [],
+			'optionspre' => [],
 		];
 	}
 
@@ -37,10 +39,11 @@ class DataForm
 		foreach ($this->form['inputs'] as $i => $input) {
 			if ($input['name'] == $ref && $input['type'] == 'select') {
 				foreach ($options as $i2 => $option) {
-					$input['optionspre'][] = [
+					$this->form['inputs'][$i]['optionspre'][] = [
 						'value' => $option->value,
 						'label' => $option->label,
 						'parent' => $option->parent ?? null,
+						'active' => $option->active ?? 0,
 					];
 				}
 			}
@@ -50,23 +53,21 @@ class DataForm
 	public function calculate() {
 		foreach ($this->form['inputs'] as $i => $input) {
 			if ($input['type'] == 'select') {
-				dd($input);
-
 				foreach ($input['optionspre'] as $i2 => $option) {
-					if ($option['parent'] == null) {
-						$input[$option['parent']][] = [
-							'id' => $option['id'],
-							'title' => $option['title'],
-						];
-					} else {
-						$input[] = [
-							'id' => $option['id'],
-							'title' => $option['title'],
-						];
+					if (!$option['active']) {
+						if ($option['parent'] == null) {
+							$this->form['inputs'][$i]['options'][] = [
+								'value' => $option['value'],
+								'label' => $option['label'],
+							];
+						} else {
+							$this->form['inputs'][$i]['options'][$option['parent']][] = [
+								'value' => $option['value'],
+								'label' => $option['label'],
+							];
+						}
 					}
 				}
-
-				dd($input);
 			}
 		}
 	}
@@ -166,6 +167,23 @@ class DataForm
 							$input['required'] ? '<span> *</span>' : ''
 						);
 						break;
+
+					case 'file':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<label class="file-input-label" for="%1$s">
+							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" accept="image/jpg" placeholder="%6$s" %7$s>
+						</label>',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : ''
+						);
+						break;
 					
 					case 'select':
 						$html .= sprintf('
@@ -182,12 +200,31 @@ class DataForm
 							$input['required'] ? '<span> *</span>' : ''
 						);
 
-							foreach ($input['options'] as $option) {
-								$html .= sprintf('
-								<option value="%1$s">%2$s (#%1$s)</option>',
-									$option->value,
-									$option->label
-								);
+							// dd($input['options']);
+
+							foreach ($input['options'] as $i2 => $option) {
+								if (is_numeric($i2)) {
+									$html .= sprintf('
+									<option value="%1$s">%2$s (#%1$s)</option>',
+										$option['value'],
+										$option['label'],
+									);
+								} else {
+									$html .= sprintf('
+									<optgroup label="%s">', $i2
+									);
+
+										foreach ($option as $i3 => $option2) {
+											$html .= sprintf('
+											<option value="%1$s">%2$s (#%1$s)</option>',
+												$option2['value'],
+												$option2['label'],
+											);
+										}
+
+									$html .= '
+									</optgroup>';
+								}
 							}
 
 						$html .= '

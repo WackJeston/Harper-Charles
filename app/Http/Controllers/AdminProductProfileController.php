@@ -45,6 +45,13 @@ class AdminProductProfileController extends Controller
 		$editForm = $editForm->render();
 
 		// Images
+		$primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
+
+		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');
+		$imagesForm->addInput('text', 'name', 'Name', null, 100, 1, true);
+		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
+		$imagesForm = $imagesForm->render();
+
 		$imagesTable = new DataTable('product_images');
 		$imagesTable->setQuery('SELECT * FROM product_images WHERE productId = ?', [$id]);
 		$imagesTable->addColumn('id', '#');
@@ -54,18 +61,15 @@ class AdminProductProfileController extends Controller
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 		$imagesTable = $imagesTable->render();
 
-    $primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
-
 		// Categories
 		$allCategories = DB::select(sprintf('SELECT 
 			pc.id AS value,
-			pc.title AS label
+			pc.title AS label,
+			IF(pcj.id IS NOT NULL, true, false) AS `active`
 			FROM product_categories AS pc
-			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id 
-			WHERE pcj.productId IS NULL
-			OR pcj.productId != "%d"
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id AND pcj.productId=%d
 			GROUP BY pc.id
-			ORDER BY pc.title', $id,
+			ORDER BY pc.title', $id
 		));
 
 		$categoryForm = new DataForm(request(), sprintf('/product-profileAddCategory/%d', $id), 'Add Category');
@@ -91,10 +95,13 @@ class AdminProductProfileController extends Controller
 		$allVariants = DB::select(sprintf('SELECT
 			pv.id AS value,
 			pv.title AS label,
-			parent.title AS parent
+			parent.title AS parent,
+			IF(pvj.id IS NOT NULL, true, false) AS `active`
 			FROM product_variants AS pv
-			INNER JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id AND pvj.productId = %d
-			INNER JOIN product_variants AS parent ON parent.id = pv.parentVariantId', $id
+			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id AND pvj.productId=%d
+			INNER JOIN product_variants AS parent ON parent.id=pv.parentVariantId
+			GROUP BY pv.id
+			ORDER BY parent.title, pv.title', $id
 		));
 
 		$variantsForm = new DataForm(request(), sprintf('/product-profileAddVariant/%d', $id), 'Add Variant');
@@ -121,13 +128,14 @@ class AdminProductProfileController extends Controller
     return view('/admin/product-profile', compact(
       'sessionUser',
       'product',
-			'editForm',
-      'imagesTable',
       'primaryImage',
+			'editForm',
+			'imagesForm',
+      'imagesTable',
 			'categoryForm',
       'categoriesTable',
+			'variantsForm',
       'variantsTable',
-      'allVariants',
     ));
   }
 
@@ -227,7 +235,7 @@ class AdminProductProfileController extends Controller
       'category' => 'required',
     ]);
 
-    ProductCategoryJoins::create([
+    ProductCategoryJoins::updateOrCreate([
       'productId' => $id,
       'categoryId' => $request->category,
     ]);
@@ -248,7 +256,7 @@ class AdminProductProfileController extends Controller
       'variant' => 'required',
     ]);
 
-    ProductVariantJoins::create([
+    ProductVariantJoins::updateOrCreate([
       'productId' => $id,
       'variantId' => $request->variant,
     ]);

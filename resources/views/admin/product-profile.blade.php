@@ -28,11 +28,12 @@
       <productprofilefunctions
       :product="{{ json_encode($product) }}"
 			:editform="{{ json_encode($editForm) }}"
+			:imagesform="{{ json_encode($imagesForm) }}"
       :imagestable="{{ json_encode($imagesTable) }}"
 			:categoryform="{{ json_encode($categoryForm) }}"
       :categoriestable="{{ json_encode($categoriesTable) }}"
+			:variantsform="{{ json_encode($variantsForm) }}"
       :variantstable="{{ json_encode($variantsTable) }}"
-      :allvariants="{{ json_encode($allVariants) }}"
     />
     </div>
 
