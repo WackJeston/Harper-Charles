@@ -20,23 +20,14 @@ function setPasswordToggles() {
 			}
 		});
 	});
-}
+};
 
-// function setFormValidation() {
-// 	let forms = document.querySelectorAll("form");
+function setFileInputs() {
+	let inputs = document.querySelectorAll("input.file-input");
 
-// 	forms.forEach(form => {
-// 		let submit = form.querySelector(".submit");
-// 		let inputs = form.querySelectorAll("input");
-
-// 		submit.addEventListener("click", function() {
-// 			inputs.forEach(input => {
-// 				if (input.required && input.value == "") {
-// 					input.classList.add("form-validation-failed");
-// 				} else {
-// 					input.classList.remove("form-validation-failed");
-// 				}
-// 			});
-// 		});
-// 	});
-// }
+	inputs.forEach(input => {
+		input.addEventListener("change", function(event) {
+			event.target.nextElementSibling.innerHTML = event.target.value.split("\\").pop();
+		});
+	});
+};

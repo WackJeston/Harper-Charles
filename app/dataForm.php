@@ -20,6 +20,10 @@ class DataForm
 		];
 	}
 
+	public function setTitle(string $title) {
+		$this->form['title'] = $title;
+	}
+
 	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null) {
 		$this->form['inputs'][] = [
 			'type' => $type,
@@ -77,6 +81,11 @@ class DataForm
 
 		$html = sprintf('
 		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', $this->form['id'], $this->form['action']);
+
+			if (!empty($this->form['title'])) {
+				$html = sprintf('
+				<label class="form-title">%s</label>', $this->form['title']);
+			}
 
 			$html .= sprintf('
 			<input type="hidden" name="_token" value="%s" />', $this->form['token']);
@@ -170,15 +179,14 @@ class DataForm
 
 					case 'file':
 						$html .= sprintf('
-						<label for="%1$s">%2$s%8$s</label>
+						<label for="%1$s">%2$s%6$s</label>
 						<label class="file-input-label" for="%1$s">
-							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" accept="image/jpg" placeholder="%6$s" %7$s>
+							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" min="1" accept="image/jpg/png/svg" placeholder="%4$s" %5$s>
+							<div>No file selected</div>
 						</label>',
 							$input['name'],
 							$input['label'],
 							$input['value'],
-							$input['min'],
-							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : ''

@@ -48,8 +48,8 @@ class AdminProductProfileController extends Controller
 		$primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
 
 		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');
-		$imagesForm->addInput('text', 'name', 'Name', null, 100, 1, true);
 		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
+		$imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
 		$imagesTable = new DataTable('product_images');
@@ -169,33 +169,18 @@ class AdminProductProfileController extends Controller
   }
 
 
-  public function storeImage(Request $request, $id)
+  public function addImage(Request $request, $id)
   {
-    $this->validate($request, [
-      'name' => 'required|max:100|unique_custom:product_images,name,productId,' . $id,
-      'image' => 'required|mimes:jpg,jpeg,png,svg',
-    ],
-    [
-      'name.unique_custom' => 'Image name must be unique.',
-    ]);
+		$fileNames = storeImages($request, $id, 'product');
 
-    $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
-    if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
-    else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = 'product-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
-
-    if ($request->hasFile('image')) {
-      $request->file('image')->move('assets', $fileName);
-
-      uploadS3($fileName);
-    }
-
-    ProductImages::create([
-      'productId' => $id,
-      'name' => $request->name,
-      'filename' => $fileName,
-      'primary' => 0,
-    ]);
+		foreach ($fileNames as $fileName) {
+			ProductImages::create([
+				'productId' => $id,
+				'name' => !empty($request->name) ? $request->name : $fileName['old'],
+				'filename' => $fileName['new'],
+				'primary' => 0,
+			]);
+		}
 
     return redirect("/admin/product-profile/$id")->with('message', 'Image uploaded successfully.');
   }

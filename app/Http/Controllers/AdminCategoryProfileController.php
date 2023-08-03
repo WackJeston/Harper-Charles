@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\dataTable;
+use App\dataForm;
 use App\Models\Products;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryImages;
@@ -21,6 +22,7 @@ class AdminCategoryProfileController extends Controller
       return redirect('/admin/categories');
     }
 
+		// Category
     $category = DB::SELECT('SELECT
 			pc.*,
 			COUNT(pcj.id) AS productCount,
@@ -36,25 +38,45 @@ class AdminCategoryProfileController extends Controller
 
     $category = $category[0];
 
+		$editForm = new DataForm(request(), sprintf('/category-profileUpdate/%d', $id), 'Update');
+		$editForm->addInput('text', 'title', 'Title', $category->title, 100, 1, true);
+		$editForm->addInput('text', 'subtitle', 'Subtitle', $category->subtitle, 255, 1);
+		$editForm->addInput('textarea', 'description', 'Description', $category->description, 5000, 1);
+		$editForm = $editForm->render();
+
+		// Images
+		$primaryImage = ProductCategoryImages::where([['categoryId', $id], ['primary', 1]])->pluck('fileName')->first();
+
+		$imagesForm = new DataForm(request(), sprintf('/category-profileAddImage/%d', $id), 'Add Image');
+		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
+		$imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
+		$imagesForm = $imagesForm->render();
+
     $imagesTable = new DataTable('product_category_images');
 		$imagesTable->setQuery('SELECT * FROM product_category_images WHERE categoryId = ?', [$id]);
-
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Name', 2);
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:categoryId:' . $id);
-
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Category', 'record:id', 'url:/category-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
-
 		$imagesTable = $imagesTable->render();
 
-    if ($category->imageCount == 1) {
-      ProductCategoryImages::where('categoryId', $id)->update([
-        'primary' => 1,
-      ]);
-    }
+		// Products
+		$allProducts = DB::select(sprintf('SELECT 
+			p.id AS value,
+			p.title AS label,
+			IF(pcj.id IS NOT NULL, true, false) AS `active`
+			FROM products AS p
+			LEFT JOIN product_category_joins AS pcj ON pcj.productId=p.id AND pcj.categoryId=%d
+			GROUP BY p.id
+			ORDER BY p.title', $id
+		));
 
-    $primaryImage = ProductCategoryImages::where([['categoryId', $id], ['primary', 1]])->pluck('fileName')->first();
+		$addProductForm = new DataForm(request(), sprintf('/category-profileAddProduct/%d', $id), 'Add Product');
+		$addProductForm->setTitle('Add Existing Product');
+		$addProductForm->addInput('select', 'product', 'Product', null, null, null, true);
+		$addProductForm->populateOptions('product', $allProducts);
+		$addProductForm = $addProductForm->render();
 
     $productsTable = new DataTable('products');
 		$productsTable->setQuery('SELECT
@@ -64,22 +86,22 @@ class AdminCategoryProfileController extends Controller
 			WHERE pcj.categoryId = ?',
 			[$id]
 		);
-
 		$productsTable->addColumn('id', '#');
 		$productsTable->addColumn('title', 'Title', 2);
 		$productsTable->addColumn('productNumber', 'Product Number', 2, true);
 		$productsTable->addColumn('price', 'Price', 1, false, 'currency');
-
 		$productsTable->addLinkButton('/product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$productsTable->addLinkButton('/category-profileRemoveProduct/' . $id . '/?', 'fa-solid fa-ban', 'Remove Product');
-
 		$productsTable = $productsTable->render();
 
     return view('admin/category-profile', compact(
       'sessionUser',
       'category',
+			'editForm',
       'primaryImage',
+			'imagesForm',
 			'imagesTable',
+			'addProductForm',
 			'productsTable',
     ));
   }
@@ -89,7 +111,7 @@ class AdminCategoryProfileController extends Controller
   {
     $request->validate([
       'title' => ['required', 'max:100', Rule::unique('product_categories')->ignore($id)],
-      'subtitle' => 'max:100',
+      'subtitle' => 'max:255',
       'description' => 'max:1000',
     ]);
 
@@ -125,33 +147,18 @@ class AdminCategoryProfileController extends Controller
   }
 
 
-  public function storeImage(Request $request, $id)
+  public function addImage(Request $request, $id)
   {
-    $this->validate($request, [
-      'name' => 'required|max:100|unique_custom:product_category_images,name,categoryId,' . $id,
-      'image' => 'required|mimes:jpg,jpeg,png,svg',
-    ],
-    [
-      'name.unique_custom' => 'Image name must be unique.',
-    ]);
+    $fileNames = storeImages($request, $id, 'category');
 
-    $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
-    if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
-    else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = 'category-image-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
-
-    if ($request->hasFile('image')) {
-      $request->file('image')->move('assets', $fileName);
-
-      uploadS3($fileName);
-    }
-
-    ProductCategoryImages::create([
-      'categoryId' => $id,
-      'name' => $request->name,
-      'filename' => $fileName,
-      'primary' => 0,
-    ]);
+		foreach ($fileNames as $fileName) {
+			ProductCategoryImages::create([
+				'categoryId' => $id,
+				'name' => !empty($request->name) ? $request->name : $fileName['old'],
+				'filename' => $fileName['new'],
+				'primary' => 0,
+			]);
+		}
 
     return redirect("/admin/category-profile/$id")->with('message', 'Image uploaded successfully.');
   }

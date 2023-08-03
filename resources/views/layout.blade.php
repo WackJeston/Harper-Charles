@@ -171,6 +171,6 @@
 
 		// DataForm
 		setPasswordToggles();
-		// setFormValidation();
+		setFileInputs();
 	</script>
 </html>

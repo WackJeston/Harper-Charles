@@ -1,5 +1,16 @@
 @use 'v';
 
+.form-title:not(form, .web-box) {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.web-box .form-title {
+	width: 100%;
+	background-color: v.$bg-dark;
+	padding: 10px;
+}
+
 form {
 	display: flex;
 	flex-direction: column;
@@ -76,6 +87,7 @@ form select,
 form input:not(.checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
+form label.file-input-label input,
 form select,
 form option {
 	padding: 5px 8px;
@@ -96,7 +108,7 @@ form.web-box select:not(.product-page .wb-content) {
 form.web-box input:focus:not(.checkbox-container input, .submit),
 form.web-box textarea:focus,
 form.web-box label.file-input-label:hover {
-	border: 2px solid v.$white;
+	border: 2px solid v.$black;
 }
 
 form textarea {
@@ -161,6 +173,7 @@ form i {
 }
 
 form input.file-input {
+	max-width: 300px;
 	width: 0.1px;
 	height: 0.1px;
 	opacity: 0;
@@ -174,12 +187,11 @@ form label.file-input-label {
 	align-items: center;
 	justify-content: flex-start;
 	padding-left: 8px;
-	max-width: 300px;
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
+	max-width: 300px;
 	cursor: pointer;
-	background-color: v.$white;
 	-ms-overflow-style: none;
 	/* IE and Edge */
 	scrollbar-width: none;

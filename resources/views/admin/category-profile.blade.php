@@ -25,7 +25,13 @@
     @endif
 
     <div id="categoryprofilefunctions">
-      <categoryprofilefunctions :category="{{ json_encode($category) }}" :imagestable="{{ json_encode($imagesTable) }}" :productstable="{{ json_encode($productsTable) }}" />
+      <categoryprofilefunctions 
+				:category="{{ json_encode($category) }}" 
+				:editform="{{ json_encode($editForm) }}"
+				:imagesform="{{ json_encode($imagesForm) }}"
+				:imagestable="{{ json_encode($imagesTable) }}" 
+				:addproductform="{{ json_encode($addProductForm) }}"
+				:productstable="{{ json_encode($productsTable) }}" />
     </div>
 
 		<div class="web-box profile-main">

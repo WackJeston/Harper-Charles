@@ -2,6 +2,41 @@
 
 use Aws\S3\S3Client;
 
+function storeImages($request, int $id, string $type):array {
+	$request->validate([
+		'name' => 'max:100',
+		'image' => 'required|mimes:jpg,jpeg,png,svg',
+	]);
+
+	$fileNames = [];
+
+	foreach ($request->files as $i => $file) {
+		$mimeType = str_replace('image/', '', $file->getClientMimeType());
+		if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
+		else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
+
+		$fileName = sprintf('%s-%d-%s-%s.%s', 
+			$type,
+			$id,
+			$_SERVER['REQUEST_TIME'],
+			rtrim(explode('.', str_replace([' ', '(', ')'], '-', $file->getClientOriginalName()))[0], '-'),
+			$mimeType
+		);
+
+		$fileName = str_replace(['----', '---', '--'], '-', $fileName);
+
+		$file->move('assets', $fileName);
+		uploadS3($fileName);
+
+		$fileNames[] = [
+			'new' => $fileName,
+			'old' => $file->getClientOriginalName()
+		];
+	}
+
+	return $fileNames;
+}
+
 // AWS S3
 function connectS3() {
   $connection = new S3Client([
