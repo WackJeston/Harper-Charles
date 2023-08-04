@@ -25,7 +25,11 @@
     @endif
 
     <div id="userprofilefunctions" class="dk">
-      <userprofilefunctions :user="{{ json_encode($user) }}" :editform="{{ json_encode($editForm) }}" />
+      <userprofilefunctions 
+				:user="{{ json_encode($user) }}" 
+				:editform="{{ json_encode($editForm) }}"
+				:orderstable="{{ json_encode($ordersTable) }}"
+			/>
     </div>
 
     <div class="web-box profile-main">

@@ -30,6 +30,10 @@ class DataTable
 		$this->table['count'] = count($this->table['records']);
 	}
 
+	public function setTitle(string $title) {
+		$this->table['title'] = $title;
+	}
+
 	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false, string $type = 'default') {
 		if ($title == null) {
 			$title = $name;
@@ -134,12 +138,22 @@ class DataTable
 				};
 			}
 		}
+
+		if (!empty($this->table['title'])) {
+			$this->table['title'] = str_replace('?', $this->table['count'], $this->table['title']);
+		}
 	}
 
 	public function render() {
 		self::calculate();
+		$html = '';
 
-		$html = sprintf('
+		if (!empty($this->table['title'])) {
+			$html .= sprintf('
+			<h3 class="table-title">%s</h3>', $this->table['title']);
+		}
+
+		$html .= sprintf('
 		<table class="web-box" id="table-%s">
 			<thead>
 				<tr>', $this->table['ref']);

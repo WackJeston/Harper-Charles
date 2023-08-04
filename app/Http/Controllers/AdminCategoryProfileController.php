@@ -78,6 +78,15 @@ class AdminCategoryProfileController extends Controller
 		$addProductForm->populateOptions('product', $allProducts);
 		$addProductForm = $addProductForm->render();
 
+		$createProductForm = new DataForm(request(), sprintf('/category-profileCreateProduct/%d', $id), 'Create Product');
+		$createProductForm->setTitle('Create New Product');
+		$createProductForm->addInput('text', 'title', 'Title', null, 100, 1, true);
+		$createProductForm->addInput('text', 'subtitle', 'Subtitle', null, 255, 1);
+		$createProductForm->addInput('textarea', 'description', 'Description', null, 5000, 1);
+		$createProductForm->addInput('text', 'productnumber', 'Product Number', null, 100, 1);
+		$createProductForm->addInput('text', 'price', 'Price', null, 100, 1);
+		$createProductForm = $createProductForm->render();
+
     $productsTable = new DataTable('products');
 		$productsTable->setQuery('SELECT
 			p.*
@@ -102,6 +111,7 @@ class AdminCategoryProfileController extends Controller
 			'imagesForm',
 			'imagesTable',
 			'addProductForm',
+			'createProductForm',
 			'productsTable',
     ));
   }
@@ -213,8 +223,8 @@ class AdminCategoryProfileController extends Controller
   {
     $request->validate([
       'title' => 'required|max:100',
-      'subtitle' => 'max:100',
-      'description' => 'max:1000',
+      'subtitle' => 'max:255',
+      'description' => 'max:5000',
       'productnumber' => 'required|unique:products|max:100',
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
     ]);

@@ -77,6 +77,17 @@ class AppServiceProvider extends ServiceProvider
               ],
             ],
           ],
+          $orders = [
+            "title"=>"orders",
+            "icon"=>"fa-solid fa-basket-shopping",
+            "sublink"=>$subLinks = [
+              $allOrders = [
+                "title"=>"all orders",
+                "link"=>"/admin/orders",
+                "icon"=>"fa-solid fa-box-archive",
+              ],
+            ],
+          ],
           $website = [
             "title"=>"website",
             "icon"=>"fa-solid fa-globe",

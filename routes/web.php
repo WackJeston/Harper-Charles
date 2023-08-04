@@ -34,6 +34,8 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCategoryProfileController;
 use App\Http\Controllers\AdminVariantController;
 use App\Http\Controllers\AdminVariantProfileController;
+use App\Http\Controllers\AdminOrdersController;
+use App\Http\Controllers\AdminOrderProfileController;
 
 
 // DataTable -----------------------------------------------------------------------------------
@@ -204,6 +206,14 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::post('/variant-profileCreateOption/{id}', 'createOption');
     Route::get('/variant-profileDeleteOption/{id}/{optionId}', 'deleteOption');
     Route::get('/variant-profileShowOption/{id}/{optionId}/{toggle}', 'showOption');
+  });
+
+	Route::controller(AdminOrdersController::class)->group(function () {
+    Route::get('/admin/orders', 'show');
+  });
+
+	Route::controller(AdminOrderProfileController::class)->group(function () {
+    Route::get('/admin/order-profile/{id}', 'show');
   });
 });
 

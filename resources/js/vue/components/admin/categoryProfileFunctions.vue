@@ -16,32 +16,8 @@
 	<div v-html="this.imagestable.html" v-show="show == 'images'"></div>
 
   <!-- Products Form -->
-  <!-- <h3 class="form-title" v-show="show == 'products'">Add Existing Product</h3> -->
   <div v-html="this.addproductform.html" v-show="show == 'products'"></div>
-
-  <h3 class="form-title" v-show="show == 'products'">Create New Product</h3>
-
-  <form class="web-box" v-show="show == 'products'" :action="'/category-profileCreateProduct/' + this.category.id" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="_token" :value="csrf">
-
-    <label for="title">Title<span> *</span></label>
-    <input type="text" name="title" maxlength="100" required>
-
-    <label for="subtitle">Subtitle</label>
-    <input type="text" name="subtitle" maxlength="100">
-
-    <label for="description">Description</label>
-    <textarea type="text" name="description" maxlength="1000"></textarea>
-
-    <label for="productnumber">Product Number<span> *</span></label>
-    <input type="text" name="productnumber" maxlength="100" required>
-
-    <label for="price">Price (£)<span> *</span></label>
-    <input type="number" min="0" step="any" name="price" maxlength="100" required>
-
-
-    <button class="submit" type="submit">Create</button>
-  </form>
+	<div v-html="this.createproductform.html" v-show="show == 'products'"></div>
 
 	<!-- Products Table -->
 	<div v-html="this.productstable.html" v-show="show == 'products'"></div>
@@ -56,6 +32,7 @@
 			'imagesform',
       'imagestable',
 			'addproductform',
+			'createproductform',
 			'productstable',
     ],
 

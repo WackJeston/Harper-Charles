@@ -31,6 +31,7 @@
 				:imagesform="{{ json_encode($imagesForm) }}"
 				:imagestable="{{ json_encode($imagesTable) }}" 
 				:addproductform="{{ json_encode($addProductForm) }}"
+				:createproductform="{{ json_encode($createProductForm) }}"
 				:productstable="{{ json_encode($productsTable) }}" />
     </div>
 

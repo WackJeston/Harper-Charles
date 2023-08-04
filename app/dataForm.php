@@ -78,13 +78,14 @@ class DataForm
 
 	public function render() {
 		self::calculate();
+		$html = '';
 
-		$html = sprintf('
+		$html .= sprintf('
 		<form id="%s" class="data-form web-box dk" action="%s" method="POST" enctype="multipart/form-data">', $this->form['id'], $this->form['action']);
 
 			if (!empty($this->form['title'])) {
-				$html = sprintf('
-				<label class="form-title">%s</label>', $this->form['title']);
+				$html .= sprintf('
+				<h3 class="form-title">%s</h3>', $this->form['title']);
 			}
 
 			$html .= sprintf('

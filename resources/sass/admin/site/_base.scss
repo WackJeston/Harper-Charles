@@ -67,7 +67,9 @@ main h2 {
 .web-box ul {
 	margin: 0;
 	padding: 10px;
+}
 
+.web-box ul.limit-width {
 	@media (min-width: 571px) {
 		min-width: 300px;
 		max-width: calc(50% - 15px);
@@ -83,11 +85,11 @@ main h2 {
 	border-radius: 5px;
 	box-shadow: 0 0 6px -2px v.$trans-semi;
 	padding: 15px;
-	margin: 10px 5px 15px -10px;
+	// margin: 10px 5px 15px -10px;
 
-	@media (max-width: 570px) {
-		margin: 10px -10px 15px -10px;
-	}
+	// @media (max-width: 570px) {
+	// 	margin: 10px -10px 15px -10px;
+	// }
 }
 
 .wb-row .wb-image {
@@ -159,26 +161,72 @@ ul {
 	display: flex;
 	flex-direction: column;
 	list-style: none;
+	width: 100%;
 }
 
-button {
-	padding: 6px 8px;
+ul .list-row {
+	display: flex;
+	width: 100%;
+
+	@media (min-width: 571px) {
+		flex-direction: row;
+	}
+
+	@media (max-width: 570px) {
+		flex-direction: column;
+	}
+}
+
+ul .list-row li {
+	flex-grow: 1;
+	max-width: 600px;
+}
+
+ul .list-row li:first-child {
+	@media (min-width: 571px) {
+		margin-right: 10px;
+	}
+
+	@media (max-width: 570px) {
+		margin-bottom: 10px;
+	}
+}
+
+.page-button-row {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+button,
+a.page-button {
 	border-radius: 5px;
 	font-size: 1rem;
 	cursor: pointer;
 }
 
-button.page-button {
+button {
+	padding: 6px 8px;
+}
+
+a.page-button {
+	padding: 3px 8px;
+}
+
+button.page-button,
+a.page-button {
 	margin: 0 5px 10px 0;
 	background-color: v.$alt-main;
 	color: v.$white;
 }
 
-button.page-button:hover {
+button.page-button:hover,
+a.page-button:hover {
 	background-color: v.$alt-semi-dark;
 }
 
-button.page-button i {
+button.page-button i,
+a.page-button i {
 	font-size: 1.1rem;
 	color: white;
 	margin-right: 5px;
@@ -220,6 +268,26 @@ button.pb-danger:hover {
 
 .fa-toggle-on {
 	color: v.$pale-green;
+}
+
+a.display-link {
+	color: v.$baby-blue-dark;
+}
+
+a.display-link:hover {
+	color: v.$baby-blue;
+	text-decoration: underline;
+}
+
+.string-container {
+	padding: 1px 6px;
+	border-radius: 5px;
+	background-color: v.$black;
+	color: white;
+}
+
+.string-container.small {
+	font-size: 0.9rem;
 }
 
 // Alerts ---------------------------------------

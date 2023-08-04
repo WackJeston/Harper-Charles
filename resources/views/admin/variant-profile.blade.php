@@ -25,7 +25,12 @@
     @endif
 
     <div id="variantprofilefunctions" class="lt">
-      <variantprofilefunctions :variant="{{ json_encode($variant) }}" :subvariantstable="{{ json_encode($subVariantsTable) }}" />
+      <variantprofilefunctions 
+				:variant="{{ json_encode($variant) }}" 
+				:editform="{{ json_encode($editForm) }}"
+				:subvariantsform="{{ json_encode($subVariantsForm) }}"
+				:subvariantstable="{{ json_encode($subVariantsTable) }}" 
+			/>
     </div>
 
   </main>

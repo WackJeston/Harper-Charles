@@ -41,13 +41,11 @@
 				Add Payment Method
 			</button>
 			
-			<form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form"
-			:style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '800px' } : { maxHeight: '0px' }]">
+			<form @submit.prevent="addPaymentMethod()" enctype="multipart/form-data" id="payment-form" :style="[(this.form == true || this.paymentMethods.length == 0) ? { maxHeight: '800px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 
 				<!-- Stripe Elements Placeholder -->
-				<div id="payment-element" class="stripe-element"
-				:style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
+				<div id="payment-element" class="stripe-element" :style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
 				<button id="payment-button" class="submit" type="submit">
 					Save
