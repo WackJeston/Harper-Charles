@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\dataTable;
-use App\dataForm;
+use App\DataTable;
+use App\DataForm;
 use App\Models\Contact;
 
 class AdminContactController extends Controller

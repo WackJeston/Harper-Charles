@@ -43,11 +43,11 @@
 					@if (isset($contact['line3']))
 						<li>{{ $contact['line3'] }}</li>
 					@endif
-					@if (isset($contact['town']))
-						<li>{{ $contact['town'] }}</li>
+					@if (isset($contact['city']))
+						<li>{{ $contact['city'] }}</li>
 					@endif
-					@if (isset($contact['county']))
-						<li>{{ $contact['county'] }}</li>
+					@if (isset($contact['region']))
+						<li>{{ $contact['region'] }}</li>
 					@endif
 					@if (isset($contact['country']))
 						<li>{{ $contact['country'] }}</li>

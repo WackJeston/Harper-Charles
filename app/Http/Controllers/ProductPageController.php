@@ -19,7 +19,7 @@ class ProductPageController extends Controller
     $product = Products::find($id);
     $productImages = ProductImages::where('productId', $id)
       ->orderBy('primary', 'desc')
-      ->orderBy('name', 'asc')
+      ->orderBy('id')
       ->get();
 
     $imageCount = count($productImages);

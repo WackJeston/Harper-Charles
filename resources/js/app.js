@@ -51,17 +51,14 @@ import Admincontactfunctions from './vue/components/admin/contactFunctions.vue'
 
 import Userscreate from './vue/components/admin/usersCreate.vue'
 
-import Userprofilemain from './vue/components/admin/userProfileMain.vue'
 import Userprofilefunctions from './vue/components/admin/userProfileFunctions.vue'
 
 import Customerscreate from './vue/components/admin/customersCreate.vue'
 
-import Customerprofilemain from './vue/components/admin/customerProfileMain.vue'
 import Customerprofilefunctions from './vue/components/admin/customerProfileFunctions.vue'
 
 import Productscreate from './vue/components/admin/productsCreate.vue'
 
-import Productprofilemain from './vue/components/admin/productProfileMain.vue'
 import Productprofilefunctions from './vue/components/admin/productProfileFunctions.vue'
 
 import Lzhomecarousel from './vue/components/admin/home-carousel.vue'

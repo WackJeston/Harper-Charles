@@ -9,7 +9,7 @@ use App\Models\ProductCategoryImages;
 use App\Models\ProductImages;
 
 
-class productsController extends Controller
+class ProductsController extends Controller
 {
   public function show($id)
   {

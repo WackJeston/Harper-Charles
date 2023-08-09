@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Products;
 
-class productImages extends Model
+class ProductImages extends Model
 {
   use HasFactory;
 
