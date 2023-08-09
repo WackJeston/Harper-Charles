@@ -34,7 +34,8 @@ class AdminCategoryController extends Controller
 		');
 		$categoriesTable->addColumn('id', '#');
 		$categoriesTable->addColumn('title', 'Title', 2);
-		$categoriesTable->addColumn('subtitle', 'Subtitle', 2, true);
+		// $categoriesTable->addColumn('subtitle', 'Subtitle', 2, true);
+		$categoriesTable->addColumn('show', 'Active', 1, false, 'toggle');
 		$categoriesTable->addColumn('products', 'Products');
 		$categoriesTable->addLinkButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$categoriesTable = $categoriesTable->render();
