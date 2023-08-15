@@ -164,12 +164,12 @@ class DataForm
 					case 'checkbox':
 						$html .= sprintf('
 						<div class="checkbox-container">
-							<input type="checkbox" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
+							<input type="checkbox" id="%1$s" name="%1$s" %3$s minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
 							<label for="%1$s">%2$s%8$s</label>
 						</div>',
 							$input['name'],
 							$input['label'],
-							$input['value'],
+							$input['value'] ? 'checked' : '',
 							$input['min'],
 							$input['max'],
 							$input['placeholder'],
