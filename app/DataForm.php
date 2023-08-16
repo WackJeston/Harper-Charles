@@ -96,6 +96,7 @@ class DataForm
 					case 'text':
 					case 'email':
 					case 'tel':
+					case 'url':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
 						<input type="%9$s" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
