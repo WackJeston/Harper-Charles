@@ -142,6 +142,22 @@ class DataForm
 							$input['required'] ? '<span> *</span>' : '',
 						);
 						break;
+
+					case 'phone':
+					case 'tel':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<input type="tel" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['min'] ? sprintf('min="%s"', $input['min']) : '',
+							$input['max'] ? sprintf('maxlength="%s"', $input['max']) : '',
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
+						);
+						break;
 					
 					case 'password':
 						$html .= sprintf('
