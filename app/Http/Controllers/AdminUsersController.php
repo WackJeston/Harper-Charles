@@ -15,8 +15,6 @@ class AdminUsersController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
 		$createForm = new DataForm(request(), '/usersCreate', 'Add');
 		$createForm->addInput('text', 'firstname', 'First Name', null, 100, 1, true);
 		$createForm->addInput('text', 'lastname', 'Last Name', null, 100, 1, true);
@@ -34,7 +32,6 @@ class AdminUsersController extends Controller
 		$usersTable = $usersTable->render();
 
     return view('admin/users', compact(
-      'sessionUser',
 			'createForm',
       'usersTable',
     ));

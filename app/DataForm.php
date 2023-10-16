@@ -43,12 +43,21 @@ class DataForm
 		foreach ($this->form['inputs'] as $i => $input) {
 			if ($input['name'] == $ref && $input['type'] == 'select') {
 				foreach ($options as $i2 => $option) {
-					$this->form['inputs'][$i]['optionspre'][] = [
-						'value' => $option->value,
-						'label' => $option->label,
-						'parent' => $option->parent ?? null,
-						'active' => $option->active ?? 0,
-					];
+					if (is_array($option)) {
+						$this->form['inputs'][$i]['optionspre'][] = [
+							'value' => $option['value'],
+							'label' => $option['label'],
+							'parent' => $option['parent'] ?? null,
+							'active' => $option['active'] ?? 0,
+						];
+					} else {
+						$this->form['inputs'][$i]['optionspre'][] = [
+							'value' => $option->value,
+							'label' => $option->label,
+							'parent' => $option->parent ?? null,
+							'active' => $option->active ?? 0,
+						];
+					}
 				}
 			}
 		}
@@ -95,7 +104,6 @@ class DataForm
 				switch ($input['type']) {
 					case 'text':
 					case 'email':
-					case 'tel':
 					case 'url':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
@@ -109,6 +117,51 @@ class DataForm
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
 							$input['type'],
+						);
+						break;
+
+					case 'date':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<input class="date-input" type="date" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							date('Y-m-d', strtotime($input['value'])),
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
+						);
+						break;
+
+					case 'datetime':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<input class="date-input" type="datetime-local" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							date('Y-m-d H:i:s', strtotime($input['value'])),
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
+						);
+						break;
+					
+					case 'time':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%8$s</label>
+						<input class="date-input" type="time" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+							$input['name'],
+							$input['label'],
+							date('H:i:s', strtotime($input['value'])),
+							$input['min'],
+							$input['max'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
 						);
 						break;
 
@@ -199,7 +252,7 @@ class DataForm
 						$html .= sprintf('
 						<label for="%1$s">%2$s%6$s</label>
 						<label class="file-input-label" for="%1$s">
-							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" min="1" accept="image/jpg/png/svg" placeholder="%4$s" %5$s>
+							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" min="1" accept="image/jpg/png/svg/webp" placeholder="%4$s" %5$s>
 							<div>No file selected</div>
 						</label>',
 							$input['name'],
@@ -213,27 +266,25 @@ class DataForm
 					
 					case 'select':
 						$html .= sprintf('
-						<label for="%1$s">%2$s%8$s</label>
-						<select id="%1$s" name="%1$s" value="%3$s" placeholder="%6$s" %7$s>
+						<label for="%1$s">%2$s%5$s</label>
+						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s>
 							<option></option>',
 							$input['name'],
 							$input['label'],
-							$input['value'],
-							$input['min'],
-							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : ''
 						);
 
-							// dd($input['options']);
-
 							foreach ($input['options'] as $i2 => $option) {
+								$selected = $option['value'] == $input['value'] ? 'selected' : '';
+
 								if (is_numeric($i2)) {
 									$html .= sprintf('
-									<option value="%1$s">%2$s (#%1$s)</option>',
+									<option value="%1$s" %3$s>%2$s (#%1$s)</option>',
 										$option['value'],
 										$option['label'],
+										$selected,
 									);
 								} else {
 									$html .= sprintf('
@@ -242,9 +293,10 @@ class DataForm
 
 										foreach ($option as $i3 => $option2) {
 											$html .= sprintf('
-											<option value="%1$s">%2$s (#%1$s)</option>',
+											<option value="%1$s" %3$s>%2$s (#%1$s)</option>',
 												$option2['value'],
 												$option2['label'],
+												$selected,
 											);
 										}
 

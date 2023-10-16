@@ -2,11 +2,17 @@
   <header class="lt">
     <nav class="desktop-nav">
       <!-- <a href="/admin/dashboard" class="title"><h2 class="hover">{{ this.sitetitle }}</h2></a> -->
-      <a v-show="this.showhome == 'false'" href="/admin/dashboard" class="nav-button home-button"><i class="fa-solid fa-house-chimney"></i></a>
-      <i v-show="this.showhome == 'true'" class="fa-solid fa-house-chimney nav-button home-button" id="non-active"></i>
+      <a v-show="this.showhome == 'false'" href="/admin/dashboard" class="nav-button home-button header-button"><i class="fa-solid fa-house-chimney"></i></a>
+      <i v-show="this.showhome == 'true'" class="fa-solid fa-house-chimney nav-button home-button header-button" id="non-active"></i>
+
+			<div id="notification-header-container">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification')" class="nav-button" id="notification-button">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+      </div>
 
       <div id="user-header-container">
-        <div @click="userMenuActive = !userMenuActive" class="header-button" id="user-button">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'user' ? null : 'user')" class="header-button" id="user-button">
           <p>{{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }}</p>
           <i class="fa-solid fa-user"></i>
         </div>
@@ -15,7 +21,18 @@
       <i @click='menuActive = !menuActive' class="fa-solid fa-bars hover-background nav-button" id="menu-button"></i>
     </nav>
 
-    <div id="user-menu" :style="[this.userMenuActive ? { transform: 'translate3d(0, 100%, 0)' } : { transform: 'translate3d(0, 0, 0)' }]">
+		<div id="notification-menu" :style="[this.navMenuActive == 'notification' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.notificationMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.notificationMenuWidth + 'px' }]">
+      <div class="notification-group" v-for="(group, groupName) in this.notificationsData">
+				<h3>{{ groupName }}</h3>
+				<div v-for="(notification, i) in group">
+					<i v-if="notification.email" :id="'notification-' + notification.id" class="fa-solid fa-square-check" @click="this.toggleNotification(notification.notificationUserId, 'email', notification.id)"></i>
+					<i v-else :id="'notification-' + notification.id" class="fa-solid fa-square-xmark" @click="this.toggleNotification(0, 'email', notification.id)"></i>
+					<span>{{ notification.name }}</span>
+				</div>
+			</div>
+    </div>
+
+    <div id="user-menu" :style="[this.navMenuActive == 'user' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.userMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.userMenuWidth + 'px' }]">
       <a :href="'/admin/user-profile/' + this.sessionuser.id">My Profile</a>
       <a href="/adminLogout">Log Out</a>
     </div>
@@ -25,7 +42,7 @@
 
   <nav class="admin-menu lt"
   :class="{ 'menu-active': menuActive, 'menu-non-active': !menuActive }">
-    <h2 class="title">Backend Menu</h2>
+    <h2 class="title">Admin Console</h2>
 
     <ul>
       <div v-for="(link, i) in this.adminlinks" class="nav-link">
@@ -60,16 +77,66 @@
       'adminlinks',
       'showhome',
       'sessionuser',
+			'notifications',
     ],
 
     data() {
       return {
         menuActive: false,
-        userMenuActive: false,
+        navMenuActive: false,
+				userMenuWidth: 0,
+				notificationMenuWidth: 0,
+				notificationsData: this.notifications,
       };
     },
 
+		mounted() {
+			this.setUserMenuWidth();
+			this.setNotificationMenuPosition();
+		},
+
     methods: {
+			setUserMenuWidth(start = true) {
+				let userButton = document.querySelector("#user-header-container");
+				this.userMenuWidth = userButton.offsetWidth;
+
+				if (start) {
+					setTimeout(() => {
+						this.setUserMenuWidth(false);
+					}, 500);
+					
+					setTimeout(() => {
+						this.setUserMenuWidth(false);
+					}, 5000);
+					
+					setTimeout(() => {
+						this.setUserMenuWidth(false);
+					}, 10000);
+				}
+			},
+
+			setNotificationMenuPosition(start = true) {
+				let menu = document.querySelector("#notification-menu");
+				let button = document.querySelector("#notification-button");
+				let buttonPosition = button.getBoundingClientRect();
+
+				menu.style.right = (window.innerWidth - buttonPosition.left - button.offsetWidth) + "px";
+
+				if (start) {
+					setTimeout(() => {
+						this.setNotificationMenuPosition(false);
+					}, 500);
+					
+					setTimeout(() => {
+						this.setNotificationMenuPosition(false);
+					}, 5000);
+					
+					setTimeout(() => {
+						this.setNotificationMenuPosition(false);
+					}, 10000);
+				}
+			},
+
       toggleLinks(i, open) {
         if(open == false) {
           let list = document.querySelector(".sublist" + i);
@@ -99,6 +166,48 @@
           words[i] = words[i][0].toUpperCase() + words[i].substr(1);
         }
         return words.join(" ");
+      },
+
+			// AJAX
+			async toggleNotification(notificationUserId, type, id) {
+        try {
+          this.result = await this.$http.get("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          // let button = document.querySelector("#notification-" + id);
+
+					if (this.result.data[0]) {
+						this.notificationsData[this.result.data[1]].forEach(notificationItem => {
+							if (notificationItem.name == this.result.data[2]) {
+								notificationItem.notificationUserId = this.result.data[3];
+
+								if (type == "email") {
+									notificationItem.email = 1
+								} else if (type == "phone") {
+									notificationItem.phone = 1
+								} else {
+									notificationItem.standard = 1
+								}
+							}
+						});
+
+					} else {
+						this.notificationsData[this.result.data[1]].forEach(notificationItem => {
+							if (notificationItem.name == this.result.data[2]) {
+								notificationItem.notificationUserId = undefined;
+
+								if (type == "email") {
+									notificationItem.email = 0
+								} else if (type == "phone") {
+									notificationItem.phone = 0
+								} else {
+									notificationItem.standard = 0
+								}
+							}
+						});
+					}
+        }
       },
     },
   };

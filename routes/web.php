@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\AuthController;
@@ -14,19 +15,20 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductPageController;
 
 // ADMIN
-use App\Http\Controllers\AdminTestController;
+use App\Http\Controllers\AdminHeaderController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminContactController;
+use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\AdminUserProfileController;
-use App\Http\Controllers\AdminCustomersController;
-use App\Http\Controllers\AdminCustomerProfileController;
+use App\Http\Controllers\AdminEnquiriesController;
+use App\Http\Controllers\AdminEnquiryProfileController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminProductProfileController;
 use App\Http\Controllers\AdminLandingZonesController;
@@ -41,15 +43,24 @@ use App\Http\Controllers\AdminOrderProfileController;
 // DataTable -----------------------------------------------------------------------------------
 Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
 Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [DataTableController::class, 'setPrimary']);
+Route::get('/dataTable-selectDropdown/{table}/{column}/{primaryColumn}/{primaryValue}/{value}', [DataTableController::class, 'selectDropdown']);
+
+Route::get('/dataTable-setOrderColumn/{name}/{query}', [DataTableController::class, 'setOrderColumn']);
+Route::get('/dataTable-setOrderDirection/{direction}/{query}', [DataTableController::class, 'setOrderDirection']);
+
+Route::get('/dataTable-changeLimit/{limit}/{query}', [DataTableController::class, 'changeLimit']);
+Route::get('/dataTable-changePage/{offset}/{query}', [DataTableController::class, 'changePage']);
 
 
 // SYSTEM -----------------------------------------------------------------------------------
-Route::controller(TestController::class)->group(function () {
-  Route::get('/test', 'show');
+Route::get("sitemap-xml" , function () {
+	return Illuminate\Support\Facades\Redirect::to('https://ipswich-fireworks.s3.eu-west-2.amazonaws.com/public-assets/sitemap.xml');
 });
 
 
 // PUBLIC -----------------------------------------------------------------------------------
+Route::get('/', [HomeController::class, 'show']);
+
 Route::controller(AuthController::class)->group(function () {
   Route::get('/login', 'veiwLogin');
   Route::get('/loginCart', 'veiwLoginCart');
@@ -62,7 +73,9 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
 });
 
-Route::get('/', [HomeController::class, 'show']);
+Route::controller(SitemapController::class)->group(function () {
+	Route::get('/site-map', 'show');
+});
 
 Route::get('/contact', [ContactController::class, 'show']);
 
@@ -102,9 +115,10 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
-
 	// ADMIN -----------------------------------------------------------------------------------
-  Route::view('/admin', 'admin/auth/login');
+	Route::get('/header-toggleNotification/{id}/{notificationUserId}/{type}', [AdminHeaderController::class, 'toggleNotification']);
+  
+	Route::view('/admin', 'admin/auth/login');
   Route::controller(AuthController::class)->group(function () {
     Route::get('/adminLogin', 'authenticateAdmin');
     Route::get('/adminLogout', 'logoutAdmin');
@@ -122,6 +136,13 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/contactDeleteEmail/{id}', 'deleteEmail');
     Route::post('/contactCreatePhone', 'createPhone');
     Route::get('/contactDeletePhone/{id}', 'deletePhone');
+    Route::post('/contactCreateUrl', 'createUrl');
+    Route::get('/contactDeleteUrl/{id}', 'deleteUrl');
+  });
+
+  Route::controller(AdminSettingsController::class)->group(function () {
+    Route::get('/admin/settings', 'show');
+    Route::post('/settingsUpdate', 'update');
   });
 
   Route::controller(AdminUsersController::class)->group(function () {
@@ -145,6 +166,14 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::post('/customer-profileUpdate/{id}', 'update');
     Route::get('/customer-profileDelete/{id}', 'delete');
   });
+
+	Route::controller(AdminEnquiriesController::class)->group(function () {
+		Route::get('/admin/enquiries', 'show');
+	});
+
+	Route::controller(AdminEnquiryProfileController::class)->group(function () {
+		Route::get('/admin/enquiry-profile/{id}', 'show');
+	});
 
   Route::controller(AdminProductsController::class)->group(function () {
     Route::get('/admin/products', 'show');

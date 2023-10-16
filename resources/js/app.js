@@ -155,6 +155,7 @@ productPageMain.component('productpagemain', Productpagemain).mount('#productpag
 
 // ADMIN
 const adminHeader = createApp({})
+adminHeader.use(VueAxios, axios)
 adminHeader.component('adminheader', Adminheader).mount('#adminheader')
 
 const adminFooter = createApp({})

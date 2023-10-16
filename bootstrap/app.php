@@ -12,8 +12,12 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+	$_ENV['APP_BASE_PATH'] ?? dirname(__DIR__),
 );
+
+if (str_contains($_SERVER['HTTP_HOST'], 'dev')) {
+	$app->loadEnvironmentFrom('.env.dev');
+}
 
 /*
 |--------------------------------------------------------------------------

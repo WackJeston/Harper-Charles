@@ -53,11 +53,7 @@ class AuthController extends Controller
 
   public function veiwLogin()
   {
-    $sessionUser = auth()->user();
-
-    return view('public/auth/login', compact(
-      'sessionUser',
-    ));
+    return view('public/auth/login');
   }
 
   public function veiwLoginCart()
@@ -108,11 +104,7 @@ class AuthController extends Controller
 
   public function veiwSignup()
   {
-    $sessionUser = auth()->user();
-
-    return view('public/auth/signup', compact(
-      'sessionUser',
-    ));
+    return view('public/auth/signup');
   }
 
   public function signupCustomer(Request $request)
@@ -157,8 +149,6 @@ class AuthController extends Controller
 
   public function viewVerifyEmailCustomer($id)
   {
-    $sessionUser = auth()->user();
-
     $user = User::where('id', $id)->first();
 
     if ($user->email_verified_at != null || $user->email_verified_at != '') {
@@ -176,8 +166,6 @@ class AuthController extends Controller
 
   public function resendVerifyEmailCustomer($id)
   {
-    $sessionUser = auth()->user();
-
     $user = User::where('id', $id)->first();
 
     $user->sendEmailVerificationNotification();
@@ -189,8 +177,6 @@ class AuthController extends Controller
 
   public function emailVerifiedCustomer($id)
   {
-    $sessionUser = auth()->user();
-
 		if ($user = User::where('id', $id)->first()) {
 			if ($user->email_verified_at == null || $user->email_verified_at == '') {
 				$user->email_verified_at = now();

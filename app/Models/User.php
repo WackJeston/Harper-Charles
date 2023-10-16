@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Aws\Exception\AwsException;
 use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -47,6 +47,13 @@ class User extends Authenticatable implements MustVerifyEmail
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
+
+	protected static function booted() {
+		#TO DO: if admin = true
+		static::created(function ($self) {
+			self::verifyEmail($self->email);
+    });
+	}
 
 	public static function getOrders(int $userId = 0) {
 		if ($userId == 0) {
@@ -94,5 +101,20 @@ class User extends Authenticatable implements MustVerifyEmail
 		}
 
 		return $orders;
+	}
+
+	public static function verifyEmail($email) {
+		$aws = connectSes();
+		
+		try {
+			$result = $aws->verifyEmailIdentity([
+				'EmailAddress' => $email,
+			]);
+			var_dump($result);
+		} catch (AwsException $e) {
+			// output error message if fails
+			echo $e->getMessage();
+			echo "\n";
+		}
 	}
 }

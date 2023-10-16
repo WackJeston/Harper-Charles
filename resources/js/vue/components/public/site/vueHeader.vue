@@ -1,55 +1,22 @@
 <template>
-	<header class="dk">
+	<header>
 
-		<nav class="desktop-nav">
-			<a href="/" class="title">
-				<h2 id="header-title">{{ this.sitetitle }}</h2>
-				<h2 id="header-title-mini">{{ this.sitetitlemini }}</h2>
-			</a>
-
-			<ul id="header-nav-links">
-				
-				<a href="/cart" class="nav-link hover-background">
-					<li class="nav-link-contents icon-link">
-						<i class="fa-solid fa-cart-shopping"></i>
-					</li>
-				</a>
-
-				<li @click="(userMenuActive = !userMenuActive) && (sublinksActive = false)"
-					class="nav-link hover-background user-button" :class="[this.sessionuser ? 'logged-in' : '']">
-					<div v-if="this.sessionuser" class="nav-link-contents">
-						{{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }} <i class="fa-solid fa-user"></i>
-					</div>
-
-					<div v-else class="nav-link-contents">
-						<i class="fa-regular fa-user icon-link"></i>
-					</div>
-				</li>
-			</ul>
-
-			<i @click='toggleMobileNav' class="fa-solid fa-bars hover-background" id="nav-menu-button"></i>
+		<nav id="header-start">
+			<a v-if="this.tickets" async href="https://ipswichfireworks.ticketsrv.co.uk/" target="_blank" class="header-button title thick-title"><span>TICKETS</span></a>
 		</nav>
 
-		<div id="user-menu-container" :style="[this.userMenuActive ? { display: 'flex' } : { display: 'none' }]">
-			<div v-if="this.sessionuser" id="user-menu"
-				:style="[this.userMenuActive ? { transform: 'translate3d(0, 0, 0)' } : { transform: 'translate3d(0, -100%, 0)' }]">
-				<a v-for="(sublink, i) in this.userlinks" :href="sublink['link']">
-					<span>{{ capFL(sublink['title']) }}</span>
-					<i :class="[sublink['icon']]"></i>
-				</a>
-			</div>
+		<a class="logo-link" href="/">
+			<img async :src="this.asset + 'logo-white.png'" alt="logo" class="logo">
+		</a>
 
-			<div v-else id="user-menu"
-				:style="[this.userMenuActive ? { transform: 'translate3d(0, 0, 0)' } : { transform: 'translate3d(0, -100%, 0)' }]">
-				<a href="/login">
-					<span>Login</span>
-					<i class="fa-solid fa-user-check"></i>
+		<div id="header-end">
+			<ul id="header-socials">
+				<a v-for="(social, i) in this.socials" :href="social.link" target="_blank">
+					<li><i :class="social.icon"></i></li>
 				</a>
-				<a href="/sign-up">
-					<span>Sign Up</span>
-					<i class="fa-solid fa-user-plus"></i>
-				</a>
-			</div>
+			</ul>
+
+			<i @click='toggleSiteMenu' class="fa-solid fa-bars" id="nav-menu-button"></i>
 		</div>
 
 		<div class="menu-overlay" @click="toggleOverlay"></div>
@@ -63,15 +30,17 @@ export default {
 	props: [
 		'sitetitle',
 		'sitetitlemini',
+		'asset',
 		'publiclinks',
-		'userlinks',
+		'socials',
 		'sessionuser',
+		'tickets',
 	],
 
 	data() {
 		return {
 			mobile: null,
-			mobileNav: false,
+			siteMenu: false,
 			windowWidth: null,
 			menuActive: false,
 			mqLarge: null,
@@ -81,9 +50,9 @@ export default {
 	},
 
 	methods: {
-		toggleMobileNav() {
-			this.mobileNav = !this.mobileNav;
-			let menu = document.querySelector(".mobile-nav");
+		toggleSiteMenu() {
+			this.siteMenu = !this.siteMenu;
+			let menu = document.querySelector(".site-menu");
 			let overlay = document.querySelector(".menu-overlay");
 
 			if (this.menuActive == false) {
@@ -107,9 +76,9 @@ export default {
 		},
 
 		toggleOverlay() {
-			this.mobileNav = false;
+			this.siteMenu = false;
 			this.menuActive = false;
-			let menu = document.querySelector(".mobile-nav");
+			let menu = document.querySelector(".site-menu");
 			let overlay = document.querySelector(".menu-overlay");
 
 			menu.classList.remove("menu-active");
