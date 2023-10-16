@@ -10,7 +10,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7",
+        "laravel/tinker": "^2.7"
         // "laravel/cashier": "^14.12.3",
 				// "intervention/image" : "^2.7.2",
 				// "league/flysystem-aws-s3-v3" : "^3.0",
