@@ -49,9 +49,10 @@ class User extends Authenticatable implements MustVerifyEmail
 	];
 
 	protected static function booted() {
-		#TO DO: if admin = true
 		static::created(function ($self) {
-			self::verifyEmail($self->email);
+			if ($self->admin) {
+				self::verifyEmail($self->email);
+			}
     });
 	}
 
