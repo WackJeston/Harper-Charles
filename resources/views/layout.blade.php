@@ -56,7 +56,7 @@
 
 		@if(str_contains(url()->current(), '/admin/'))
 			{{-- ADMIN --}}
-			{{-- @php
+			@php
 				$notificationsPre = DB::select('SELECT
 					n.id,
 					n.group,
@@ -73,7 +73,7 @@
 				foreach ($notificationsPre as $i => $notification) {
 					$notifications[$notification->group][] = $notification;
 				}
-			@endphp --}}
+			@endphp
 			
       <div class="admin-container">
         <div id="adminheader">
@@ -83,6 +83,7 @@
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(true) }}"
               :sessionuser="{{ $sessionUser }}"
+							:notifications="{{ json_encode($notifications) }}"
             />
           @else
             <Adminheader
@@ -90,6 +91,7 @@
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(false) }}"
               :sessionuser="{{ $sessionUser }}"
+							:notifications="{{ json_encode($notifications) }}"
             />
           @endif
         </div>

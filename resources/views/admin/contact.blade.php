@@ -26,7 +26,9 @@
 				:emailform="{{ json_encode($emailForm) }}" 
 				:emailstable="{{ json_encode($emailsTable) }}" 
 				:phoneform="{{ json_encode($phoneForm) }}" 
-				:phonestable="{{ json_encode($phonesTable) }}" 
+				:phonestable="{{ json_encode($phonesTable) }}"
+				:urlform="{{ json_encode($urlForm) }}" 
+				:urlstable="{{ json_encode($urlsTable) }}"
 			/>
     </div>
 
@@ -63,6 +65,7 @@
 					<ul>
 						<li><strong>Emails</strong></li>
 						@foreach ($contact['email'] as $email)
+							<li class="label"><small><strong>{{ $email['label'] }}</strong></small></li>
 							<li>{{ $email['value'] }}</li>
 						@endforeach
 					</ul>
@@ -72,7 +75,18 @@
 					<ul>
 						<li><strong>Phone Numbers</strong></li>
 							@foreach ($contact['phone'] as $phone)
+								<li class="label"><small><strong>{{ $phone['label'] }}</strong></small></li>
 								<li>{{ $phone['value'] }}</li>
+							@endforeach
+					</ul>
+				@endif
+
+				@if (isset($contact['url']))
+					<ul>
+						<li><strong>URLs</strong></li>
+							@foreach ($contact['url'] as $url)
+								<li class="label"><small><strong>{{ $url['label'] }}</strong></small></li>
+								<li>{{ $url['value'] }}</li>
 							@endforeach
 					</ul>
 				@endif

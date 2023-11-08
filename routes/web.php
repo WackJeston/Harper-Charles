@@ -27,6 +27,8 @@ use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\AdminUserProfileController;
+use App\Http\Controllers\AdminCustomersController;
+use App\Http\Controllers\AdminCustomerProfileController;
 use App\Http\Controllers\AdminEnquiriesController;
 use App\Http\Controllers\AdminEnquiryProfileController;
 use App\Http\Controllers\AdminProductsController;

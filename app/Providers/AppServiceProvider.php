@@ -40,6 +40,28 @@ class AppServiceProvider extends ServiceProvider
 
       if (str_contains(url()->current(), '/admin/')) {
         $adminLinks = [
+					$messages = [
+            "title"=>"messages",
+            "icon"=>"fa-regular fa-comment",
+            "sublink"=>$subLinks = [
+              $enquiries = [
+								"title"=>"enquiries",
+								"link"=>"/admin/enquiries",
+								"icon"=>"fa-solid fa-envelope",
+							],
+            ],
+          ],
+          $orders = [
+            "title"=>"orders",
+            "icon"=>"fa-solid fa-basket-shopping",
+            "sublink"=>$subLinks = [
+              $allOrders = [
+                "title"=>"all orders",
+                "link"=>"/admin/orders",
+                "icon"=>"fa-solid fa-box-archive",
+              ],
+            ],
+          ],
           $people = [
             "title"=>"people",
             "icon"=>"fa-solid fa-users",
@@ -77,17 +99,11 @@ class AppServiceProvider extends ServiceProvider
               ],
             ],
           ],
-          $orders = [
-            "title"=>"orders",
-            "icon"=>"fa-solid fa-basket-shopping",
-            "sublink"=>$subLinks = [
-              $allOrders = [
-                "title"=>"all orders",
-                "link"=>"/admin/orders",
-                "icon"=>"fa-solid fa-box-archive",
-              ],
-            ],
-          ],
+					$settings = [
+						"title"=>"settings",
+						"link"=>"/admin/settings",
+						"icon"=>"fa-solid fa-gear",
+					],
           $website = [
             "title"=>"website",
             "icon"=>"fa-solid fa-globe",
