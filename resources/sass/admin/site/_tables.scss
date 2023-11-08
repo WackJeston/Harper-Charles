@@ -23,21 +23,42 @@ tr {
 thead tr {
   height: 35px;
 	border-bottom: 1px solid v.$gray-1;
+
+	@media (max-width: 800px) {
+		height: 30px;
+	}
 }
 
 tbody tr {
   height: 30px;
+}
+
+tbody tr:not(:last-child) {
 	border-bottom: 1px solid v.$bg-main;
 }
 
 tr th {
   white-space: nowrap;
+	cursor: pointer;
+}
+
+tr th .fa-angle-down,
+tr th .fa-angle-up {
+	font-size: 0.9rem;
+
+	@media (max-width: 800px) {
+		font-size: 0.8rem;
+	}
 }
 
 tr th, tr td {
   padding-left: 7px;
   text-align: left;
-	min-width: 30px;
+	font-size: 0.9rem;
+
+	@media (max-width: 800px) {
+		font-size: 0.8rem;
+	}
 }
 
 tr th:last-child, tr td:last-child {
@@ -51,45 +72,43 @@ tr td:not(.tr-buttons) {
 	text-overflow: ellipsis;
 }
 
+tbody tr i {
+  cursor: pointer;
+  color: v.$bg-dark;
+	font-size: 1rem;
+  padding-left: 7px;
+}
+
 tr .tr-buttons {
 	position: absolute;
 	right: 0;
 	display: flex;
 	flex-direction: row;
-  margin-left: auto;
   text-align: right;
   white-space: nowrap;
+	padding-left: 0;
 }
 
-tr i:not(.primary, .non-primary, .fa-xmark) {
-  position: relative;
-  font-size: 1.1rem;
-  text-align: right;
-  cursor: pointer;
-  color: v.$bg-dark;
-  margin-top: 3px;
+tr .tr-buttons i {
+	position: relative;
 }
 
-tr i:not(tr:first-child, .primary, .non-primary) {
-  padding-left: 7px;
-}
-
-tr i:hover:not(.primary, .non-primary) {
+tr .tr-buttons i:hover {
   color: v.$alt-semi-dark
 }
 
-tr i:hover .button-label:not(tr .button-label:hover) {
+tr .tr-buttons i:hover .button-label:not(.button-label:hover) {
   display: block;
 }
 
-tr .button-label {
+tr .tr-buttons .button-label {
   margin: 0;
   padding: 0;
   display: none;
   z-index: 2;
 }
 
-tr .button-label p {
+tr .tr-buttons .button-label p {
   position: absolute;
   bottom: -20px;
   right: 117%;
@@ -102,7 +121,7 @@ tr .button-label p {
   font-weight: 600;
 }
 
-tr .button-label div {
+tr .tr-buttons .button-label div {
   position: absolute;
   bottom: 2px;
   right: 100%;
@@ -127,49 +146,6 @@ table .empty-table h3 {
 	margin: 0;
 }
 
-table .primary, table .non-primary {
-  font-size: 1.1rem;
-}
-
-table .primary {
-  color: v.$pale-green;
-}
-
-table .non-primary {
-  color: v.$pale-red;
-}
-
-table nav {
-	display: flex;
-	width: 100%;
-}
-
-table .pagination-controls {
-	display: flex;
-	flex-direction: row;
-	margin-left: auto;
-}
-
-table .fa-xmark {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	height: 20px;
-	width: 20px;
-	border-radius: 5px;
-	color: v.$black;
-	cursor: pointer;
-	font-size: 1rem;
-}
-
-table .fa-xmark:hover {
-	background-color: v.$black;
-	color: v.$white;
-}
-
 table td .toggle-true {
 	color: v.$pale-green;
 }
@@ -188,4 +164,93 @@ table td .toggle-false:hover {
 
 table .hide-mobile {
 	display: none;
+}
+
+table input:not(tfoot input),
+table select:not(tfoot select) {
+	-webkit-appearance: none;
+  -moz-appearance: none;
+	background-color: v.$trans;
+	border-radius: 3px;
+	outline: none;
+	max-width: 100%;
+	padding: 3px 2px 3px 0;
+	margin: 2px;
+}
+
+table input:not(tfoot input):hover,
+table input:not(tfoot input):focus,
+table select:not(tfoot select):hover,
+table select:not(tfoot select):focus {
+	-webkit-appearance: menulist;
+  -moz-appearance: menulist;
+	background-color: white;
+	outline: 2px solid v.$black;
+	cursor: pointer;
+}
+
+tfoot tr {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	height: 30px;
+	color: v.$black;
+	border-top: 1px solid v.$gray-1;
+	font-size: 0.8rem;
+}
+
+tfoot tr td:not(:first-child) {
+	padding-left: 15px;
+}
+
+tfoot tr td i {
+	font-size: 0.8rem;
+}
+
+tfoot tr td:last-child {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: auto;
+	padding-right: 4px;
+}
+
+.page-column tfoot .hide-mobile-marker {
+	display: none;
+}
+
+tfoot input,
+tfoot select {
+	background-color: white;
+	outline: 2px solid v.$gray-1;
+	border-radius: 3px;
+	max-width: 100%;
+	padding: 1px 2px 0 1px;
+	margin: 2px;
+	cursor: pointer;
+}
+
+tfoot button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: v.$alt-main;
+	color: v.$white;
+	margin: 2px;
+	padding: 4px 8px;
+}
+
+tfoot button:hover {
+	background-color: v.$alt-semi-dark;
+}
+
+tfoot button.button-off {
+	background-color: v.$gray-1;
+	cursor: default;
+}
+
+tfoot button i {
+	padding: 0;
+	margin: 0;
 }

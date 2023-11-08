@@ -1,3 +1,12 @@
+function jumpToElement() {
+	let id = location.href.split('#')[1];
+
+	if (id != null) {
+		let element = document.getElementById(id);
+		element.scrollIntoView(false);
+	}
+};
+
 function updateAddressMap() {
 	let query = document.getElementById('line1').value.replace(',', '');
 	query += ' ' + document.getElementById('line2').value.replace(',', '');

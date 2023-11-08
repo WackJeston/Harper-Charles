@@ -1,13 +1,71 @@
-function setTableMargin() {
+const bucketName = 'ipswich-fireworks';
+
+function setIdWidth(repeat = true) {
+	let tables = document.querySelectorAll("table");
+
+	if (tables != null) {
+		tables.forEach(table => {
+			let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
+
+			idColumnWidth = 0;
+
+			rows.forEach(row => {
+				let idColumn = row.querySelector(".column-id span");
+
+				if (idColumn != null) {
+					if (idColumn.offsetWidth > idColumnWidth) {
+						idColumnWidth = idColumn.offsetWidth;
+					}
+				}
+			});
+
+			idColumnWidth = idColumnWidth + 18;
+	
+			rows.forEach(row => {
+				let idColumn = row.firstElementChild;
+
+				if (idColumn.id == "column-id") {
+					idColumn.style.width = idColumnWidth + "px";
+					idColumn.style.minWidth = idColumnWidth + "px";
+				}
+			});
+		});
+	}
+
+	if (repeat) {
+		setTimeout(() => {
+			setIdWidth(false);
+		}, 500);
+
+		setTimeout(() => {
+			setIdWidth(false);
+		}, 2000);
+
+		let toggle = window.innerWidth < 800 ? true : false;
+
+		window.addEventListener('resize', function() {
+			if (toggle == true && window.innerWidth > 800) {
+				toggle = false;
+				setIdWidth();
+
+			} else if (toggle == false && window.innerWidth < 800) {
+				toggle = true;
+				setIdWidth();
+			}
+		});
+	}
+}
+
+function setTableMargin(repeat = true) {
 	let tables = document.querySelectorAll("table");
 
 	if (tables != null) {
 		tables.forEach(table => {
 			let buttons = table.querySelector("#" + table.id + " .tr-buttons");
+			let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
 	
 			if (buttons != null) {
 				let width = buttons.offsetWidth;
-				let rows = table.querySelectorAll("#" + table.id + " tr");
 	
 				if (width == 0) {
 					let buttonCount = table.querySelector("#" + table.id + " .tr-buttons").childElementCount;
@@ -21,6 +79,16 @@ function setTableMargin() {
 				});
 			}
 		});
+	}
+
+	if (repeat) {
+		setTimeout(() => {
+			setTableMargin(false);
+		}, 500);
+
+		setTimeout(() => {
+			setTableMargin(false);
+		}, 2000);
 	}
 };
 
@@ -60,11 +128,11 @@ function hideTableColumns() {
 	}
 };
 
-function showImage(fileName) {
+function showImage(url) {
 	const imageZone = document.querySelector('.image-viewer');
 	const image = document.querySelector('.viewer-image');
 
-	image.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+	image.src = url;
 	
 	imageZone.style.display = 'flex';
 };
@@ -126,6 +194,82 @@ function setPrimary(table, ref, column, primaryTable, primaryValue, parent, pare
 			
 			button.classList.add("toggle-true");
 			button.classList.add("fa-circle-check");
+		}
+	});
+};
+
+function selectDropdown(e, table, column, primaryTable, primaryValue) {
+	let value = e.target.value;
+	
+	if (value == null || value == "") {
+		value = "null";
+	}
+
+	$.ajax({
+		url: "/dataTable-selectDropdown/" + table + "/" + column + "/" + primaryTable + "/" + primaryValue + "/" + value,
+		type: "GET",
+	});
+};
+
+function tableRedirect(ref) {
+	let url = location.href.split('#')[0];
+
+	location.href = url + '#table-' + ref;
+	location.reload();
+};
+
+//AJAX - header
+function setOrderColumn(e, name, oldName, query, ref) {
+	const elements = ["TH", "SPAN"];
+
+	if (oldName != name && elements.includes(e.target.tagName)) {
+		$.ajax({
+			url: "/dataTable-setOrderColumn/" + name + "/" + query,
+			type: "GET",
+			success: function() {
+				tableRedirect(ref);
+			}
+		});
+	}	
+};
+
+function setOrderDirection(direction, query, ref) {
+	$.ajax({
+		url: "/dataTable-setOrderDirection/" + direction + "/" + query,
+		type: "GET",
+		success: function() {
+			tableRedirect(ref);
+		}
+	});
+};
+
+// AJAX - footer
+function changeTableLimit(e, query, oldLimit, ref) {
+	let limit = e.target.value;
+
+	if (oldLimit != limit) {
+		$.ajax({
+			url: "/dataTable-changeLimit/" + limit + "/" + query,
+			type: "GET",
+			success: function() {
+				tableRedirect(ref);
+			}
+		});
+	}	
+};
+
+function changeTablePage(query, oldOffset, limit, direction, ref) {
+	let offset = direction ? parseInt(oldOffset) + parseInt(limit) : parseInt(oldOffset) - parseInt(limit);
+
+	if (offset < 0) {
+		offset = 0;
+	}
+
+	$.ajax({
+		url: "/dataTable-changePage/" + offset + "/" + query,
+		type: "GET",
+		success: function() {
+			tableRedirect(ref);
 		}
 	});
 };
