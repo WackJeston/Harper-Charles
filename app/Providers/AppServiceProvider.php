@@ -149,44 +149,44 @@ class AppServiceProvider extends ServiceProvider
           ],
         ];
 
-        // $categories = DB::select('SELECT
-        //   c.id,
-        //   c.title
-        //   FROM product_categories AS c
-        //   WHERE c.show=1
-        // ');
+        $categories = DB::select('SELECT
+          c.id,
+          c.title
+          FROM product_categories AS c
+          WHERE c.show=1
+        ');
 
-        // foreach ($categories as $i => $category) {
-        //   $publicLinks[1]['sublink'][$i] = [
-        //     "title"=>$category->title,
-        //     "link"=>"/products/" . $category->id,
-        //     "icon"=>"",
-        //   ];
-        // }
+        foreach ($categories as $i => $category) {
+          $publicLinks[1]['sublink'][$i] = [
+            "title"=>$category->title,
+            "link"=>"/products/" . $category->id,
+            "icon"=>"",
+          ];
+        }
 
-				// $contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
+				$contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
 
-				// $contact = [
-				// 	'email' => [],
-				// 	'phone' => [],
-				// 	'line2' => '',
-				// 	'line3' => '',
-				// ];
+				$contact = [
+					'email' => [],
+					'phone' => [],
+					'line2' => '',
+					'line3' => '',
+				];
 
-				// foreach ($contactResult as $i => $row) {
-				// 	if ($row->type == 'email') {
-				// 		$contact['email'][] = $row->value;
-				// 	} elseif ($row->type == 'phone') {
-				// 		$contact['phone'][] = $row->value;
-				// 	}	else {
-				// 		$contact[$row->type] = $row->value;
-				// 	}
-				// }
+				foreach ($contactResult as $i => $row) {
+					if ($row->type == 'email') {
+						$contact['email'][] = $row->value;
+					} elseif ($row->type == 'phone') {
+						$contact['phone'][] = $row->value;
+					}	else {
+						$contact[$row->type] = $row->value;
+					}
+				}
 
         View::share([
-          // 'publicLinks' => $publicLinks,
-          // 'userLinks' => $userLinks,
-					// 'contact' => $contact,
+          'publicLinks' => $publicLinks,
+          'userLinks' => $userLinks,
+					'contact' => $contact,
         ]);
       }
     }

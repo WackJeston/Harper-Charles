@@ -1,6 +1,14 @@
 @use 'v';
 
+html {
+	height: 100dvh;
+	width: 100vw;
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
 body {
+	height: 100%;
+	width: 100%;
 	position: relative;
 	overflow: hidden;
 	transition: all 200ms ease;
@@ -11,7 +19,7 @@ body {
 .admin-container {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
+	height: 100%;
 	background-color: v.$bg-main;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -40,6 +48,36 @@ main h2 {
 .link-trail a:hover {
 	color: v.$alt-main;
 	text-decoration: underline;
+}
+
+.page-column-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+
+	@media (max-width: 800px) {
+		flex-direction: column;
+	}
+}
+
+@media (min-width: 800px) {
+	.page-column-container.columns-2 .page-column {
+		width: calc(50% - 10px);
+	}
+	
+	.page-column-container.columns-3 .page-column {
+		width: calc(33.33% - 10px);
+	}
+
+	.page-column-container.columns-4 .page-column {
+		width: calc(25% - 10px);
+	}
+}
+
+.page-column-container .page-column {
+	display: flex;
+	flex-direction: column;
 }
 
 .web-box {
@@ -124,7 +162,7 @@ main h2 {
 	padding: 40px;
 	max-width: 100%;
 	max-height: 100%;
-	background-color: v.$trans-dark;
+	background-color: v.$trans-extra-dark;
 	z-index: 6;
 }
 
@@ -241,24 +279,30 @@ button.button-active:hover {
 }
 
 button.pb-success,
-button.pb-danger {
+a.pb-success,
+button.pb-danger,
+a.pb-success {
 	margin: 0 5px 10px 0;
 	color: v.$white;
 }
 
-button.pb-success {
+button.pb-success,
+a.pb-success {
 	background-color: v.$pale-green;
 }
 
-button.pb-success:hover {
+button.pb-success:hover,
+a.pb-success:hover {
 	background-color: v.$pale-green-darker;
 }
 
-button.pb-danger {
+button.pb-danger,
+a.pb-danger {
 	background-color: v.$pale-red;
 }
 
-button.pb-danger:hover {
+button.pb-danger:hover,
+a.pb-danger:hover {
 	background-color: v.$pale-red-darker;
 }
 

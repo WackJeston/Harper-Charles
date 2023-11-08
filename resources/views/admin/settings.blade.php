@@ -1,11 +1,11 @@
 @extends('layout')
 
-@section('title', 'Dashboard')
+@section('title', 'Settings')
 
 @section('content')
-  <main class="dashboard">
+  <main class="settings">
 
-    <h1>Dashboard</h1>
+    <h2 class="dk">Settings</h2>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -18,6 +18,10 @@
         <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
+
+		@php
+			echo $form['html'];
+		@endphp
 
   </main>
 @endsection

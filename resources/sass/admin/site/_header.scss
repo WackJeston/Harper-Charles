@@ -41,18 +41,30 @@ header .desktop-nav {
   cursor: pointer;
 }
 
+.desktop-nav #menu-button {
+	background-color: v.$bg-semi-light;
+}
+
 .desktop-nav .home-button {
   margin-right: auto;
 }
 
-.desktop-nav #user-header-container {
+.desktop-nav #user-header-container,
+.desktop-nav #notification-header-container {
   position: relative;
   height: 100%;
 }
 
 .desktop-nav #user-button {
-  position: relative;
+	position: relative;
   background-color: v.$bg-semi-dark;
+  padding: 0 15px;
+  z-index: 7;
+}
+
+.desktop-nav #notification-button {
+  position: relative;
+  background-color: v.$bg-semi-light;
   padding: 0 15px;
   z-index: 7;
 }
@@ -61,17 +73,77 @@ header .desktop-nav {
   margin-right: 10px;
 }
 
+header #notification-menu {
+	transition: transform 100ms ease;
+  display: flex;
+  flex-direction: column;
+  background-color: v.$bg-dark;
+  position: absolute;
+  bottom: 0;
+  z-index: 4;
+  border-radius: 0 0 5px 5px;
+	overflow: hidden;
+	width: 180px;
+	padding: 6px 0 15px 0;
+
+	@media (max-width: 410px) {
+		left: 0;
+	}
+}
+
+header #notification-menu .notification-group {
+	display: flex;
+	flex-direction: column;
+	text-transform: capitalize;
+}
+
+header #notification-menu .notification-group h3 {
+	margin: 0;
+	padding: 0 13px 0 13px;
+}
+
+header #notification-menu .notification-group div {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+header #notification-menu .notification-group i {
+	cursor: pointer;
+	font-size: 1.1rem;
+	background-color: v.$bg-dark;
+}
+
+header #notification-menu .notification-group i:hover {
+	color: v.$bg-main;
+}
+
+header #notification-menu .notification-group i.fa-square-xmark {
+	color: v.$pale-red;
+}
+
+header #notification-menu .notification-group i.fa-square-check {
+	color: v.$pale-green;
+}
+
+header #notification-menu .notification-group span {
+	color: v.$white;
+	padding-left: 5px;
+}
+
 header #user-menu {
   transition: transform 100ms ease;
   display: flex;
   flex-direction: column;
-  background-color: v.$bg-semi-dark;
+  background-color: v.$alt-main;
   position: absolute;
   bottom: 0;
   right: v.$header-height;
   z-index: 4;
-  min-width: 200px;
   border-radius: 0 0 5px 5px;
+	overflow: hidden;
 }
 
 header #user-menu a {

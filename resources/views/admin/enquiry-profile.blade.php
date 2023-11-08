@@ -1,0 +1,62 @@
+@extends('layout')
+
+@if ($type == 'standard')
+	@section('title', 'Enquiry')
+@elseif ($type == 'feedback')
+	@section('title', 'Feeback Enquiry')
+@elseif ($type == 'sponsor')
+	@section('title', 'New Sponsor Enquiry')
+@endif
+
+@section('content')
+  <main class="enquiry-profile">
+
+    @if ($type == 'standard')
+			<div class="link-trail">
+				<i class="fa-solid fa-arrow-left"></i>
+				<a href="/admin/enquiries">Enquiries</a>
+			</div>
+
+			<h2 class="dk">Enquiry</h2>
+		@elseif ($type == 'feedback')
+			<div class="link-trail">
+				<i class="fa-solid fa-arrow-left"></i>
+				<a href="/admin/feedback">Feedback</a>
+			</div>
+
+			<h2 class="dk">Feeback Enquiry</h2>
+		@elseif ($type == 'sponsor')
+			<div class="link-trail">
+				<i class="fa-solid fa-arrow-left"></i>
+				<a href="/admin/new-sponsors">Sponsor Enquiries</a>
+			</div>
+
+			<h2 class="dk">New Sponsor Enquiry</h2>
+		@endif
+
+    @if ($errors->any())
+      <div id="alerterror" class="lt">
+        <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
+      </div>
+    @endif
+
+    @if (session()->has('message'))
+      <div id="alertmessage" class="lt">
+        <alertmessage successmessage="{{ session()->get('message') }}" />
+      </div>
+    @endif
+
+		<ul class="web-box">
+			<li><strong>Name:</strong> {{ $enquiry->name }}</li>
+			<li><strong>Email:</strong> {{ $enquiry->email }}</li>
+			<li><strong>Phone:</strong> {{ $enquiry->phone }}</li>
+			<li><strong>Date:</strong> {{ date('d-m-Y', strtotime($enquiry->created_at)) }}</li>
+			@if ($type != 'sponsor')
+				<li><strong>Subject:</strong> {{ $enquiry->subject }}</li>
+			@endif
+			<li><strong>Message:</strong></li>
+			<li class="text-box">{{ $enquiry->message }}</li>
+		</ul>
+
+  </main>
+@endsection
