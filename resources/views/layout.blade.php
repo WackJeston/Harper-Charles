@@ -15,6 +15,12 @@
       <title>{{ env('APP_NAME') }}</title>
     @endif
 
+		@if (session()->has('preloaded-images'))
+			@foreach (session()->get('preloaded-images') as $url)
+				<link rel="preload" href="{{ $url }}" as="image">
+			@endforeach
+		@endif
+
     {{-- Fonts --}}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,13 +33,15 @@
 
     {{-- Favicon --}}
     @if(str_contains(url()->current(), '/admin'))
-      <link rel="shortcut icon" type="image/png" sizes="16x16" href="{{ asset('/admin-favicon-16.png') }}">
-      <link rel="shortcut icon" type="image/png" sizes="32x32" href="{{ asset('/admin-favicon-32.png') }}">
-      <link rel="shortcut icon" type="image/png" sizes="96x96" href="{{ asset('/admin-favicon-96.png') }}">
+			<link async rel="apple-touch-icon" sizes="180x180" href="/favicons/admin-apple-touch-icon.png">
+			<link async rel="icon" type="image/png" sizes="32x32" href="/favicons/admin-favicon-32x32.png">
+			<link async rel="icon" type="image/png" sizes="16x16" href="/favicons/admin-favicon-16x16.png">
+			<link async rel="manifest" href="/favicons/admin-site.webmanifest">
     @else
-      <link rel="shortcut icon" type="image/png" sizes="16x16" href="{{ asset('/favicon-16.png') }}">
-      <link rel="shortcut icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32.png') }}">
-      <link rel="shortcut icon" type="image/png" sizes="96x96" href="{{ asset('/favicon-96.png') }}">
+			<link async rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+			<link async rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+			<link async rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+			<link async rel="manifest" href="/favicons/site.webmanifest">
     @endif
 
     {{-- stylesheet --}}
@@ -183,23 +191,23 @@
     @endif
 
     <script src="{{ mix('js/app.js') }}"></script>
-  </body>
+  
+		{{-- Ajax --}}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-	{{-- Ajax --}}
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		{{-- Custom JS --}}
+		<script src="/js/dataTable.js"></script>
+		<script src="/js/dataForm.js"></script>
+		<script src="/js/functions.js"></script>
 
-	{{-- Custom JS --}}
-	<script src="/js/dataTable.js"></script>
-	<script src="/js/dataForm.js"></script>
-	<script src="/js/functions.js"></script>
+		<script>
+			// DataTable
+			setTableMargin();
+			hideTableColumnsLoop();
 
-	<script>
-		// DataTable
-		setTableMargin();
-		hideTableColumnsLoop();
-
-		// DataForm
-		setPasswordToggles();
-		setFileInputs();
-	</script>
+			// DataForm
+			setPasswordToggles();
+			setFileInputs();
+		</script>
+	</body>
 </html>
