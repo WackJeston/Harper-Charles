@@ -27,7 +27,7 @@ class ProductCategories extends Model
       $filesNames = ProductCategoryImages::where('categoryId', $self->id)->pluck('fileName');
 
       foreach ($filesNames as $fileName) {
-        deleteS3($fileName);
+        Storage::delete($fileName);
       }
     });
   }

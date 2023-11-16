@@ -196,7 +196,7 @@ class AdminProductProfileController extends Controller
     $name = ProductImages::where('id', $imageId)->pluck('name')->first();
 
     ProductImages::where('id', $imageId)->delete();
-    deleteS3($fileName);
+    Storage::delete($fileName);
 
     return redirect("/admin/product-profile/$id")->with('message', "$name has been deleted.");
   }

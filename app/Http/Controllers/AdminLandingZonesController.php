@@ -80,7 +80,7 @@ class AdminLandingZonesController extends Controller
   {
     $fileName = LandingZoneCarousels::where('id', $slideId)->pluck('fileName')->first();
 
-    deleteS3($fileName);
+    Storage::delete($fileName);
 
     LandingZoneCarousels::where('id', $slideId)->delete();
 

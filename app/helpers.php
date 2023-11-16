@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Aws\Ses\SesClient; 
 
@@ -21,7 +22,7 @@ function preloadImage(string $url) {
 	}
 }
 
-function storeImages($request, $id, string $type):array {
+function storeImages(Request $request, $id, string $type):array {
 	$fileNames = [];
 
 	foreach ($request->files as $i => $file) {

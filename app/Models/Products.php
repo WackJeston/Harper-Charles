@@ -23,7 +23,7 @@ class Products extends Model
       $filesNames = ProductImages::where('productId', $self->id)->pluck('fileName');
 
       foreach ($filesNames as $fileName) {
-        deleteS3($fileName);
+        Storage::delete($fileName);
       }
     });
   }

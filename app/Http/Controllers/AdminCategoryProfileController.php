@@ -5,6 +5,7 @@ use File;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Products;
@@ -48,7 +49,7 @@ class AdminCategoryProfileController extends Controller
 		$primaryImage = ProductCategoryImages::where([['categoryId', $id], ['primary', 1]])->pluck('fileName')->first();
 
 		$imagesForm = new DataForm(request(), sprintf('/category-profileAddImage/%d', $id), 'Add Image');
-		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
+		$imagesForm->addInput('file', 'fileName', 'Image', null, null, null, true);
 		$imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
@@ -180,7 +181,7 @@ class AdminCategoryProfileController extends Controller
     $name = ProductCategoryImages::where('id', $imageId)->pluck('name')->first();
     $fileName = ProductCategoryImages::where('id', $imageId)->pluck('fileName')->first();
     
-    deleteS3($fileName);
+    Storage::delete($fileName);
 
     ProductCategoryImages::find($imageId)->delete();
 
