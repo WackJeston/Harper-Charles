@@ -11,7 +11,6 @@ class LandingZoneCarousels extends Model
 
   protected $fillable = [
     'landingZoneId',
-    'name',
     'title',
     'subtitle',
     'fileName',

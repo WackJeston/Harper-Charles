@@ -6,12 +6,14 @@ use File;
 use Illuminate\Http\Request;
 use App\Models\LandingZones;
 use App\Models\LandingZoneCarousels;
+use App\DataTable;
+use App\DataForm;
 
 class AdminLandingZonesController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
+    $table = new DataTable('landing_zones');
 
     $homepageCarousel = LandingZoneCarousels::where('landingZoneId', 1)->get();
     $homepageCarouselCount = count($homepageCarousel);
@@ -25,7 +27,6 @@ class AdminLandingZonesController extends Controller
     }
 
     return view('/admin/landing-zones', compact(
-      'sessionUser',
       'homepageCarousel',
       'homepageCarouselCount',
       'homepageCarouselShow',
@@ -50,19 +51,11 @@ class AdminLandingZonesController extends Controller
     $this->validate($request, [
       'title' => 'max:100',
       'subtitle' => 'max:100',
-      'image' => 'required|mimes:jpg,jpeg,png,svg',
+      'image' => 'required|mimes:jpg,jpeg,png,svg,webp',
     ]);
 
-    $mimeType = str_replace('image/', '', $request->file('image')->getClientMimeType());
-    if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
-    else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
-    $fileName = 'landing-zone-' . $id . '-' . $_SERVER['REQUEST_TIME'] . '.' . $mimeType;
-    
-
     if ($request->hasFile('image')) {
-      $request->file('image')->move('assets', $fileName);
-
-      uploadS3($fileName);
+			$fileName = storeImages($request, $id, 'landingZone')[0]['new'];
     }
 
     LandingZoneCarousels::create([

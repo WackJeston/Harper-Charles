@@ -45,7 +45,7 @@ class Invoice extends Model
 		$pdf = Pdf::loadView('templates/invoice', $data);
 		$fileName = 'order-invoice-' . $orderId . '-' . $_SERVER['REQUEST_TIME'] . '.pdf';
 
-		uploadS3($fileName, $pdf->download());
+		Storage::put($fileName,  $pdf->download());
 
 		$invoice = Invoice::create([
 			'orderId' => $orderId,
