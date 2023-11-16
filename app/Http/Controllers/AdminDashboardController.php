@@ -11,7 +11,7 @@ class AdminDashboardController extends Controller
   public function show()
   {
 		// PAGE COLUMN
-		// $enquiriesTable = new DataTable();
+		// $enquiriesTable = new DataTable('enquiry);
 		// $enquiriesTable->setQuery('SELECT * FROM enquiry', [], 'created_at', 'DESC');
 		// $enquiriesTable->setTitle('New Enquiries');
 		// $enquiriesTable->addColumn('id', '#');
@@ -21,7 +21,7 @@ class AdminDashboardController extends Controller
 		// $enquiriesTable->addLinkButton('enquiry-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		// $enquiriesTable = $enquiriesTable->render();
 
-		$enquiriesTable = new DataTable();
+		$enquiriesTable = new DataTable('enquiry');
 		$enquiriesTable->setQuery('SELECT * FROM enquiry', [], 'id', 'DESC');
 		$enquiriesTable->setTitle('New Enquiries');
 		$enquiriesTable->addColumn('id', '#');

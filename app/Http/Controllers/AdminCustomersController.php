@@ -24,7 +24,7 @@ class AdminCustomersController extends Controller
 		$createForm->addInput('password', 'password', 'Password', null, 100, 6, true);
 		$createForm = $createForm->render();
 
-    $customersTable = new DataTable();
+    $customersTable = new DataTable('users');
 		$customersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name` FROM users WHERE admin = 0');
 		$customersTable->addColumn('id', '#');
 		$customersTable->addColumn('name', 'Name');

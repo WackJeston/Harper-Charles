@@ -22,7 +22,7 @@ class AdminUsersController extends Controller
 		$createForm->addInput('password', 'password', 'Password', null, 100, 6, true);
 		$createForm = $createForm->render();
 
-    $usersTable = new DataTable();
+    $usersTable = new DataTable('users');
 		$usersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name` FROM users WHERE admin = 1');
 		$usersTable->addColumn('id', '#');
 		$usersTable->addColumn('name', 'Name');

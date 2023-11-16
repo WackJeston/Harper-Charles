@@ -17,7 +17,7 @@ class AdminOrdersController extends Controller
   {
     $sessionUser = auth()->user();
 		
-		$ordersTable = new DataTable();
+		$ordersTable = new DataTable('orders');
 		$ordersTable->setQuery('SELECT 
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`

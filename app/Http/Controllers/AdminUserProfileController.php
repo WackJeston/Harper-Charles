@@ -38,7 +38,7 @@ class AdminUserProfileController extends Controller
 		$editForm->addInput('password', 'password', 'Password', null, 255, 6, false, 'New Password');
 		$editForm = $editForm->render();
 
-		$ordersTable = new DataTable();
+		$ordersTable = new DataTable('orders');
 		$ordersTable->setQuery(sprintf('SELECT o.* FROM orders AS o WHERE o.userId = %d', $id));
 		$ordersTable->addColumn('id', '#');
 		$ordersTable->addColumn('status', 'Status');

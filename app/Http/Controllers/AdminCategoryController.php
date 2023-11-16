@@ -24,7 +24,7 @@ class AdminCategoryController extends Controller
 		$createForm->addInput('textarea', 'description', 'Description', null, 5000, 1);
 		$createForm = $createForm->render();
 
-    $categoriesTable = new DataTable();
+    $categoriesTable = new DataTable('product_categories');
 		$categoriesTable->setQuery('SELECT
 		 pc.*,
 		 COUNT(p.id) AS products

@@ -25,14 +25,14 @@ class AdminProductProfileController extends Controller
     }
 
 		// Product
-    $product = DB::select(sprintf('SELECT 
+    $product = DB::select('SELECT 
 			p.*,
 			COUNT(pcj.id) AS categoryCount
 			FROM products AS p
 			LEFT JOIN product_category_joins AS pcj ON pcj.productId=p.id
-			WHERE p.id = "%d"
-			GROUP BY p.id', $id
-		));
+			WHERE p.id = ?
+			GROUP BY p.id', [$id]
+		);
 
     $product = $product[0];
 
@@ -62,15 +62,16 @@ class AdminProductProfileController extends Controller
 		$imagesTable = $imagesTable->render();
 
 		// Categories
-		$allCategories = DB::select(sprintf('SELECT 
+		$allCategories = DB::select('SELECT 
 			pc.id AS value,
 			pc.title AS label,
 			IF(pcj.id IS NOT NULL, true, false) AS `active`
 			FROM product_categories AS pc
-			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id AND pcj.productId=%d
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId = pc.id AND pcj.productId = ?
 			GROUP BY pc.id
-			ORDER BY pc.title', $id
-		));
+			ORDER BY pc.title', 
+			[$id]
+		);
 
 		$categoryForm = new DataForm(request(), sprintf('/product-profileAddCategory/%d', $id), 'Add Category');
 		$categoryForm->addInput('select', 'category', 'Category', null, null, null, true);
@@ -83,7 +84,8 @@ class AdminProductProfileController extends Controller
 			FROM product_categories AS pc
 			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id
 			WHERE pcj.productId = ?
-			GROUP BY pc.id', [$id]
+			GROUP BY pc.id', 
+			[$id]
 		);
 		$categoriesTable->addColumn('id', '#');
 		$categoriesTable->addColumn('title', 'Title');
@@ -92,17 +94,18 @@ class AdminProductProfileController extends Controller
 		$categoriesTable = $categoriesTable->render();
 
 		// Variants
-		$allVariants = DB::select(sprintf('SELECT
+		$allVariants = DB::select('SELECT
 			pv.id AS value,
 			pv.title AS label,
 			parent.title AS parent,
 			IF(pvj.id IS NOT NULL, true, false) AS `active`
 			FROM product_variants AS pv
-			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id AND pvj.productId=%d
+			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id AND pvj.productId = ?
 			INNER JOIN product_variants AS parent ON parent.id=pv.parentVariantId
 			GROUP BY pv.id
-			ORDER BY parent.title, pv.title', $id
-		));
+			ORDER BY parent.title, pv.title', 
+			[$id]
+		);
 
 		$variantsForm = new DataForm(request(), sprintf('/product-profileAddVariant/%d', $id), 'Add Variant');
 		$variantsForm->addInput('select', 'variant', 'Variant', null, null, null, true);
@@ -116,8 +119,9 @@ class AdminProductProfileController extends Controller
 			FROM product_variant_joins AS pvj
 			INNER JOIN product_variants AS pv ON pv.id=pvj.variantId
 			INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
-			WHERE pvj.productId = "%d"
-			ORDER BY pv2.title, pv.title', [$id]
+			WHERE pvj.productId = ?', 
+			[$id],
+			'parent, title'
 		);
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title');

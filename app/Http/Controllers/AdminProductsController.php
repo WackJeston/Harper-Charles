@@ -23,7 +23,7 @@ class AdminProductsController extends Controller
 		$createForm->addInput('number', 'price', 'Price (£)', null, null, null, true);
 		$createForm = $createForm->render();
 
-		$productsTable = new DataTable();
+		$productsTable = new DataTable('products');
 		$productsTable->setQuery('SELECT * FROM products');
 		$productsTable->addColumn('id', '#');
 		$productsTable->addColumn('title', 'Title', 3);

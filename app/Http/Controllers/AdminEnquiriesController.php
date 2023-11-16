@@ -13,7 +13,7 @@ class AdminEnquiriesController extends Controller
   {
 		$type = 'standard';
 
-    $enquiriesTable = new DataTable();
+    $enquiriesTable = new DataTable('enquiry');
 		$enquiriesTable->setQuery('SELECT * FROM enquiry WHERE `type` = "standard"', [], 'id', 'DESC');
 		$enquiriesTable->addColumn('id', '#');
 		$enquiriesTable->addColumn('name', 'Name', 2, true);
