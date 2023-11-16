@@ -143,7 +143,18 @@ class AppServiceProvider extends ServiceProvider
             "title"=>"shop",
             "link"=>"/products/0",
             "icon"=>"fa-solid fa-couch",
-            "sublink"=>$subLinks = [],
+            "sublink"=>$subLinks = [
+							$contact = [
+                "title"=>"contact",
+                "link"=>"/admin/contact",
+                "icon"=>"fa-solid fa-address-card",
+              ],
+              $landingZones = [
+                "title"=>"landing zones",
+                "link"=>"/admin/landing-zones",
+                "icon"=>"fa-solid fa-plane-arrival",
+              ],
+						],
           ],
           $contact = [
             "title"=>"contact",

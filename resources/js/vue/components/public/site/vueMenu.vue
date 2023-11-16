@@ -62,6 +62,29 @@ export default {
 	],
 
 	methods: {
+		toggleLinks(i, usermenu = false) {
+			let list = document.querySelector(".sublist" + i);
+			let laDown = document.querySelector(".ladown" + i);
+			let laUp = document.querySelector(".laup" + i);
+			if (list.style.maxHeight == "") {
+				let height = 0;
+				if (usermenu == false) {
+					height = 40 * this.publiclinks[i]['sublink'].length;
+				} else {
+					height = 40 * list.childElementCount;
+				}
+				list.style.maxHeight = height + "px";
+				laDown.style.display = "none";
+				laUp.style.display = "flex";
+				return;
+			} else {
+				list.style.maxHeight = "";
+				laUp.style.display = "none";
+				laDown.style.display = "flex";
+				return;
+			}
+		},
+
 		capFL(string) {
 			const mySentence = string;
 			const words = mySentence.split(" ");

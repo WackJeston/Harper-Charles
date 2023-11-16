@@ -5,10 +5,11 @@ $checkout-header: rgba(245, 245, 245, 1);
 
 
 // Brand Colours
-$brand-main: #0f6a6b;
+$brand-main: #ffcf00;
+$brand-main-darker: #e6ba00;
 $brand-alt-light: #cecfd0;
 // $brand-alt-light: #AEAEAE;
-$brand-alt-dark: #5E6264;
+$brand-alt-dark: #2b2922;
 // $brand-alt-dark: #878C8F;
 
 
@@ -16,7 +17,7 @@ $brand-alt-dark: #5E6264;
 $solid-black: rgba(0, 0, 0, 1);
 $clear: rgba(0, 0, 0, 0);
 $almost-white: rgba(230, 230, 230, 1);
-$almost-black: #231f20;
+$almost-black: #2b2922;
 // $almost-black: rgba(40, 40, 40, 1);
 
 $white: white;
@@ -52,9 +53,8 @@ $baby-blue-darker: #5cbdea;
 
 
 // Math
-$header-height: 65px;
-// $landingzone-height: calc(100vh - $header-height);
-$landingzone-height: 100vh;
+$header-height: 110px;
+$header-height-mobile: 85px;
 
 
 // Box Shadows 
