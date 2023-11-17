@@ -3,9 +3,9 @@
 .site-menu {
 	position: fixed;
 	top: 0;
-	right: -240px;
+	right: -80vw;
 	height: 100%;
-	width: 240px;
+	width: 80vw;
 	background-color: v.$brand-alt-dark;
 	padding: 10px 0;
 	overflow-y: auto;
@@ -25,7 +25,9 @@
 .site-menu img.logo {
 	display: flex;
 	align-self: center;
-	width: 90%;
+	max-width: 90%;
+	max-height: 70px;
+	margin: 20px 0;
 }
 
 .site-menu #menu-items {
@@ -183,5 +185,5 @@ header .menu-overlay {
 }
 
 .menu-active {
-	transform: translate3d(-240px, 0, 0);
+	transform: translate3d(-80vw, 0, 0);
 }

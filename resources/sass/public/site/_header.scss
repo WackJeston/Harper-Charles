@@ -9,7 +9,7 @@ header {
 	top: 0;
 	right: 0;
 	left: 0;
-	background-color: v.$brand-alt-dark;
+	background-color: v.$white;
 	z-index: 3;
 
 	@media (max-width: 640px) {
@@ -34,6 +34,22 @@ header #header-start {
 	justify-content: flex-start;
 }
 
+header #header-start a {
+	margin-right: 30px;
+	text-transform: uppercase;
+	color: v.$brand-main;
+	// font-weight: 600;
+
+	@media (max-width: 640px) {
+		display: none;
+	}
+}
+
+header #header-start a:hover {
+	color: v.$brand-main-darker;
+	text-decoration: underline;
+}
+
 header #header-end {
 	justify-content: flex-end;
 }
@@ -48,7 +64,7 @@ header .logo-link {
 
 header img.logo {
 	height: v.$header-height;
-	padding: 10px 5px;
+	padding: 15px 5px;
 
 	@media (max-width: 640px) {
 		height: v.$header-height-mobile;
@@ -63,14 +79,14 @@ header #header-socials {
 	padding: 0;
 	color: v.$brand-main;
 
-	@media (max-width: 500px) {
+	@media (max-width: 640px) {
 		display: none;
 	}
 }
 
 header #header-socials a {
-	margin-right: 10px;
-	opacity: 0.8;
+	margin-left: 30px;
+	opacity: 0.6;
 	cursor: pointer;
 }
 
@@ -87,6 +103,10 @@ header #nav-menu-button {
 
 	@media (min-width: 500px) {
 		padding-bottom: 4px;
+	}
+
+	@media (min-width: 640px) {
+		display: none;
 	}
 }
 

@@ -2,14 +2,16 @@
 	<header>
 
 		<nav id="header-start">
-			<a v-if="this.tickets" async href="https://ipswichfireworks.ticketsrv.co.uk/" target="_blank" class="header-button title thick-title"><span>TICKETS</span></a>
+			<a v-for="(link, i) in this.publiclinks" :href="link.link">
+				<h3>{{ link.title }}</h3>
+			</a>
 		</nav>
 
 		<a class="logo-link" href="/">
-			<img async :src="this.asset + 'logo-white.png'" alt="logo" class="logo">
+			<img async :src="this.publicasset + 'website-logo.webp'" alt="logo" class="logo">
 		</a>
 
-		<div id="header-end">
+		<nav id="header-end">
 			<ul id="header-socials">
 				<a v-for="(social, i) in this.socials" :href="social.link" target="_blank">
 					<li><i :class="social.icon"></i></li>
@@ -17,7 +19,7 @@
 			</ul>
 
 			<i @click='toggleSiteMenu' class="fa-solid fa-bars" id="nav-menu-button"></i>
-		</div>
+		</nav>
 
 		<div class="menu-overlay" @click="toggleOverlay"></div>
 
@@ -30,11 +32,11 @@ export default {
 	props: [
 		'sitetitle',
 		'sitetitlemini',
-		'asset',
+		'publicasset',
 		'publiclinks',
+		'userlinks',
 		'socials',
-		'sessionuser',
-		'tickets',
+		'sessionuser'
 	],
 
 	data() {
@@ -63,16 +65,14 @@ export default {
 				overlay.style.opacity = 0.6;
 
 				this.menuActive = true;
-			}
-			else {
+
+			} else {
 				menu.classList.remove("menu-active");
 				menu.classList.add("menu-non-active");
 
 				overlay.style.display = "none";
 				overlay.style.opacity = 0;
-			};
-
-
+			}
 		},
 
 		toggleOverlay() {

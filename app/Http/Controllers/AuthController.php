@@ -158,7 +158,6 @@ class AuthController extends Controller
     $email = $user->email;
 
     return view('public/auth/verify-email', compact(
-      'sessionUser',
       'id',
       'email',
     ));
@@ -186,7 +185,6 @@ class AuthController extends Controller
 			$email = $user->email;
 	
 			return view('public/auth/email-verified', compact(
-				'sessionUser',
 				'email',
 			));
 

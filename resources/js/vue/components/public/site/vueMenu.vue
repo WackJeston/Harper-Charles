@@ -1,21 +1,23 @@
 <template>
 	<nav class="site-menu lt">
 		<a id="menu-home-link" href="/">
-			<img defer :src="this.asset + 'logo-white.png'" alt="logo" class="logo">
+			<img defer :src="this.publicasset + 'website-logo-white.webp'" alt="logo" class="logo">
 		</a>
 
 		<ul id="menu-items">
-			<div v-if="this.tickets" class="nav-link">
-				<a id="menu-ticket-button" href="https://ipswichfireworks.ticketsrv.co.uk/" target="_blank">
-					<i class="fa-solid fa-ticket nav-link-icon"></i>
-					<li class="title thick-title">TICKETS</li>
+			<div v-if="this.sessionuser" class="nav-link">
+				<a class="primary-nav-link" @click="toggleLinks(999, true)">
+					<i class="fa-regular fa-user nav-link-icon"></i>
+					<p>{{ this.sessionuser.firstName + ' ' + this.sessionuser.lastName }}</p>
+					<i class="fa-solid fa-angle-down hover-background" :class="'ladown' + 999"></i>
+					<i class="fa-solid fa-angle-up hover-background" :class="'laup' + 999"></i>
 				</a>
 			</div>
 
 			<div v-else class="nav-link">
-				<a id="menu-ticket-button" href="/">
-					<i class="fa-solid fa-house-chimney nav-link-icon"></i>
-					<li class="title thick-title">Home</li>
+				<a class="primary-nav-link" href="/login">
+					<i class="fa-solid fa-user nav-link-icon"></i>
+					<li>Login</li>
 				</a>
 			</div>
 
@@ -54,11 +56,11 @@
 export default {
 	props: [
 		'sitetitle',
-		'asset',
+		'publicasset',
 		'publiclinks',
+		'userlinks',
 		'socials',
 		'sessionuser',
-		'tickets',
 	],
 
 	methods: {

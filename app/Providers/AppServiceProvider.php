@@ -143,18 +143,6 @@ class AppServiceProvider extends ServiceProvider
             "title"=>"shop",
             "link"=>"/products/0",
             "icon"=>"fa-solid fa-couch",
-            "sublink"=>$subLinks = [
-							$contact = [
-                "title"=>"contact",
-                "link"=>"/admin/contact",
-                "icon"=>"fa-solid fa-address-card",
-              ],
-              $landingZones = [
-                "title"=>"landing zones",
-                "link"=>"/admin/landing-zones",
-                "icon"=>"fa-solid fa-plane-arrival",
-              ],
-						],
           ],
           $contact = [
             "title"=>"contact",
@@ -175,6 +163,24 @@ class AppServiceProvider extends ServiceProvider
             "icon"=>"fa-solid fa-arrow-right-from-bracket",
           ],
         ];
+
+				$socials = [
+					$instagram = [
+            "title"=>"instagram",
+            "link"=>"https://www.instagram.com/harpercharlescompany/",
+            "icon"=>"fa-brands fa-instagram",
+          ],
+					$facebook = [
+            "title"=>"facebook",
+            "link"=>"https://www.facebook.com/p/Harper-Charles-Bespoke-Interiors-100033144487745/",
+            "icon"=>"fa-brands fa-facebook",
+          ],
+					$youtube = [
+            "title"=>"youtube",
+            "link"=>"https://www.youtube.com/channel/UCr4e-CcIQWgoMBT_XpPC0HQ/",
+            "icon"=>"fa-brands fa-youtube",
+          ],
+				];
 
         $categories = DB::select('SELECT
           c.id,
@@ -213,6 +219,7 @@ class AppServiceProvider extends ServiceProvider
         View::share([
           'publicLinks' => $publicLinks,
           'userLinks' => $userLinks,
+          'socials' => $socials,
 					'contact' => $contact,
         ]);
       }

@@ -15,6 +15,8 @@
       <title>{{ env('APP_NAME') }}</title>
     @endif
 
+		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo.webp' }}" as="image">
+
 		@if (session()->has('preloaded-images'))
 			@foreach (session()->get('preloaded-images') as $url)
 				<link rel="preload" href="{{ $url }}" as="image">
@@ -151,12 +153,15 @@
 			</div>
 
     @else
+
       <div id="vuemenu">
         <vuemenu
           sitetitle="{{ env('APP_NAME') }}"
+					publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
           :publiclinks="{{ json_encode($publicLinks) }}"
           :userlinks="{{ json_encode($userLinks) }}"
-          :sessionuser="{{ $sessionUser }}"
+					:socials="{{ json_encode($socials) }}"
+					:sessionuser="{{ $sessionUser }}"
         />
       </div>
 
@@ -165,8 +170,10 @@
           <vueheader
             sitetitle="{{ env('APP_NAME') }}"
             sitetitlemini="{{ env('APP_NAME_MINI') }}"
+            publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
             :publiclinks="{{ json_encode($publicLinks) }}"
             :userlinks="{{ json_encode($userLinks) }}"
+						:socials="{{ json_encode($socials) }}"
             :sessionuser="{{ $sessionUser }}"
           />
         </div>
