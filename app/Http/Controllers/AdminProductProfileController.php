@@ -161,7 +161,7 @@ class AdminProductProfileController extends Controller
       'price' => $request->price,
     ]);
 
-    return redirect("/admin/product-profile/$id")->with('message', 'Product updated successfully.');
+    return redirect("/admin/product-profile/$id")->with('message', 'Product updated.');
   }
 
 
@@ -169,7 +169,7 @@ class AdminProductProfileController extends Controller
   {
     Products::find($id)->delete();
 
-    return redirect("/admin/products")->with('message', 'Product deleted successfully.');
+    return redirect("/admin/products")->with('message', 'Product deleted.');
   }
 
 
@@ -186,7 +186,7 @@ class AdminProductProfileController extends Controller
 			]);
 		}
 
-    return redirect("/admin/product-profile/$id")->with('message', 'Image uploaded successfully.');
+    return redirect("/admin/product-profile/$id")->with('message', 'Image uploaded.');
   }
 
   public function deleteImage($imageId)
@@ -229,7 +229,7 @@ class AdminProductProfileController extends Controller
       'categoryId' => $request->category,
     ]);
 
-    return redirect("/admin/product-profile/$id")->with('message', 'Category added successfully.');
+    return redirect("/admin/product-profile/$id")->with('message', 'Category added.');
   }
 
   public function removeCategory($id, $categoryId)
@@ -250,7 +250,7 @@ class AdminProductProfileController extends Controller
       'variantId' => $request->variant,
     ]);
 
-    return redirect("/admin/product-profile/$id")->with('message', 'Variant added successfully.');
+    return redirect("/admin/product-profile/$id")->with('message', 'Variant added.');
   }
 
   public function removeVariant($id, $variantId)

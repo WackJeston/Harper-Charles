@@ -34,7 +34,7 @@ class AuthController extends Controller
     if (Auth::attempt($credentials) && $admin[0]->admin == 1) {
       $request->session()->regenerate();
 
-      return redirect()->intended('/admin/dashboard')->with('message', 'Signed in successfully.');
+      return redirect()->intended('/admin/dashboard')->with('message', 'Signed in.');
     }
 
     return redirect("/admin")->withErrors([
@@ -46,7 +46,7 @@ class AuthController extends Controller
     Session::flush();
     Auth::logout();
 
-    return Redirect('/admin')->with('message', 'Logged out successfully.');
+    return Redirect('/admin')->with('message', 'Logged out.');
   }
 
 
@@ -86,7 +86,7 @@ class AuthController extends Controller
     if (Auth::attempt($credentials) && $customer[0]->admin == 0) {
       $request->session()->regenerate();
 
-      return redirect()->intended('/')->with('message', 'Signed in successfully.');
+      return redirect()->intended('/')->with('message', 'Signed in.');
     }
 
     return redirect("/login")->withErrors([
@@ -98,7 +98,7 @@ class AuthController extends Controller
     Session::flush();
     Auth::logout();
 
-    return Redirect('/')->with('message', 'Logged out successfully.');
+    return Redirect('/')->with('message', 'Logged out.');
   }
 
 

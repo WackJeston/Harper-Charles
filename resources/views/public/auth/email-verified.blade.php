@@ -19,7 +19,7 @@
 
     <div class="web-box limited dk">
       <h3>Email Verified</h3>
-      <p>{{ $email }} has been successfully verified. You can now login.</p>
+      <p>{{ $email }} has been verified. You can now login.</p>
       <a href="/login" class="page-button padding">login</a>
     </div>
 

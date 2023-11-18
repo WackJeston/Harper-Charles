@@ -55,6 +55,6 @@ class AdminUsersController extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    return redirect('/admin/users')->with('message', 'User created successfully.');
+    return redirect('/admin/users')->with('message', 'User created.');
   }
 }

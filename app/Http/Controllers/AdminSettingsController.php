@@ -96,7 +96,7 @@ class AdminSettingsController extends Controller
 		if ($updated == false) {
 			return redirect("/admin/settings")->withErrors(['error' => 'Noting to update.']);
 		} else {
-			return redirect("/admin/settings")->with('message', 'Settings updated successfully.');
+			return redirect("/admin/settings")->with('message', 'Settings updated.');
 		}
 	}
 }

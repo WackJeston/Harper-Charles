@@ -1,19 +1,24 @@
 @use 'site/v';
 
+main {
+	display: flex;
+	flex-direction: column;
+}
+
 main#loginPage {
-  padding: calc(10vh + v.$header-height) 20px 100px 20px;
+  padding: 10vh 20px 100px 20px;
 }
 
 main#signupPage {
-  padding: calc(5vh + v.$header-height) 20px 100px 20px;
+  padding: 5vh 20px 100px 20px;
 }
 
 main#verify-email-Page {
-  padding: calc(10vh + v.$header-height) 20px 100px 20px;
+  padding: 10vh 20px 100px 20px;
 }
 
 main#email-verified {
-  padding: calc(10vh + v.$header-height) 20px 100px 20px;
+  padding: 10vh 20px 100px 20px;
 }
 
 main#verify-email-Page h3, main#verify-email-Page p, main#email-verified .web-box h3 {
@@ -40,10 +45,15 @@ main.auth .auth-form {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 450px;
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
+}
+
+main.auth .auth-form .submit {
+	width: 100%;
+	margin-top: 10px;
 }
 
 main.auth .web-box {
@@ -58,15 +68,15 @@ main.auth .auth-nav {
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  max-width: 600px;
+  max-width: 450px;
   margin: 10px auto 0 auto;
   height: 12px;
 }
 
-main.auth .auth-nav p {
-  font-size: 1.1rem;
-}
-
 main.auth .auth-nav a {
   margin-left: 10px;
+}
+
+main.auth .auth-nav button {
+	font-size: 0.9rem;
 }

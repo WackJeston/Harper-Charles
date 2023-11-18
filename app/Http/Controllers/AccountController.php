@@ -48,7 +48,7 @@ class AccountController extends Controller
       ]);
     }
 
-    return redirect("/account")->with('message', 'User updated successfully.');
+    return redirect("/account")->with('message', 'User updated.');
   }
 
 	public function orderShow(int $orderId) {
@@ -84,7 +84,7 @@ class AccountController extends Controller
 				'note' => $request->note,
 			]);
 	
-			return redirect("/account/order/" . $orderId)->with('message', 'Note added successfully.');
+			return redirect("/account/order/" . $orderId)->with('message', 'Note added.');
 
 		} else {
 			return redirect("/account")->withErrors(['1' => 'Order not found.']);

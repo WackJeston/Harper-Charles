@@ -77,7 +77,7 @@ class AdminVariantProfileController extends Controller
       'title' => $request->title,
     ]);
 
-    return redirect("/admin/variant-profile/$id")->with('message', 'Variant updated successfully.');
+    return redirect("/admin/variant-profile/$id")->with('message', 'Variant updated.');
   }
 
 
@@ -85,7 +85,7 @@ class AdminVariantProfileController extends Controller
   {
     ProductVariants::find($id)->delete();
 
-    return redirect("/admin/variants")->with('message', 'Variant deleted successfully.');
+    return redirect("/admin/variants")->with('message', 'Variant deleted.');
   }
 
 
@@ -115,13 +115,13 @@ class AdminVariantProfileController extends Controller
       'show' => 0,
     ]);
 
-    return redirect("/admin/variant-profile/$id")->with('message', 'Option added successfully.');
+    return redirect("/admin/variant-profile/$id")->with('message', 'Option added.');
   }
 
   public function deleteOption($id, $optionId)
   {
     ProductVariants::find($optionId)->delete();
 
-    return redirect("/admin/variant-profile/" . $id)->with('message', 'Option deleted successfully.');
+    return redirect("/admin/variant-profile/" . $id)->with('message', 'Option deleted.');
   }
 }

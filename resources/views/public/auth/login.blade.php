@@ -24,7 +24,7 @@
     </div>
 
     <div class="auth-nav dk">
-      <p>Dont have an account?</p>
+      <p>Don't have an account?</p>
       <a href="/sign-up"><button class="page-button" type="button" name="button">Sign Up</button></a>
     </div>
 

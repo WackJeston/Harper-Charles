@@ -114,7 +114,7 @@ class AdminContactController extends Controller
       }
     }
 
-    return redirect("/admin/contact")->with('message', 'Address updated successfully.');
+    return redirect("/admin/contact")->with('message', 'Address updated.');
   }
 
 	public function uploadLatLng($lat, $lng) {
@@ -155,7 +155,7 @@ class AdminContactController extends Controller
 		$record->label = $request->label;
     $record->save();
 
-    return redirect("/admin/contact")->with('message', 'Email created successfully.');
+    return redirect("/admin/contact")->with('message', 'Email created.');
   }
 
   public function deleteEmail($id)
@@ -166,7 +166,7 @@ class AdminContactController extends Controller
       $record->delete();
     }
 
-    return redirect("/admin/contact")->with('message', 'Email deleted successfully.');
+    return redirect("/admin/contact")->with('message', 'Email deleted.');
   }
 
   public function createPhone(Request $request)
@@ -181,7 +181,7 @@ class AdminContactController extends Controller
 		$record->label = $request->label;
     $record->save();
 
-    return redirect("/admin/contact")->with('message', 'Phone created successfully.');
+    return redirect("/admin/contact")->with('message', 'Phone created.');
   }
 
   public function deletePhone($id)
@@ -192,7 +192,7 @@ class AdminContactController extends Controller
       $record->delete();
     }
 
-    return redirect("/admin/contact")->with('message', 'Phone deleted successfully.');
+    return redirect("/admin/contact")->with('message', 'Phone deleted.');
   }
 
   public function createUrl(Request $request)
@@ -207,7 +207,7 @@ class AdminContactController extends Controller
 		$record->label = $request->label;
     $record->save();
 
-    return redirect("/admin/contact")->with('message', 'URL created successfully.');
+    return redirect("/admin/contact")->with('message', 'URL created.');
   }
 
   public function deleteUrl($id)
@@ -218,6 +218,6 @@ class AdminContactController extends Controller
       $record->delete();
     }
 
-    return redirect("/admin/contact")->with('message', 'URL deleted successfully.');
+    return redirect("/admin/contact")->with('message', 'URL deleted.');
   }
 }

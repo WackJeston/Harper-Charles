@@ -76,7 +76,7 @@ class AdminUserProfileController extends Controller
       ]);
     }
 
-    return redirect("/admin/user-profile/$id")->with('message', 'User updated successfully.');
+    return redirect("/admin/user-profile/$id")->with('message', 'User updated.');
   }
 
 
@@ -84,6 +84,6 @@ class AdminUserProfileController extends Controller
   {
     User::find($id)->delete();
 
-    return redirect("/admin/users")->with('message', 'User deleted successfully.');
+    return redirect("/admin/users")->with('message', 'User deleted.');
   }
 }

@@ -313,11 +313,24 @@ button.pb-danger:hover {
 
 // ToDo: Fix floating alert right margin collasping
 .floating .alert-box {
-	position: absolute;
+	position: fixed;
 	z-index: 4;
-	bottom: 10px;
-	right: 10px;
+	bottom: 0;
+	right: 0;
 	max-width: 400px;
+
+	@media (pointer: coarse)  {
+		/* mobile device */
+		margin-right: 10px;
+		width: calc(100% - 20px)
+	}
+	
+	@media (pointer: fine), (pointer: none), (pointer: fine) and (any-pointer: coarse) {
+		/* desktop */
+		/* touch desktop */
+		width: calc(100% - 37px);
+		margin-right: 27px;
+	}
 }
 
 .limited .alert-box {

@@ -132,7 +132,7 @@ class AdminCategoryProfileController extends Controller
       'description' => $request->description,
     ]);
 
-    return redirect("/admin/category-profile/$id")->with('message', 'Product updated successfully.');
+    return redirect("/admin/category-profile/$id")->with('message', 'Product updated.');
   }
 
 
@@ -140,7 +140,7 @@ class AdminCategoryProfileController extends Controller
   {
     ProductCategories::find($id)->delete();
 
-    return redirect("/admin/categories")->with('message', 'Category deleted successfully.');
+    return redirect("/admin/categories")->with('message', 'Category deleted.');
   }
 
 
@@ -171,7 +171,7 @@ class AdminCategoryProfileController extends Controller
 			]);
 		}
 
-    return redirect("/admin/category-profile/$id")->with('message', 'Image uploaded successfully.');
+    return redirect("/admin/category-profile/$id")->with('message', 'Image uploaded.');
   }
 
 
@@ -217,7 +217,7 @@ class AdminCategoryProfileController extends Controller
       'categoryId' => $id,
     ]);
 
-    return redirect("/admin/category-profile/$id")->with('message', 'Product added successfully.');
+    return redirect("/admin/category-profile/$id")->with('message', 'Product added.');
   }
 
   public function createProduct(Request $request, $id)
@@ -243,7 +243,7 @@ class AdminCategoryProfileController extends Controller
       'categoryId' => $id,
     ]);
 
-    return redirect("/admin/category-profile/$id")->with('message', 'Product created successfully.');
+    return redirect("/admin/category-profile/$id")->with('message', 'Product created.');
   }
 
   public function removeProduct($id, $productId)

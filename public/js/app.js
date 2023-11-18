@@ -13940,7 +13940,7 @@ function createHydrationFunctions(rendererInternals) {
             return nextSibling((vnode.anchor = next));
         }
         else {
-            // fragment didn't hydrate successfully, since we didn't get a end anchor
+            // fragment didn't hydrate, since we didn't get a end anchor
             // back. This should have led to node/children mismatch warnings.
             hasMismatch = true;
             // since the anchor is missing, we need to create one and insert it

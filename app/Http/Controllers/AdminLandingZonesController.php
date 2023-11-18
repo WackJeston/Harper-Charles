@@ -66,7 +66,7 @@ class AdminLandingZonesController extends Controller
       'primary' => 0,
     ]);
 
-    return redirect("/admin/landing-zones")->with('message', 'Slide uploaded successfully.');
+    return redirect("/admin/landing-zones")->with('message', 'Slide uploaded.');
   }
 
   public function deleteSlide($slideId)

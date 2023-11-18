@@ -79,7 +79,7 @@ class AdminCustomerProfileController extends Controller
       ]);
     }
 
-    return redirect("/admin/customer-profile/$id")->with('message', 'Customer updated successfully.');
+    return redirect("/admin/customer-profile/$id")->with('message', 'Customer updated.');
   }
 
 
@@ -87,6 +87,6 @@ class AdminCustomerProfileController extends Controller
   {
     User::find($id)->delete();
 
-    return redirect("/admin/customers")->with('message', 'Customer deleted successfully.');
+    return redirect("/admin/customers")->with('message', 'Customer deleted.');
   }
 }

@@ -61,6 +61,6 @@ class ContactController extends Controller
 			'message' => $request->message,
     ]);
 
-    return redirect('/contact')->with('message', 'Enquiry successfully sent.');
+    return redirect('/contact')->with('message', 'Enquiry sent.');
 	}
 }

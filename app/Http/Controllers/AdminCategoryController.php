@@ -77,13 +77,13 @@ class AdminCategoryController extends Controller
       'show' => 0,
     ]);
 
-    return redirect('/admin/categories')->with('message', 'Category created successfully.');
+    return redirect('/admin/categories')->with('message', 'Category created.');
   }
 
   public function delete($id)
   {
     ProductCategories::find($id)->delete();
 
-    return redirect('/admin/categories')->with('message', 'Category deleted successfully.');
+    return redirect('/admin/categories')->with('message', 'Category deleted.');
   }
 }

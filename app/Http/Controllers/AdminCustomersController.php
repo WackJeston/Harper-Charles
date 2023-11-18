@@ -58,6 +58,6 @@ class AdminCustomersController extends Controller
       'password' => Hash::make($request->password),
     ]);
 
-    return redirect('/admin/customers')->with('message', 'Customer created successfully.');
+    return redirect('/admin/customers')->with('message', 'Customer created.');
   }
 }

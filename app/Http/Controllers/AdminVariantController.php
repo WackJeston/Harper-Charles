@@ -70,6 +70,6 @@ class AdminVariantController extends Controller
       'show' => 0,
     ]);
 
-    return redirect('/admin/variants')->with('message', 'Variant created successfully.');
+    return redirect('/admin/variants')->with('message', 'Variant created.');
   }
 }

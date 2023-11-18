@@ -57,6 +57,6 @@ class AdminProductsController extends Controller
 			'price' => $request->price,
     ]);
 
-    return redirect('/admin/products')->with('message', 'Product created successfully.');
+    return redirect('/admin/products')->with('message', 'Product created.');
   }
 }
