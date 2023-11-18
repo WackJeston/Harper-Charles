@@ -1,11 +1,11 @@
 <template>
 	<nav class="site-menu lt">
 		<a id="menu-home-link" href="/">
-			<img defer :src="this.publicasset + 'website-logo-white.webp'" alt="logo" class="logo">
+			<img defer :src="this.publicasset + 'website-logo-white.svg'" alt="logo" class="logo" height="70">
 		</a>
 
 		<ul id="menu-items">
-			<div v-if="this.sessionuser" class="nav-link">
+			<div v-if="this.sessionuser" class="nav-link user-nav-link">
 				<a class="primary-nav-link" @click="toggleLinks(999, true)">
 					<!-- <i class="fa-regular fa-user nav-link-icon"></i> -->
 					<p>{{ this.sessionuser.firstName + ' ' + this.sessionuser.lastName }}</p>
@@ -21,7 +21,7 @@
 				</ul>
 			</div>
 
-			<div v-else class="nav-link">
+			<div v-else class="nav-link user-nav-link">
 				<a class="primary-nav-link" href="/login">
 					<!-- <i class="fa-solid fa-user nav-link-icon"></i> -->
 					<li>Login</li>

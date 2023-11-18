@@ -3,10 +3,10 @@
 
     <nav>
       <a href="/" class="title">
-        <h2>{{ this.sitetitle }}</h2>
+				<img :src="this.publicasset + 'website-title.svg'" alt="this.sitetitle" height="16">
       </a>
 
-      <ul class="lt">
+      <ul>
         <a v-for="(link, i) in this.publiclinks" :href="link.link" class="nav-link">
           <li>{{ capFL(link.title) }}</li>
         </a>
@@ -24,7 +24,7 @@
     </nav>
 
 		<a href="/">
-			<img defer :src="this.asset + 'logo-white.png'" alt="logo" class="logo">
+			<img defer :src="this.publicasset + 'website-logo.svg'" alt="logo" class="logo">
 		</a>
 
   </footer>
@@ -35,9 +35,11 @@
   export default {
     props: [
       'sitetitle',
-			'asset',
+			'publicasset',
       'publiclinks',
+			'userlinks',
 			'socials',
+			'sessionuser',
     ],
 
     methods: {

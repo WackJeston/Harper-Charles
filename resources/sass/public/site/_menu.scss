@@ -25,8 +25,6 @@
 .site-menu img.logo {
 	display: flex;
 	align-self: center;
-	max-width: 90%;
-	max-height: 70px;
 	margin: 20px 0;
 }
 
@@ -71,6 +69,10 @@
 	position: absolute;
 	right: 20px;
 	font-size: 0.9rem;
+}
+
+.site-menu .nav-link:not(.user-nav-link) .fa-angle-down,
+.site-menu .nav-link:not(.user-nav-link) .fa-angle-up {
 	color: v.$brand-alt-medium;
 }
 
@@ -81,6 +83,15 @@
 .site-menu .primary-nav-link:hover .fa-angle-down,
 .site-menu .primary-nav-link:hover .fa-angle-up {
 	color: v.$white;
+}
+
+.site-menu .user-nav-link {
+	background-color: v.$brand-alt-medium;
+}
+
+.site-menu .user-nav-link .fa-angle-down,
+.site-menu .user-nav-link .fa-angle-up {
+	color: v.$brand-alt-light;
 }
 
 .site-menu .nav-sublinks {

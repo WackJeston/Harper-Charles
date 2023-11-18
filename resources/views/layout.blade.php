@@ -15,7 +15,9 @@
       <title>{{ env('APP_NAME') }}</title>
     @endif
 
-		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo.webp' }}" as="image">
+		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo.svg' }}" as="image">
+		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo-white.svg' }}" as="image">
+		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-title.svg' }}" as="image">
 
 		@if (session()->has('preloaded-images'))
 			@foreach (session()->get('preloaded-images') as $url)
@@ -190,8 +192,12 @@
 
         <div id="vuefooter">
           <vuefooter
-            sitetitle="{{ env('APP_NAME') }}"
-            :publiclinks="{{ json_encode($publicLinks) }}"
+						sitetitle="{{ env('APP_NAME') }}"
+						publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
+						:publiclinks="{{ json_encode($publicLinks) }}"
+						:userlinks="{{ json_encode($userLinks) }}"
+						:socials="{{ json_encode($socials) }}"
+						:sessionuser="{{ $sessionUser }}"
           />
         </div>
       </div>

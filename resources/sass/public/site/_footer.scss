@@ -10,11 +10,15 @@ footer {
 	align-items: flex-end;
 	justify-content: space-between;
   width: 100vw;
-  background-color: v.$brand-alt-dark;
+  background-color: v.$white;
   padding: 25px;
   z-index: 5;
   box-shadow: v.$box-shadow;
 }
+
+// footer .title {
+// 	display: flex;
+// }
 
 footer .logo {
 	display: flex;
@@ -39,6 +43,7 @@ footer nav ul {
   flex-direction: column;
   padding: 0;
   margin: 10px 10px 0 10px;
+	color: v.$almost-black;
 }
 
 footer nav .nav-link {
@@ -56,7 +61,7 @@ footer #footer-socials {
 	align-items: center;
 	padding: 0;
 	margin: 15px 0 0 11px;
-	color: v.$white;
+	color: v.$almost-black;
 }
 
 footer #footer-socials a {

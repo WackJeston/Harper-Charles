@@ -8,7 +8,7 @@
 		</nav>
 
 		<a class="logo-link" href="/">
-			<img async :src="this.publicasset + 'website-logo.webp'" alt="logo" class="logo">
+			<img async :src="this.publicasset + 'website-logo.svg'" alt="logo" class="logo">
 		</a>
 
 		<nav id="header-end">
