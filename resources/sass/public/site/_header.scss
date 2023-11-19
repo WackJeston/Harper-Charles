@@ -38,15 +38,10 @@ header #header-start {
 header #header-start a {
 	margin-right: 30px;
 	text-transform: uppercase;
-
-	@media (max-width: 640px) {
-		display: none;
-	}
 }
 
 header #header-start a:hover {
 	color: v.$brand-main-darker;
-	// text-decoration: underline;
 }
 
 header #header-end {
@@ -77,20 +72,36 @@ header #header-socials {
 	align-items: center;
 	padding: 0;
 	color: v.$brand-main;
-
-	@media (max-width: 640px) {
-		display: none;
-	}
 }
 
 header #header-socials a {
 	margin-left: 30px;
-	opacity: 0.6;
 	cursor: pointer;
 }
 
 header #header-socials a:hover {
-	opacity: 1;
+	color: v.$brand-main-darker;
+}
+
+header #login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: v.$brand-main;
+}
+
+header #login:hover {
+	color: v.$brand-main-darker;
+}
+
+header #login i {
+	font-size: 1.3rem;
+	margin-left: 8px;
+}
+
+header #login h4 {
+	margin: 0;
 }
 
 header #nav-menu-button {
@@ -102,10 +113,6 @@ header #nav-menu-button {
 
 	@media (min-width: 500px) {
 		padding-bottom: 4px;
-	}
-
-	@media (min-width: 640px) {
-		display: none;
 	}
 }
 
@@ -139,5 +146,17 @@ header .header-button span {
 
 	@media (min-width: 640px) {
 		font-size: 1.2rem;
+	}
+}
+
+header .header-desktop {
+	@media (max-width: 640px) {
+		display: none;
+	}
+}
+
+header .header-mobile {
+	@media (min-width: 640px) {
+		display: none;
 	}
 }

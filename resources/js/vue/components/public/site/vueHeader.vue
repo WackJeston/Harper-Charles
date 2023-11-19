@@ -3,7 +3,7 @@
 
 		<nav id="header-start">
 			<!-- <i class="fa-solid fa-user"></i> -->
-			<a v-for="(link, i) in this.publiclinks" :href="link.link">
+			<a v-for="(link, i) in this.publiclinks" :href="link.link" class="header-desktop">
 				<h3>{{ link.title }}</h3>
 			</a>
 		</nav>
@@ -13,13 +13,18 @@
 		</a>
 
 		<nav id="header-end">
-			<ul id="header-socials">
+			<!-- <ul id="header-socials" class="header-desktop">
 				<a v-for="(social, i) in this.socials" :href="social.link" target="_blank">
 					<li><i :class="social.icon"></i></li>
 				</a>
-			</ul>
+			</ul> -->
 
-			<i @click='toggleSiteMenu' class="fa-solid fa-bars" id="nav-menu-button"></i>
+			<a href="/login" id="login" class="header-desktop">
+				<i class="fa-regular fa-user header-desktop"></i>
+				<span>Account</span>
+			</a>
+
+			<i @click='toggleSiteMenu' class="fa-solid fa-bars header-mobile" id="nav-menu-button"></i>
 		</nav>
 
 		<div class="menu-overlay" @click="toggleOverlay"></div>
