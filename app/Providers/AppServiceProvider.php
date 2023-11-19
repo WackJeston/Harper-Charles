@@ -142,12 +142,12 @@ class AppServiceProvider extends ServiceProvider
           $products = [
             "title"=>"shop",
             "link"=>"/products/0",
-            "icon"=>"fa-solid fa-couch",
+            "icon"=>"fa-solid fa-tags",
           ],
           $contact = [
             "title"=>"contact",
             "link"=>"/contact",
-            "icon"=>"fa-solid fa-address-card",
+            "icon"=>"fa-regular fa-address-card",
           ],
         ];
 

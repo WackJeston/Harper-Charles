@@ -35,17 +35,44 @@ header #header-start {
 	justify-content: flex-start;
 }
 
-header #header-start a {
-	margin-right: 30px;
-	text-transform: uppercase;
+header #header-end {
+	justify-content: flex-end;
 }
 
-header #header-start a:hover {
+header #header-start a {
+	margin-right: 30px;
+}
+
+header #header-end a {
+	margin-left: 30px;
+}
+
+header #header-start a,
+header #header-end a {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+}
+
+header #header-start a:hover,
+header #header-end a:hover {
 	color: v.$brand-main-darker;
 }
 
-header #header-end {
-	justify-content: flex-end;
+header #header-start a i {
+	font-size: 1.2rem;
+}
+
+header #header-end a i {
+	font-size: 1.3rem;
+}
+
+header #header-start a h4,
+header #header-end a h4 {
+	font-size: 1.1rem;
+	margin: 0;
 }
 
 header .logo-link {
@@ -81,27 +108,6 @@ header #header-socials a {
 
 header #header-socials a:hover {
 	color: v.$brand-main-darker;
-}
-
-header #login {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	color: v.$brand-main;
-}
-
-header #login:hover {
-	color: v.$brand-main-darker;
-}
-
-header #login i {
-	font-size: 1.3rem;
-	margin-left: 8px;
-}
-
-header #login h4 {
-	margin: 0;
 }
 
 header #nav-menu-button {

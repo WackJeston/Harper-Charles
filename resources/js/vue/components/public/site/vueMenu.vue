@@ -24,7 +24,7 @@
 			<div v-else class="nav-link user-nav-link">
 				<a class="primary-nav-link" href="/login">
 					<!-- <i class="fa-solid fa-user nav-link-icon"></i> -->
-					<li>Register | Sign in</li>
+					<li>Register | Sign In</li>
 				</a>
 			</div>
 
