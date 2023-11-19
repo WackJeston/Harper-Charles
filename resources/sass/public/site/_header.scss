@@ -28,6 +28,7 @@ header #header-end {
 	padding: 0 20px;
 	width: 50%;
 	height: 100%;
+	color: v.$brand-main;
 }
 
 header #header-start {
@@ -37,8 +38,6 @@ header #header-start {
 header #header-start a {
 	margin-right: 30px;
 	text-transform: uppercase;
-	color: v.$brand-main;
-	// font-weight: 600;
 
 	@media (max-width: 640px) {
 		display: none;
@@ -47,7 +46,7 @@ header #header-start a {
 
 header #header-start a:hover {
 	color: v.$brand-main-darker;
-	text-decoration: underline;
+	// text-decoration: underline;
 }
 
 header #header-end {

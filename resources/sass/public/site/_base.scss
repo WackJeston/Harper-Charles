@@ -1,6 +1,15 @@
 @use 'v';
 
+html {
+	background-color: v.$white;
+	height: 100dvh;
+	width: 100vw;
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
 body {
+	height: 100%;
+	width: 100%;
 	position: relative;
 	overflow: hidden;
 	transition: all 200ms ease;
@@ -9,7 +18,7 @@ body {
 .page-container {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
+	height: 100%;
 	background-color: v.$background;
 	overflow-y: auto;
 	overflow-x: hidden;

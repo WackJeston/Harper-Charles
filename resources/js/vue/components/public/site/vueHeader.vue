@@ -2,6 +2,7 @@
 	<header>
 
 		<nav id="header-start">
+			<!-- <i class="fa-solid fa-user"></i> -->
 			<a v-for="(link, i) in this.publiclinks" :href="link.link">
 				<h3>{{ link.title }}</h3>
 			</a>

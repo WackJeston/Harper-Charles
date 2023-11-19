@@ -16,9 +16,11 @@ footer {
   box-shadow: v.$box-shadow;
 }
 
-// footer .title {
-// 	display: flex;
-// }
+footer .title img {
+	@media (max-width: 640px) {
+		max-width: 200px;
+	}
+}
 
 footer .logo {
 	display: flex;
@@ -60,7 +62,7 @@ footer #footer-socials {
 	justify-content: flex-start;
 	align-items: center;
 	padding: 0;
-	margin: 15px 0 0 11px;
+	margin: 15px 0 0 0;
 	color: v.$almost-black;
 }
 
