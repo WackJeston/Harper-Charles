@@ -87,7 +87,7 @@
 				}
 			@endphp
 			
-      <div class="admin-container">
+      <div id="admin-container">
         <div id="adminheader">
           @if(str_contains(url()->current(), '/dashboard'))
             <Adminheader
@@ -136,12 +136,12 @@
       </div>
 
     @elseif (str_contains(url()->current(), '/admin') || str_contains(url()->current(), '/admin-registration'))
-      <div class="admin-container">
+      <div id="admin-container">
         @yield('content')
       </div>
 
 		@elseif (str_contains(url()->current(), '/checkout'))
-			<div class="page-container">
+			<div id="page-container">
 				<header id="checkout-header" class="lt">
 					<nav class="desktop-nav">
 						<a href="/" class="title section-width">
@@ -167,7 +167,7 @@
         />
       </div>
 
-      <div class="page-container">
+      <div id="page-container">
         <div id="vueheader">
           <vueheader
             sitetitle="{{ env('APP_NAME') }}"

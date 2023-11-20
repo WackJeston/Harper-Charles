@@ -14,9 +14,7 @@ body {
 	transition: all 200ms ease;
 }
 
-.site-container {}
-
-.admin-container {
+#admin-container {
 	display: flex;
 	flex-direction: column;
 	height: 100%;

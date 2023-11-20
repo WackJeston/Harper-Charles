@@ -58,7 +58,31 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.setScrollListener();
+	},
+
 	methods: {
+		setScrollListener() {
+			const page = document.querySelector('#page-container');
+			const header = document.querySelector('header');
+
+			page.addEventListener('scroll', function() {
+				// console.log(page.scrollTop);
+
+				let scrollLimit = window.innerWidth > 640 ? 70 : 55;
+
+				if (page.scrollTop > scrollLimit) {
+					header.classList.add('scroll');
+					console.log('add');
+				
+				} else {
+					header.classList.remove('scroll');
+					console.log('remove');
+				}
+			});
+		},
+
 		toggleSiteMenu() {
 			this.siteMenu = !this.siteMenu;
 			let menu = document.querySelector(".site-menu");

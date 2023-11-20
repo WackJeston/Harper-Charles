@@ -5,12 +5,14 @@ header {
 	flex-direction: row;
 	justify-content: center;
 	height: v.$header-height;
-	position: absolute;
+	// width: 100%;
+	position: fixed;
 	top: 0;
-	right: 0;
 	left: 0;
+	right: 0;
 	background-color: v.$white;
 	z-index: 3;
+	transition: all 100ms ease;
 
 	@media (max-width: 640px) {
 		height: v.$header-height-mobile;
@@ -18,6 +20,19 @@ header {
 	@media (min-width: 640px) {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	@media (pointer: fine), (pointer: none), (pointer: fine) and (any-pointer: coarse) {
+		/* desktop */
+		/* touch desktop */
+		right: 16px;
+	}
+}
+
+header.scroll {
+	height: v.$header-height-scroll;
+
+	@media (max-width: 640px) {
+		height: v.$header-height-mobile-scroll;
 	}
 }
 
@@ -54,6 +69,7 @@ header #header-end a {
 	align-items: center;
 	justify-content: center;
 	text-transform: capitalize;
+	padding-top: 4px;
 }
 
 header #header-start a:hover,
@@ -73,6 +89,7 @@ header #header-start a h4,
 header #header-end a h4 {
 	font-size: 1.1rem;
 	margin: 0;
+	padding: 0;
 }
 
 header .logo-link {
@@ -86,9 +103,19 @@ header .logo-link {
 header img.logo {
 	height: v.$header-height;
 	padding: 15px 5px;
+	transition: all 100ms ease;
 
 	@media (max-width: 640px) {
 		height: v.$header-height-mobile;
+	}
+}
+
+header.scroll img.logo {
+	padding: 10px;
+	height: v.$header-height-scroll;
+
+	@media (max-width: 640px) {
+		height: v.$header-height-mobile-scroll;
 	}
 }
 

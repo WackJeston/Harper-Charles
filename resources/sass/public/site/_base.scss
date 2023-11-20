@@ -11,16 +11,16 @@ body {
 	height: 100%;
 	width: 100%;
 	position: relative;
-	overflow: hidden;
+	overflow: auto;
 	transition: all 200ms ease;
 }
 
-.page-container {
+#page-container {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	background-color: v.$background;
-	overflow-y: auto;
+	overflow-y: scroll;
 	overflow-x: hidden;
 	position: relative;
 }
