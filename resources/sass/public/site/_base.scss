@@ -3,15 +3,13 @@
 html {
 	background-color: v.$white;
 	height: 100dvh;
-	width: 100vw;
 	padding-bottom: env(safe-area-inset-bottom);
 }
 
 body {
 	height: 100%;
-	width: 100%;
 	position: relative;
-	overflow: auto;
+	overflow: hidden;
 	transition: all 200ms ease;
 }
 

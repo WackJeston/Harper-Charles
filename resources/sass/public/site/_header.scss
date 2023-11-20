@@ -4,15 +4,13 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	width: 100%;
 	height: v.$header-height;
-	// width: 100%;
 	position: fixed;
 	top: 0;
-	left: 0;
-	right: 0;
 	background-color: v.$white;
 	z-index: 3;
-	transition: all 100ms ease;
+	transition: height 100ms ease;
 
 	@media (max-width: 640px) {
 		height: v.$header-height-mobile;
@@ -20,11 +18,6 @@ header {
 	@media (min-width: 640px) {
 		padding-left: 10px;
 		padding-right: 10px;
-	}
-	@media (pointer: fine), (pointer: none), (pointer: fine) and (any-pointer: coarse) {
-		/* desktop */
-		/* touch desktop */
-		right: 16px;
 	}
 }
 

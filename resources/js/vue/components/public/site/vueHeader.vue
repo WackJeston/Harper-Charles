@@ -68,17 +68,13 @@ export default {
 			const header = document.querySelector('header');
 
 			page.addEventListener('scroll', function() {
-				// console.log(page.scrollTop);
-
 				let scrollLimit = window.innerWidth > 640 ? 70 : 55;
 
 				if (page.scrollTop > scrollLimit) {
 					header.classList.add('scroll');
-					console.log('add');
 				
 				} else {
 					header.classList.remove('scroll');
-					console.log('remove');
 				}
 			});
 		},
