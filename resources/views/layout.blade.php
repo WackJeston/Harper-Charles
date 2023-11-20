@@ -214,6 +214,10 @@
 		<script src="/js/functions.js"></script>
 
 		<script>
+			// Set Header Width
+			let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
+			document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+
 			// DataTable
 			setTableMargin();
 			hideTableColumnsLoop();
@@ -221,9 +225,6 @@
 			// DataForm
 			setPasswordToggles();
 			setFileInputs();
-
-			let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
-			document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
 		</script>
 	</body>
 </html>
