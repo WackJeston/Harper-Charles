@@ -108,15 +108,15 @@ class AppServiceProvider extends ServiceProvider
             "title"=>"website",
             "icon"=>"fa-solid fa-globe",
             "sublink"=>$subLinks = [
-              $contact = [
-                "title"=>"contact",
-                "link"=>"/admin/contact",
-                "icon"=>"fa-solid fa-address-card",
-              ],
               $banners = [
                 "title"=>"banners",
                 "link"=>"/admin/banners",
                 "icon"=>"fa-solid fa-sign-hanging",
+              ],
+              $contact = [
+                "title"=>"contact",
+                "link"=>"/admin/contact",
+                "icon"=>"fa-solid fa-address-card",
               ],
             ],
           ],

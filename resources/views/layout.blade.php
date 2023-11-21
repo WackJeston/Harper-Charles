@@ -213,11 +213,15 @@
 		<script src="/js/dataForm.js"></script>
 		<script src="/js/functions.js"></script>
 
-		<script>
-			// Set Header Width
-			let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
-			document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+		@if (!str_contains(url()->current(), '/admin'))
+			<script>
+				// Set Header Width
+				let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
+				document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+			</script>
+		@endif
 
+		<script>
 			// DataTable
 			setTableMargin();
 			hideTableColumnsLoop();

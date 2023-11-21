@@ -246,6 +246,8 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(AdminBannerProfileController::class)->group(function () {
     Route::get('/admin/banner-profile/{id}', 'show');
+    Route::get('/banner-profileToggleBanner/{id}/{toggle}', 'toggleBanner');
+    Route::post('/banner-profileAddSlide/{id}', 'addSlide');
   });
 });
 

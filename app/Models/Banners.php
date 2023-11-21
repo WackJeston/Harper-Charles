@@ -10,6 +10,7 @@ class Banners extends Model
   use HasFactory;
 
   protected $fillable = [
+		'parentId',
     'page',
     'position',
     'framing',

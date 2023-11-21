@@ -3,63 +3,82 @@
 namespace App\Http\Controllers;
 
 use DB;
-use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
-use App\Models\Orders;
+use App\Models\Banners;
 
 
-class AdminOrderProfileController extends Controller
+class AdminBannerProfileController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-		
-		$order = DB::select('SELECT 
-			o.*,
-			CONCAT(u.firstName, " ", u.lastName) AS `user`,
-			IF(u.admin, "user", "customer") AS `type`,
-			i.fileName AS invoice
-			FROM orders AS o
-			INNER JOIN users AS u ON u.id=o.userId
-			LEFT JOIN invoices AS i ON i.orderId=o.id
-			WHERE o.id=?', [$id]
+		$banner = Banners::find($id);
+
+		$slidesTable = new dataTable('banners');
+		$slidesTable->setQuery('SELECT
+			b.id,
+			b.title,
+			b.description,
+			b.active,
+			b.fileName
+			FROM banners AS b
+			WHERE b.parentId = ?',
+			[$id]
 		);
+		$slidesTable->addColumn('id', '#');
+		$slidesTable->addColumn('title', 'Title', 2);
+		$slidesTable->addColumn('description', 'Subtitle');
+		$slidesTable->addColumn('active', 'Active', 1, false, 'toggle');
+		$slidesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
+		$slidesTable = $slidesTable->render();
 
-		$order = $order[0];
+		$slideForm = new dataForm(request(), sprintf('/banner-profileAddSlide/%d', $id), 'Add');
+		$slideForm->addInput('text', 'title', 'Title', null, 100, 1);
+		$slideForm->addInput('text', 'description', 'Subtitle', null, 100, 1);
+		$slideForm->addInput('file', 'fileName', 'Image', null, 100, 1, true);
+		$slideForm = $slideForm->render();
 
-		$addresses = DB::select('SELECT
-			a.*
-			FROM addresses AS a
-			INNER JOIN orders AS o ON o.deliveryAddressId=a.id OR o.billingAddressId=a.id
-			WHERE o.id = ?', [$id]
-		);
-
-		$itemsTable = new dataTable();
-		$itemsTable->setTitle('Items <span class="string-container small">?</span>');
-		$itemsTable->setQuery('SELECT
-			p.*,
-			ol.quantity,
-			p.price * ol.quantity AS total
-			FROM products AS p
-			INNER JOIN order_lines AS ol ON ol.productId=p.id
-			WHERE ol.orderId=?', [$id]
-		);
-		$itemsTable->addColumn('id', '#');
-		$itemsTable->addColumn('title', 'Name', 2);
-		$itemsTable->addColumn('quantity', 'Quantity');
-		$itemsTable->addColumn('price', 'Price');
-		$itemsTable->addColumn('total', 'Subtotal');
-		$itemsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$itemsTable = $itemsTable->render();
-
-    return view('admin/order-profile', compact(
-      'sessionUser',
-			'order',
-			'addresses',
-			'itemsTable',
+    return view('admin/banner-profile', compact(
+			'banner',
+			'slidesTable',
+			'slideForm'
     ));
+  }
+
+	public function toggleBanner($banner, $toggle)
+  {
+    Banners::find($banner)->update([
+      'active' => $toggle,
+    ]);
+
+    if ($toggle == 1) {
+      return redirect("/admin/banner-profile/" . $banner)->with('message', "Banner is now on.");
+    } else {
+      return redirect("/admin/banner-profile/" . $banner)->with('message', "Banner is now off.");
+    }
+  }
+
+	public function addSlide(Request $request, $id)
+  {
+		$request->validate([
+      'title' => 'max:100',
+			'description' => 'max:100',
+    ]);
+
+		$fileNames = storeImages($request, $id, 'banner');
+
+		foreach ($fileNames as $fileName) {
+			Banners::create([
+				'parentId' => $id,
+				'title' => $request->title,
+				'description' => $request->description,
+				'name' => $fileName['old'],
+				'fileName' => $fileName['new'],
+			]);
+		}
+
+    return redirect("/admin/banner-profile/$id")->with('message', 'Slide Added.');
   }
 }

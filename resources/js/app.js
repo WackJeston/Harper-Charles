@@ -71,6 +71,8 @@ import Variantscreate from './vue/components/admin/variantsCreate.vue'
 
 import Variantprofilefunctions from './vue/components/admin/variantProfileFunctions.vue'
 
+import Bannerprofilefunctions from './vue/components/admin/bannerProfileFunctions.vue'
+
 
 
 // PUBLIC
@@ -222,3 +224,7 @@ variantsCreate.component('variantscreate', Variantscreate).mount('#variantscreat
 
 const variantProfileFunctions = createApp({})
 variantProfileFunctions.component('variantprofilefunctions', Variantprofilefunctions).mount('#variantprofilefunctions')
+
+
+const bannerProfileFunctions = createApp({})
+bannerProfileFunctions.component('bannerprofilefunctions', Bannerprofilefunctions).mount('#bannerprofilefunctions')
