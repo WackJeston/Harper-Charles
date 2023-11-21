@@ -1,5 +1,14 @@
 @use 'site/v';
 
+.home-page #banner-homepage-top .banner-slide {
+  height: calc(100dvh - v.$header-height);
+	min-height: 400px;
+
+	@media (max-width: 640px) {
+		height: calc(100dvh - v.$header-height-mobile);
+	}
+}
+
 .home-page .home-category-grid {
   display: flex;
   flex-direction: row;

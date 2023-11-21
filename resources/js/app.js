@@ -20,7 +20,7 @@ import Publicalert from './vue/components/public/site/publicAlert.vue'
 import Publiclogin from './vue/components/public/auth/login.vue'
 import Publicsignup from './vue/components/public/auth/signup.vue'
 
-import Homelzcarousel from './vue/components/public/homepage/landingZoneCarousel.vue'
+import Bannerhometop from './vue/components/public/homepage/bannerHomeTop.vue'
 import Homecategories from './vue/components/public/homepage/productCategories.vue'
 
 import Accountfunctions from './vue/components/public/account/accountFunctions.vue'
@@ -103,8 +103,8 @@ const publicSignup = createApp({})
 publicSignup.component('publicsignup', Publicsignup).mount('#publicsignup')
 
 
-const homeLzCarousel = createApp({})
-homeLzCarousel.component('homelzcarousel', Homelzcarousel).mount('#homelzcarousel')
+const bannerHomeTop = createApp({})
+bannerHomeTop.component('bannerhometop', Bannerhometop).mount('#bannerhometop')
 
 const homeCategories = createApp({})
 homeCategories.component('homecategories', Homecategories).mount('#homecategories')

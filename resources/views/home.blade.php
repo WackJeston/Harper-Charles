@@ -9,11 +9,13 @@
       </div>
     @endif
 
-    @if ($landingZoneCarouselShow)
-      <div id="homelzcarousel">
-        <homelzcarousel :landingzonecarousel="{{ $landingZoneCarousel }}" />
-      </div>
-    @endif
+    @if (count($landingZoneBanners) > 0)
+			<div async id="bannerhometop">
+				<bannerhometop 
+					:banners="{{ json_encode($landingZoneBanners) }}"
+				/>
+			</div>
+		@endif
 
     <div class="clear-box dk">
       <h2>Content Section</h2>

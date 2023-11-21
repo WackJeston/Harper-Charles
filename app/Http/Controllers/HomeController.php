@@ -13,14 +13,22 @@ class HomeController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
+    $landingZoneBanners = DB::select('SELECT
+			b.id,
+			b.title,
+			b.description,
+			b.fileName,
+			b.framing
+			FROM banners AS b
+			INNER JOIN banners AS b2 ON b2.id = b.parentId
+			WHERE b2.page = "home"
+			AND b2.position = "top"
+			AND b2.active = 1
+			AND b.active = 1
+		');
 
-    $landingZoneCarouselPre = LandingZoneCarousels::where('landingZoneId', 1)
-      ->orderBy('primary', 'desc')
-    ->get();
-
-    $landingZoneCarousel = $landingZoneCarouselPre->toJson();
-    $landingZoneCarouselShow = LandingZones::where('id', 1)->pluck('show')->first();
+		$landingZoneBanners = getS3Url($landingZoneBanners);
+		preloadImage($landingZoneBanners[0]->fileName);
 
     $categories = DB::select('SELECT
       c.id,
@@ -33,9 +41,7 @@ class HomeController extends Controller
     ');
 
     return view('home', compact(
-      'sessionUser',
-      'landingZoneCarousel',
-      'landingZoneCarouselShow',
+      'landingZoneBanners',
       'categories',
     ));
   }
