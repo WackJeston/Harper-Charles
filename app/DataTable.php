@@ -195,6 +195,8 @@ class DataTable
 	public function render() {
 		self::calculate();
 		
+		// dd($this->table);
+
 		$html = '';
 
 		if (!empty($this->table['title'])) {

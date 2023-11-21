@@ -113,10 +113,10 @@ class AppServiceProvider extends ServiceProvider
                 "link"=>"/admin/contact",
                 "icon"=>"fa-solid fa-address-card",
               ],
-              $landingZones = [
-                "title"=>"landing zones",
-                "link"=>"/admin/landing-zones",
-                "icon"=>"fa-solid fa-plane-arrival",
+              $banners = [
+                "title"=>"banners",
+                "link"=>"/admin/banners",
+                "icon"=>"fa-solid fa-sign-hanging",
               ],
             ],
           ],

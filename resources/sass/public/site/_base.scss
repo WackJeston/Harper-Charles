@@ -80,6 +80,8 @@ a.page-button {
 	align-items: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	padding-right: 9px;
+	padding-left: 9px;
 	background-color: v.$almost-black;
 	color: v.$white;
 	border-radius: 5px;
@@ -95,8 +97,8 @@ a.page-button:not(:last-child) {
 	margin-right: 10px;
 }
 
-button.page-button:hover,
-a.page-button:hover {
+button.page-button:hover:not(.pb-success, .pb-danger),
+a.page-button:hover:not(.pb-success, .pb-danger) {
 	background-color: v.$brand-alt-light;
 	color: v.$black;
 }
@@ -122,25 +124,25 @@ button.button-active {
 	background-color: v.$brand-alt-dark
 }
 
-button.pb-success,
-button.pb-danger {
-	margin: 0 5px 10px 0;
+.page-button.pb-success,
+.page-button.pb-success,
+.page-button.pb-danger {
 	color: v.$white;
 }
 
-button.pb-success {
+.page-button.pb-success {
 	background-color: v.$pale-green;
 }
 
-button.pb-success:hover {
+.page-button.pb-success:hover {
 	background-color: v.$pale-green-darker;
 }
 
-button.pb-danger {
+.page-button.pb-danger {
 	background-color: v.$pale-red;
 }
 
-button.pb-danger:hover {
+.page-button.pb-danger:hover {
 	background-color: v.$pale-red-darker;
 }
 

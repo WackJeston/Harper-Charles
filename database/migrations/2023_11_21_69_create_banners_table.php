@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
+						$table->foreignId('parentId')->constrained('banners')->onUpdate('cascade')->onDelete('cascade')->nullable();
 						$table->string('page', 100);
 						$table->string('position', 100);
 						$table->string('framing', 100);

@@ -2,7 +2,6 @@
 	<header>
 
 		<nav id="header-start">
-			<!-- <i class="fa-solid fa-user"></i> -->
 			<a v-for="(link, i) in this.publiclinks" :href="link.link" class="header-desktop">
 				<i class="header-desktop" :class="link.icon"></i>
 				<span class="header-desktop">{{ link.title }}</span>
@@ -20,9 +19,14 @@
 				</a>
 			</ul> -->
 
-			<a href="/login" id="login" class="header-desktop">
+			<a v-if="this.sessionuser" href="/account" id="login" class="header-desktop">
 				<i class="fa-regular fa-user header-desktop"></i>
 				<span class="header-desktop">Account</span>
+			</a>
+
+			<a v-else href="/login" id="login" class="header-desktop">
+				<i class="fa-regular fa-user header-desktop"></i>
+				<span class="header-desktop">Sign In</span>
 			</a>
 
 			<i @click='toggleSiteMenu' class="fa-solid fa-bars header-mobile" id="nav-menu-button"></i>

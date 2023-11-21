@@ -33,13 +33,14 @@ use App\Http\Controllers\AdminEnquiriesController;
 use App\Http\Controllers\AdminEnquiryProfileController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminProductProfileController;
-use App\Http\Controllers\AdminLandingZonesController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCategoryProfileController;
 use App\Http\Controllers\AdminVariantController;
 use App\Http\Controllers\AdminVariantProfileController;
 use App\Http\Controllers\AdminOrdersController;
 use App\Http\Controllers\AdminOrderProfileController;
+use App\Http\Controllers\AdminBannersController;
+use App\Http\Controllers\AdminBannerProfileController;
 
 
 // DataTable -----------------------------------------------------------------------------------
@@ -195,14 +196,6 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/product-profileRemoveVariant/{id}/{variantId}', 'removeVariant');
   });
 
-  Route::controller(AdminLandingZonesController::class)->group(function () {
-    Route::get('/admin/landing-zones', 'show');
-    Route::get('/landing-zonesShowZone/{zone}/{toggle}', 'showZone');
-    Route::post('/landing-zonesStoreSlide/{id}', 'storeSlide');
-    Route::get('landing-zonesDeleteSlide/{slideId}', 'deleteSlide');
-    Route::get('landing-zonesPrimarySlide/{slideId}', 'primarySlide');
-  });
-
   Route::controller(AdminCategoryController::class)->group(function () {
     Route::get('/admin/categories', 'show');
     Route::get('/categoryShow/{category}/{toggle}', 'showCategory');
@@ -245,6 +238,14 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(AdminOrderProfileController::class)->group(function () {
     Route::get('/admin/order-profile/{id}', 'show');
+  });
+
+	Route::controller(AdminBannersController::class)->group(function () {
+    Route::get('/admin/banners', 'show');
+  });
+
+	Route::controller(AdminBannerProfileController::class)->group(function () {
+    Route::get('/admin/banner-profile/{id}', 'show');
   });
 });
 

@@ -6,6 +6,8 @@
 
 		<button class="page-button" type="button" :class="{ 'button-active' : show == 'orders' }"
   	@click="show == 'orders' ? show = false : show = 'orders'">Orders</button>
+		
+		<a class="page-button pb-danger" href="/customerLogout">Sign Out</a>
 	</div>
 
   <!-- Edit -->
