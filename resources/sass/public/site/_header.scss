@@ -23,6 +23,7 @@ header {
 
 header.scroll {
 	height: v.$header-height-scroll;
+	box-shadow: 0 0 6px -2px v.$trans-semi;
 
 	@media (max-width: 640px) {
 		height: v.$header-height-mobile-scroll;

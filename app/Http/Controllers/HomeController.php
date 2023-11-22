@@ -27,7 +27,6 @@ class HomeController extends Controller
 			AND b.active = 1
 		');
 
-		$landingZoneBanners = getS3Url($landingZoneBanners);
 		preloadImage($landingZoneBanners[0]->fileName);
 
     $categories = DB::select('SELECT
@@ -39,6 +38,10 @@ class HomeController extends Controller
       LEFT JOIN product_category_images AS i ON i.categoryId=c.id AND i.primary=1
       WHERE c.show=1
     ');
+
+		foreach ($categories as $i => $category) {
+			preloadImage($category->fileName);
+		}
 
     return view('home', compact(
       'landingZoneBanners',

@@ -38,7 +38,7 @@ body {
 
 main {
 	margin-top: v.$header-height;
-	padding-bottom: 30px;
+	// padding-bottom: 30px;
 
 	@media (max-width: 640px) {
 		margin-top: v.$header-height-mobile;
@@ -218,13 +218,49 @@ button.button-active {
 .clear-box {
 	display: flex;
 	flex-direction: column;
-	padding: 20px 30px 40px 30px;
+	padding: 20px 40px 40px 40px;
 	color: white;
+
+	@media (max-width: 640px) {
+		padding: 20px 20px 40px 20px;
+	}
 }
 
 .clear-box.center {
 	align-items: center;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.clear-box.center-mobile {
+	@media (max-width: 640px) {
+		align-items: center;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.clear-box.center-desktop {
+	@media (min-width: 640px) {
+		align-items: center;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.clear-box.small {
+	max-width: 600px;
+}
+
+.clear-box.medium {
+	max-width: 900px;
+}
+
+.clear-box.large {
+	max-width: 1200px;
 }
 
 .clear-box h2 {

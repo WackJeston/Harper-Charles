@@ -35,10 +35,11 @@ class AdminBannerProfileController extends Controller
 		);
 		$slidesTable->addColumn('id', '#');
 		$slidesTable->addColumn('title', 'Title', 2);
-		$slidesTable->addColumn('description', 'Subtitle');
+		$slidesTable->addColumn('description', 'Subtitle', 2);
 		$slidesTable->addColumn('framing', 'Framing', 1, true, 'select', $framingOptions);
 		$slidesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$slidesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
+		$slidesTable->addJsButton('showDeleteWarning', ['string:Slide', 'record:id', 'url:/banner-profileDeleteSlide/?'], 'fa-solid fa-trash-can', 'Delete Image');
 		$slidesTable = $slidesTable->render();
 
 		$slideForm = new dataForm(request(), sprintf('/banner-profileAddSlide/%d', $id), 'Add');
@@ -88,4 +89,12 @@ class AdminBannerProfileController extends Controller
 
     return redirect("/admin/banner-profile/$id")->with('message', 'Slide Added.');
   }
+
+	public function deleteSlide($id) {
+		$slide = Banners::find($id);
+		$parentId = $slide->parentId;
+		$slide->delete();
+
+		return redirect("/admin/banner-profile/$parentId")->with('message', 'Slide Deleted.');
+	}
 }

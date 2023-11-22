@@ -1,43 +1,133 @@
 @use 'site/v';
 
+.contact {
+	padding: 20px 0 0 0;
+}
+
+
+
+#contactmain {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+.contact .title-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .contact .content {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-end;
+	align-items: flex-start;
+	justify-content: center;
 	padding: 20px 40px 30px 40px;
+	width: 100%;
 
-	@media (max-width: 600px) {
+	@media (max-width: 640px) {
 		flex-direction: column;
 		align-items: center;
+		padding: 20px 20px 30px 20px;
 	}
 }
 
-.contact .address,
-.contact .contact-details {
+.contact .content ul {
 	display: flex;
 	flex-direction: column;
-	padding: 0;
 
-	@media (max-width: 600px) {
-		align-items: center;
+	@media (max-width: 640px) {
+		text-align: center;
+		padding-left: 0;
 	}
 }
 
-.contact .contact-details {
-	margin-left: 40px;
-
-	@media (max-width: 600px) {
-		margin-left: 0;
-		margin-top: 20px;
+.contact .content ul:first-child {
+	@media (min-width: 640px) {
+		padding-left: 0;
+		padding-right: 40px;
 	}
+}
+
+.contact a {
+	color: v.$brand-main-darker;
+}
+
+.contact a:hover {
+	color: v.$brand-main;
+	text-decoration: underline;
 }
 
 .contact h3 {
 	margin: 5px 0;
 }
 
-.contact .map {
-	height: 400px;
+.contact .form-width-control {
+	display: flex;
+	flex-direction: column;
+	background-color: v.$brand-alt-light;
+	padding: 20px 40px 50px 40px;
 	width: 100%;
+
+	@media (min-width: 1000px) {
+		flex-direction: row-reverse;
+		padding-top: 50px;
+	}
+}
+
+.contact .form-content {
+	@media (min-width: 1000px) {
+		margin-left: 20px;
+		margin-right: auto;
+		width: 35%;
+	}
+}
+
+.contact form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+
+	@media (min-width: 1000px) {
+		width: 40%;
+		margin-left: 12.5%;
+	}
+}
+
+.contact form input,
+.contact form textarea,
+.contact form label {
+	width: 100%;
+
+	@media (min-width: 1000px) {
+		max-width: 600px;
+	}
+}
+
+.contact form textarea {
+	min-height: 100px;
+}
+
+.contact form .submit {
+	width: 100%;
+	max-width: 150px;
+	margin-top: 10px;
+}
+
+.contact form .submit:hover {
+	background-color: v.$brand-main-darker;
+}
+
+.contact #googlemaps .map {
+	height: 400px;
+	width: calc(100% - 80px);
 	background-color: v.$bg-light;
+	margin: 0 40px 40px 40px;
+
+	@media (max-width: 640px) {
+		width: calc(100% - 40px);
+		margin: 0 20px 20px 20px;
+	}
 }

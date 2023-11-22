@@ -22,6 +22,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
+	padding: 0 40px 40px 40px;
+
+	@media (max-width: 640px) {
+		padding: 0 20px 20px 20px;
+	}
 }
 
 .home-page .grid-item {
@@ -36,9 +41,16 @@
   @media (min-width: 1700px) { height: 600px; }
 }
 
+.home-page .grid-item:not(:last-child) {
+	@media (max-width: 640px) {
+		margin-bottom: 20px;
+	}
+}
+
 .home-page .grid-item .background {
   display: flex;
-  justify-content: center;
+	flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   text-align: center;
   width: 100%;
@@ -50,7 +62,9 @@
 }
 
 .home-page .grid-item:hover .background {
-  transform: scale(1.05);
+	@media (min-width: 640px) {
+		transform: scale(1.05);
+	}
 }
 
 .home-page .grid-item .overlay {
@@ -63,16 +77,21 @@
 }
 
 .home-page .grid-item .overlay:hover {
-  background-color: v.$trans;
+	@media (min-width: 640px) {
+		background-color: v.$trans;
+	}
 }
 
 .home-page .grid-item h3 {
   display: flex;
-  z-index: 2;
   font-size: 1.3rem;
-  text-transform: uppercase;
+  text-transform: capitalize;
+	color: v.$trans-white;
+  z-index: 2;
 }
 
 .home-page .grid-item:hover h3 {
-  display: none;
+	@media (min-width: 640px) {
+		display: none;
+	}
 }

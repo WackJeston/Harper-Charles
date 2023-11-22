@@ -80,7 +80,11 @@ Route::controller(SitemapController::class)->group(function () {
 	Route::get('/site-map', 'show');
 });
 
-Route::get('/contact', [ContactController::class, 'show']);
+Route::controller(ContactController::class)->group(function () {
+  Route::get('/contact', 'show');
+  Route::get('/contactCreateEnquiry', 'createEnquiry');
+});
+
 
 Route::get('/products/{id}', [ProductsController::class, 'show']);
 
@@ -248,6 +252,7 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/admin/banner-profile/{id}', 'show');
     Route::get('/banner-profileToggleBanner/{id}/{toggle}', 'toggleBanner');
     Route::post('/banner-profileAddSlide/{id}', 'addSlide');
+    Route::get('/banner-profileDeleteSlide/{id}', 'deleteSlide');
   });
 });
 

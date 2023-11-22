@@ -27,6 +27,7 @@ import Accountfunctions from './vue/components/public/account/accountFunctions.v
 import Accountorder from './vue/components/public/account/accountOrder.vue'
 
 import Contactmain from './vue/components/public/contactMain.vue'
+import Googlemaps from './vue/components/public/googleMaps.vue'
 
 import Cartitems from './vue/components/public/cartItems.vue'
 
@@ -138,13 +139,16 @@ checkoutSuccess.component('checkoutsuccess', Checkoutsuccess).mount('#checkoutsu
 
 
 const contactMain = Vue.createApp({})
+contactMain.component('contactmain', Contactmain).mount('#contactmain')
+
+const googleMaps = Vue.createApp({})
 const gmapKey = process.env.MIX_GOOGLE_MAPS_KEY
-contactMain.use(VueGoogleMaps, {
+googleMaps.use(VueGoogleMaps, {
 	load: {
 		key: gmapKey,
 	},
 }).mount('#app')
-contactMain.component('contactmain', Contactmain).mount('#contactmain')
+googleMaps.component('googlemaps', Googlemaps).mount('#googlemaps')
 
 
 const products = createApp({})

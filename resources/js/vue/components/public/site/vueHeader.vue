@@ -20,7 +20,7 @@
 			</ul> -->
 
 			<a v-if="this.sessionuser" href="/account" id="login" class="header-desktop">
-				<i class="fa-regular fa-user header-desktop"></i>
+				<i class="fa-solid fa-user header-desktop"></i>
 				<span class="header-desktop">Account</span>
 			</a>
 

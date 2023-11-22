@@ -10,6 +10,44 @@ class ContactController extends Controller
 {
   public function show()
   {
+		$addressPre = DB::select('SELECT 
+      c.type, 
+      c.value
+      FROM contact AS c
+      WHERE c.type IN
+      (
+        "line1",
+        "line2",
+        "city",
+        "region",
+        "postcode",
+        "lat",
+        "lng"
+      )'
+    );
+
+    $address = [];
+
+    foreach ($addressPre as $i => $value) {
+      $address[$value->type] = $value->value;
+    }
+
+    $coordinatesPre = DB::select('SELECT
+			c.type, 
+			c.value
+			FROM contact AS c
+			WHERE c.type IN ("lat", "lng")
+		');
+
+		$coordinates = [];
+
+		if (isset($coordinatesPre[0]->value)) {
+			$coordinates['lat'] = (float) $coordinatesPre[0]->value;
+		}
+
+		if (isset($coordinatesPre[1]->value)) {
+			$coordinates['lng'] = (float) $coordinatesPre[1]->value;
+		}
     $contact = [];
 
     $contact['email'] = DB::select('SELECT 
@@ -37,6 +75,8 @@ class ContactController extends Controller
     );
 
     return view('public/contact', compact(
+			'address',
+			'coordinates',
       'contact',
     ));
   }
