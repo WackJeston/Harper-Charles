@@ -4,6 +4,10 @@
 		<div v-if="this.banners.length == 1" v-for="banner in this.banners" class="banner-slide single-slide">
 			<img :src="banner.fileName" :alt="banner.fileName">
 			<div class="banner-overlay"></div>
+			<div class="slide-content">
+				<h3 class="banner-title">{{ banner.title }}</h3>
+				<h4 class="banner-title">{{ banner.description }}</h4>
+			</div>
 		</div>
 
     <carousel v-else v-bind="this.settings">
@@ -11,12 +15,15 @@
 				<img v-if="i == 1" :src="banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
 				<img v-else defer :src="banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
         <div class="banner-overlay"></div>
-				<h3 class="banner-title">{{ banner.title }}</h3>
+				<div class="slide-content">
+					<h3 class="banner-title">{{ banner.title }}</h3>
+					<h4 class="banner-title">{{ banner.description }}</h4>
+				</div>
       </slide>
 
       <template v-if="this.banners.length > 1" #addons>
         <navigation class="banner-nav"/>
-        <pagination class="banner-pagination"/>
+        <!-- <pagination class="banner-pagination"/> -->
       </template>
     </carousel>
 
@@ -35,7 +42,7 @@
     components: {
       Carousel,
       Slide,
-      Pagination,
+      // Pagination,
       Navigation,
     },
 

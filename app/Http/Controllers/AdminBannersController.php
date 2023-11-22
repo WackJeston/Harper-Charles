@@ -9,9 +9,7 @@ class AdminBannersController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-		
-		$bannersTable = new DataTable('banners');
+    $bannersTable = new DataTable('banners');
 		$bannersTable->setQuery('SELECT
 			b.id,
 			CONCAT(b.page, " (", b.position, ")") AS `location`,
@@ -29,7 +27,6 @@ class AdminBannersController extends Controller
 		$bannersTable = $bannersTable->render();
 
     return view('admin/banners', compact(
-      'sessionUser',
 			'bannersTable',
     ));
   }

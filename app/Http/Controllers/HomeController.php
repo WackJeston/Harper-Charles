@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
   public function show()
   {
-    $landingZoneBanners = DB::select('SELECT
+		$landingZoneBanners = DB::select('SELECT
 			b.id,
 			b.title,
 			b.description,

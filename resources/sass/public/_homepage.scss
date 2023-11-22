@@ -1,11 +1,19 @@
 @use 'site/v';
 
+.home-page #banner-homepage-top {
+	margin: 0 40px;
+
+	@media (max-width: 640px) {
+		margin: 0 20px;
+	}
+}
+
 .home-page #banner-homepage-top .banner-slide {
-  height: calc(100dvh - v.$header-height);
+  height: calc(100dvh - v.$header-height - 40px);
 	min-height: 400px;
 
 	@media (max-width: 640px) {
-		height: calc(100dvh - v.$header-height-mobile);
+		height: calc(100dvh - v.$header-height-mobile - 20px);
 	}
 }
 

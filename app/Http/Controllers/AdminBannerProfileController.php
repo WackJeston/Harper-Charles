@@ -16,11 +16,17 @@ class AdminBannerProfileController extends Controller
   {
 		$banner = Banners::find($id);
 
-		$slidesTable = new dataTable('banners');
+		$framingOptions = [];
+		$framingOptions[] = ['value' => null, 'label' => 'Center'];
+		$framingOptions[] = ['value' => 'top', 'label' => 'Top'];
+		$framingOptions[] = ['value' => 'bottom', 'label' => 'Bottom'];
+
+    $slidesTable = new dataTable('banners');
 		$slidesTable->setQuery('SELECT
 			b.id,
 			b.title,
 			b.description,
+			b.framing,
 			b.active,
 			b.fileName
 			FROM banners AS b
@@ -30,6 +36,7 @@ class AdminBannerProfileController extends Controller
 		$slidesTable->addColumn('id', '#');
 		$slidesTable->addColumn('title', 'Title', 2);
 		$slidesTable->addColumn('description', 'Subtitle');
+		$slidesTable->addColumn('framing', 'Framing', 1, true, 'select', $framingOptions);
 		$slidesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$slidesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$slidesTable = $slidesTable->render();

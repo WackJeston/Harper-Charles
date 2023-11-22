@@ -17,29 +17,41 @@
 	height: 100%;
 }
 
-.banner .banner-slide h3 {
+.banner .banner-slide .slide-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 	position: absolute;
-	bottom: 160px;
+	bottom: 50px;
+	left: 40px;
 	z-index: 2;
-  font-size: 6rem;
-	color: v.$brand-alt-light;
 	opacity: 0.9;
 
-	// @media (max-width: 900px) {
-	// 	bottom: 200px;
-	// 	font-size: 4rem;
-	// }
-
-	// @media (max-width: 500px) {
-	// 	bottom: 210px;
-	// 	font-size: 3rem;
-	// }
+	@media (max-width: 640px) {
+		bottom: 25px;
+		left: 20px;
+	}
 }
 
-.banner .banner-slide h2 {
-	z-index: 2;
-  font-size: 2rem;
-  margin: 10px;
+.banner .banner-slide h3 {
+  font-size: 2.2rem;
+	color: v.$brand-alt-light;
+	margin: 0;
+
+	@media (max-width: 640px) {
+		font-size: 2rem;
+	}
+}
+
+.banner .banner-slide h4 {
+	font-size: 1.2rem;
+	color: v.$brand-alt-light;
+	margin: 0 0 0 3px;
+	line-height: 20px;
+
+	@media (max-width: 640px) {
+		font-size: 1rem;
+	}
 }
 
 .banner .banner-slide p {

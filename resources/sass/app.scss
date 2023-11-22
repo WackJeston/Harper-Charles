@@ -2,12 +2,12 @@
 @use 'public/site/v';
 @use 'public/site/text';
 @use 'public/site/base';
-@use 'public/site/forms';
-@use 'public/site/tables';
 @use 'public/site/header';
 @use 'public/site/menu';
 @use 'public/site/footer';
-@use 'public/site/carousels';
+@use 'public/site/forms';
+@use 'public/site/tables';
+@use 'public/site/banners';
 
 //Auth
 @use 'public/auth';
