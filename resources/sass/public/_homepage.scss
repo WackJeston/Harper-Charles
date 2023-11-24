@@ -89,9 +89,12 @@
 	top: 15px;
 	left: 18px;
 	margin: 0;
+	padding: 4px 12px;
   display: flex;
   font-size: 1.3rem;
   text-transform: capitalize;
 	color: v.$trans-white;
+	background-color: v.$trans-dark-semi;
+	opacity: 0.8;
   z-index: 2;
 }

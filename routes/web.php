@@ -17,7 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductPageController;
 
 // ADMIN
@@ -86,7 +86,7 @@ Route::controller(ContactController::class)->group(function () {
 });
 
 
-Route::get('/products/{id}', [ProductsController::class, 'show']);
+Route::get('/category/{id}', [CategoryController::class, 'show']);
 
 Route::controller(ProductPageController::class)->group(function () {
   Route::get('/product-page/{id}', 'show');

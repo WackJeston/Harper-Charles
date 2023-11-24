@@ -141,7 +141,7 @@ class AppServiceProvider extends ServiceProvider
           ],
           $products = [
             "title"=>"shop",
-            "link"=>"/products/0",
+            "link"=>"/category/0",
             "icon"=>"fa-solid fa-tags",
           ],
           $contact = [
@@ -192,7 +192,7 @@ class AppServiceProvider extends ServiceProvider
         foreach ($categories as $i => $category) {
           $publicLinks[1]['sublink'][$i] = [
             "title"=>$category->title,
-            "link"=>"/products/" . $category->id,
+            "link"=>"/category/" . $category->id,
             "icon"=>"",
           ];
         }

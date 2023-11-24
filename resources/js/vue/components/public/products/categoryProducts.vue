@@ -1,25 +1,4 @@
 <template>
-	<section v-if="this.selectedImages.length" class="landing-zone-carousel lt" id="products-carousel">
-		<div class="carousel-content">
-			<h2 v-show="this.categorySubtitle">{{ this.categorySubtitle }}</h2>
-			<p v-show="this.categoryDesc">{{ this.categoryDesc }}</p>
-		</div>
-
-		<carousel v-if="this.selectedImages.length > 1" :items-to-show="1" :wrapAround="true" :autoplay="7000">
-			<slide v-for="(image, i) in this.selectedImages" :key="slide" class="lz-slide"
-				:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + image.fileName + ')' }">
-				<div v-show="this.categorySubtitle || this.categoryDesc" class="lz-overlay"></div>
-			</slide>
-		</carousel>
-
-		<carousel v-else-if="this.selectedImages.length == 1" :items-to-show="1">
-			<slide class="lz-slide"
-				:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.selectedImages[0].fileName + ')' }">
-				<div v-show="this.categorySubtitle || this.categoryDesc" class="lz-overlay"></div>
-			</slide>
-		</carousel>
-	</section>
-
 	<div class="category-row lt">
 		<button v-for="(category, i) in this.categories" :class="{ 'active': this.selectedCategory == category.id }" class=""
 			@click="(this.selectedCategory == category.id ? this.selectedCategory = false : this.selectedCategory = category.id), (this.selectProducts())"
@@ -59,9 +38,6 @@
 
 
 <script>
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
-
 export default {
 	props: [
 		'products',
@@ -69,13 +45,6 @@ export default {
 		'categoryimages',
 		'initialcategory',
 	],
-
-	components: {
-		Carousel,
-		Slide,
-		Pagination,
-		Navigation,
-	},
 
 	data() {
 		return {

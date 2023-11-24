@@ -1,3 +1,4 @@
+
 <template>
   <section class="banner" id="banner-homepage-top">
 
