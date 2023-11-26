@@ -31,12 +31,16 @@ class CategoryController extends Controller
 			$category = ProductCategories::find($id);
 			$banners = DB::select('SELECT `fileName` FROM product_category_images WHERE categoryId = ?', [$id]);
 			$products = DB::select('SELECT
-				p.*
+				p.*,
+				pi.fileName
 				FROM products AS p
 				INNER JOIN product_category_joins AS pcj ON pcj.productId = p.id
+				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
 				WHERE pcj.categoryId = ?', 
 				[$id]
 			);
+
+			// dd($products);
 
 			return view('public/category', compact(
 				'category',

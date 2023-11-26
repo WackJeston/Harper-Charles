@@ -37,7 +37,6 @@ import Checkoutreview from './vue/components/public/checkout/checkoutReview.vue'
 import Checkoutsuccess from './vue/components/public/checkout/checkoutSuccess.vue'
 
 import Categorybanner from './vue/components/public/products/categoryBanner.vue'
-import Categoryproducts from './vue/components/public/products/categoryProducts.vue'
 import Productpagemain from './vue/components/public/products/productPageMain.vue'
 
 
@@ -153,9 +152,6 @@ googleMaps.component('googlemaps', Googlemaps).mount('#googlemaps')
 
 const categoryBanner = createApp({})
 categoryBanner.component('categorybanner', Categorybanner).mount('#categorybanner')
-
-const categoryProducts = createApp({})
-categoryProducts.component('categoryproducts', Categoryproducts).mount('#categoryproducts')
 
 const productPageMain = createApp({})
 productPageMain.use(VueAxios, axios)
