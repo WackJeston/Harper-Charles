@@ -85,11 +85,13 @@ Route::controller(ContactController::class)->group(function () {
   Route::get('/contactCreateEnquiry', 'createEnquiry');
 });
 
-
-Route::get('/category/{id}', [CategoryController::class, 'show']);
+Route::controller(CategoryController::class)->group(function () {
+  Route::get('/shop', 'show');
+  Route::get('/category/{id}', 'show');
+});
 
 Route::controller(ProductPageController::class)->group(function () {
-  Route::get('/product-page/{id}', 'show');
+  Route::get('/product/{id}', 'show');
   Route::post('/product-pageCartAdd/{id}/{variantCount}/{selectedVariants}', 'cartAdd');
 });
 

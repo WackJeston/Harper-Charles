@@ -1,6 +1,13 @@
 <template>
 	<section class="banner" id="category-banner">
 
+	<div v-if="this.title || this.description" class="banner-title-container">
+		<div class="banner-title-inner-container">
+			<h1 v-if="this.title">{{ this.title }}</h1>
+			<h3 v-if="this.description">{{ this.description }}</h3>
+		</div>
+	</div>
+
 	<div v-if="this.banners.length == 1" v-for="banner in this.banners" class="banner-slide single-slide">
 		<img :src="this.publicasset + banner.fileName" :alt="banner.fileName">
 		<div class="banner-overlay"></div>
@@ -46,6 +53,8 @@ export default {
 	props: [
 		'publicasset',
     'banners',
+		'title',
+		'description'
 	],
 
 	data: () => ({

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Product-page')
+@section('title', $product['title'])
 
 @section('content')
   <main class="product-page page-margin dk">

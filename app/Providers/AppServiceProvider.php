@@ -145,9 +145,9 @@ class AppServiceProvider extends ServiceProvider
             "link"=>"/cart",
             "icon"=>"fa-solid fa-cart-shopping",
           ],
-          $products = [
+          $shop = [
             "title"=>"shop",
-            "link"=>"/category/0",
+            "link"=>"/shop",
             "icon"=>"fa-solid fa-tags",
           ],
           $contact = [
@@ -188,20 +188,20 @@ class AppServiceProvider extends ServiceProvider
           ],
 				];
 
-        $categories = DB::select('SELECT
-          c.id,
-          c.title
-          FROM product_categories AS c
-          WHERE c.show=1
-        ');
+        // $categories = DB::select('SELECT
+        //   c.id,
+        //   c.title
+        //   FROM product_categories AS c
+        //   WHERE c.show=1
+        // ');
 
-        foreach ($categories as $i => $category) {
-          $publicLinks[1]['sublink'][$i] = [
-            "title"=>$category->title,
-            "link"=>"/category/" . $category->id,
-            "icon"=>"",
-          ];
-        }
+        // foreach ($categories as $i => $category) {
+        //   $publicLinks[1]['sublink'][$i] = [
+        //     "title"=>$category->title,
+        //     "link"=>"/category/" . $category->id,
+        //     "icon"=>"",
+        //   ];
+        // }
 
 				$contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
 

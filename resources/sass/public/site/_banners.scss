@@ -4,6 +4,45 @@
 	position: relative;
 }
 
+.banner .banner-title-container {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	bottom: 20px;
+	left: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+}
+
+.banner .banner-title-inner-container {
+	background-color: v.$trans-white;
+	text-align: center;
+	padding: 10px;
+
+	@media (min-width: 640px) {
+		padding: 20px;
+	}
+}
+
+.banner .banner-title-container h1 {
+	margin: 0;
+
+	@media (min-width: 640px) {
+		font-size: 2rem;
+	}
+}
+
+.banner .banner-title-container h3 {
+	margin: 0;
+
+	@media (min-width: 640px) {
+		font-size: 1.4rem;
+	}
+}
+
 .banner .banner-slide {
   display: flex;
 	align-items: center;

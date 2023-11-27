@@ -1,56 +1,60 @@
 @extends('layout')
 
-@section('title', 'Category')
+@if ($categories)
+	@section('title', 'Shop')
+@else
+	@section('title', $category->title)
+@endif
+
+@php
+	if ($categories) {
+		$bannerTitle = 'Shop';
+		$bannerDescription = 'Browse our ranges of bespoke products.';
+	} else {
+		$bannerTitle = null;
+		$bannerDescription = null;
+	}
+@endphp
 
 @section('content')
   <main class="category">
 
-		@if (isset($categories))
-			@foreach ($categories as $category)
-				{{-- <div id="categoryproducts">
-					<categoryproducts
-					:products="{{ json_encode($products) }}"
-					:categories="{{ json_encode($categories) }}"
-					:categoryimages="{{ json_encode($categoryImages) }}"
-					initialcategory="{{ $initialCategory }}"
-					/>
-				</div> --}}
-			@endforeach
+		@if (count($banners) > 0)
+			<div id="categorybanner">
+				<categorybanner
+				publicasset="{{ env('AWS_ASSET_URL') }}"
+				:banners="{{ json_encode($banners) }}"
+				title="{{ $bannerTitle }}"
+				description="{{ $bannerDescription }}"
+				/>
+			</div>
+		@endif
 
-		@else
-			@if (count($banners) > 0)
-				<div id="categorybanner">
-					<categorybanner
-					publicasset="{{ env('AWS_ASSET_URL') }}"
-					:banners="{{ json_encode($banners) }}"
-					/>
-				</div>
-			@endif
-
+		@if (!$categories)
 			<div class="clear-box large center-desktop dk">
 				<h1>{{ $category->title }}</h1>
 				<h3>{{ $category->subtitle }}</h3>
 				<p>{{ $category->description }}</p>
 			</div>
-
-			<div id="categoryProducts">
-				@foreach ($products as $product)
-					<a href="/product-page/{{ $product->id }}" class="product">
-						<div class="image-container">
-							@if (!empty($product->fileName))
-								<div class="image" style="background-image: url('{{ env('AWS_ASSET_URL') . $product->fileName }}')"></div>
-							@else
-								<div class="no-image">
-									<i class="fa-solid fa-image"></i>
-								</div>
-							@endif
-						</div>
-
-						<h3>{{ $product->title }}</h3>
-					</a>
-				@endforeach
-			</div>
 		@endif
+
+		<div class="category-grid">
+			@foreach ($items as $item)
+				<a href="/category/{{ $item->id }}" class="item">
+					<div class="image-container">
+						@if (!empty($item->fileName))
+							<div class="image" style="background-image: url('{{ env('AWS_ASSET_URL') . $item->fileName }}')"></div>
+						@else
+							<div class="no-image">
+								<i class="fa-solid fa-image"></i>
+							</div>
+						@endif
+					</div>
+
+					<h3>{{ $item->title }}</h3>
+				</a>
+			@endforeach
+		</div>
 
   </main>
 @endsection

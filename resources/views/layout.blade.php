@@ -9,7 +9,8 @@
       @if (str_contains(url()->current(), '/admin'))
         <title>Admin | @yield('title')</title>
       @else
-        <title>{{ env('APP_NAME') }} | @yield('title')</title>
+        <title>@yield('title') | {{ env('APP_NAME') }}</title>
+        {{-- <title>{{ env('APP_NAME') }} | @yield('title')</title> --}}
       @endif
     @else
       <title>{{ env('APP_NAME') }}</title>

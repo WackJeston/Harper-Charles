@@ -10,7 +10,7 @@
       <a href="/admin/banners">Banners</a>
     </div>
 
-    <h1 class="dk">Banner Profile (#{{ $banner->id }})</h1>
+    <h1 class="dk">Banner ({{ $banner->page }} | {{ $banner->position }})</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

@@ -39,10 +39,6 @@ class HomeController extends Controller
       WHERE c.show=1
     ');
 
-		foreach ($categories as $i => $category) {
-			preloadImage($category->fileName);
-		}
-
     return view('home', compact(
       'landingZoneBanners',
       'categories',

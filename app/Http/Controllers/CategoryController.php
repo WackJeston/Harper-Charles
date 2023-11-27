@@ -11,10 +11,27 @@ use App\Models\ProductImages;
 
 class CategoryController extends Controller
 {
-  public function show($id)
+  public function show(int $id = 0)
   {
 		if ($id == 0) {
-			$categories = DB::select('SELECT
+			$categories = true;
+
+			$banners = DB::select('SELECT
+				b.id,
+				b.title,
+				b.description,
+				b.fileName,
+				b.framing
+				FROM banners AS b
+				INNER JOIN banners AS b2 ON b2.id = b.parentId
+				WHERE b2.page = "shop"
+				AND b2.position = "top"
+				AND b2.active = 1
+				AND b.active = 1'
+			);
+			preloadImage($banners[0]->fileName);
+
+			$items = DB::select('SELECT
 				pc.id,
 				pc.title,
 				pci.fileName
@@ -24,13 +41,20 @@ class CategoryController extends Controller
 			);
 
 			return view('public/category', compact(
-				'categories'
+				'categories',
+				'banners',
+				'items'
 			));
 		
 		} else {
+			$categories = false;
+
 			$category = ProductCategories::find($id);
+
 			$banners = DB::select('SELECT `fileName` FROM product_category_images WHERE categoryId = ?', [$id]);
-			$products = DB::select('SELECT
+			preloadImage($banners[0]->fileName);
+
+			$items = DB::select('SELECT
 				p.*,
 				pi.fileName
 				FROM products AS p
@@ -40,12 +64,11 @@ class CategoryController extends Controller
 				[$id]
 			);
 
-			// dd($products);
-
 			return view('public/category', compact(
+				'categories',
 				'category',
 				'banners',
-				'products'
+				'items'
 			));
 		}
   }
