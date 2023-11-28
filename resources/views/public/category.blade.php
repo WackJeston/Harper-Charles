@@ -6,16 +6,6 @@
 	@section('title', $category->title)
 @endif
 
-@php
-	if ($categories) {
-		$bannerTitle = 'Shop';
-		$bannerDescription = 'Browse our ranges of bespoke products.';
-	} else {
-		$bannerTitle = null;
-		$bannerDescription = null;
-	}
-@endphp
-
 @section('content')
   <main class="category">
 
@@ -40,7 +30,7 @@
 
 		<div class="category-grid">
 			@foreach ($items as $item)
-				<a href="/category/{{ $item->id }}" class="item">
+				<a href="/{{ $url }}/{{ $item->id }}" class="item">
 					<div class="image-container">
 						@if (!empty($item->fileName))
 							<div class="image" style="background-image: url('{{ env('AWS_ASSET_URL') . $item->fileName }}')"></div>

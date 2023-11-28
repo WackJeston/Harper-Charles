@@ -3,7 +3,7 @@
   <section class="banner" id="banner-homepage-top">
 
 		<div v-if="this.banners.length == 1" v-for="banner in this.banners" class="banner-slide single-slide">
-			<img :src="this.publicasset + banner.fileName" :alt="banner.fileName">
+			<img :src="this.asset + banner.fileName" :alt="banner.fileName">
 			<div class="banner-overlay"></div>
 			<div class="slide-content">
 				<h3 class="banner-title">{{ banner.title }}</h3>
@@ -13,8 +13,8 @@
 
     <carousel v-else v-bind="this.settings">
       <slide v-for="(banner, i) in banners" class="banner-slide">
-				<img v-if="i == 1" :src="this.publicasset + banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
-				<img v-else defer :src="this.publicasset + banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
+				<img v-if="i == 1" :src="this.asset + banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
+				<img v-else defer :src="this.asset + banner.fileName" :alt="banner.fileName" :style="{objectPosition: 'center ' + banner.framing}">
         <div class="banner-overlay"></div>
 				<div class="slide-content">
 					<h3 class="banner-title">{{ banner.title }}</h3>
@@ -48,7 +48,7 @@
     },
 
 		props: [
-			'publicasset',
+			'asset',
       'banners',
     ],
 

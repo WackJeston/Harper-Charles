@@ -12,7 +12,7 @@
     @if (count($landingZoneBanners) > 0)
 			<div async id="bannerhometop">
 				<bannerhometop 
-					publicasset="{{ env('AWS_ASSET_URL') }}"
+					asset="{{ env('ASSET_PATH') }}"
 					:banners="{{ json_encode($landingZoneBanners) }}"
 				/>
 			</div>
@@ -24,7 +24,10 @@
     </div>
 
     <div id="homecategories">
-      <homecategories :categories="{{ json_encode($categories) }}" />
+      <homecategories 
+				asset="{{ env('ASSET_PATH') }}"
+				:categories="{{ json_encode($categories) }}" 
+			/>
     </div>
 
   </main>

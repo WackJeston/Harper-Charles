@@ -15,6 +15,9 @@ class CategoryController extends Controller
   {
 		if ($id == 0) {
 			$categories = true;
+			$bannerTitle = 'Shop';
+			$bannerDescription = 'Browse our ranges of bespoke products.';
+			$url = 'category';
 
 			$banners = DB::select('SELECT
 				b.id,
@@ -42,12 +45,18 @@ class CategoryController extends Controller
 
 			return view('public/category', compact(
 				'categories',
+				'bannerTitle',
+				'bannerDescription',
+				'url',
 				'banners',
 				'items'
 			));
 		
 		} else {
 			$categories = false;
+			$bannerTitle = null;
+			$bannerDescription = null;
+			$url = 'product';
 
 			$category = ProductCategories::find($id);
 
@@ -66,6 +75,9 @@ class CategoryController extends Controller
 
 			return view('public/category', compact(
 				'categories',
+				'bannerTitle',
+				'bannerDescription',
+				'url',
 				'category',
 				'banners',
 				'items'
