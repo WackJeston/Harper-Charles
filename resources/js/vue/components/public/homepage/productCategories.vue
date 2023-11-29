@@ -3,7 +3,7 @@
   <div class="home-category-grid">
 		<div v-for="(category, i) in this.categories" class="grid-item-container">
 			<a class="grid-item" :href="'category/' + category.id">
-				<div class="background" :style="{ backgroundImage: 'url(' + this.asset + category.fileName + ')' }">
+				<div class="background" :style="{ backgroundImage: 'url(' + category.fileName + ')' }">
 					<div class="overlay"></div>
 					<h3>{{ category.title }}</h3>
 				</div>
@@ -16,7 +16,6 @@
 <script>
 export default {
   props: [
-		'asset',
     'categories',
   ],
 }

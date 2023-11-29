@@ -28,6 +28,7 @@ class HomeController extends Controller
 			AND b.active = 1
 		');
 
+		$landingZoneBanners = cacheImages($landingZoneBanners);
 		preloadImage($landingZoneBanners[0]->fileName);
 
     $categories = DB::select('SELECT
@@ -39,6 +40,8 @@ class HomeController extends Controller
       LEFT JOIN product_category_images AS i ON i.categoryId=c.id AND i.primary=1
       WHERE c.show=1
     ');
+
+		$categories = cacheImages($categories);
 
     return view('home', compact(
       'landingZoneBanners',

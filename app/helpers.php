@@ -3,7 +3,39 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
-use Aws\Ses\SesClient; 
+use Aws\Ses\SesClient;
+
+use App\Models\Products;
+
+function cacheImage(string $fileName):string {	
+	if (!Storage::disk('public')->exists($fileName)) {
+		$data = Storage::get($fileName);
+	
+		$manager = new ImageManager(['driver' => 'imagick']);
+		$image = $manager->make($data);
+		
+		Storage::disk('public')->put($fileName, $data);
+	}
+		
+	return Storage::disk('public')->url($fileName);
+}
+
+function cacheImages($records){
+	foreach ($records as $i => $record) {
+		if (is_array($record)) {
+			if (property_exists($record, 'fileName')) {
+				$record['fileName'] = cacheImage($record['fileName']);
+			}
+		} else {
+			if (property_exists($record, 'fileName')) {
+				// dd(cacheImage($record->fileName));
+				$record->fileName = cacheImage($record->fileName);
+			}
+		}
+	}
+
+	return $records;
+}
 
 function preloadImage(string $url) {
 	if (session()->has('preloaded-images')) {
