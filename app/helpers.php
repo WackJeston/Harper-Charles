@@ -7,29 +7,46 @@ use Aws\Ses\SesClient;
 
 use App\Models\Products;
 
-function cacheImage(string $fileName):string {	
-	if (!Storage::disk('public')->exists($fileName)) {
+function cacheImage(string $fileName, bool $webp = true, int $width = 0, int $height = 0):string {	
+	$publicFileName = sprintf('%s%s.%s', 
+		explode('.', $fileName)[0], 
+		($width > 0 || $height > 0) ? sprintf('-%d-%d', $width, $height) : '',
+		$webp ? 'webp' : explode('.', $fileName)[1]
+	);
+
+	if (!Storage::disk('public')->exists($publicFileName)) {
 		$data = Storage::get($fileName);
 
 		$manager = new ImageManager(['driver' => 'imagick']);
 		$image = $manager->make($data);
+
+		if ($width > 0 || $height > 0) {
+			$image->resize($width == 0 ? null : $width, $height == 0 ? null : $height, function($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+		}
 		
-		Storage::disk('public')->put($fileName, $data);
+		if($webp) {
+			$image->encode('webp');
+		}
+		
+		Storage::disk('public')->put($publicFileName, $image);
 	}
 		
-	return Storage::disk('public')->url($fileName);
+	return Storage::disk('public')->url($publicFileName);
 }
 
-function cacheImages($records){
+function cacheImages($records, bool $webp = true, int $width = 0, int $height = 0){
 	foreach ($records as $i => $record) {
 		if (property_exists($record, 'fileName')) {
 			if (is_array($record)) {
 				if (!empty($record['fileName'])) {
-					$record['fileName'] = cacheImage($record['fileName']);
+					$record['fileName'] = cacheImage($record['fileName'], $webp, $width, $height);
 				}
 			} else {
 				if (!empty($record->fileName)) {
-					$record->fileName = cacheImage($record->fileName);
+					$record->fileName = cacheImage($record->fileName, $webp, $width, $height);
 				}
 			}
 		}
