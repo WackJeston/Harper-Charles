@@ -32,6 +32,8 @@ class CategoryController extends Controller
 				AND b2.active = 1
 				AND b.active = 1'
 			);
+			
+			$banners = cacheImages($banners);
 			preloadImage($banners[0]->fileName);
 
 			$items = DB::select('SELECT
@@ -42,6 +44,8 @@ class CategoryController extends Controller
 				LEFT JOIN product_category_images AS pci ON pci.categoryId = pc.id AND pci.primary = 1
 				WHERE pc.show = 1'
 			);
+
+			$items = cacheImages($items);
 
 			return view('public/category', compact(
 				'categories',
@@ -61,6 +65,7 @@ class CategoryController extends Controller
 			$category = ProductCategories::find($id);
 
 			$banners = DB::select('SELECT `fileName` FROM product_category_images WHERE categoryId = ?', [$id]);
+			$banners = cacheImages($banners);
 			preloadImage($banners[0]->fileName);
 
 			$items = DB::select('SELECT
@@ -72,6 +77,8 @@ class CategoryController extends Controller
 				WHERE pcj.categoryId = ?', 
 				[$id]
 			);
+
+			$items = cacheImages($items);
 
 			return view('public/category', compact(
 				'categories',

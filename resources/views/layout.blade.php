@@ -160,7 +160,7 @@
       <div id="vuemenu">
         <vuemenu
           sitetitle="{{ env('APP_NAME') }}"
-					publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
+					publicasset="{{ env('ASSET_PATH') }}"
           :publiclinks="{{ json_encode($publicLinks) }}"
           :userlinks="{{ json_encode($userLinks) }}"
 					:socials="{{ json_encode($socials) }}"
@@ -173,7 +173,7 @@
           <vueheader
             sitetitle="{{ env('APP_NAME') }}"
             sitetitlemini="{{ env('APP_NAME_MINI') }}"
-            publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
+            publicasset="{{ env('ASSET_PATH') }}"
             :publiclinks="{{ json_encode($publicLinks) }}"
             :userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
@@ -194,7 +194,7 @@
         <div id="vuefooter">
           <vuefooter
 						sitetitle="{{ env('APP_NAME') }}"
-						publicasset="{{ env('AWS_ASSET_URL_PUBLIC') }}"
+						publicasset="{{ env('ASSET_PATH') }}"
 						:publiclinks="{{ json_encode($publicLinks) }}"
 						:userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"

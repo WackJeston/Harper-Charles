@@ -12,7 +12,6 @@
 		@if (count($banners) > 0)
 			<div id="categorybanner">
 				<categorybanner
-				publicasset="{{ env('AWS_ASSET_URL') }}"
 				:banners="{{ json_encode($banners) }}"
 				title="{{ $bannerTitle }}"
 				description="{{ $bannerDescription }}"
@@ -33,7 +32,7 @@
 				<a href="/{{ $url }}/{{ $item->id }}" class="item">
 					<div class="image-container">
 						@if (!empty($item->fileName))
-							<div class="image" style="background-image: url('{{ env('AWS_ASSET_URL') . $item->fileName }}')"></div>
+							<div class="image" style="background-image: url('{{ $item->fileName }}')"></div>
 						@else
 							<div class="no-image">
 								<i class="fa-solid fa-image"></i>

@@ -10,7 +10,7 @@ use App\Models\Products;
 function cacheImage(string $fileName):string {	
 	if (!Storage::disk('public')->exists($fileName)) {
 		$data = Storage::get($fileName);
-	
+
 		$manager = new ImageManager(['driver' => 'imagick']);
 		$image = $manager->make($data);
 		
@@ -22,16 +22,18 @@ function cacheImage(string $fileName):string {
 
 function cacheImages($records){
 	foreach ($records as $i => $record) {
-		if (is_array($record)) {
-			if (property_exists($record, 'fileName')) {
-				$record['fileName'] = cacheImage($record['fileName']);
-			}
-		} else {
-			if (property_exists($record, 'fileName')) {
-				// dd(cacheImage($record->fileName));
-				$record->fileName = cacheImage($record->fileName);
+		if (property_exists($record, 'fileName')) {
+			if (is_array($record)) {
+				if (!empty($record['fileName'])) {
+					$record['fileName'] = cacheImage($record['fileName']);
+				}
+			} else {
+				if (!empty($record->fileName)) {
+					$record->fileName = cacheImage($record->fileName);
+				}
 			}
 		}
+		
 	}
 
 	return $records;
