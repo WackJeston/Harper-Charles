@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_category_images', function (Blueprint $table) {
+        Schema::create('asset', function (Blueprint $table) {
             $table->id();
-						$table->foreignId('categoryId')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
-            $table->boolean('primary');
+						$table->string('fileName', 255);
+						$table->string('fileNameAWS', 255);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_category_images');
+        Schema::dropIfExists('asset');
     }
 };

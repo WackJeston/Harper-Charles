@@ -18,8 +18,7 @@ class Content extends Model
     'subtitle',
     'description',
     'active',
-    'name',
-    'fileName',
+    'assetId',
   ];
 
 }

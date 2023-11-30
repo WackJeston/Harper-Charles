@@ -14,7 +14,7 @@ class Invoice extends Model
 
   protected $fillable = [
     'orderId',
-    'fileName',
+    'assetId',
   ];
 
 	public static function createInvoice(int $orderId) {
@@ -47,9 +47,14 @@ class Invoice extends Model
 
 		Storage::put($fileName,  $pdf->download());
 
+		$asset = Asset::create([
+			'fileName' => $fileName,
+			'fileNameAWS' => $fileName,
+		]);
+
 		$invoice = Invoice::create([
 			'orderId' => $orderId,
-			'fileName' => $fileName,
+			'assetId' => $asset->id,
 		]);
 
 		return $invoice->id;

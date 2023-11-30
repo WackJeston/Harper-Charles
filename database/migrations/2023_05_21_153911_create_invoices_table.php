@@ -16,7 +16,7 @@ return new class extends Migration
 		Schema::create('invoices', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('orderId')->constrained('orders')->onUpdate('cascade')->onDelete('cascade');
-			$table->string('fileName', 100)->unique();
+			$table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

@@ -11,8 +11,7 @@ class ProductCategoryImages extends Model
 
   protected $fillable = [
     'categoryId',
-    'name',
-    'filename',
+    'assetId',
     'primary',
   ];
 

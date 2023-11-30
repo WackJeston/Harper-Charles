@@ -17,8 +17,7 @@ class Banners extends Model
     'title',
     'description',
     'active',
-    'name',
-    'fileName',
+    'assetId',
   ];
 
 }

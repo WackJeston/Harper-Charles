@@ -33,7 +33,7 @@ class CategoryController extends Controller
 				AND b.active = 1'
 			);
 			
-			$banners = cacheImages($banners);
+			$banners = cacheImages($banners, 1400, 1400);
 			preloadImage($banners[0]->fileName);
 
 			$items = DB::select('SELECT
@@ -45,7 +45,7 @@ class CategoryController extends Controller
 				WHERE pc.show = 1'
 			);
 
-			$items = cacheImages($items);
+			$items = cacheImages($items, 600, 600);
 
 			return view('public/category', compact(
 				'categories',
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 			$category = ProductCategories::find($id);
 
 			$banners = DB::select('SELECT `fileName` FROM product_category_images WHERE categoryId = ?', [$id]);
-			$banners = cacheImages($banners);
+			$banners = cacheImages($banners, 1400, 1400);
 			preloadImage($banners[0]->fileName);
 
 			$items = DB::select('SELECT
@@ -78,7 +78,7 @@ class CategoryController extends Controller
 				[$id]
 			);
 
-			$items = cacheImages($items);
+			$items = cacheImages($items, 600, 600);
 
 			return view('public/category', compact(
 				'categories',

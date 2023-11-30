@@ -22,7 +22,7 @@ return new class extends Migration
 						$table->string('description', 5000)->nullable();
 						$table->boolean('active')->default(0);
 						$table->string('name', 255)->nullable();
-            $table->string('fileName', 255)->nullable();
+            $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

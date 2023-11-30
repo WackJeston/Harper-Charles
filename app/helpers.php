@@ -5,9 +5,10 @@ use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Aws\Ses\SesClient;
 
+use App\Models\Asset;
 use App\Models\Products;
 
-function cacheImage(string $fileName, bool $webp = true, int $width = 0, int $height = 0):string {	
+function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $webp = true):string {	
 	$publicFileName = sprintf('%s%s.%s', 
 		explode('.', $fileName)[0], 
 		($width > 0 || $height > 0) ? sprintf('-%d-%d', $width, $height) : '',
@@ -37,16 +38,16 @@ function cacheImage(string $fileName, bool $webp = true, int $width = 0, int $he
 	return Storage::disk('public')->url($publicFileName);
 }
 
-function cacheImages($records, bool $webp = true, int $width = 0, int $height = 0){
+function cacheImages($records, int $width = 0, int $height = 0, bool $webp = true){
 	foreach ($records as $i => $record) {
 		if (property_exists($record, 'fileName')) {
 			if (is_array($record)) {
 				if (!empty($record['fileName'])) {
-					$record['fileName'] = cacheImage($record['fileName'], $webp, $width, $height);
+					$record['fileName'] = cacheImage($record['fileName'], $width, $height, $webp);
 				}
 			} else {
 				if (!empty($record->fileName)) {
-					$record->fileName = cacheImage($record->fileName, $webp, $width, $height);
+					$record->fileName = cacheImage($record->fileName, $width, $height, $webp);
 				}
 			}
 		}
@@ -81,27 +82,25 @@ function storeImages(Request $request, $id, string $type):array {
 		if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
 		else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
 
-		$fileName = sprintf('%s-%s-%s-%s.webp', 
+		$fileName = sprintf('%s-%s-%s-%s.%s', 
 			$type,
 			$id,
 			$_SERVER['REQUEST_TIME'],
-			rtrim(explode('.', str_replace([' ', '(', ')'], '-', $file->getClientOriginalName()))[0], '-')
+			rtrim(explode('.', str_replace([' ', '(', ')'], '-', $file->getClientOriginalName()))[0], '-'),
+			$mimeType
 		);
 
-		$fileName = str_replace(['----', '---', '--'], '-', $fileName);
+		Storage::put($fileName, file_get_contents($file));
 
-		if ($mimeType != 'webp') {
-			$manager = new ImageManager(['driver' => 'imagick']);
-			$data = $manager->make(file_get_contents($file))->encode('webp');
-		} else {
-			$data = file_get_contents($file);
-		}
-
-		Storage::put($fileName, $data);
+		$asset = Asset::create([
+			'fileName' => $file->getClientOriginalName(),
+			'fileNameAWS' => $fileName,
+		]);
 		
 		$fileNames[] = [
-			'new' => $fileName,
-			'old' => $file->getClientOriginalName()
+			'id' => $asset->id,
+			'new' => $asset->fileNameAWS,
+			'old' => $asset->fileName,
 		];
 	}
 

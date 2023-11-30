@@ -4,19 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Products;
 
-class ProductImages extends Model
+class Asset extends Model
 {
   use HasFactory;
 
+  protected $table = 'asset';
+
   protected $fillable = [
-    'productId',
-    'assetId',
-    'primary',
+		'fileName',
+    'fileNameAWS',
   ];
 
-  protected $guarded = [
-
-  ];
 }
