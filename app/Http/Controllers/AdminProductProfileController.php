@@ -46,15 +46,34 @@ class AdminProductProfileController extends Controller
 		$editForm = $editForm->render();
 
 		// Images
-		$primaryImage = ProductImages::where([['productId', $id], ['primary', 1]])->pluck('fileName')->first();
+		$primaryImage = DB::select('SELECT
+			a.fileName
+			FROM product_images AS pi
+			INNER JOIN asset AS a ON a.id = pi.assetId
+			WHERE pi.productId = ?
+			AND pi.primary = 1
+			LIMIT 1',
+			[$id]
+		);
+
+		$primaryImage = cacheImage($primaryImage[0]->fileName, 600, 600);
 
 		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');
 		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
-		$imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
+		// $imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
 		$imagesTable = new DataTable('product_images');
-		$imagesTable->setQuery('SELECT * FROM product_images WHERE productId = ?', [$id]);
+		$imagesTable->setQuery('SELECT 
+			pi.id,
+			a.name,
+			pi.primary,
+			a.fileName
+			FROM product_images AS pi
+			LEFT JOIN asset AS a ON a.id = pi.assetId
+			WHERE productId = ?', 
+			[$id]
+		);
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Title');
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:productId:' . $id);
@@ -91,6 +110,7 @@ class AdminProductProfileController extends Controller
 		$categoriesTable->addColumn('id', '#');
 		$categoriesTable->addColumn('title', 'Title');
 		$categoriesTable->addColumn('subtitle', 'Subtitle');
+		$categoriesTable->addLinkButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$categoriesTable->addLinkButton('product-profileRemoveCategory/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Category');
 		$categoriesTable = $categoriesTable->render();
 
@@ -181,8 +201,8 @@ class AdminProductProfileController extends Controller
 		foreach ($fileNames as $fileName) {
 			ProductImages::create([
 				'productId' => $id,
-				'name' => !empty($request->name) ? $request->name : $fileName['old'],
-				'filename' => $fileName['new'],
+				// 'name' => !empty($request->name) ? $request->name : $fileName['old'],
+				'assetId' => $fileName['id'],
 				'primary' => 0,
 			]);
 		}
@@ -193,13 +213,21 @@ class AdminProductProfileController extends Controller
   public function deleteImage($imageId)
   {
     $id = ProductImages::where('id', $imageId)->pluck('productId')->first();
-    $fileName = ProductImages::where('id', $imageId)->pluck('fileName')->first();
-    $name = ProductImages::where('id', $imageId)->pluck('name')->first();
+    
+		$fileName = DB::select('SELECT
+			a.fileName
+			FROM product_category_images AS pci
+			INNER JOIN asset AS a ON a.id = pci.assetId
+			WHERE pci.id = ?
+			LIMIT 1',
+			[$imageId]
+		);
+    
+    Storage::delete($fileName[0]->fileName);
 
     ProductImages::where('id', $imageId)->delete();
-    Storage::delete($fileName);
 
-    return redirect("/admin/product-profile/$id")->with('message', "$name has been deleted.");
+    return redirect("/admin/product-profile/$id")->with('message', "Image #$imageId has been deleted.");
   }
 
   public function primaryImage($imageId)

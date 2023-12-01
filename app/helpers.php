@@ -93,14 +93,14 @@ function storeImages(Request $request, $id, string $type):array {
 		Storage::put($fileName, file_get_contents($file));
 
 		$asset = Asset::create([
-			'fileName' => $file->getClientOriginalName(),
-			'fileNameAWS' => $fileName,
+			'name' => $file->getClientOriginalName(),
+			'fileName' => $fileName,
 		]);
 		
 		$fileNames[] = [
 			'id' => $asset->id,
-			'new' => $asset->fileNameAWS,
-			'old' => $asset->fileName,
+			'new' => $asset->fileName,
+			'old' => $asset->name,
 		];
 	}
 

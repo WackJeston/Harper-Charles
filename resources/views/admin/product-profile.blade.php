@@ -49,8 +49,9 @@
 						<li><strong>Created At: </strong>{{ $product->created_at }}</li>
 					@endif
 				</ul>
-				@if ($primaryImage)
-					<div class="wb-image" style="background-image: url('https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $primaryImage }}');"></div>
+				
+				@if ($primaryImage != null)
+					<div class="wb-image" style="background-image: url('{{ $primaryImage }}');"></div>
 				@endif
 			</div>
 		</div>

@@ -49,7 +49,10 @@
 						<li><strong>Created At: </strong>{{ $category->created_at }}</li>
 					@endif
 				</ul>
-				<div class="wb-image" style="background-image: {{ 'url(' . env('AWS_ASSET_URL') . $primaryImage . ')' }}"></div>
+
+				@if ($primaryImage != null)
+					<div class="wb-image" style="background-image: url('{{ $primaryImage }}');"></div>
+				@endif
 			</div>
 		</div>
   </main>

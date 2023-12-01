@@ -12,8 +12,8 @@ class Asset extends Model
   protected $table = 'asset';
 
   protected $fillable = [
-		'fileName',
-    'fileNameAWS',
+		'name',
+    'fileName',
   ];
 
 }

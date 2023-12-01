@@ -66,6 +66,8 @@ class DataTable
 		);
 
 		$this->table['records'] = DB::select($query);
+
+		$this->table['records'] = cacheImages($this->table['records']);
 	}
 
 	public function setTitle(string $title) {
@@ -139,10 +141,6 @@ class DataTable
 						break;
 					
 					case 'record':
-						if ($value[1] == 'fileName' && $record->{$value[1]} != null) {
-							$record->{$value[1]} = Storage::disk('s3')->url($record->{$value[1]});
-						}
-
 						$tempValue = $record->{$value[1]};
 						break;
 					

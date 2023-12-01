@@ -15,20 +15,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-      $landingZones = [
-				[
-					'location' => 'home',
-					'show' => 1,
-					'created_at' => date("Y-m-d H:i:s"),
-					'updated_at' => date("Y-m-d H:i:s"),
-				],
-			];
-
-			DB::table('landing_zones')->insert($landingZones);
-
-
-			
+    {		
 			$countries = [
 				['name' => 'Afghanistan', 'code' => 'AF'],
 				['name' => 'Åland Islands', 'code' => 'AX'],

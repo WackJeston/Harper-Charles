@@ -46,7 +46,19 @@ class AdminCategoryProfileController extends Controller
 		$editForm = $editForm->render();
 
 		// Images
-		$primaryImage = ProductCategoryImages::where([['categoryId', $id], ['primary', 1]])->pluck('fileName')->first();
+		$primaryImage = DB::select('SELECT
+			a.fileName
+			FROM product_category_images AS pci
+			INNER JOIN asset AS a ON a.id = pci.assetId
+			WHERE pci.categoryId = ?
+			AND pci.primary = 1
+			LIMIT 1',
+			[$id]
+		);
+
+		if (!empty($primaryImage)) {
+			$primaryImage = cacheImage($primaryImage[0]->fileName, 600, 600);
+		}
 
 		$imagesForm = new DataForm(request(), sprintf('/category-profileAddImage/%d', $id), 'Add Image');
 		$imagesForm->addInput('file', 'fileName', 'Image', null, null, null, true);
@@ -54,7 +66,16 @@ class AdminCategoryProfileController extends Controller
 		$imagesForm = $imagesForm->render();
 
     $imagesTable = new DataTable('product_category_images');
-		$imagesTable->setQuery('SELECT * FROM product_category_images WHERE categoryId = ?', [$id]);
+		$imagesTable->setQuery('SELECT 
+			pci.id,
+			a.name,
+			pci.primary,
+			a.fileName
+			FROM product_category_images AS pci
+			LEFT JOIN asset AS a ON a.id = pci.assetId
+			WHERE categoryId = ?', 
+			[$id]
+		);
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Name', 2);
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:categoryId:' . $id);
@@ -166,7 +187,7 @@ class AdminCategoryProfileController extends Controller
 			ProductCategoryImages::create([
 				'categoryId' => $id,
 				'name' => !empty($request->name) ? $request->name : $fileName['old'],
-				'filename' => $fileName['new'],
+				'assetId' => $fileName['id'],
 				'primary' => 0,
 			]);
 		}
@@ -178,14 +199,21 @@ class AdminCategoryProfileController extends Controller
   public function deleteImage($imageId)
   {
     $id = ProductCategoryImages::where('id', $imageId)->pluck('categoryId')->first();
-    $name = ProductCategoryImages::where('id', $imageId)->pluck('name')->first();
-    $fileName = ProductCategoryImages::where('id', $imageId)->pluck('fileName')->first();
+
+		$fileName = DB::select('SELECT
+			a.fileName
+			FROM product_category_images AS pci
+			INNER JOIN asset AS a ON a.id = pci.assetId
+			WHERE pci.id = ?
+			LIMIT 1',
+			[$imageId]
+		);
     
-    Storage::delete($fileName);
+    Storage::delete($fileName[0]->fileName);
 
     ProductCategoryImages::find($imageId)->delete();
 
-    return redirect("/admin/category-profile/$id")->with('message', "$name has been deleted.");
+    return redirect("/admin/category-profile/$id")->with('message', "Image #$imageId has been deleted.");
   }
 
 

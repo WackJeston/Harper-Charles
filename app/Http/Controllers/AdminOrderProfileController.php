@@ -21,10 +21,11 @@ class AdminOrderProfileController extends Controller
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`,
 			IF(u.admin, "user", "customer") AS `type`,
-			i.fileName AS invoice
+			a.fileName AS invoice
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId
 			LEFT JOIN invoices AS i ON i.orderId=o.id
+			LEFT JOIN asset AS a ON a.id=i.assetId
 			WHERE o.id=?', [$id]
 		);
 

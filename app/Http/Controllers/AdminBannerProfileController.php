@@ -28,14 +28,16 @@ class AdminBannerProfileController extends Controller
 			b.description,
 			b.framing,
 			b.active,
-			b.fileName
+			a.fileName
 			FROM banners AS b
-			WHERE b.parentId = ?',
+			LEFT JOIN asset AS a ON a.id = b.assetId
+			WHERE b.parentId = ?
+			GROUP BY b.id',
 			[$id]
 		);
 		$slidesTable->addColumn('id', '#');
 		$slidesTable->addColumn('title', 'Title', 2);
-		$slidesTable->addColumn('description', 'Subtitle', 2);
+		$slidesTable->addColumn('description', 'Subtitle', 2, false, 'text');
 		$slidesTable->addColumn('framing', 'Framing', 1, true, 'select', $framingOptions);
 		$slidesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$slidesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
@@ -82,8 +84,7 @@ class AdminBannerProfileController extends Controller
 				'parentId' => $id,
 				'title' => $request->title,
 				'description' => $request->description,
-				'name' => $fileName['old'],
-				'fileName' => $fileName['new'],
+				'assetId' => $fileName['id'],
 			]);
 		}
 

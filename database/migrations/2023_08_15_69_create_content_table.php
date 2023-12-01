@@ -21,8 +21,7 @@ return new class extends Migration
 						$table->string('subtitle', 255)->nullable();
 						$table->string('description', 5000)->nullable();
 						$table->boolean('active')->default(0);
-						$table->string('name', 255)->nullable();
-            $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }
