@@ -62,7 +62,7 @@
   </head>
 
   <body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; width: 100vw">
-		<img src="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo.svg' }}" alt="logo" height="150px">
+		<img src="{{ env('ASSET_PATH') . 'website-logo.svg' }}" alt="logo" height="150px">
 
 		<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 40px; color: gray;">
 			<h1 style="margin: 0;	padding-right: 10px; font-size: 1.5rem;">Site Under Construction</h1>
