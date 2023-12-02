@@ -23,10 +23,11 @@ class CategoryController extends Controller
 				b.id,
 				b.title,
 				b.description,
-				b.fileName,
+				a.fileName,
 				b.framing
 				FROM banners AS b
 				INNER JOIN banners AS b2 ON b2.id = b.parentId
+				INNER JOIN asset AS a ON a.id = b.assetId
 				WHERE b2.page = "shop"
 				AND b2.position = "top"
 				AND b2.active = 1
@@ -34,14 +35,17 @@ class CategoryController extends Controller
 			);
 			
 			$banners = cacheImages($banners, 1400, 1400);
-			preloadImage($banners[0]->fileName);
+			if (!empty($banners)) {
+				preloadImage($banners[0]->fileName);
+			}
 
 			$items = DB::select('SELECT
 				pc.id,
 				pc.title,
-				pci.fileName
+				a.fileName
 				FROM product_categories AS pc
 				LEFT JOIN product_category_images AS pci ON pci.categoryId = pc.id AND pci.primary = 1
+				INNER JOIN asset AS a ON a.id = pci.assetId
 				WHERE pc.show = 1'
 			);
 
@@ -64,16 +68,26 @@ class CategoryController extends Controller
 
 			$category = ProductCategories::find($id);
 
-			$banners = DB::select('SELECT `fileName` FROM product_category_images WHERE categoryId = ?', [$id]);
+			$banners = DB::select('SELECT 
+				a.fileName
+				FROM product_category_images AS pci
+				INNER JOIN asset AS a ON a.id = pci.assetId
+				WHERE pci.categoryId = ?', 
+				[$id]
+			);
+
 			$banners = cacheImages($banners, 1400, 1400);
-			preloadImage($banners[0]->fileName);
+			if (!empty($banners)) {
+				preloadImage($banners[0]->fileName);
+			}
 
 			$items = DB::select('SELECT
 				p.*,
-				pi.fileName
+				a.fileName
 				FROM products AS p
 				INNER JOIN product_category_joins AS pcj ON pcj.productId = p.id
 				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
+				INNER JOIN asset AS a ON a.id = pi.assetId
 				WHERE pcj.categoryId = ?', 
 				[$id]
 			);

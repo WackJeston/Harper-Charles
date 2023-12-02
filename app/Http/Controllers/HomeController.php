@@ -18,10 +18,11 @@ class HomeController extends Controller
 			b.id,
 			b.title,
 			b.description,
-			b.fileName,
+			a.fileName,
 			b.framing
 			FROM banners AS b
 			INNER JOIN banners AS b2 ON b2.id = b.parentId
+			INNER JOIN asset AS a ON a.id = b.assetId
 			WHERE b2.page = "home"
 			AND b2.position = "top"
 			AND b2.active = 1
@@ -35,9 +36,10 @@ class HomeController extends Controller
       c.id,
       c.title,
       c.subtitle,
-      i.fileName
+      a.fileName
       FROM product_categories AS c
-      LEFT JOIN product_category_images AS i ON i.categoryId=c.id AND i.primary=1
+      LEFT JOIN product_category_images AS pci ON pci.categoryId=c.id AND pci.primary=1
+			INNER JOIN asset AS a ON a.id = pci.assetId
       WHERE c.show=1
     ');
 

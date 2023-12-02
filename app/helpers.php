@@ -78,9 +78,7 @@ function storeImages(Request $request, $id, string $type):array {
 	$fileNames = [];
 
 	foreach ($request->files as $i => $file) {
-		$mimeType = str_replace('image/', '', $file->getClientMimeType());
-		if ($mimeType == 'svg+xml') { $mimeType = 'svg'; }
-		else if ($mimeType == 'jpeg') { $mimeType = 'jpg'; }
+		$mimeType = explode('.', $file->getClientOriginalName())[1];
 
 		$fileName = sprintf('%s-%s-%s-%s.%s', 
 			$type,

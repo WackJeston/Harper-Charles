@@ -72,8 +72,8 @@ class AdminCategoryProfileController extends Controller
 			pci.primary,
 			a.fileName
 			FROM product_category_images AS pci
-			LEFT JOIN asset AS a ON a.id = pci.assetId
-			WHERE categoryId = ?', 
+			INNER JOIN asset AS a ON a.id = pci.assetId
+			WHERE pci.categoryId = ?', 
 			[$id]
 		);
 		$imagesTable->addColumn('id', '#');
