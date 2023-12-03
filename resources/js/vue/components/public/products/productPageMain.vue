@@ -4,7 +4,7 @@
     <div class="wb-row">
       <div class="wb-images">
         <div v-if="this.count > 0" class="wb-image" @click="showImage(this.selectedImage)"
-        :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.selectedImage + ')' }"></div>
+        :style="{ backgroundImage: 'url(' + this.selectedImage + ')' }"></div>
         <div v-else class="wb-image">
           <i class="fa-solid fa-couch"></i>
         </div>
@@ -14,7 +14,7 @@
           <div class="image-row-container">
             <div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
               <div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)"
-              :style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + image.fileName + ')' }"></div>
+              :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
             </div>
             <div v-show="this.count > 1" class="selected-images"
             :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
@@ -27,7 +27,7 @@
 
       <div class="wb-content dk">
         <h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
-        <p>Product Number: {{this.product.productNumber}}</p>
+        <p>#: {{this.product.id}}</p>
         <form @submit.prevent="cartAdd" enctype="multipart/form-data">
           <input type="hidden" name="_token" :value="csrf">
 
@@ -66,7 +66,6 @@
       'product',
       'images',
       'count',
-      'selectedimage',
       'variants',
     ],
 
@@ -74,7 +73,7 @@
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         imageView: false,
-        selectedImage: this.selectedimage.fileName,
+        selectedImage: this.images[0].fileName,
         selectedColor: 'blue',
         lastSelected: 0,
         imageRowPosition: 0,
@@ -154,7 +153,7 @@
 
       showImage(fileName) {
         const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = 'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + fileName;
+        imageZone.src = fileName;
         this.imageView = true;
       },
 

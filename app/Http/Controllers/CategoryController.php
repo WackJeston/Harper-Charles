@@ -36,7 +36,7 @@ class CategoryController extends Controller
 			
 			$banners = cacheImages($banners, 1400, 1400);
 			if (!empty($banners)) {
-				preloadImage($banners[0]->fileName);
+				preloadImage($banners[0]->fileName, true);
 			}
 
 			$items = DB::select('SELECT
@@ -78,7 +78,7 @@ class CategoryController extends Controller
 
 			$banners = cacheImages($banners, 1400, 1400);
 			if (!empty($banners)) {
-				preloadImage($banners[0]->fileName);
+				preloadImage($banners[0]->fileName, true);
 			}
 
 			$items = DB::select('SELECT

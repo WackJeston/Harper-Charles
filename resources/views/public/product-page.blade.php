@@ -3,7 +3,7 @@
 @section('title', $product['title'])
 
 @section('content')
-  <main class="product-page page-margin dk">
+  <main class="product-page dk">
 
     @if ($errors->any())
       <div id="alerterror" class="lt"
@@ -22,9 +22,8 @@
     <div id="productpagemain">
       <productpagemain
         :product="{{ json_encode($product) }}"
-        :images="{{ $productImages }}"
+        :images="{{ json_encode($productImages) }}"
         count="{{ $imageCount }}"
-        :selectedimage="{{ $primaryProductImage }}"
         :variants="{{ json_encode($variants) }}"
       />
     </div>

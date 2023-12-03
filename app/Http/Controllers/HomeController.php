@@ -30,7 +30,7 @@ class HomeController extends Controller
 		');
 
 		$landingZoneBanners = cacheImages($landingZoneBanners, 1400, 1400);
-		preloadImage($landingZoneBanners[0]->fileName);
+		preloadImage($landingZoneBanners[0]->fileName, true);
 
     $categories = DB::select('SELECT
       c.id,

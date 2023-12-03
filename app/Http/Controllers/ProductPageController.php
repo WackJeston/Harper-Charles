@@ -14,19 +14,25 @@ class ProductPageController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-
     $product = Products::find($id);
-    $productImages = ProductImages::where('productId', $id)
-      ->orderBy('primary', 'desc')
-      ->orderBy('id')
-      ->get();
+		$productImages = DB::select(sprintf('SELECT
+			pi.id,
+			a.fileName,
+			a.name
+			FROM product_images AS pi
+			INNER JOIN asset AS a ON a.id = pi.assetId
+			WHERE pi.productId = %d
+			ORDER BY pi.primary DESC, pi.id ASC', $id
+		));
 
-    $imageCount = count($productImages);
+		$productImages = cacheImages($productImages, 800, 800);
+		$imageCount = count($productImages);
 
-    $primaryProductImage = ProductImages::where('productId', $id,)
-      ->orderBy('primary', 'desc')
-      ->first();
+		if (!empty($productImages)) {
+			foreach ($productImages as $i => $image) {
+				preloadImage($image->fileName, $i = 0 ? true : false);
+			}
+		}
 
     $variantRecords = DB::select(sprintf('SELECT
       pv.id,
@@ -59,11 +65,9 @@ class ProductPageController extends Controller
     }
 
     return view('public/product-page', compact(
-      'sessionUser',
       'product',
       'productImages',
       'imageCount',
-      'primaryProductImage',
       'variants',
     ));
   }

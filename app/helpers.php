@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
+use Spatie\ImageOptimizer\OptimizerChain;
+use Spatie\ImageOptimizer\Optimizers;
 use Aws\Ses\SesClient;
 
 use App\Models\Asset;
@@ -33,12 +35,13 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $web
 		}
 		
 		Storage::disk('public')->put($publicFileName, $image);
+		// optimizeImage(Storage::disk('public')->url($publicFileName));
 	}
 		
 	return Storage::disk('public')->url($publicFileName);
 }
 
-function cacheImages($records, int $width = 0, int $height = 0, bool $webp = true){
+function cacheImages($records, int $width = 0, int $height = 0, bool $webp = true) {
 	foreach ($records as $i => $record) {
 		if (property_exists($record, 'fileName')) {
 			if (is_array($record)) {
@@ -57,9 +60,46 @@ function cacheImages($records, int $width = 0, int $height = 0, bool $webp = tru
 	return $records;
 }
 
-function preloadImage(string $url) {
+function optimizeImage(string $filePath) {
+	$optimizerChain = new OptimizerChain();
+	$optimizerChain->addOptimizer(new Optimizers\Pngquant([
+		'--quality=65-80',
+		'--force',
+		'--skip-if-larger',
+	]));
+	$optimizerChain->addOptimizer(new Optimizers\Optipng([
+		'-i0',
+		'-o2',
+		'-quiet',
+	]));
+	$optimizerChain->addOptimizer(new Optimizers\Jpegoptim([
+		'-m85',
+		'--strip-all',
+		'--all-progressive',
+	]));
+	$optimizerChain->addOptimizer(new Optimizers\Svgo([
+		'--disable={cleanupIDs,removeViewBox}',
+	]));
+	$optimizerChain->addOptimizer(new Optimizers\Gifsicle([
+		'-b',
+		'-O3',
+	]));
+	$optimizerChain->addOptimizer(new Optimizers\Cwebp([
+		'-m 6',
+		'-pass 10',
+		'-mt',
+		'-q 90',
+	]));
+	$optimizerChain->optimize($filePath);
+};
+
+function preloadImage(string $url, bool $first = false) {
 	if (session()->has('preloaded-images')) {
-		$records = session()->get('preloaded-images');
+		if ($first) {
+			$records = [];
+		} else {
+			$records = session()->get('preloaded-images');
+		}
 
 		if (!in_array($url, $records)) {
 			$records[] = $url;

@@ -32,12 +32,6 @@ class AppServiceProvider extends ServiceProvider
     {
 			// Cashier::calculateTaxes();
 
-			if (session()->has('preloaded-images')) {
-				$records = [];
-				session()->put('preloaded-images', $records);
-				session()->save();
-			}
-
       Validator::extend('unique_custom', function ($attribute, $value, $parameters)
       {
         list($table, $field, $field2, $field2Value) = $parameters;

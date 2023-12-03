@@ -9,15 +9,16 @@
       @if (str_contains(url()->current(), '/admin'))
         <title>Admin | @yield('title')</title>
       @else
-        <title>{{ env('APP_NAME') }} | @yield('title')</title>
+        <title>@yield('title') | {{ env('APP_NAME') }}</title>
+        {{-- <title>{{ env('APP_NAME') }} | @yield('title')</title> --}}
       @endif
     @else
       <title>{{ env('APP_NAME') }}</title>
     @endif
 
-		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo.svg' }}" as="image">
-		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-logo-white.svg' }}" as="image">
-		<link rel="preload" href="{{ env('AWS_ASSET_URL_PUBLIC') . 'website-title.svg' }}" as="image">
+		<link rel="preload" href="{{ env('ASSET_PATH') . 'website-logo.svg' }}" as="image">
+		<link rel="preload" href="{{ env('ASSET_PATH') . 'website-logo-white.svg' }}" as="image">
+		<link rel="preload" href="{{ env('ASSET_PATH') . 'website-title.svg' }}" as="image">
 
 		@if (session()->has('preloaded-images'))
 			@foreach (session()->get('preloaded-images') as $url)
@@ -61,13 +62,174 @@
     </style>
   </head>
 
-  <body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; width: 100vw">
-		<img src="{{ env('ASSET_PATH') . 'website-logo.svg' }}" alt="logo" height="150px">
+  <body>
+		@php
+			$sessionUser = auth()->user();
+		@endphp
 
-		<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 40px; color: gray;">
-			<h1 style="margin: 0;	padding-right: 10px; font-size: 1.5rem;">Site Under Construction</h1>
-			{{-- <i style="font-size: 1.3rem;" class="fa-solid fa-person-digging"></i> --}}
-			<i class="fa-solid fa-gear fa-spin" style="position: relative; top: 3px;"></i>
-		</div>
+		@if(str_contains(url()->current(), '/admin/'))
+			{{-- ADMIN --}}
+			@php
+				$notificationsPre = DB::select('SELECT
+					n.id,
+					n.group,
+					n.name,
+					nu.id AS notificationUserId,
+					IF(nu.email, 1, 0) AS email
+					FROM notification AS n
+					LEFT JOIN notification_user AS nu ON nu.notificationId=n.id AND nu.userId = ?', 
+					[auth()->user()['id']]
+				);
+
+				$notifications = [];
+
+				foreach ($notificationsPre as $i => $notification) {
+					$notifications[$notification->group][] = $notification;
+				}
+			@endphp
+			
+      <div id="admin-container">
+        <div id="adminheader">
+          @if(str_contains(url()->current(), '/dashboard'))
+            <Adminheader
+              sitetitle="{{ env('APP_NAME') }}"
+              :adminlinks="{{ json_encode($adminLinks) }}"
+              showHome="{{ json_encode(true) }}"
+              :sessionuser="{{ $sessionUser }}"
+							:notifications="{{ json_encode($notifications) }}"
+            />
+          @else
+            <Adminheader
+              sitetitle="{{ env('APP_NAME') }}"
+              :adminlinks="{{ json_encode($adminLinks) }}"
+              showHome="{{ json_encode(false) }}"
+              :sessionuser="{{ $sessionUser }}"
+							:notifications="{{ json_encode($notifications) }}"
+            />
+          @endif
+        </div>
+
+        @yield('content')
+
+				<div class="image-viewer" style="display: none;">
+					<img class="viewer-image">
+					<div class="viewer-overlay"></div>
+					<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+				</div>
+
+				<div class="warning-overlay" style="display: none;" onclick="closeDeleteWarning()">
+					<div class="web-box warning-box dk">
+						<h3 class="warning">WARNING</h3>
+						<p></p>
+						<div class="row">
+							<a id="delete-link"><button type="button" name="delete" class="delete">Delete</button></a>
+							<button type="button" name="cancel" class="cancel" onclick="closeDeleteWarning()">Cancel</button>
+						</div>
+					</div>
+				</div>
+
+        <div id="adminfooter">
+          <Adminfooter
+            sitetitle="{{ env('APP_NAME') }}"
+            :adminlinks="{{ json_encode($adminLinks) }}"
+          />
+        </div>
+      </div>
+
+    @elseif (str_contains(url()->current(), '/admin') || str_contains(url()->current(), '/admin-registration'))
+      <div id="admin-container">
+        @yield('content')
+      </div>
+
+		@elseif (str_contains(url()->current(), '/checkout'))
+			<div id="page-container">
+				<header id="checkout-header" class="lt">
+					<nav class="desktop-nav">
+						<a href="/" class="title section-width">
+							<h2 id="header-title">{{ env('APP_NAME') }}</h2>
+							<h2 id="header-title-mini">{{ env('APP_NAME_MINI') }}</h2>
+						</a>
+					</nav>
+				</header>
+
+				@yield('content')
+			</div>
+
+    @else
+
+      <div id="vuemenu">
+        <vuemenu
+          sitetitle="{{ env('APP_NAME') }}"
+					publicasset="{{ env('ASSET_PATH') }}"
+          :publiclinks="{{ json_encode($publicLinks) }}"
+          :userlinks="{{ json_encode($userLinks) }}"
+					:socials="{{ json_encode($socials) }}"
+					:sessionuser="{{ $sessionUser }}"
+        />
+      </div>
+
+      <div id="page-container">
+        <div id="vueheader">
+          <vueheader
+            sitetitle="{{ env('APP_NAME') }}"
+            sitetitlemini="{{ env('APP_NAME_MINI') }}"
+            publicasset="{{ env('ASSET_PATH') }}"
+            :publiclinks="{{ json_encode($publicLinks) }}"
+            :userlinks="{{ json_encode($userLinks) }}"
+						:socials="{{ json_encode($socials) }}"
+            :sessionuser="{{ $sessionUser }}"
+          />
+        </div>
+
+        @yield('content')
+
+				<div class="image-viewer-container">
+					<div class="image-viewer" style="display: none;">
+						<img class="viewer-image">
+						<div class="viewer-overlay"></div>
+						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+					</div>
+				</div>
+
+        <div id="vuefooter">
+          <vuefooter
+						sitetitle="{{ env('APP_NAME') }}"
+						publicasset="{{ env('ASSET_PATH') }}"
+						:publiclinks="{{ json_encode($publicLinks) }}"
+						:userlinks="{{ json_encode($userLinks) }}"
+						:socials="{{ json_encode($socials) }}"
+						:sessionuser="{{ $sessionUser }}"
+          />
+        </div>
+      </div>
+    @endif
+
+    <script src="{{ mix('js/app.js') }}"></script>
+  
+		{{-- Ajax --}}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		{{-- Custom JS --}}
+		<script src="/js/dataTable.js"></script>
+		<script src="/js/dataForm.js"></script>
+		<script src="/js/functions.js"></script>
+
+		@if (!str_contains(url()->current(), '/admin'))
+			<script>
+				// Set Header Width
+				let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
+				document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+			</script>
+		@endif
+
+		<script>
+			// DataTable
+			setTableMargin();
+			hideTableColumnsLoop();
+
+			// DataForm
+			setPasswordToggles();
+			setFileInputs();
+		</script>
 	</body>
 </html>

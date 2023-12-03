@@ -41,7 +41,7 @@ class AdminProductProfileController extends Controller
 		$editForm->addInput('text', 'title', 'Title', $product->title, 100, 1, true);
 		$editForm->addInput('text', 'subtitle', 'Subtitle', $product->subtitle, 255, 1);
 		$editForm->addInput('textarea', 'description', 'Description', $product->description, 5000, 1);
-		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1, true);
+		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1);
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
 		$editForm = $editForm->render();
 
@@ -172,7 +172,7 @@ class AdminProductProfileController extends Controller
       'title' => ['required', 'max:100', Rule::unique('products')->ignore($id)],
       'subtitle' => 'max:255',
       'description' => 'max:5000',
-      'productnumber' => ['required', 'max:100', Rule::unique('products')->ignore($id)],
+      'productnumber' => ['max:100', Rule::unique('products')->ignore($id)],
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
     ]);
 
