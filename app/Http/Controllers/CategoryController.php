@@ -34,7 +34,7 @@ class CategoryController extends Controller
 				AND b.active = 1'
 			);
 			
-			$banners = cacheImages($banners, 3000, 3000);
+			$banners = cacheImages($banners, 2400, 2400);
 			if (!empty($banners)) {
 				preloadImage($banners[0]->fileName, true);
 			}
@@ -49,7 +49,7 @@ class CategoryController extends Controller
 				WHERE pc.show = 1'
 			);
 
-			$items = cacheImages($items, 1200, 1200);
+			$items = cacheImages($items, 1000, 1000);
 
 			return view('public/category', compact(
 				'categories',
@@ -76,7 +76,7 @@ class CategoryController extends Controller
 				[$id]
 			);
 
-			$banners = cacheImages($banners, 3000, 3000);
+			$banners = cacheImages($banners, 2400, 2400);
 			if (!empty($banners)) {
 				preloadImage($banners[0]->fileName, true);
 			}
@@ -92,7 +92,7 @@ class CategoryController extends Controller
 				[$id]
 			);
 
-			$items = cacheImages($items, 1200, 1200);
+			$items = cacheImages($items, 1000, 1000);
 
 			return view('public/category', compact(
 				'categories',
