@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
-use Spatie\ImageOptimizer\OptimizerChain;
-use Spatie\ImageOptimizer\Optimizers;
+use ImageOptimizer;
 use Aws\Ses\SesClient;
 
 use App\Models\Asset;
@@ -20,22 +19,24 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $web
 	if (!Storage::disk('public')->exists($publicFileName)) {
 		$data = Storage::get($fileName);
 
-		$manager = new ImageManager(['driver' => 'imagick']);
-		$image = $manager->make($data);
+		if (!empty($data)) {
+			$manager = new ImageManager(['driver' => 'imagick']);
+			$image = $manager->make($data);
 
-		if ($width > 0 || $height > 0) {
-			$image->resize($width == 0 ? null : $width, $height == 0 ? null : $height, function($constraint) {
-				$constraint->aspectRatio();
-				$constraint->upsize();
-			});
+			if ($width > 0 || $height > 0) {
+				$image->resize($width == 0 ? null : $width, $height == 0 ? null : $height, function($constraint) {
+					$constraint->aspectRatio();
+					$constraint->upsize();
+				});
+			}
+			
+			if($webp) {
+				$image->encode('webp');
+			}
+			
+			Storage::disk('public')->put($publicFileName, $image);
+			ImageOptimizer::optimize(env('ASSET_PATH_SERVER') . $publicFileName);
 		}
-		
-		if($webp) {
-			$image->encode('webp');
-		}
-		
-		Storage::disk('public')->put($publicFileName, $image);
-		// optimizeImage(Storage::disk('public')->url($publicFileName));
 	}
 		
 	return Storage::disk('public')->url($publicFileName);
@@ -59,39 +60,6 @@ function cacheImages($records, int $width = 0, int $height = 0, bool $webp = tru
 
 	return $records;
 }
-
-function optimizeImage(string $filePath) {
-	$optimizerChain = new OptimizerChain();
-	$optimizerChain->addOptimizer(new Optimizers\Pngquant([
-		'--quality=65-80',
-		'--force',
-		'--skip-if-larger',
-	]));
-	$optimizerChain->addOptimizer(new Optimizers\Optipng([
-		'-i0',
-		'-o2',
-		'-quiet',
-	]));
-	$optimizerChain->addOptimizer(new Optimizers\Jpegoptim([
-		'-m85',
-		'--strip-all',
-		'--all-progressive',
-	]));
-	$optimizerChain->addOptimizer(new Optimizers\Svgo([
-		'--disable={cleanupIDs,removeViewBox}',
-	]));
-	$optimizerChain->addOptimizer(new Optimizers\Gifsicle([
-		'-b',
-		'-O3',
-	]));
-	$optimizerChain->addOptimizer(new Optimizers\Cwebp([
-		'-m 6',
-		'-pass 10',
-		'-mt',
-		'-q 90',
-	]));
-	$optimizerChain->optimize($filePath);
-};
 
 function preloadImage(string $url, bool $first = false) {
 	if (session()->has('preloaded-images')) {

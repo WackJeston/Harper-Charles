@@ -17,6 +17,13 @@
 	}
 }
 
+// TODO: replace overlay with background-blend-mode: multiply;
+// 
+// .home-page #banner-homepage-top .banner-slide img {
+// 	background-color: v.$overlay;
+//   background-blend-mode: multiply;
+// }
+
 .home-page .home-category-grid {
 	display: grid;
 	grid-auto-flow: row;

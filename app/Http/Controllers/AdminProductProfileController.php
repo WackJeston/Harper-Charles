@@ -57,7 +57,7 @@ class AdminProductProfileController extends Controller
 		);
 
 		if (!empty($primaryImage)) {
-			$primaryImage = cacheImage($primaryImage[0]->fileName, 600, 600);
+			$primaryImage = cacheImage($primaryImage[0]->fileName, 1200, 1200);
 		}
 
 		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');

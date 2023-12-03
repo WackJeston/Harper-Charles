@@ -25,7 +25,7 @@ class ProductPageController extends Controller
 			ORDER BY pi.primary DESC, pi.id ASC', $id
 		));
 
-		$productImages = cacheImages($productImages, 800, 800);
+		$productImages = cacheImages($productImages, 2000, 2000);
 		$imageCount = count($productImages);
 
 		if (!empty($productImages)) {

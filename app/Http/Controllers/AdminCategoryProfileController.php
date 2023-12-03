@@ -57,7 +57,7 @@ class AdminCategoryProfileController extends Controller
 		);
 
 		if (!empty($primaryImage)) {
-			$primaryImage = cacheImage($primaryImage[0]->fileName, 600, 600);
+			$primaryImage = cacheImage($primaryImage[0]->fileName, 1200, 1200);
 		}
 
 		$imagesForm = new DataForm(request(), sprintf('/category-profileAddImage/%d', $id), 'Add Image');
@@ -68,8 +68,8 @@ class AdminCategoryProfileController extends Controller
     $imagesTable = new DataTable('product_category_images');
 		$imagesTable->setQuery('SELECT 
 			pci.id,
-			a.name,
 			pci.primary,
+			a.name,
 			a.fileName
 			FROM product_category_images AS pci
 			INNER JOIN asset AS a ON a.id = pci.assetId
