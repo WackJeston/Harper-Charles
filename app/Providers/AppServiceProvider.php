@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+
 use App\Models\ProductCategories;
 
 // use Laravel\Cashier\Cashier;

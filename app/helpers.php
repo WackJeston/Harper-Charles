@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
-use ImageOptimizer;
 use Aws\Ses\SesClient;
 
 use App\Models\Asset;
