@@ -61,7 +61,7 @@ class AdminProductProfileController extends Controller
 		}
 
 		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');
-		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true);
+		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true, null, ['multiple']);
 		// $imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
@@ -218,14 +218,12 @@ class AdminProductProfileController extends Controller
     
 		$fileName = DB::select('SELECT
 			a.fileName
-			FROM product_category_images AS pci
+			FROM product_images AS pci
 			INNER JOIN asset AS a ON a.id = pci.assetId
 			WHERE pci.id = ?
 			LIMIT 1',
 			[$imageId]
 		);
-    
-    Storage::delete($fileName[0]->fileName);
 
     ProductImages::where('id', $imageId)->delete();
 

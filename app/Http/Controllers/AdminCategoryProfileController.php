@@ -61,8 +61,8 @@ class AdminCategoryProfileController extends Controller
 		}
 
 		$imagesForm = new DataForm(request(), sprintf('/category-profileAddImage/%d', $id), 'Add Image');
-		$imagesForm->addInput('file', 'fileName', 'Image', null, null, null, true);
-		$imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
+		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true, null, ['multiple']);
+		// $imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
     $imagesTable = new DataTable('product_category_images');
@@ -208,8 +208,6 @@ class AdminCategoryProfileController extends Controller
 			LIMIT 1',
 			[$imageId]
 		);
-    
-    Storage::delete($fileName[0]->fileName);
 
     ProductCategoryImages::find($imageId)->delete();
 

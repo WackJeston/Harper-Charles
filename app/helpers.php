@@ -84,10 +84,20 @@ function preloadImage(string $url, bool $first = false) {
 function storeImages(Request $request, $id, string $type):array {
 	$fileNames = [];
 
-	foreach ($request->files as $i => $file) {
+	if (!is_array($request->file('image'))) {
+		$temp = $request->file('image');
+		$array = [];
+
+		$array[] = $request->file('image');
+
+	} else {
+		$array = $request->file('image');
+	}
+
+	foreach ($array as $i => $file) {
 		$mimeType = explode('.', $file->getClientOriginalName())[1];
 
-		$fileName = sprintf('%s-%s-%s-%s.%s', 
+		$fileName = sprintf('%s-%s-%s-%s.%s',
 			$type,
 			$id,
 			$_SERVER['REQUEST_TIME'],

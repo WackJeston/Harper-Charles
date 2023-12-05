@@ -24,16 +24,17 @@ class DataForm
 		$this->form['title'] = $title;
 	}
 
-	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null) {
+	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null, array $attributes = []) {
 		$this->form['inputs'][] = [
 			'type' => $type,
-			'name' => $name,
+			'name' => in_array('multiple', $attributes) ? $name . '[]' : $name,
 			'label' => $label,
 			'value' => $value,
 			'max' => $max,
 			'min' => $min,
 			'required' => $required,
 			'placeholder' => $placeholder,
+			'attributes' => implode(' ', $attributes),
 			'options' => [],
 			'optionspre' => [],
 		];
@@ -107,7 +108,7 @@ class DataForm
 					case 'url':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input type="%9$s" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input type="%9$s" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %10$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -117,13 +118,14 @@ class DataForm
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
 							$input['type'],
+							$input['attributes']
 						);
 						break;
 
 					case 'date':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input class="date-input" type="date" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="date-input" type="date" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %9$s />',
 							$input['name'],
 							$input['label'],
 							date('Y-m-d', strtotime($input['value'])),
@@ -132,13 +134,14 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 
 					case 'datetime':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input class="date-input" type="datetime-local" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="date-input" type="datetime-local" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %9$s />',
 							$input['name'],
 							$input['label'],
 							date('Y-m-d H:i:s', strtotime($input['value'])),
@@ -147,13 +150,14 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 					
 					case 'time':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input class="date-input" type="time" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="date-input" type="time" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %9$s />',
 							$input['name'],
 							$input['label'],
 							date('H:i:s', strtotime($input['value'])),
@@ -162,13 +166,14 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 
 					case 'textarea':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<textarea type="text" id="%1$s" name="%1$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />%3$s</textarea>',
+						<textarea type="text" id="%1$s" name="%1$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %9$s />%3$s</textarea>',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -177,6 +182,7 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 					
@@ -184,7 +190,7 @@ class DataForm
 					case 'number':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input type="number" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
+						<input type="number" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s %9$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -193,6 +199,7 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 
@@ -200,7 +207,7 @@ class DataForm
 					case 'tel':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
-						<input type="tel" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s />',
+						<input type="tel" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s %9$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -209,6 +216,7 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 					
@@ -218,7 +226,7 @@ class DataForm
 						<label for="password" class="show-password">
 							<i class="fa-solid fa-eye"></i>
 						</label>
-						<input class="password-input" type="password" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />',
+						<input class="password-input" type="password" id="%1$s" name="%1$s" value="%3$s" minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %10$s />',
 							$input['name'],
 							$input['label'],
 							$input['value'],
@@ -227,14 +235,15 @@ class DataForm
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span> *</span>' : '',
-							$i
+							$i,
+							$input['attributes']
 						);
 						break;
 
 					case 'checkbox':
 						$html .= sprintf('
 						<div class="checkbox-container">
-							<input type="checkbox" id="%1$s" name="%1$s" %3$s minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s />
+							<input type="checkbox" id="%1$s" name="%1$s" %3$s minlength="%4$s" maxlength="%5$s" placeholder="%6$s" %7$s %9$s />
 							<label for="%1$s">%2$s%8$s</label>
 						</div>',
 							$input['name'],
@@ -244,7 +253,8 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 
@@ -252,7 +262,7 @@ class DataForm
 						$html .= sprintf('
 						<label for="%1$s">%2$s%6$s</label>
 						<label class="file-input-label" for="%1$s">
-							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" min="1" accept="image/jpg/png/svg/webp" placeholder="%4$s" %5$s>
+							<input class="file-input" type="file" id="%1$s" name="%1$s" value="%3$s" min="1" accept="image/jpg/png/svg/webp" placeholder="%4$s" %5$s %7$s>
 							<div>No file selected</div>
 						</label>',
 							$input['name'],
@@ -260,20 +270,22 @@ class DataForm
 							$input['value'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 						break;
 					
 					case 'select':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%5$s</label>
-						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s>
+						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s %6$s>
 							<option></option>',
 							$input['name'],
 							$input['label'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
 						);
 
 							foreach ($input['options'] as $i2 => $option) {

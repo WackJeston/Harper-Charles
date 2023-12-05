@@ -27,7 +27,17 @@ function setFileInputs() {
 
 	inputs.forEach(input => {
 		input.addEventListener("change", function(event) {
-			event.target.nextElementSibling.innerHTML = event.target.value.split("\\").pop();
+			let text = '';
+
+			for (let i = 0; i < event.target.files.length; i++) {
+				text += event.target.files[i].name + '<br>';
+			}
+
+			event.target.nextElementSibling.innerHTML = text;
+
+			if (event.target.files.length > 1) {
+				event.target.parentNode.style.height = (event.target.nextElementSibling.offsetHeight + 10) + 'px';
+			}
 		});
 	});
 };

@@ -47,7 +47,7 @@ class AdminBannerProfileController extends Controller
 		$slideForm = new dataForm(request(), sprintf('/banner-profileAddSlide/%d', $id), 'Add');
 		$slideForm->addInput('text', 'title', 'Title', null, 100, 1);
 		$slideForm->addInput('text', 'description', 'Subtitle', null, 100, 1);
-		$slideForm->addInput('file', 'fileName', 'Image', null, 100, 1, true);
+		$slideForm->addInput('file', 'image', 'Image', null, 100, 1, true);
 		$slideForm = $slideForm->render();
 
     return view('admin/banner-profile', compact(
