@@ -289,7 +289,7 @@ class DataForm
 						);
 
 							foreach ($input['options'] as $i2 => $option) {
-								$selected = $option['value'] == $input['value'] ? 'selected' : '';
+								$selected = (isset($option['value']) && $option['value'] == $input['value']) ? 'selected' : '';
 
 								if (is_numeric($i2)) {
 									$html .= sprintf('

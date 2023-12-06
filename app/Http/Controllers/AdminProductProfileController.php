@@ -123,8 +123,10 @@ class AdminProductProfileController extends Controller
 			parent.title AS parent,
 			IF(pvj.id IS NOT NULL, true, false) AS `active`
 			FROM product_variants AS pv
-			INNER JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id AND pvj.productId = ?
 			INNER JOIN product_variants AS parent ON parent.id=pv.parentVariantId
+			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id
+			WHERE pvj.productId IS NULL
+			OR pvj.productId != ?
 			GROUP BY pv.id
 			ORDER BY parent.title, pv.title', 
 			[$id]
