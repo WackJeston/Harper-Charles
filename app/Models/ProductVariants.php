@@ -12,6 +12,9 @@ class ProductVariants extends Model
   protected $fillable = [
     'parentVariantId',
     'title',
+		'type',
+    'assetId',
+    'colour',
     'show',
   ];
 

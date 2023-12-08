@@ -41,19 +41,39 @@ class AdminVariantProfileController extends Controller
 		$editForm = $editForm->render();
 
 		// Sub Variants
+		$variantTypes = [
+			['label' => 'Text', 'value' => 'text'],
+			['label' => 'Image', 'value' => 'image'],
+			['label' => 'Colour', 'value' => 'colour'],
+		];
+
 		$subVariantsForm = new DataForm(request(), sprintf('/variant-profileCreateOption/%d', $id), 'Add Option');
 		$subVariantsForm->addInput('text', 'title', 'Option Title', null, 100, 1, true);
+		$subVariantsForm->addInput('radio', 'type', 'Type', 'text', 100, 1, true);
+		$subVariantsForm->populateOptions('type', $variantTypes);
+		$subVariantsForm->addInput('file', 'image', 'Image', null, null, null, false, null, ['multiple']);
+		$subVariantsForm->addInput('text', 'colour', 'Colour', null, 100, 1);
 		$subVariantsForm = $subVariantsForm->render();
+
+		$types = [];
+		$types[] = ['value' => 'text', 'label' => 'Text'];
+		$types[] = ['value' => 'image', 'label' => 'Image'];
+		$types[] = ['value' => 'colour', 'label' => 'Colour'];
 
 		$subVariantsTable = new DataTable('product_variants');
 		$subVariantsTable->setQuery('SELECT
-			pv.*
+			pv.*,
+			a.fileName
 			FROM product_variants AS pv
+			LEFT JOIN asset AS a ON a.id = pv.assetId
 			WHERE pv.parentVariantId = ?', [$id]
 		);
 		$subVariantsTable->addColumn('id', '#');
 		$subVariantsTable->addColumn('title', 'Title', 2);
+		$subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
+		$subVariantsTable->addColumn('colour', 'Colour', 1, true);
 		$subVariantsTable->addColumn('show', 'Active', 1, false, 'toggle');
+		$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
 		$subVariantsTable = $subVariantsTable->render();
 
@@ -109,11 +129,20 @@ class AdminVariantProfileController extends Controller
       'title' => 'required|max:100',
     ]);
 
-    ProductVariants::create([
-      'parentVariantId' => $id,
-      'title' => $request->title,
-      'show' => 0,
-    ]);
+		$option = new ProductVariants;
+
+		$option->parentVariantId = $id;
+		$option->title = $request->title;
+		$option->type = $request->type;
+		$option->colour = $request->colour;
+		$option->show = 0;
+
+		if (!empty($request->files)) {
+			$fileNames = storeImages($request, $id, 'product')[0];
+			$option->assetId = $fileNames['id'];
+		}
+
+		$option->save();
 
     return redirect("/admin/variant-profile/$id")->with('message', 'Option added.');
   }

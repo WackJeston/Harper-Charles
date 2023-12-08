@@ -125,7 +125,9 @@ class AdminProductProfileController extends Controller
 			FROM product_variants AS pv
 			INNER JOIN product_variants AS parent ON parent.id=pv.parentVariantId
 			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id
-			WHERE pvj.productId IS NULL
+			WHERE pv.show = 1
+			AND parent.show = 1
+			AND pvj.productId IS NULL
 			OR pvj.productId != ?
 			GROUP BY pv.id
 			ORDER BY parent.title, pv.title', 
@@ -151,6 +153,7 @@ class AdminProductProfileController extends Controller
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title');
 		$variantsTable->addColumn('parent', 'Type');
+		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$variantsTable->addLinkButton('product-profileRemoveVariant/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Variant');
 		$variantsTable = $variantsTable->render();
 

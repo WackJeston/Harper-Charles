@@ -42,7 +42,7 @@ class DataForm
 
 	public function populateOptions(string $ref, array $options) {
 		foreach ($this->form['inputs'] as $i => $input) {
-			if ($input['name'] == $ref && $input['type'] == 'select') {
+			if ($input['name'] == $ref && in_array($input['type'], ['select', 'radio'])) {
 				foreach ($options as $i2 => $option) {
 					if (is_array($option)) {
 						$this->form['inputs'][$i]['optionspre'][] = [
@@ -66,7 +66,7 @@ class DataForm
 
 	public function calculate() {
 		foreach ($this->form['inputs'] as $i => $input) {
-			if ($input['type'] == 'select') {
+			if (in_array($input['type'], ['select', 'radio'])) {
 				foreach ($input['optionspre'] as $i2 => $option) {
 					if (!$option['active']) {
 						if ($option['parent'] == null) {
@@ -238,6 +238,32 @@ class DataForm
 							$i,
 							$input['attributes']
 						);
+						break;
+					
+					case 'radio':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%3$s</label>
+						<div class="radio-container">',
+							$input['name'],
+							$input['label'],
+							$input['required'] ? '<span> *</span>' : ''
+						);
+
+							foreach ($input['options'] as $i2 => $option) {
+								$html .= sprintf('
+								<div>
+									<input type="radio" id="%2$s" name="%3$s" value="%1$s" %4$s />
+									<label for="%2$s">%2$s</label>
+								</div>',
+									$option['value'],
+									$option['label'],
+									$input['name'],
+									$input['value'] == $option['value'] ? 'checked' : ''
+								);
+							}
+
+						$html .= '
+						</div>';
 						break;
 
 					case 'checkbox':
