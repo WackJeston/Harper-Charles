@@ -239,6 +239,21 @@ class DataForm
 							$input['attributes']
 						);
 						break;
+
+					case 'colour':
+					case 'color':
+						$html .= sprintf('
+						<label for="%1$s">%2$s%6$s</label>
+						<input class="date-input" type="color" id="%1$s" name="%1$s" value="%3$s" placeholder="%4$s" %5$s %7$s />',
+							$input['name'],
+							$input['label'],
+							$input['value'],
+							$input['placeholder'],
+							$input['required'] ? 'required' : '',
+							$input['required'] ? '<span> *</span>' : '',
+							$input['attributes']
+						);
+						break;
 					
 					case 'radio':
 						$html .= sprintf('

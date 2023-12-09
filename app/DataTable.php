@@ -29,7 +29,19 @@ class DataTable
 	}
 
 	public function setQuery(string $query, array $params = [], string $column = null, string $direction = null) {
-		$query = self::cleanQuery($query);
+		$query = json_encode($query);
+		$query = str_replace('\t', '', $query);
+		$query = str_replace('\r', ' ', $query);
+		$query = str_replace('\n', ' ', $query);
+		$query = str_replace('   ', ' ', $query);
+		$query = str_replace('  ', ' ', $query);
+		$query = json_decode($query);
+		$query = trim($query);
+		$query = str_replace('"', '&quot;', (string) $query);
+
+		$query = str_replace('?', '%s', $query);
+		$query = vsprintf($query, $params);
+
 		$this->table['query'] = $query;
 
 		if (session()->has($query)) {
@@ -49,9 +61,6 @@ class DataTable
 			}
 		}
 
-		$query = str_replace('?', '%s', $query);
-		$query = vsprintf($query, $params);
-
 		$this->table['count'] = count(DB::select($query));
 
 		if ($this->table['limit'] == 0 && $this->table['offset'] != 0) {
@@ -69,17 +78,6 @@ class DataTable
 		$this->table['records'] = DB::select($query);
 
 		$this->table['records'] = cacheImages($this->table['records']);
-	}
-
-	public function cleanQuery($query) {
-		$query = json_encode($query);
-		$query = str_replace('\t', '', $query);
-		$query = str_replace('\r\n', ' ', $query);
-		$query = str_replace('  ', ' ', $query);
-		$query = json_decode($query);
-		$query = str_replace('"', '&quot;', (string) $query);
-
-		return $query;
 	}
 
 	public function setTitle(string $title) {
@@ -196,9 +194,7 @@ class DataTable
 			$this->table['title'] = str_replace('?', $this->table['count'], $this->table['title']);
 		}
 
-		$query = str_replace('&quot;', '"', $this->table['query']);
-
-		session()->put($query, $this->table);
+		session()->put($this->table['query'], $this->table);
 		session()->save();
 	}
 

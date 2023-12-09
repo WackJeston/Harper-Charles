@@ -50,7 +50,7 @@ class AdminVariantProfileController extends Controller
 		$subVariantsForm->addInput('radio', 'type', 'Type', 'text', 100, 1, true);
 		$subVariantsForm->populateOptions('type', $variantTypes);
 		$subVariantsForm->addInput('file', 'image', 'Image', null, null, null, false, null, ['multiple']);
-		$subVariantsForm->addInput('text', 'colour', 'Colour', null, 100, 1);
+		$subVariantsForm->addInput('colour', 'colour', 'Colour');
 		$subVariantsForm = $subVariantsForm->render();
 
 		$types = [];

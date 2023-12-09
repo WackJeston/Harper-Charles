@@ -69,6 +69,10 @@ form .input-label-container option {
 	min-width: 50px;
 }
 
+form input[type="color"] {
+	width: 100px;
+}
+
 form.web-box,
 .web-box form {
 	position: relative;

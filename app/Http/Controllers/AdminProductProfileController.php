@@ -19,11 +19,7 @@ class AdminProductProfileController extends Controller
 {
   public function show($id)
   {
-		// dd(session()->all());
-
-    $sessionUser = auth()->user();
-
-    if (Products::find($id) == null) {
+		if (Products::find($id) == null) {
       return redirect('/admin/products');
     }
 
@@ -64,7 +60,6 @@ class AdminProductProfileController extends Controller
 
 		$imagesForm = new DataForm(request(), sprintf('/product-profileAddImage/%d', $id), 'Add Image');
 		$imagesForm->addInput('file', 'image', 'Image', null, null, null, true, null, ['multiple']);
-		// $imagesForm->addInput('text', 'name', 'Rename', null, 100, 1);
 		$imagesForm = $imagesForm->render();
 
 		$imagesTable = new DataTable('product_images');
@@ -160,7 +155,6 @@ class AdminProductProfileController extends Controller
 		$variantsTable = $variantsTable->render();
 
     return view('/admin/product-profile', compact(
-      'sessionUser',
       'product',
       'primaryImage',
 			'editForm',
