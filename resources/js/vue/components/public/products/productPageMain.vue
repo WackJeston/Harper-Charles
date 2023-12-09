@@ -32,14 +32,13 @@
           <input type="hidden" name="_token" :value="csrf">
 
           <div v-for="(variant, i) in this.variants" class="variants-container">
-            <label :for="i">{{ variant[1] }}</label>
+            <label :for="i">{{ variant['title'] }}</label>
 						<input type="int" :name="i" :v-model="'input' + i" :id="'input' + i" hidden required>
-						<option v-for="(option, i) in variant[2]" :value="option[0]">{{ option[1] }}</option>
+						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
 						<div class="options-grid">
-							<div v-for="(option, i2) in variant[2]" class="option" :id="'option' + i2" @click="document.querySelector('#input' + i).value = option[0]">
-								<!-- <div class="option-color" :style="{ backgroundColor: option[1] }"></div> -->
-								<!-- <div class="option-image" :style="{ backgroundImage: 'url("")' }"></div> -->
-								<p>{{ option[2] }}</p>
+							<div v-for="(option, ioptions) in variant['options']" class="option option" :id="'option' + i2" @click="document.querySelector('#input' + i).value = option[0]">
+								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
+								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
 							</div>
 						</div>
           </div>

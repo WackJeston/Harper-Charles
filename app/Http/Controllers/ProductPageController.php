@@ -34,48 +34,66 @@ class ProductPageController extends Controller
 			}
 		}
 
-    $variantRecords = DB::select(sprintf('SELECT
+		$variantRecords = DB::select('SELECT
       pv.id,
-      pv.title,
-      GROUP_CONCAT(pv2.id, "|", pv2.title ORDER BY pv2.title) AS options
+      pv.title
       FROM product_variants AS pv
-      INNER JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
-      INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv2.id
-      WHERE pv.parentVariantId IS NULL
-      AND pvj.productId = "%d"
-      AND pv.show = 1
-      AND pv2.show = 1
-      GROUP BY pv.id
-      ORDER BY pv2.title, pv.title
-    ', $id));
+      WHERE pv.parentVariantId IS NULL'
+		);
 
-    $variants = [];
+		$optionsRecords = DB::select(sprintf('SELECT
+			pv.*,
+			a.fileName,
+			pv2.id AS parent
+			FROM product_variants AS pv
+			INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
+			INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id
+			INNER JOIN asset AS a ON a.id=pv.assetId
+			WHERE pv.parentVariantId IS NOT NULL
+			AND pvj.productId = "%d"
+			AND pv.show = 1
+			AND pv2.show = 1',
+			$id
+		));
 
-    foreach ($variantRecords as $i => $variant) {
-      $optionsPre = explode(',', $variant->options);
+		$optionsRecords = cacheImages($optionsRecords, 800, 800);
 
-      $variants[$i] = [
-        $id = $variant->id,
-        $title = $variant->title,
-      ];
+		$variants = [];
 
-      foreach ($optionsPre as $i2 => $option) {
-        $variants[$i][2][$i2] = explode('|', $option);
-      }
-    }
+		foreach ($variantRecords as $i => $variant) {
+			$variants[$variant->id] = [
+				'title' => $variant->title,
+				'options' => [],
+			];
+		}
 
-    return view('public/product-page', compact(
-      'product',
-      'productImages',
-      'imageCount',
-      'variants',
-    ));
+		foreach ($optionsRecords as $i => $option) {
+			$variants[$option->parent]['options'][] = [
+				'id' => $option->id,
+				'title' => $option->title,
+				'type' => $option->type,
+				'assetId' => $option->assetId,
+				'colour' => $option->colour,
+			];
+		}
+
+		foreach ($variants as $i => $variant) {
+			if(empty($variant['options'])) {
+				unset($variants[$i]);
+			}
+		}
+
+		return view('public/product-page', compact(
+			'product',
+			'productImages',
+			'imageCount',
+			'variants',
+		));
   }
 
 
   public function cartAdd($productId, $variantCount, $selectedVariants)
   {
-    $sessionUser = auth()->user();
     $response = [];
 
     if (!auth()->user()) {
