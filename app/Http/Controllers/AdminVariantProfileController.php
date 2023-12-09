@@ -13,8 +13,6 @@ class AdminVariantProfileController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-
     if (ProductVariants::find($id) == null) {
       return redirect('/admin/variants');
     }
@@ -78,7 +76,6 @@ class AdminVariantProfileController extends Controller
 		$subVariantsTable = $subVariantsTable->render();
 
     return view('admin/variant-profile', compact(
-      'sessionUser',
       'variant',
 			'editForm',
 			'subVariantsForm',
@@ -137,7 +134,7 @@ class AdminVariantProfileController extends Controller
 		$option->colour = $request->colour;
 		$option->show = 0;
 
-		if (!empty($request->files)) {
+		if (count($request->files) > 0) {
 			$fileNames = storeImages($request, $id, 'product')[0];
 			$option->assetId = $fileNames['id'];
 		}

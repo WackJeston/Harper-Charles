@@ -19,6 +19,8 @@ class AdminProductProfileController extends Controller
 {
   public function show($id)
   {
+		// dd(session()->all());
+
     $sessionUser = auth()->user();
 
     if (Products::find($id) == null) {
@@ -73,7 +75,7 @@ class AdminProductProfileController extends Controller
 			a.fileName
 			FROM product_images AS pi
 			LEFT JOIN asset AS a ON a.id = pi.assetId
-			WHERE productId = ?', 
+			WHERE pi.productId = ?',
 			[$id]
 		);
 		$imagesTable->addColumn('id', '#');

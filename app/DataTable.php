@@ -29,7 +29,8 @@ class DataTable
 	}
 
 	public function setQuery(string $query, array $params = [], string $column = null, string $direction = null) {
-		$this->table['query'] = str_replace('"', '&quot;', $query);
+		$query = self::cleanQuery($query);
+		$this->table['query'] = $query;
 
 		if (session()->has($query)) {
 			$this->table = session()->get($query);
@@ -68,6 +69,17 @@ class DataTable
 		$this->table['records'] = DB::select($query);
 
 		$this->table['records'] = cacheImages($this->table['records']);
+	}
+
+	public function cleanQuery($query) {
+		$query = json_encode($query);
+		$query = str_replace('\t', '', $query);
+		$query = str_replace('\r\n', ' ', $query);
+		$query = str_replace('  ', ' ', $query);
+		$query = json_decode($query);
+		$query = str_replace('"', '&quot;', (string) $query);
+
+		return $query;
 	}
 
 	public function setTitle(string $title) {
@@ -192,8 +204,6 @@ class DataTable
 
 	public function render() {
 		self::calculate();
-		
-		// dd($this->table);
 
 		$html = '';
 
@@ -203,7 +213,7 @@ class DataTable
 		}
 
 		$html .= sprintf('
-		<table class="web-box" id="table-%s">
+		<table class="web-box dk" id="table-%s">
 			<thead>
 				<tr>', $this->table['ref']);
 
@@ -447,7 +457,7 @@ class DataTable
 					
 						if ($this->table['offset'] > 0 && $this->table['limit'] != 0) {
 							$html .= sprintf('
-							<button onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', false, \'%4$s\')"><i class="fa-solid fa-caret-left"></i></button>',
+							<button class="lt" onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', false, \'%4$s\')"><i class="fa-solid fa-caret-left"></i></button>',
 								$this->table['query'],
 								$this->table['offset'],
 								$this->table['limit'],
@@ -465,7 +475,7 @@ class DataTable
 
 						if ($this->table['count'] > ($this->table['offset'] + $this->table['limit']) && $this->table['limit'] != 0) {
 							$html .= sprintf('
-							<button onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', true, \'%4$s\')"><i class="fa-solid fa-caret-right"></i></button>',
+							<button class="lt" onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', true, \'%4$s\')"><i class="fa-solid fa-caret-right"></i></button>',
 								$this->table['query'],
 								$this->table['offset'],
 								$this->table['limit'],

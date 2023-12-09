@@ -274,12 +274,15 @@ form .radio-container div {
 }
 
 form .radio-container input {
+	cursor: pointer;
 	height: 20px;
 	margin: 0;
 }
 
 form .radio-container label {
+	cursor: pointer;
 	height: 20px;
-	margin: 0 0 0 5px;
+	margin: 0;
+	padding-left: 5px;
 	font-size: 0.9rem;
 }
