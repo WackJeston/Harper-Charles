@@ -62,17 +62,18 @@ class ProductPageController extends Controller
 
 		foreach ($variantRecords as $i => $variant) {
 			$variants[$variant->id] = [
+				'id' => $variant->id,
 				'title' => $variant->title,
 				'options' => [],
 			];
 		}
 
 		foreach ($optionsRecords as $i => $option) {
-			$variants[$option->parent]['options'][] = [
+			$variants[$option->parent]['options'][$option->id] = [
 				'id' => $option->id,
 				'title' => $option->title,
 				'type' => $option->type,
-				'assetId' => $option->assetId,
+				'fileName' => $option->fileName,
 				'colour' => $option->colour,
 			];
 		}

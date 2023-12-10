@@ -87,7 +87,7 @@ class CategoryController extends Controller
 				FROM products AS p
 				INNER JOIN product_category_joins AS pcj ON pcj.productId = p.id
 				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
-				INNER JOIN asset AS a ON a.id = pi.assetId
+				LEFT JOIN asset AS a ON a.id = pi.assetId
 				WHERE pcj.categoryId = ?', 
 				[$id]
 			);

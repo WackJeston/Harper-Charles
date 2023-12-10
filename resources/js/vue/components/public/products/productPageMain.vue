@@ -3,11 +3,12 @@
 
     <div class="wb-row">
       <div class="wb-images">
-        <div v-if="this.count > 0" class="wb-image" @click="showImage(this.selectedImage)"
-        :style="{ backgroundImage: 'url(' + this.selectedImage + ')' }"></div>
-        <div v-else class="wb-image">
-          <i class="fa-solid fa-couch"></i>
-        </div>
+        <div class="wb-image" @click="showImage(this.selectedImage)">
+					<div class="wb-image-container">
+						<img v-if="this.count > 0" :src="this.selectedImage" :alt="this.selectedImage">
+						<i v-else class="fa-solid fa-couch"></i>
+					</div>
+				</div>
 
         <div v-show="this.count > 1" class="image-row-button-container">
           <i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
@@ -31,12 +32,12 @@
         <form @submit.prevent="cartAdd" enctype="multipart/form-data">
           <input type="hidden" name="_token" :value="csrf">
 
-          <div v-for="(variant, i) in this.variants" class="variants-container">
+          <div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
             <label :for="i">{{ variant['title'] }}</label>
-						<input type="int" :name="i" :v-model="'input' + i" :id="'input' + i" hidden required>
+						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
 						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
 						<div class="options-grid">
-							<div v-for="(option, ioptions) in variant['options']" class="option option" :id="'option' + i2" @click="document.querySelector('#input' + i).value = option[0]">
+							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
 								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
 								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
 							</div>
@@ -77,7 +78,7 @@
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         imageView: false,
-        selectedImage: this.images[0].fileName,
+        selectedImage: this.count > 0 ? this.images[0].fileName : null,
         selectedColor: 'blue',
         lastSelected: 0,
         imageRowPosition: 0,
@@ -212,6 +213,20 @@
           this.imageRowPosition = -Math.abs(this.imageRowCalc);
         }
       },
+
+			setOption(variant, option) {
+				document.querySelector('#variant-input-' + variant).value = option;
+
+				let container = document.querySelector('#variant-container-' + variant);
+				let options = container.querySelectorAll('.option');
+
+				for (let i = 0; i < options.length; i++) {
+					options[i].classList.remove('selected');
+				}
+
+				let target = document.querySelector('#option-' + option);
+				target.classList.add('selected');
+			},
     },
   };
 </script>
