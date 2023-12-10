@@ -22,6 +22,7 @@ class ProductPageController extends Controller
 			FROM product_images AS pi
 			INNER JOIN asset AS a ON a.id = pi.assetId
 			WHERE pi.productId = %d
+			AND pi.active = 1
 			ORDER BY pi.primary DESC, pi.id ASC', $id
 		));
 
@@ -51,8 +52,8 @@ class ProductPageController extends Controller
 			INNER JOIN asset AS a ON a.id=pv.assetId
 			WHERE pv.parentVariantId IS NOT NULL
 			AND pvj.productId = "%d"
-			AND pv.show = 1
-			AND pv2.show = 1',
+			AND pv.active = 1
+			AND pv2.active = 1',
 			$id
 		));
 

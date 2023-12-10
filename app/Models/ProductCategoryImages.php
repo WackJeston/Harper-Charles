@@ -13,6 +13,7 @@ class ProductCategoryImages extends Model
     'categoryId',
     'assetId',
     'primary',
+		'active',
   ];
 
   protected $guarded = [

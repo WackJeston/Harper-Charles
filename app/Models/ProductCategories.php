@@ -15,7 +15,7 @@ class ProductCategories extends Model
     'subtitle',
     'description',
     'filename',
-    'show',
+    'active',
   ];
 
   protected $guarded = [

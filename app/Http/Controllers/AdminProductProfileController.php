@@ -67,6 +67,7 @@ class AdminProductProfileController extends Controller
 			pi.id,
 			a.name,
 			pi.primary,
+			pi.active,
 			a.fileName
 			FROM product_images AS pi
 			LEFT JOIN asset AS a ON a.id = pi.assetId
@@ -76,6 +77,7 @@ class AdminProductProfileController extends Controller
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Title');
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:productId:' . $id);
+		$imagesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 		$imagesTable = $imagesTable->render();
@@ -122,8 +124,8 @@ class AdminProductProfileController extends Controller
 			FROM product_variants AS pv
 			INNER JOIN product_variants AS parent ON parent.id=pv.parentVariantId
 			LEFT JOIN product_variant_joins AS pvj ON pvj.variantId = pv.id
-			WHERE pv.show = 1
-			AND parent.show = 1
+			WHERE pv.active = 1
+			AND parent.active = 1
 			AND pvj.productId IS NULL
 			OR pvj.productId != ?
 			GROUP BY pv.id
@@ -166,6 +168,18 @@ class AdminProductProfileController extends Controller
       'variantsTable',
     ));
   }
+
+	public function toggleProduct(int $product, int $toggle) {
+		Products::find($product)->update([
+      'active' => $toggle,
+    ]);
+
+    if ($toggle == 1) {
+      return redirect("/admin/product-profile/" . $product)->with('message', "Product is now on.");
+    } else {
+      return redirect("/admin/product-profile/" . $product)->with('message', "Product is now off.");
+    }
+	}
 
   public function update(Request $request, $id)
   {

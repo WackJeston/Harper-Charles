@@ -17,8 +17,6 @@ class AdminCategoryProfileController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-
     if (ProductCategories::find($id) == null) {
       return redirect('/admin/categories');
     }
@@ -69,6 +67,7 @@ class AdminCategoryProfileController extends Controller
 		$imagesTable->setQuery('SELECT 
 			pci.id,
 			pci.primary,
+			pci.active,
 			a.name,
 			a.fileName
 			FROM product_category_images AS pci
@@ -79,6 +78,7 @@ class AdminCategoryProfileController extends Controller
 		$imagesTable->addColumn('id', '#');
 		$imagesTable->addColumn('name', 'Name', 2);
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:categoryId:' . $id);
+		$imagesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Category', 'record:id', 'url:/category-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 		$imagesTable = $imagesTable->render();
@@ -126,7 +126,6 @@ class AdminCategoryProfileController extends Controller
 		$productsTable = $productsTable->render();
 
     return view('admin/category-profile', compact(
-      'sessionUser',
       'category',
 			'editForm',
       'primaryImage',
@@ -168,7 +167,7 @@ class AdminCategoryProfileController extends Controller
   public function showCategory($category, $toggle)
   {
     ProductCategories::find($category)->update([
-      'show' => $toggle,
+      'active' => $toggle,
     ]);
 
     if ($toggle == 1) {

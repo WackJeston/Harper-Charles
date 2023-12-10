@@ -190,6 +190,7 @@ Route::group( ['middleware' => 'auth' ], function()
 
   Route::controller(AdminProductProfileController::class)->group(function () {
     Route::get('/admin/product-profile/{id}', 'show');
+    Route::get('/product-profileToggleProduct/{product}/{toggle}', 'toggleProduct');
     Route::post('/product-profileUpdate/{id}', 'update');
     Route::get('/product-profileDelete/{id}', 'delete');
     Route::post('/product-profileAddImage/{id}', 'addImage');

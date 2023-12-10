@@ -24,7 +24,7 @@ class AdminVariantController extends Controller
 			pv.id,
 			pv.title,
 			COUNT(pv2.id) AS children,
-			pv.show
+			pv.active
 			FROM product_variants AS pv
 			LEFT JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
 			WHERE pv.parentVariantId IS NULL
@@ -33,7 +33,7 @@ class AdminVariantController extends Controller
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title', 3);
 		$variantsTable->addColumn('children', 'Children', 2);
-		$variantsTable->addColumn('show', 'Show', 2, false, 'toggle');
+		$variantsTable->addColumn('active', 'Show', 2, false, 'toggle');
 		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$variantsTable = $variantsTable->render();
 
@@ -48,7 +48,7 @@ class AdminVariantController extends Controller
   public function showVariant($variant, $toggle)
   {
     ProductVariants::find($variant)->update([
-      'show' => $toggle,
+      'active' => $toggle,
     ]);
 
     if ($toggle == 1) {
@@ -67,7 +67,7 @@ class AdminVariantController extends Controller
 
     ProductVariants::create([
       'title' => $request->title,
-      'show' => 0,
+      'active' => 0,
     ]);
 
     return redirect('/admin/variants')->with('message', 'Variant created.');

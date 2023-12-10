@@ -46,7 +46,7 @@ class CategoryController extends Controller
 				FROM product_categories AS pc
 				LEFT JOIN product_category_images AS pci ON pci.categoryId = pc.id AND pci.primary = 1
 				INNER JOIN asset AS a ON a.id = pci.assetId
-				WHERE pc.show = 1'
+				WHERE pc.active = 1'
 			);
 
 			$items = cacheImages($items, 1000, 1000);
@@ -72,7 +72,8 @@ class CategoryController extends Controller
 				a.fileName
 				FROM product_category_images AS pci
 				INNER JOIN asset AS a ON a.id = pci.assetId
-				WHERE pci.categoryId = ?', 
+				WHERE pci.categoryId = ?
+				AND pci.active = 1', 
 				[$id]
 			);
 
@@ -88,7 +89,8 @@ class CategoryController extends Controller
 				INNER JOIN product_category_joins AS pcj ON pcj.productId = p.id
 				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
 				LEFT JOIN asset AS a ON a.id = pi.assetId
-				WHERE pcj.categoryId = ?', 
+				WHERE pcj.categoryId = ?
+				AND p.active = 1', 
 				[$id]
 			);
 

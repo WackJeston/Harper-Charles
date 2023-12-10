@@ -85,8 +85,8 @@ class User extends Authenticatable implements MustVerifyEmail
 				$line->variants = DB::select('SELECT
 					CONCAT(pv2.title, ": ", pv.title) AS `variant`
 					FROM order_line_variants AS olv
-					INNER JOIN product_variants AS pv ON pv.id=olv.variantId AND pv.show=1
-					INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId AND pv2.show=1
+					INNER JOIN product_variants AS pv ON pv.id=olv.variantId AND pv.active=1
+					INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId AND pv2.active=1
 					WHERE olv.orderLineId=?',
 					[$line->orderLineId]
 				);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title', 100)->unique()->nullable();
             $table->string('subtitle')->nullable();
             $table->string('description', 1000)->nullable();
-            $table->boolean('show');
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

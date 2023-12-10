@@ -15,7 +15,7 @@ class ProductVariants extends Model
 		'type',
     'assetId',
     'colour',
-    'show',
+    'active',
   ];
 
   protected $guarded = [

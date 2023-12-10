@@ -18,6 +18,7 @@ return new class extends Migration
 						$table->foreignId('categoryId')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('primary');
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

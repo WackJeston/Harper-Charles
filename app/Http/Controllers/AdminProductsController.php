@@ -29,6 +29,7 @@ class AdminProductsController extends Controller
 		$productsTable->addColumn('title', 'Title', 3);
 		$productsTable->addColumn('subtitle', 'Subtitle', 4, true);
 		$productsTable->addColumn('productNumber', 'Product Number', 2);
+		$productsTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$productsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$productsTable = $productsTable->render();
 

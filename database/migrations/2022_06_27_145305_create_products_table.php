@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('specs', 5000)->nullable();
             $table->string('productNumber', 100)->unique()->nullable();
             $table->decimal('price',9,2)->default(0.00);
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

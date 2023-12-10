@@ -81,12 +81,13 @@
 	border-radius: 3px;
 	overflow: hidden;
 	cursor: pointer;
-	border: 2px solid v.$brand-alt-light;
+	// border: 2px solid v.$brand-alt-light;
 	max-width: 100%;
 }
 
 .product-page .wb-content form .options-grid .option.selected {
-	border: 2px solid v.$pale-green;
+	// border: 2px solid v.$pale-green;
+	outline: 3px solid v.$pale-green;
 }
 
 .product-page .wb-content form .options-grid .option img,

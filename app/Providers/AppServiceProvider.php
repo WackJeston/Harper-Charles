@@ -187,7 +187,7 @@ class AppServiceProvider extends ServiceProvider
         //   c.id,
         //   c.title
         //   FROM product_categories AS c
-        //   WHERE c.show=1
+        //   WHERE c.active=1
         // ');
 
         // foreach ($categories as $i => $category) {

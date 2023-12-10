@@ -19,7 +19,7 @@ return new class extends Migration
       $table->string('title', 100);
 			$table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
 			$table->string('colour', 100);
-      $table->boolean('show');
+      $table->boolean('active')->default(0);
       $table->timestamps();
     });
   }

@@ -35,7 +35,7 @@ class AdminCategoryController extends Controller
 		$categoriesTable->addColumn('id', '#');
 		$categoriesTable->addColumn('title', 'Title', 2);
 		// $categoriesTable->addColumn('subtitle', 'Subtitle', 2, true);
-		$categoriesTable->addColumn('show', 'Active', 1, false, 'toggle');
+		$categoriesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$categoriesTable->addColumn('products', 'Products');
 		$categoriesTable->addLinkButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$categoriesTable = $categoriesTable->render();
@@ -51,7 +51,7 @@ class AdminCategoryController extends Controller
   public function showCategory($category, $toggle)
   {
     ProductCategories::find($category)->update([
-      'show' => $toggle,
+      'active' => $toggle,
     ]);
 
     if ($toggle == 1) {
@@ -74,7 +74,7 @@ class AdminCategoryController extends Controller
       'title' => $request->title,
       'subtitle' => $request->subtitle,
       'description' => $request->description,
-      'show' => 0,
+      'active' => 0,
     ]);
 
     return redirect('/admin/categories')->with('message', 'Category created.');

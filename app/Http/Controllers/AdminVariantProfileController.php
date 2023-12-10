@@ -23,7 +23,7 @@ class AdminVariantProfileController extends Controller
       pv.title,
       COUNT(pv2.id) AS childrenCount,
       GROUP_CONCAT(pv2.id) AS children,
-      pv.show
+      pv.active
       FROM product_variants AS pv
       LEFT JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
       WHERE pv.id = "%d"
@@ -70,7 +70,7 @@ class AdminVariantProfileController extends Controller
 		$subVariantsTable->addColumn('title', 'Title', 2);
 		$subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
 		$subVariantsTable->addColumn('colour', 'Colour', 1, true);
-		$subVariantsTable->addColumn('show', 'Active', 1, false, 'toggle');
+		$subVariantsTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
 		$subVariantsTable = $subVariantsTable->render();
@@ -109,7 +109,7 @@ class AdminVariantProfileController extends Controller
   public function showVariant($variant, $toggle)
   {
     ProductVariants::find($variant)->update([
-      'show' => $toggle,
+      'active' => $toggle,
     ]);
 
     if ($toggle == 1) {
@@ -132,7 +132,7 @@ class AdminVariantProfileController extends Controller
 		$option->title = $request->title;
 		$option->type = $request->type;
 		$option->colour = $request->colour;
-		$option->show = 0;
+		$option->active = 0;
 
 		if (count($request->files) > 0) {
 			$fileNames = storeImages($request, $id, 'product')[0];

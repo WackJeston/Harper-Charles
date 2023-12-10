@@ -40,7 +40,7 @@ class HomeController extends Controller
       FROM product_categories AS c
       LEFT JOIN product_category_images AS pci ON pci.categoryId=c.id AND pci.primary=1
 			INNER JOIN asset AS a ON a.id = pci.assetId
-      WHERE c.show=1
+      WHERE c.active=1
     ');
 
 		$categories = cacheImages($categories, 1000, 1000);
