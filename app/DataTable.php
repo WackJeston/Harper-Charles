@@ -37,7 +37,7 @@ class DataTable
 		$query = str_replace('  ', ' ', $query);
 		$query = json_decode($query);
 		$query = trim($query);
-		$query = str_replace('"', '&quot;', (string) $query);
+		// $query = str_replace('"', '&quot;', (string) $query);
 
 		$query = str_replace('?', '%s', $query);
 		$query = vsprintf($query, $params);

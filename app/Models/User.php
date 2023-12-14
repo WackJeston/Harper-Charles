@@ -6,14 +6,15 @@ use DB;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+// use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Aws\Exception\AwsException;
 use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens, HasFactory;
+	// use HasApiTokens, HasFactory, Notifiable;
 	use Billable;
 
 	/**

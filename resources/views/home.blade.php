@@ -4,8 +4,8 @@
   <main class="lt home-page">
 
     @if (session()->has('message'))
-      <div id="publicmessage" class="lt floating">
-        <publicmessage successmessage="{{ session()->get('message') }}" />
+      <div id="alertmessage" class="lt">
+        <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
 

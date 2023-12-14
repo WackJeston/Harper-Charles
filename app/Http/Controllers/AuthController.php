@@ -76,10 +76,16 @@ class AuthController extends Controller
       WHERE u.email = "%s"
       LIMIT 1
     ', $request->email));
-    
-    if ($customer[0]->email_verified_at == null || $customer[0]->email_verified_at == '') {
-      return redirect('/verify-email/' . $customer[0]->id);
+
+    if (empty($customer)) {
+      return redirect("/login")->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+      ]);
     }
+    
+    // if ($customer[0]->email_verified_at == null || $customer[0]->email_verified_at == '') {
+    //   return redirect('/verify-email/' . $customer[0]->id);
+    // }
 
     $credentials = $request->only('email', 'password');
 
@@ -111,12 +117,12 @@ class AuthController extends Controller
   {
 		$user = User::where('email', $request->email)->first();
 
-		if (!empty($user)) {
-			if ($user->email_verified_at == null) {
-				$user->sendEmailVerificationNotification();
-				return redirect('/verify-email/' . $user->id)->with('message', 'An account with this email already exists.');
-			}
-		}
+		// if (!empty($user)) {
+		// 	if ($user->email_verified_at == null) {
+		// 		$user->sendEmailVerificationNotification();
+		// 		return redirect('/verify-email/' . $user->id)->with('message', 'An account with this email already exists.');
+		// 	}
+		// }
 
     $request->validate([
       'firstname' => 'required|max:100',
@@ -142,9 +148,10 @@ class AuthController extends Controller
 		];
 
 		$stripeUser = $user->createAsStripeCustomer($options);
-    event(new Registered($user));
+    // event(new Registered($user));
 
-    return redirect('/verify-email/' . $user->id);
+    // return redirect('/verify-email/' . $user->id)->with('message', 'Signed in.');
+    return redirect('/')->with('message', 'Signed up successfully.');
   }
 
   public function viewVerifyEmailCustomer($id)
