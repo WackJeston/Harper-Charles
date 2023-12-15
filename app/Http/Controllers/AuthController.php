@@ -92,7 +92,7 @@ class AuthController extends Controller
     if (Auth::attempt($credentials) && $customer[0]->admin == 0) {
       $request->session()->regenerate();
 
-      return redirect()->intended('/')->with('message', 'Signed in.');
+      return redirect('/')->with('message', 'Signed in.');
     }
 
     return redirect("/login")->withErrors([
