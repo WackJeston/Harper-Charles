@@ -71,13 +71,11 @@ function preloadImage(string $url, bool $first = false) {
 		if (!in_array($url, $records)) {
 			$records[] = $url;
 			session()->put('preloaded-images', $records);
-			session()->save();
 		}
 
 	} else {
 		$records = [$url];
 		session()->put('preloaded-images', $records);
-		session()->save();
 	}
 }
 

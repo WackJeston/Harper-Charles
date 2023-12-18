@@ -45,7 +45,7 @@ class HomeController extends Controller
 
 		$categories = cacheImages($categories, 1000, 1000);
 
-		return view('home', compact(
+		return view('public/home', compact(
 			'landingZoneBanners', 
 			'categories'
 		));
