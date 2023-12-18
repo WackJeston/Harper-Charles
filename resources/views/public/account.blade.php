@@ -31,12 +31,9 @@
       </div>
     @endif
 
-    @if (session()->has('success') || session()->has('info'))
-      <div id="publicalert" class="lt section-width">
-        <publicalert 
-				message="{{ session()->has('success') ? session()->get('success') : session()->get('info') }}"
-				type="{{ session()->has('success') ? 'success' : 'info' }}"
-				/>
+    @if (session()->has('message'))
+			<div id="publicmessage" class="lt section-width">
+				<publicmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
 
