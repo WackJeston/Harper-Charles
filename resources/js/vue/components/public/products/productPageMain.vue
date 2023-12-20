@@ -24,32 +24,36 @@
         </div>
       </div>
 
-      <div class="wb-content dk">
-        <h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
-        <p>#: {{this.product.id}}</p>
-      </div>
+      
 
-			<div class="wb-content bg-gray dk">
-				<form @submit.prevent="cartAdd" enctype="multipart/form-data">
-          <input type="hidden" name="_token" :value="csrf">
+			<div class="wb-content-container">
+				<div class="wb-content dk">
+					<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
+					<p>#: {{this.product.id}}</p>
+				</div>
+				
+				<div class="wb-content bg-gray dk">
+					<form @submit.prevent="cartAdd" enctype="multipart/form-data">
+						<input type="hidden" name="_token" :value="csrf">
 
-          <div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
-            <label :for="i">{{ variant['title'] }}</label>
-						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
-						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
-						<div class="options-grid">
-							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
-								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
-								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
+						<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
+							<label :for="i">{{ variant['title'] }}</label>
+							<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
+							<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
+							<div class="options-grid">
+								<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
+									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
+									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
+								</div>
 							</div>
 						</div>
-          </div>
 
-          <div class="bottom-row">
-            <span id="price">£{{ this.product.price }}</span>
-            <button class="submit" type="submit">Add To Cart</button>
-          </div>
-        </form>
+						<div class="bottom-row">
+							<span id="price">£{{ this.product.price }}</span>
+							<button class="submit" type="submit">Add To Cart</button>
+						</div>
+					</form>
+				</div>
 			</div>
     </div>
 

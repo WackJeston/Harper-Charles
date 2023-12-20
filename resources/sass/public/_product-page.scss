@@ -20,27 +20,43 @@
 	font-size: 2.6rem;
 }
 
+.product-page .wb-content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-between;
+	width: 100%;
+
+	@media (min-width: 640px) and (max-width: 900px) {
+		max-width: calc(40% - 20px);
+	}
+
+	@media (min-width: 900px) {
+		flex-direction: row;
+		max-width: calc(60% - 20px);
+	}
+}
+
 .product-page .wb-content {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
 	width: 100%;
-	max-width: calc(30% - 20px);
+	max-width: 100%;
 
-	@media (max-width: 640px) {
-		max-width: 100%;
-		margin-top: 10px;
+	@media (min-width: 900px) {
+		max-width: calc(50% - 10px);
 	}
-
-	// @media (min-width: 640px) {
-	// 	margin-left: 25px;
-	// }
 }
 
 .product-page .wb-content.bg-gray {
 	background-color: v.$background;
 	padding: 20px;
 	border-radius: 3px;
+
+	@media (min-width: 900px) {
+		min-height: 100%;
+	}
 }
 
 .product-page .wb-content h3 {
@@ -73,13 +89,16 @@
 	@media (min-width: 640px) {
 		gap: 20px;
 	}
-	@media (min-width: 640px) and (max-width: 750px) {
-		grid-template-columns: auto auto auto;
-	}
-	@media (min-width: 751px) and (max-width: 1100px) {
+	@media (min-width: 640px) and (max-width: 900px) {
 		grid-template-columns: auto auto auto auto;
 	}
-	@media (min-width: 1100px) {
+	@media (min-width: 901px) and (max-width: 1200px) {
+		grid-template-columns: auto auto auto auto;
+	}
+	@media (min-width: 1201px) and (max-width: 1400px) {
+		grid-template-columns: auto auto auto auto auto;
+	}
+	@media (min-width: 1401px) {
 		grid-template-columns: auto auto auto auto auto auto;
 	}
 }
@@ -91,13 +110,13 @@
 	border-radius: 3px;
 	overflow: hidden;
 	cursor: pointer;
-	// border: 2px solid v.$brand-alt-light;
+	// border: 2px solid v.$background;
+	outline: 1px solid v.$almost-black;
 	max-width: 100%;
 }
 
 .product-page .wb-content form .options-grid .option.selected {
-	// border: 2px solid v.$pale-green;
-	outline: 3px solid v.$pale-green;
+	outline: 2px solid v.$pale-green-darker;
 }
 
 .product-page .wb-content form .options-grid .option img,
@@ -114,21 +133,22 @@
 
 .product-page .wb-content form .bottom-row {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
+	justify-content: flex-start;
 	margin-top: auto;
-	padding-top: 10px;
+	padding-top: 20px;
 }
 
 .product-page .wb-content form #price {
-	font-size: 1.9rem;
-	font-weight: 600;
+	font-size: 1.7rem;
+	font-weight: 400;
 	margin: auto 10px 0 0;
 	line-height: 30px;
 }
 
 .product-page .wb-content form .submit {
 	margin: auto 0 0 auto;
-	width: 150px;
+	white-space: nowrap;
 }
 
 .product-page .wb-images {
@@ -136,7 +156,11 @@
 	flex-direction: column;
 	width: 100%;
 
-	@media (min-width: 640px) {
+	@media (min-width: 640px) and (max-width: 900px) {
+		width: 60%;
+	}
+
+	@media (min-width: 901px) {
 		width: 40%;
 	}
 }
