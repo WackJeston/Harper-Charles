@@ -276,6 +276,10 @@
 	flex-direction: row;
 	margin-top: 5px;
 	transition: all 100ms ease-in;
+
+	@media (max-width: 640px) {
+		margin-bottom: 20px;
+	}
 }
 
 .product-page .selected-images div {
@@ -284,6 +288,10 @@
 	min-width: 35px;
 	background-color: v.$white;
 	border-radius: 2px;
+}
+
+.product-page .selected-images div.selected {
+	background-color: v.$almost-black;
 }
 
 .product-page .selected-images div:not(.product-page .selected-images div:last-child) {

@@ -24,8 +24,6 @@
         </div>
       </div>
 
-      
-
 			<div class="wb-content-container">
 				<div class="wb-content dk">
 					<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
@@ -97,7 +95,7 @@
 
     mounted() {
       if (this.images.length > 0) {
-        document.querySelector('#selected0').style.backgroundColor = '#022a34';
+        document.querySelector('#selected0').classList.add('selected');
         this.imageRowResize();
         window.addEventListener('resize', this.imageRowResize);
       }
@@ -174,11 +172,9 @@
       },
 
       selectImage(i) {
-        document.querySelector('#selected'.concat(this.lastSelected))
-          .style.backgroundColor = '#e2e6e9';
+        document.querySelector('#selected'.concat(this.lastSelected)).classList.remove('selected');
 
-        document.querySelector('#selected'.concat(i))
-          .style.backgroundColor = '#022a34';
+        document.querySelector('#selected'.concat(i)).classList.add('selected');
 
         this.lastSelected = i;
       },
