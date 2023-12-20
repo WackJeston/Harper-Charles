@@ -152,7 +152,7 @@ class AdminProductProfileController extends Controller
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title');
 		$variantsTable->addColumn('parent', 'Type');
-		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		// $variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$variantsTable->addLinkButton('product-profileRemoveVariant/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Variant');
 		$variantsTable = $variantsTable->render();
 

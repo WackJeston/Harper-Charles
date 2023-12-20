@@ -49,12 +49,12 @@
 
 					<div :style="[this.deliveryaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
 						<div class="input-label-container">
-							<label for="firstname">First Name<span> *</span></label>
+							<label for="firstname">First Name<span class="red"> *</span></label>
 							<input type="text" name="firstname" required maxlength="100">
 						</div>
 
 						<div class="input-label-container">
-							<label for="lastname">Last Name<span> *</span></label>
+							<label for="lastname">Last Name<span class="red"> *</span></label>
 							<input type="text" name="lastname" required maxlength="100">
 						</div>
 					</div>
@@ -62,7 +62,7 @@
 					<label for="company">Company</label>
 					<input type="text" name="company" maxlength="100">
 
-					<label for="line1">Address Line 1<span> *</span></label>
+					<label for="line1">Address Line 1<span class="red"> *</span></label>
 					<input type="text" name="line1" required maxlength="200">
 
 					<div class="wb-row">
@@ -79,7 +79,7 @@
 
 					<div class="wb-row">
 						<div class="input-label-container">
-							<label for="city">City / Town<span> *</span></label>
+							<label for="city">City / Town<span class="red"> *</span></label>
 							<input type="text" name="city" required maxlength="100">
 						</div>
 
@@ -91,12 +91,12 @@
 
 					<div class="wb-row">
 						<div class="input-label-container">
-							<label for="postcode">Postcode<span> *</span></label>
+							<label for="postcode">Postcode<span class="red"> *</span></label>
 							<input type="text" name="postcode" required maxlength="50">
 						</div>
 
 						<div class="input-label-container">
-							<label for="country">Country<span> *</span></label>
+							<label for="country">Country<span class="red"> *</span></label>
 							<select type="text" name="country" required maxlength="100">
 								<option value="">Select Country</option>
 								<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
@@ -106,12 +106,12 @@
 
 					<div class="wb-row">
 						<div class="input-label-container">
-							<label for="phone">Phone<span> *</span></label>
+							<label for="phone">Phone<span class="red"> *</span></label>
 							<input type="tel" name="phone" required maxlength="20">
 						</div>
 
 						<div class="input-label-container">
-							<label for="email">email<span> *</span></label>
+							<label for="email">email<span class="red"> *</span></label>
 							<input type="email" name="email" required maxlength="100">
 						</div>
 					</div>
@@ -176,12 +176,12 @@
 
 				<div :style="[this.billingaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
 					<div class="input-label-container">
-						<label for="firstname">First Name<span> *</span></label>
+						<label for="firstname">First Name<span class="red"> *</span></label>
 						<input type="text" name="firstname" required maxlength="100">
 					</div>
 
 					<div class="input-label-container">
-						<label for="lastname">Last Name<span> *</span></label>
+						<label for="lastname">Last Name<span class="red"> *</span></label>
 						<input type="text" name="lastname" required maxlength="100">
 					</div>
 				</div>
@@ -189,7 +189,7 @@
 				<label for="company">Company</label>
 				<input type="text" name="company" maxlength="100">
 
-				<label for="line1">Address Line 1<span> *</span></label>
+				<label for="line1">Address Line 1<span class="red"> *</span></label>
 				<input type="text" name="line1" required maxlength="200">
 
 				<div class="wb-row">
@@ -206,7 +206,7 @@
 
 				<div class="wb-row">
 					<div class="input-label-container">
-						<label for="city">City / Town<span> *</span></label>
+						<label for="city">City / Town<span class="red"> *</span></label>
 						<input type="text" name="city" required maxlength="100">
 					</div>
 
@@ -218,12 +218,12 @@
 
 				<div class="wb-row">
 					<div class="input-label-container">
-						<label for="postcode">Postcode<span> *</span></label>
+						<label for="postcode">Postcode<span class="red"> *</span></label>
 						<input type="text" name="postcode" required maxlength="50">
 					</div>
 
 					<div class="input-label-container">
-						<label for="country">Country<span> *</span></label>
+						<label for="country">Country<span class="red"> *</span></label>
 						<select type="text" name="country" required maxlength="100">
 							<option value="">Select Country</option>
 							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
@@ -233,12 +233,12 @@
 
 				<div class="wb-row">
 					<div class="input-label-container">
-						<label for="phone">Phone<span> *</span></label>
+						<label for="phone">Phone<span class="red"> *</span></label>
 						<input type="tel" name="phone" required maxlength="20">
 					</div>
 
 					<div class="input-label-container">
-						<label for="email">email<span> *</span></label>
+						<label for="email">email<span class="red"> *</span></label>
 						<input type="email" name="email" required maxlength="100">
 					</div>
 				</div>

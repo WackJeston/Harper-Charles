@@ -15,7 +15,7 @@
 		<i class="fa-solid fa-xmark" @click="show = false"></i>
 		<input type="hidden" name="_token" :value="csrf">
 
-		<label for="firstname">Note<span> *</span></label>
+		<label for="firstname">Note<span class="red"> *</span></label>
 		<textarea type="text" name="note" maxlength="4000"></textarea>
 
 		<button class="submit" type="submit">Add Note</button>

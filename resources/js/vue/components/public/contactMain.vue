@@ -8,10 +8,10 @@
 		<form action="/contactCreateEnquiry">
 			<input type="hidden" name="_token" :value="csrf">
 
-			<label for="name">Name<span> *</span></label>
+			<label for="name">Name<span class="red"> *</span></label>
 			<input type="text" name="name" required>
 
-			<label for="email">Email<span> *</span></label>
+			<label for="email">Email<span class="red"> *</span></label>
 			<input type="email" name="email" required>
 
 			<label for="phone">Phone</label>
@@ -20,7 +20,7 @@
 			<label for="subject">Subject</label>
 			<input type="text" name="subject">
 
-			<label for="message">Message<span> *</span></label>
+			<label for="message">Message<span class="red"> *</span></label>
 			<textarea name="message" required></textarea>
 
 			<input type="submit" value="Send" class="submit">

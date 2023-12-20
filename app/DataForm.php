@@ -116,7 +116,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['type'],
 							$input['attributes']
 						);
@@ -133,7 +133,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -149,7 +149,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -165,7 +165,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -181,7 +181,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -198,7 +198,7 @@ class DataForm
 							$input['max'] ? sprintf('maxlength="%s"', $input['max']) : '',
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -215,7 +215,7 @@ class DataForm
 							$input['max'] ? sprintf('maxlength="%s"', $input['max']) : '',
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -234,7 +234,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$i,
 							$input['attributes']
 						);
@@ -250,7 +250,7 @@ class DataForm
 							$input['value'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -261,7 +261,7 @@ class DataForm
 						<div class="radio-container">',
 							$input['name'],
 							$input['label'],
-							$input['required'] ? '<span> *</span>' : ''
+							$input['required'] ? '<span class="red"> *</span>' : ''
 						);
 
 							foreach ($input['options'] as $i2 => $option) {
@@ -294,7 +294,7 @@ class DataForm
 							$input['max'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -311,7 +311,7 @@ class DataForm
 							$input['value'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 						break;
@@ -325,7 +325,7 @@ class DataForm
 							$input['label'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
-							$input['required'] ? '<span> *</span>' : '',
+							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes']
 						);
 

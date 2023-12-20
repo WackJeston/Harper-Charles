@@ -15,16 +15,16 @@
     <i class="fa-solid fa-xmark" @click="show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
 
-    <label for="firstname">First Name<span> *</span></label>
+    <label for="firstname">First Name<span class="red"> *</span></label>
     <input type="text" name="firstname" maxlength="100" :value="this.user.firstName" required>
 
-    <label for="lastname">Last Name<span> *</span></label>
+    <label for="lastname">Last Name<span class="red"> *</span></label>
     <input type="text" name="lastname" maxlength="100" :value="this.user.lastName" required>
 
-    <label for="email">Email<span> *</span></label>
+    <label for="email">Email<span class="red"> *</span></label>
     <input type="text" name="email" maxlength="100" :value="this.user.email" required>
 
-    <label for="password">Password<span> *</span></label>
+    <label for="password">Password<span class="red"> *</span></label>
     <label for="password" class="show-password">
       <i id="show-password" v-show="!showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-solid fa-eye"></i>
       <i id="hide-password" v-show="showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-regular fa-eye-slash"></i>
