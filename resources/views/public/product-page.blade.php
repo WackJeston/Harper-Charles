@@ -28,7 +28,7 @@
       />
     </div>
 
-		{{-- <h2>Product Description</h2> --}}
+		<h2 class="product-description-title">Product Description</h2>
     <p class="product-description">{{ $product->description }}</p>
 
   </main>

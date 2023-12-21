@@ -30,7 +30,7 @@
 					<p>#: {{this.product.id}}</p>
 				</div>
 				
-				<div class="wb-content bg-gray dk">
+				<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
 					<form @submit.prevent="cartAdd" enctype="multipart/form-data">
 						<input type="hidden" name="_token" :value="csrf">
 
@@ -45,6 +45,10 @@
 								</div>
 							</div>
 						</div>
+						
+						<small v-if="this.variantCount > 0" class="variant-info">
+							Please select from the options above before adding to your cart.
+						</small>
 
 						<div class="bottom-row">
 							<span id="price">£{{ this.product.price }}</span>
@@ -85,11 +89,12 @@
         selectedColor: 'blue',
         lastSelected: 0,
         imageRowPosition: 0,
-        imageRowWidth: (40 * this.count) - 5,
+        imageRowWidth: (50 * this.count) - 5,
         imageRowContainerWidth: 0,
         imageRowButtonContainerWidth: 0,
         selectedVariants: 0,
         alertIndex: 0,
+				variantCount: Object.keys(this.variants).length,
       }
     },
 
@@ -146,7 +151,7 @@
       cartAlertRemove(i) {
         setTimeout(() => {
           let alert = document.querySelector('#alert' + i);
-          alert.style.transform = 'translate3d(calc(100% + 40px), 0, 0)';
+          alert.style.transform = 'translate3d(calc(100% + 50px), 0, 0)';
           setTimeout(() => {
             alert.remove();
           }, 700);
@@ -185,7 +190,7 @@
             if (this.imageRowPosition > -39) {
               this.imageRowPosition = 0;
             } else {
-              this.imageRowPosition = parseInt(this.imageRowPosition) + 40;
+              this.imageRowPosition = parseInt(this.imageRowPosition) + 50;
             }
           }
         } else if(direction == 'right') {
@@ -196,7 +201,7 @@
             if (Math.abs(this.imageRowPosition) > (this.imageRowCalc - 39)) {
               this.imageRowPosition = -Math.abs(this.imageRowCalc);
             } else {
-              this.imageRowPosition = parseInt(this.imageRowPosition) - 40;
+              this.imageRowPosition = parseInt(this.imageRowPosition) - 50;
             }
           }
         }
