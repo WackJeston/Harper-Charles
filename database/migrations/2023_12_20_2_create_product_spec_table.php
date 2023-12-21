@@ -19,6 +19,7 @@ return new class extends Migration
 						$table->string('label', 255);
 						$table->string('value', 255);
 						$table->string('description', 1000)->nullable();
+						$table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

@@ -27,11 +27,15 @@
 	justify-content: space-between;
 	width: 100%;
 
-	@media (min-width: 640px) and (max-width: 900px) {
+	@media (min-width: 640px) and (max-width: 760px) {
+		max-width: calc(50% - 20px);
+	}
+
+	@media (min-width: 761px) and (max-width: 900px) {
 		max-width: calc(40% - 20px);
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 901px) {
 		flex-direction: row;
 		max-width: calc(60% - 20px);
 	}
@@ -53,6 +57,7 @@
 	background-color: v.$background;
 	padding: 20px;
 	border-radius: 3px;
+	max-width: 800px;
 }
 
 .product-page .wb-content.bg-gray.full-height {
@@ -92,9 +97,9 @@
 	width: 100%;
 	max-width: 600px;
 
-	@media (min-width: 640px) {
-		gap: 20px;
-	}
+	// @media (min-width: 640px) {
+	// 	gap: 20px;
+	// }
 	@media (min-width: 640px) and (max-width: 900px) {
 		grid-template-columns: auto auto auto auto;
 	}
@@ -116,12 +121,18 @@
 	border-radius: 3px;
 	overflow: hidden;
 	cursor: pointer;
-	// border: 2px solid v.$background;
 	border: 1px solid v.$almost-black;
 	max-width: 100%;
 }
 
+// .product-page .wb-content form .options-grid .option p {
+// 	// margin-top: 100%;
+// 	position: absolute;
+// 	top: 100%;
+// }
+
 .product-page .wb-content form .options-grid .option.selected {
+	border: 1px solid v.$background;
 	outline: 2px solid v.$almost-black;
 }
 
@@ -183,7 +194,11 @@
 	flex-direction: column;
 	width: 100%;
 
-	@media (min-width: 640px) and (max-width: 900px) {
+	@media (min-width: 640px) and (max-width: 760px) {
+		width: 50%;
+	}
+
+	@media (min-width: 761px) and (max-width: 900px) {
 		width: 60%;
 	}
 
@@ -379,6 +394,7 @@
 
 p.product-description {
 	margin-top: 0;
+	max-width: 1000px;
 
 	// @media (max-width: 640px) {
 	// 	text-align: center;
