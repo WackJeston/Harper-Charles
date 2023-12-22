@@ -183,12 +183,10 @@
 
         @yield('content')
 
-				<div class="image-viewer-container">
-					<div class="image-viewer" style="display: none;">
-						<img class="viewer-image">
-						<div class="viewer-overlay"></div>
-						<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
-					</div>
+				<div class="image-viewer" style="display: none;">
+					<img class="viewer-image">
+					<div class="viewer-overlay"></div>
+					<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
 				</div>
 
         <div id="vuefooter">

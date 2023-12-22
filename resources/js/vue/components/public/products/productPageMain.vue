@@ -60,13 +60,13 @@
 			</div>
     </div>
 
-    <div class="image-viewer-container">
+    <!-- <div class="image-viewer-container">
       <div class="image-viewer" v-show="this.imageView">
         <img class="viewer-image">
         <div class="viewer-overlay"></div>
         <i class="fa-solid fa-xmark" @click="closeImage()"></i>
       </div>
-    </div>
+    </div> -->
 
     <div id="cartAlert"></div>
   </section>
@@ -165,17 +165,35 @@
       //   });
       // },
 
-      showImage(fileName) {
-        const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = fileName;
-        this.imageView = true;
-      },
+			showImage(url) {
+				const imageZone = document.querySelector('.image-viewer');
+				const image = document.querySelector('.viewer-image');
 
-      closeImage() {
-        const imageZone = document.querySelector('.viewer-image');
-        imageZone.src = '';
-        this.imageView = false;
-      },
+				image.src = url;
+				
+				imageZone.style.display = 'flex';
+			},
+
+			closeImage() {
+				const imageZone = document.querySelector('.image-viewer');
+				const image = document.querySelector('.viewer-image');
+
+				image.src = '';
+				
+				imageZone.style.display = 'none';
+			},
+
+      // showImage(fileName) {
+      //   const imageZone = document.querySelector('.viewer-image');
+      //   imageZone.src = fileName;
+      //   this.imageView = true;
+      // },
+
+      // closeImage() {
+      //   const imageZone = document.querySelector('.viewer-image');
+      //   imageZone.src = '';
+      //   this.imageView = false;
+      // },
 
       selectImage(i) {
         document.querySelector('#selected'.concat(this.lastSelected)).classList.remove('selected');
