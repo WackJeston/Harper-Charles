@@ -22,7 +22,10 @@ class AdminOrdersController extends Controller
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`
 			FROM orders AS o
-			INNER JOIN users AS u ON u.id=o.userId'
+			INNER JOIN users AS u ON u.id=o.userId',
+			[], 
+			'id', 
+			'DESC'
 		);
 		$ordersTable->addColumn('id', '#');
 		$ordersTable->addColumn('user', 'User', 2);
