@@ -30,6 +30,8 @@
 			:editform="{{ json_encode($editForm) }}"
 			:imagesform="{{ json_encode($imagesForm) }}"
       :imagestable="{{ json_encode($imagesTable) }}"
+			:specsform="{{ json_encode($specsForm) }}"
+      :specstable="{{ json_encode($specsTable) }}"
 			:categoryform="{{ json_encode($categoryForm) }}"
       :categoriestable="{{ json_encode($categoriesTable) }}"
 			:variantsform="{{ json_encode($variantsForm) }}"

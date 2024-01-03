@@ -5,6 +5,7 @@
 	<a :href="'/product-profileToggleProduct/' + this.product.id + '/1'" v-else><button class="page-button pb-danger" type="button"><i class="fa-solid fa-toggle-off"></i>Off</button></a>
 	<button class="page-button" type="button" :class="{ 'button-active': show == 'edit' }" @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
 	<button class="page-button" type="button" :class="{ 'button-active': show == 'images' }" @click="show == 'images' ? show = false : show = 'images'">Images<span v-show="this.imagestable.count > 0"> ({{this.imagestable.count }})</span></button>
+	<button class="page-button" type="button" :class="{ 'button-active': show == 'specs' }" @click="show == 'specs' ? show = false : show = 'specs'">Specifications<span v-show="this.specstable.count > 0"> ({{this.specstable.count }})</span></button>
 	<button class="page-button" type="button" :class="{ 'button-active': show == 'categories' }" @click="show == 'categories' ? show = false : show = 'categories'">Categories<span v-show="this.categoriestable.count > 0"> ({{ this.categoriestable.count }})</span></button>
 	<button class="page-button" type="button" :class="{ 'button-active': show == 'variants' }" @click="show == 'variants' ? show = false : show = 'variants'">Variants<span v-show="this.variantstable.count > 0"> ({{this.variantstable.count }})</span></button>
 
@@ -14,6 +15,10 @@
 	<!-- Images -->
 	<div v-html="this.imagesform.html" v-show="show == 'images'"></div>
 	<div v-html="this.imagestable.html" v-show="show == 'images'"></div>
+
+	<!-- Specs -->
+	<div v-html="this.specsform.html" v-show="show == 'specs'"></div>
+	<div v-html="this.specstable.html" v-show="show == 'specs'"></div>
 
 	<!-- Categories -->
 	<div v-html="this.categoryform.html" v-show="show == 'categories'"></div>
@@ -32,6 +37,8 @@ export default {
 		'editform',
 		'imagesform',
 		'imagestable',
+		'specsform',
+		'specstable',
 		'categoryform',
 		'categoriestable',
 		'variantsform',

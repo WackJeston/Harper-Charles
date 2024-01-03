@@ -10,6 +10,7 @@ use App\DataTable;
 use App\DataForm;
 use App\Models\Products;
 use App\Models\ProductImages;
+use App\Models\ProductSpec;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryJoins;
 use App\Models\ProductVariants;
@@ -81,6 +82,28 @@ class AdminProductProfileController extends Controller
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$imagesTable->addJsButton('showDeleteWarning', ['string:Image', 'record:id', 'url:/product-profileDeleteImage/?'], 'fa-solid fa-trash-can', 'Delete Image');
 		$imagesTable = $imagesTable->render();
+
+		$specsForm = new DataForm(request(), sprintf('/product-profileAddSpec/%d', $id), 'Add Specification');
+		$specsForm->addInput('text', 'label', 'Label', null, 255, 1, true);
+		$specsForm->addInput('text', 'value', 'Value', null, 255, 1, true);
+		// $specsForm->addInput('textarea', 'description', 'Description', null, 1000);
+		$specsForm = $specsForm->render();
+
+		$specsTable = new DataTable('product_spec');
+		$specsTable->setQuery('SELECT 
+			ps.*
+			FROM product_spec AS ps
+			WHERE ps.productId = ?',
+			[$id],
+			'label',
+			'ASC'
+		);
+		$specsTable->addColumn('id', '#');
+		$specsTable->addColumn('label', 'Label');
+		$specsTable->addColumn('value', 'Value');
+		$specsTable->addColumn('active', 'Active', 1, false, 'toggle');
+		$specsTable->addJsButton('showDeleteWarning', ['string:Specification', 'record:id', 'url:/product-profileDeleteSpec/?'], 'fa-solid fa-trash-can', 'Delete Specification');
+		$specsTable = $specsTable->render();
 
 		// Categories
 		$allCategories = DB::select('SELECT 
@@ -162,6 +185,8 @@ class AdminProductProfileController extends Controller
 			'editForm',
 			'imagesForm',
       'imagesTable',
+			'specsForm',
+			'specsTable',
 			'categoryForm',
       'categoriesTable',
 			'variantsForm',
