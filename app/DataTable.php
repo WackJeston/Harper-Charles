@@ -25,6 +25,7 @@ class DataTable
 			'columns' => [],
 			'records' => [],
 			'buttons' => [],
+			'sequence' => false,
 		];
 	}
 
@@ -82,6 +83,11 @@ class DataTable
 
 	public function setTitle(string $title) {
 		$this->table['title'] = $title;
+	}
+
+	public function sequence() {
+		$this->table['sequence'] = true;
+		$this->table['orderColumn'] = 'sequence';
 	}
 
 	public function addColumn(string $name, string $title = null, int $width = 1, bool $hideMobile = false, string $type = 'default', array $typeData = []) {
@@ -167,6 +173,11 @@ class DataTable
 	}
 
 	public function calculate() {
+		if ($this->table['sequence'] == true && $this->table['orderColumn'] == 'sequence') {
+			Self::addJsButton('moveSequence', ['record:id', $this->table['ref'], 'up'], 'fa-solid fa-angle-up', 'Move Up');
+			Self::addJsButton('moveSequence', ['record:id', $this->table['ref'], 'down'], 'fa-solid fa-angle-down', 'Move Down');
+		}
+
 		$columnWidthCount = 0;
 		$mobileColumnWidthCount = 0;
 		

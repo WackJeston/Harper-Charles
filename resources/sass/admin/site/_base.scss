@@ -297,22 +297,22 @@ a.pb-success {
 
 button.pb-success,
 a.pb-success {
-	background-color: v.$pale-green;
+	background-color: v.$pale-green-darker;
 }
 
 button.pb-success:hover,
 a.pb-success:hover {
-	background-color: v.$pale-green-darker;
+	background-color: v.$pale-green;
 }
 
 button.pb-danger,
 a.pb-danger {
-	background-color: v.$pale-red;
+	background-color: v.$pale-red-darker;
 }
 
 button.pb-danger:hover,
 a.pb-danger:hover {
-	background-color: v.$pale-red-darker;
+	background-color: v.$pale-red;
 }
 
 .fa-toggle-off {

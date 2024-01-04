@@ -15,9 +15,14 @@ class ProductImages extends Model
     'assetId',
     'primary',
 		'active',
+		'sequence'
   ];
 
-  protected $guarded = [
-
-  ];
+	protected static function booted() {
+		static::created(function ($self) {
+			Self::update([
+				'sequence' => $self->id
+			]);
+    });
+	}
 }

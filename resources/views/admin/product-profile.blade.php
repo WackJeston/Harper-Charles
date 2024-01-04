@@ -48,7 +48,7 @@
 					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
 					<li><strong>Price: </strong>£{{ $product->price }}</li>
 					@if ($product->created_at)
-						<li><strong>Created At: </strong>{{ $product->created_at }}</li>
+						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
 					@endif
 				</ul>
 				

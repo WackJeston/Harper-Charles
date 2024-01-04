@@ -27,6 +27,7 @@ class AdminProductProfileController extends Controller
 		// Product
     $product = DB::select('SELECT 
 			p.*,
+			DATE_FORMAT(p.created_at, "%e/%c/%Y") AS created_at,
 			COUNT(pcj.id) AS categoryCount
 			FROM products AS p
 			LEFT JOIN product_category_joins AS pcj ON pcj.productId=p.id
@@ -51,6 +52,7 @@ class AdminProductProfileController extends Controller
 			INNER JOIN asset AS a ON a.id = pi.assetId
 			WHERE pi.productId = ?
 			AND pi.primary = 1
+			AND pi.active = 1
 			LIMIT 1',
 			[$id]
 		);
@@ -64,11 +66,13 @@ class AdminProductProfileController extends Controller
 		$imagesForm = $imagesForm->render();
 
 		$imagesTable = new DataTable('product_images');
+		$imagesTable->sequence();
 		$imagesTable->setQuery('SELECT 
 			pi.id,
 			a.name,
 			pi.primary,
 			pi.active,
+			pi.sequence,
 			a.fileName
 			FROM product_images AS pi
 			LEFT JOIN asset AS a ON a.id = pi.assetId
@@ -84,7 +88,7 @@ class AdminProductProfileController extends Controller
 		$imagesTable = $imagesTable->render();
 
 		$specsForm = new DataForm(request(), sprintf('/product-profileAddSpec/%d', $id), 'Add Specification');
-		$specsForm->addInput('text', 'label', 'Label', null, 255, 1, true);
+		$specsForm->addInput('text', 'label', 'Label', null, 255, 1);
 		$specsForm->addInput('text', 'value', 'Value', null, 255, 1, true);
 		// $specsForm->addInput('textarea', 'description', 'Description', null, 1000);
 		$specsForm = $specsForm->render();
@@ -286,6 +290,31 @@ class AdminProductProfileController extends Controller
     return redirect("/admin/product-profile/$id")->with('message', "$name is now the primary image.");
   }
 
+	public function addSpec(Request $request, $id)
+	{
+		$request->validate([
+			'label' => 'max:255',
+			'value' => 'required|max:255',
+		]);
+
+		ProductSpec::create([
+			'productId' => $id,
+			'label' => $request->label,
+			'value' => $request->value,
+			// 'description' => $request->description,
+		]);
+
+		return redirect("/admin/product-profile/$id")->with('message', 'Specification added.');
+	}
+
+	public function deleteSpec($specId)
+	{
+		$id = ProductSpec::where('id', $specId)->pluck('productId')->first();
+
+		ProductSpec::where('id', $specId)->delete();
+
+		return redirect("/admin/product-profile/$id")->with('message', "Specification #'$specId' has been deleted.");
+	}
 
   public function addCategory(Request $request, $id)
   {
