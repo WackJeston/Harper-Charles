@@ -66,7 +66,7 @@ class AdminProductProfileController extends Controller
 		$imagesForm = $imagesForm->render();
 
 		$imagesTable = new DataTable('product_images');
-		$imagesTable->sequence();
+		$imagesTable->sequence('productId');
 		$imagesTable->setQuery('SELECT 
 			pi.id,
 			a.name,

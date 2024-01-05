@@ -20,9 +20,7 @@ class ProductImages extends Model
 
 	protected static function booted() {
 		static::created(function ($self) {
-			Self::update([
-				'sequence' => $self->id
-			]);
+			$self->sequence = $self->id;
     });
 	}
 }

@@ -43,13 +43,39 @@ class DataTableController extends Controller
 
 		return true;
 	}
+	
+	public function moveSequence(int $id, string $direction, string $tableName, string $sequenceColumn) {
+		$orderDirection = $direction == 'up' ? 'DESC' : 'ASC';
+		$sequenceDirection = $direction == 'up' ? '<' : '>';
+		$targetSequence = DB::SELECT(sprintf('SELECT sequence FROM %s WHERE id = %d LIMIT 1', $tableName, $id))[0]->sequence;
+
+		if ($sequenceColumn != 'null') {
+			$parentId = DB::SELECT(sprintf('SELECT %s FROM %s WHERE id = %d LIMIT 1', $sequenceColumn, $tableName, $id))[0]->{$sequenceColumn};
+			$records = DB::SELECT(sprintf('SELECT id, sequence FROM %s WHERE %s = %d AND sequence %s= %d ORDER BY sequence %s LIMIT 2', $tableName, $sequenceColumn, $parentId, $sequenceDirection, $targetSequence, $orderDirection));
+
+		} else {
+			$records = DB::SELECT(sprintf('SELECT id, sequence FROM %s WHERE sequence %s= %d ORDER BY sequence %s LIMIT 2', $tableName, $sequenceDirection, $targetSequence, $orderDirection));
+		}
+
+		if (count($records) < 2) {
+			return false;
+		
+		} else {
+			DB::UPDATE(sprintf('UPDATE %s SET sequence = %d WHERE id = %d', $tableName, $records[0]->sequence, $records[1]->id));
+			DB::UPDATE(sprintf('UPDATE %s SET sequence = %d WHERE id = %d', $tableName, $records[1]->sequence, $records[0]->id));
+
+			return [
+				$records[0]->id,
+				$records[1]->id
+			];
+		}
+	}
 
 	//Header
 	public function setOrderColumn(string $name, string $query) {
 		$table = session()->get($query);
 		$table['orderColumn'] = $name;
 		session()->put($query, $table);
-		session()->save();
 
 		return true;
 	}
@@ -58,7 +84,6 @@ class DataTableController extends Controller
 		$table = session()->get($query);
 		$table['orderDirection'] = $direction;
 		session()->put($query, $table);
-		session()->save();
 
 		return true;
 	}
@@ -68,7 +93,6 @@ class DataTableController extends Controller
 		$table = session()->get($query);
 		$table['limit'] = $limit;
 		session()->put($query, $table);
-		session()->save();
 
 		return true;
 	}
@@ -77,7 +101,15 @@ class DataTableController extends Controller
 		$table = session()->get($query);
 		$table['offset'] = $offset;
 		session()->put($query, $table);
-		session()->save();
+
+		return true;
+	}
+
+	public function resetTableSequence(string $query) {
+		$table = session()->get($query);
+		$table['orderColumn'] = 'sequence';
+		$table['orderDirection'] = 'ASC';
+		session()->put($query, $table);
 
 		return true;
 	}

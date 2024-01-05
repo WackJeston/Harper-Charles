@@ -26,6 +26,7 @@ class DataTable
 			'records' => [],
 			'buttons' => [],
 			'sequence' => false,
+			'sequenceColumn' => 'null',
 		];
 	}
 
@@ -64,13 +65,25 @@ class DataTable
 
 		$this->table['count'] = count(DB::select($query));
 
+		if ($this->table['sequence'] && $this->table['count'] < 2) {
+			$this->table['sequence'] = false;
+		}
+
 		if ($this->table['limit'] == 0 && $this->table['offset'] != 0) {
 			$this->table['offset'] = 0;
 		}
 
+		$orderColumnBackticks = explode(', ', $this->table['orderColumn']);
+
+		foreach ($orderColumnBackticks as $i => $column) {
+			$orderColumnBackticks[$i] = sprintf("`%s`", $column);
+		}
+
+		$orderColumnBackticks = implode(', ', $orderColumnBackticks);
+
 		$query = sprintf('%s ORDER BY %s %s%s%s', 
 			$query, 
-			$this->table['orderColumn'], 
+			$orderColumnBackticks, 
 			$this->table['orderDirection'], 
 			$this->table['limit'] == 0 ? ' LIMIT 500' : ' LIMIT ' . $this->table['limit'],
 			$this->table['offset'] == 0 ? '' : ' OFFSET ' . $this->table['offset']
@@ -85,8 +98,9 @@ class DataTable
 		$this->table['title'] = $title;
 	}
 
-	public function sequence() {
+	public function sequence(string $sequenceColumn = 'null') {
 		$this->table['sequence'] = true;
+		$this->table['sequenceColumn'] = $sequenceColumn;
 		$this->table['orderColumn'] = 'sequence';
 	}
 
@@ -136,12 +150,21 @@ class DataTable
 		}
 	}
 
-	public function addJsButton(string $function, array $values, string $icon, string $label = null) {
-		$this->table['buttons'][] = [
-			'type' => 'js',
-			'icon' => $icon,
-			'label' => $label,
-		];
+	public function addJsButton(string $function, array $values, string $icon, string $label = null, bool $addToStart = false) {
+		if (!$addToStart) {
+			$this->table['buttons'][] = [
+				'type' => 'js',
+				'icon' => $icon,
+				'label' => $label,
+			];
+
+		} else {
+			array_unshift($this->table['buttons'], [
+				'type' => 'js',
+				'icon' => $icon,
+				'label' => $label,
+			]);
+		}
 
 		foreach ($this->table['records'] as $i => $record) {
 			$finalValues = [];
@@ -168,14 +191,21 @@ class DataTable
 				$finalValues[] = "'$tempValue'";
 			}
 
-			$record->buttonRecords[] = sprintf('%s(%s);', $function, implode(', ', $finalValues));
+			if (!$addToStart) {
+				$record->buttonRecords[] = sprintf('%s(%s);', $function, implode(', ', $finalValues));
+				
+			} else {
+				array_unshift($record->buttonRecords, sprintf('%s(%s);', $function, implode(', ', $finalValues)));
+			}
 		}
 	}
 
 	public function calculate() {
+
+
 		if ($this->table['sequence'] == true && $this->table['orderColumn'] == 'sequence') {
-			Self::addJsButton('moveSequence', ['record:id', $this->table['ref'], 'up'], 'fa-solid fa-angle-up', 'Move Up');
-			Self::addJsButton('moveSequence', ['record:id', $this->table['ref'], 'down'], 'fa-solid fa-angle-down', 'Move Down');
+			Self::addJsButton('moveSequence', ['record:id', 'string:up', sprintf('string:%s', $this->table['ref']), sprintf('string:%s', $this->table['tableName']), sprintf('string:%s', $this->table['sequenceColumn'])], 'fa-solid fa-angle-up', 'Move Up', true);
+			Self::addJsButton('moveSequence', ['record:id', 'string:down', sprintf('string:%s', $this->table['ref']), sprintf('string:%s', $this->table['tableName']), sprintf('string:%s', $this->table['sequenceColumn'])], 'fa-solid fa-angle-down', 'Move Down', true);
 		}
 
 		$columnWidthCount = 0;
@@ -206,7 +236,6 @@ class DataTable
 		}
 
 		session()->put($this->table['query'], $this->table);
-		session()->save();
 	}
 
 	public function render() {
@@ -272,7 +301,7 @@ class DataTable
 
 					foreach ($this->table['records'] as $i => $record) {
 						$html .= sprintf('
-						<tr id="row-index-%d">', $i);
+						<tr id="row-index-%d" data-record-id="%d">', $i, $record->{$this->table['primary']});
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
@@ -458,6 +487,22 @@ class DataTable
 						$this->table['limit'] == 100 ? 'selected' : '',
 						$this->table['limit'] == 0 ? 'selected' : '',
 					);
+					
+					if ($this->table['sequence'] == true && $this->table['orderColumn'] != 'sequence') {
+						$html .= '
+						<td>';
+
+							$html .= sprintf('
+								<div class="icon-container" onclick="resetTableSequence(\'%s\', \'%s\')">
+									<i class="fa-solid fa-arrow-down-short-wide"></i> Reset Sequence
+								</div>',	
+								$this->table['query'],
+								$this->table['ref']
+							);
+
+						$html .= '
+						</td>';
+					}
 
 					$html .= '
 					<td>';

@@ -260,3 +260,21 @@ tfoot button i {
 	margin: 0;
 	color: v.$white !important;
 }
+
+tfoot .icon-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
+	padding: 1px 6px;
+	font-size: 0.9rem;
+	background-color: v.$black;
+	color: v.$white;
+	cursor: pointer;
+}
+
+tfoot .icon-container i {
+	color: v.$white;
+	font-size: 0.8rem;
+	margin-right: 5px;
+}

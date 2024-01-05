@@ -211,6 +211,26 @@ function selectDropdown(e, table, column, primaryTable, primaryValue) {
 	});
 };
 
+function moveSequence(id, direction, ref, tableName, sequenceColumn) {
+	$.ajax({
+		url: "/dataTable-moveSequence/" + id + "/" + direction + "/" + tableName + "/" + sequenceColumn,
+		type: "GET",
+		success: function(result) {
+			if (result != false) {
+				let table = document.querySelector("#table-" + ref);
+				let row1 = table.querySelector(`tr[data-record-id="${result[0]}"]`);
+				let row2 = table.querySelector(`tr[data-record-id="${result[1]}"]`);
+
+				let temp = row1.innerHTML;
+				row1.innerHTML = row2.innerHTML;
+				row1.setAttribute("data-record-id", result[1]);
+				row2.innerHTML = temp;
+				row2.setAttribute("data-record-id", result[0]);
+			}
+		}
+	});
+}
+
 function tableRedirect(ref) {
 	let url = location.href.split('#')[0];
 
@@ -273,3 +293,13 @@ function changeTablePage(query, oldOffset, limit, direction, ref) {
 		}
 	});
 };
+
+function resetTableSequence(query, ref) {
+	$.ajax({
+		url: "/dataTable-resetTableSequence/" + query,
+		type: "GET",
+		success: function() {
+			tableRedirect(ref);
+		}
+	});
+}
