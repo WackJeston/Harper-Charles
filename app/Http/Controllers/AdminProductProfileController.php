@@ -94,13 +94,12 @@ class AdminProductProfileController extends Controller
 		$specsForm = $specsForm->render();
 
 		$specsTable = new DataTable('product_spec');
+		$specsTable->sequence('productId');
 		$specsTable->setQuery('SELECT 
 			ps.*
 			FROM product_spec AS ps
 			WHERE ps.productId = ?',
-			[$id],
-			'label',
-			'ASC'
+			[$id]
 		);
 		$specsTable->addColumn('id', '#');
 		$specsTable->addColumn('label', 'Label');

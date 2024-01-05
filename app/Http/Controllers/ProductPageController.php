@@ -31,7 +31,7 @@ class ProductPageController extends Controller
 			INNER JOIN asset AS a ON a.id = pi.assetId
 			WHERE pi.productId = %d
 			AND pi.active = 1
-			ORDER BY pi.primary DESC, pi.id ASC', $id
+			ORDER BY pi.sequence ASC, pi.id ASC', $id
 		));
 
 		$productImages = cacheImages($productImages, 2000, 2000);
