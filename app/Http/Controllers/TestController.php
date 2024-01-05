@@ -8,10 +8,6 @@ class TestController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
-    return view('system/test', compact(
-      'sessionUser',
-    ));
+    return view('system/test');
   }
 }

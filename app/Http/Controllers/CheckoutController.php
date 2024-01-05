@@ -18,9 +18,7 @@ class CheckoutController extends Controller
 {
   public function show($action) 
   {
-    $sessionUser = auth()->user();
-
-		switch ($action) {
+    switch ($action) {
 			// default: // addresses
 			case 'addresses':
 				Checkout::createCheckout();
@@ -57,7 +55,6 @@ class CheckoutController extends Controller
 				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
 
 				return view('public/checkout', compact(
-					'sessionUser',
 					'action',
 					'deliveryAddresses',
 					'defaultDelivery',
@@ -105,7 +102,6 @@ class CheckoutController extends Controller
 				$total = $checkout->total;
 
 				return view('public/checkout', compact(
-					'sessionUser',
 					'action',
 					'billingAddress',
 					'paymentMethods',
@@ -191,7 +187,6 @@ class CheckoutController extends Controller
 				];
 
 				return view('public/checkout', compact(
-					'sessionUser',
 					'action',
 					'checkout',
 					'products',
@@ -337,8 +332,6 @@ class CheckoutController extends Controller
 
 	public function orderSuccessful($orderId)
 	{
-		$sessionUser = auth()->user();
-
 		$order = DB::select('SELECT 
 			o.id,
 			o.userId,
@@ -396,7 +389,6 @@ class CheckoutController extends Controller
 		$invoice = $invoice->fileName;
 
 		return view('public/order-successful', compact(
-			'sessionUser',
 			'order',
 			'products',
 			'address',

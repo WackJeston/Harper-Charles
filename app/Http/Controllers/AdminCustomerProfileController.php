@@ -48,7 +48,6 @@ class AdminCustomerProfileController extends Controller
 		$ordersTable = $ordersTable->render();
 
     return view('admin/customer-profile', compact(
-      'sessionUser',
       'customer',
 			'editForm',
 			'ordersTable',

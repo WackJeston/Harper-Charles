@@ -15,9 +15,7 @@ class AdminOrdersController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-		
-		$ordersTable = new DataTable('orders');
+    $ordersTable = new DataTable('orders');
 		$ordersTable->setQuery('SELECT 
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`
@@ -36,7 +34,6 @@ class AdminOrdersController extends Controller
 		$ordersTable = $ordersTable->render();
 
     return view('admin/orders', compact(
-      'sessionUser',
 			'ordersTable',
     ));
   }

@@ -59,7 +59,6 @@ class AdminOrderProfileController extends Controller
 		$itemsTable = $itemsTable->render();
 
     return view('admin/order-profile', compact(
-      'sessionUser',
 			'order',
 			'addresses',
 			'itemsTable',

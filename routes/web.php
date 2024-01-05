@@ -189,6 +189,7 @@ Route::group( ['middleware' => 'auth' ], function()
   Route::controller(AdminProductsController::class)->group(function () {
     Route::get('/admin/products', 'show');
     Route::post('/productsCreate', 'create');
+    Route::post('/productsSearch', 'search');
   });
 
   Route::controller(AdminProductProfileController::class)->group(function () {

@@ -13,9 +13,7 @@ class AdminVariantController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
-		$createForm = new DataForm(request(), '/variantCreate', 'Add');
+    $createForm = new DataForm(request(), '/variantCreate', 'Add');
 		$createForm->addInput('text', 'title', 'Title', null, 100, 1, true);
 		$createForm = $createForm->render();
 
@@ -38,7 +36,6 @@ class AdminVariantController extends Controller
 		$variantsTable = $variantsTable->render();
 
     return view('admin/variants', compact(
-      'sessionUser',
 			'createForm',
       'variantsTable',
     ));

@@ -19,8 +19,6 @@ class CartController extends Controller
       return redirect("/login")->withErrors(['1' => 'Please login before viewing your cart.']);
     }
 
-    $sessionUser = auth()->user();
-
     $cartItems = DB::select(sprintf('SELECT
       c.id,
       p.id AS productId,
@@ -52,7 +50,6 @@ class CartController extends Controller
     }
 
     return view('public/cart', compact(
-      'sessionUser',
       'cartItems',
       'variants',
     ));

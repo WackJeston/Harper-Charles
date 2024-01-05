@@ -16,8 +16,6 @@ class AdminCategoryController extends Controller
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
 		$createForm = new DataForm(request(), '/categoryCreate', 'Add');
 		$createForm->addInput('text', 'title', 'Title', null, 100, 1, true);
 		$createForm->addInput('text', 'subtitle', 'Subtitle', null, 255, 1);
@@ -41,7 +39,6 @@ class AdminCategoryController extends Controller
 		$categoriesTable = $categoriesTable->render();
 
     return view('admin/categories', compact(
-      'sessionUser',
 			'createForm',
 			'categoriesTable'
     ));

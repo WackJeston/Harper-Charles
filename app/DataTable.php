@@ -42,6 +42,7 @@ class DataTable
 		// $query = str_replace('"', '&quot;', (string) $query);
 
 		$query = str_replace('?', '%s', $query);
+		// dd($query, $params);
 		$query = vsprintf($query, $params);
 
 		$this->table['query'] = $query;

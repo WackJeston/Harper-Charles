@@ -80,7 +80,7 @@ class AdminProductProfileController extends Controller
 			[$id]
 		);
 		$imagesTable->addColumn('id', '#');
-		$imagesTable->addColumn('name', 'Title');
+		$imagesTable->addColumn('name', 'Title', 2);
 		$imagesTable->addColumn('primary', 'Primary', 1, false, 'setPrimary:productId:' . $id);
 		$imagesTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$imagesTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
@@ -161,7 +161,7 @@ class AdminProductProfileController extends Controller
 
 		$variantsForm = new DataForm(request(), sprintf('/product-profileAddVariant/%d', $id), 'Add Variant');
 		$variantsForm->addInput('select', 'variant', 'Variant', null, null, null, true);
-		$variantsForm->populateOptions('variant', $allVariants);
+		$variantsForm->populateOptions('variant', $allVariants, false);
 		$variantsForm = $variantsForm->render();
 
 		$variantsTable = new DataTable('product_variants');

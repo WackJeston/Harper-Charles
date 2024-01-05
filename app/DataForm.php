@@ -24,7 +24,7 @@ class DataForm
 		$this->form['title'] = $title;
 	}
 
-	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null, array $attributes = []) {
+	public function addInput(string $type, string $name, string $label = null, $value = null, int $max = null, int $min = null, bool $required = false, string $placeholder = null, array $attributes = [], bool $emptyValue = true) {
 		$this->form['inputs'][] = [
 			'type' => $type,
 			'name' => in_array('multiple', $attributes) ? $name . '[]' : $name,
@@ -37,10 +37,11 @@ class DataForm
 			'attributes' => implode(' ', $attributes),
 			'options' => [],
 			'optionspre' => [],
+			'emptyValue' => $emptyValue,
 		];
 	}
 
-	public function populateOptions(string $ref, array $options) {
+	public function populateOptions(string $ref, array $options, bool $showValue = true) {
 		foreach ($this->form['inputs'] as $i => $input) {
 			if ($input['name'] == $ref && in_array($input['type'], ['select', 'radio'])) {
 				foreach ($options as $i2 => $option) {
@@ -50,6 +51,7 @@ class DataForm
 							'label' => $option['label'],
 							'parent' => $option['parent'] ?? null,
 							'active' => $option['active'] ?? 0,
+							'showValue' => $showValue,
 						];
 					} else {
 						$this->form['inputs'][$i]['optionspre'][] = [
@@ -57,6 +59,7 @@ class DataForm
 							'label' => $option->label,
 							'parent' => $option->parent ?? null,
 							'active' => $option->active ?? 0,
+							'showValue' => $showValue,
 						];
 					}
 				}
@@ -73,11 +76,13 @@ class DataForm
 							$this->form['inputs'][$i]['options'][] = [
 								'value' => $option['value'],
 								'label' => $option['label'],
+								'showValue' => $option['showValue'],
 							];
 						} else {
 							$this->form['inputs'][$i]['options'][$option['parent']][] = [
 								'value' => $option['value'],
 								'label' => $option['label'],
+								'showValue' => $option['showValue'],
 							];
 						}
 					}
@@ -320,23 +325,31 @@ class DataForm
 						$html .= sprintf('
 						<label for="%1$s">%2$s%5$s</label>
 						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s %6$s>
-							<option></option>',
+							%7$s',
 							$input['name'],
 							$input['label'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span class="red"> *</span>' : '',
-							$input['attributes']
+							$input['attributes'],
+							$input['emptyValue'] ? '<option></option>' : '',
 						);
 
 							foreach ($input['options'] as $i2 => $option) {
 								$selected = (isset($option['value']) && $option['value'] == $input['value']) ? 'selected' : '';
 
+								if ($option['showValue']) {
+									$title = sprintf('%1$s (#%2$s)', $option['label'], $option['value']);
+
+								} else {
+									$title = $option['label'];
+								}
+
 								if (is_numeric($i2)) {
 									$html .= sprintf('
-									<option value="%1$s" %3$s>%2$s (#%1$s)</option>',
+									<option value="%1$s" %3$s>%2$s</option>',
 										$option['value'],
-										$option['label'],
+										$title,
 										$selected,
 									);
 								} else {
@@ -345,10 +358,17 @@ class DataForm
 									);
 
 										foreach ($option as $i3 => $option2) {
+											if ($option2['showValue']) {
+												$title = sprintf('%1$s (#%2$s)', $option2['label'], $option2['value']);
+			
+											} else {
+												$title = $option2['label'];
+											}
+
 											$html .= sprintf('
 											<option value="%1$s" %3$s>%2$s (#%1$s)</option>',
 												$option2['value'],
-												$option2['label'],
+												$title,
 												$selected,
 											);
 										}

@@ -1,58 +1,75 @@
-const bucketName = 'ipswich-fireworks';
-
 function setIdWidth(repeat = true) {
 	let tables = document.querySelectorAll("table");
 
 	if (tables != null) {
 		tables.forEach(table => {
-			let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
+			if (table.parentElement.style.display == "none") {
+				let mutationObserver = new window.MutationObserver(function() {setIdWidth2(table, mutationObserver)});
 
-			idColumnWidth = 0;
+				mutationObserver.observe(table.parentElement, {
+					attributes: true,
+					attributeFilter: ['style']
+				});
 
-			rows.forEach(row => {
-				let idColumn = row.querySelector(".column-id span");
+			} else {
+				setIdWidth2(table);
 
-				if (idColumn != null) {
-					if (idColumn.offsetWidth > idColumnWidth) {
-						idColumnWidth = idColumn.offsetWidth;
-					}
+				if (repeat) {
+					setTimeout(() => {
+						setIdWidth(false);
+					}, 500);
+			
+					setTimeout(() => {
+						setIdWidth(false);
+					}, 2000);
 				}
-			});
-
-			idColumnWidth = idColumnWidth + 18;
-	
-			rows.forEach(row => {
-				let idColumn = row.firstElementChild;
-
-				if (idColumn.id == "column-id") {
-					idColumn.style.width = idColumnWidth + "px";
-					idColumn.style.minWidth = idColumnWidth + "px";
-				}
-			});
-		});
-	}
-
-	if (repeat) {
-		setTimeout(() => {
-			setIdWidth(false);
-		}, 500);
-
-		setTimeout(() => {
-			setIdWidth(false);
-		}, 2000);
-
-		let toggle = window.innerWidth < 800 ? true : false;
-
-		window.addEventListener('resize', function() {
-			if (toggle == true && window.innerWidth > 800) {
-				toggle = false;
-				setIdWidth();
-
-			} else if (toggle == false && window.innerWidth < 800) {
-				toggle = true;
-				setIdWidth();
 			}
 		});
+
+		if (repeat) {
+			let toggle = window.innerWidth < 800 ? true : false;
+		
+			window.addEventListener('resize', function() {
+				if (toggle == true && window.innerWidth > 800) {
+					toggle = false;
+					setIdWidth();
+	
+				} else if (toggle == false && window.innerWidth < 800) {
+					toggle = true;
+					setIdWidth();
+				}
+			});
+		}
+	}
+}
+
+function setIdWidth2(table, mutationObserver = null) {
+	let idColumnWidth = 0;
+	let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
+
+	rows.forEach(row => {
+		let idColumn = row.querySelector(".column-id span");
+
+		if (idColumn != null) {
+			if (idColumn.offsetWidth > idColumnWidth) {
+				idColumnWidth = idColumn.offsetWidth;
+			}
+		}
+	});
+
+	idColumnWidth = idColumnWidth + 18;
+	
+	rows.forEach(row => {
+		let idColumn = row.firstElementChild;
+
+		if (idColumn.id == "column-id") {
+			idColumn.style.width = idColumnWidth + "px";
+			idColumn.style.minWidth = idColumnWidth + "px";
+		}
+	});
+
+	if (mutationObserver != null) {
+		mutationObserver.disconnect();
 	}
 }
 
@@ -61,36 +78,54 @@ function setTableMargin(repeat = true) {
 
 	if (tables != null) {
 		tables.forEach(table => {
-			let buttons = table.querySelector("#" + table.id + " .tr-buttons");
-			let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
-	
-			if (buttons != null) {
-				let width = buttons.offsetWidth;
-	
-				if (width == 0) {
-					let buttonCount = table.querySelector("#" + table.id + " .tr-buttons").childElementCount;
-					width = (buttonCount * 35) + 10;
-				}
-	
-				let input = width + "px";
-	
-				rows.forEach(row => {
-					row.style.paddingRight = input;
+			if (repeat && table.parentElement.style.display == "none") {
+				let mutationObserver = new window.MutationObserver(function() {setTableMargin2(table, mutationObserver)});
+
+				mutationObserver.observe(table.parentElement, {
+					attributes: true,
+					attributeFilter: ['style']
 				});
+
+			} else {
+				setTableMargin2(table);
+
+				if (repeat) {
+					setTimeout(() => {
+						setTableMargin(false);
+					}, 500);
+			
+					setTimeout(() => {
+						setTableMargin(false);
+					}, 2000);
+				}
 			}
 		});
 	}
-
-	if (repeat) {
-		setTimeout(() => {
-			setTableMargin(false);
-		}, 500);
-
-		setTimeout(() => {
-			setTableMargin(false);
-		}, 2000);
-	}
 };
+
+function setTableMargin2(table, mutationObserver = null) {
+	let buttons = table.querySelector("#" + table.id + " .tr-buttons");
+	let rows = table.querySelectorAll("#" + table.id + " tr:not(tfoot tr)");
+
+	if (buttons != null) {
+		let width = buttons.offsetWidth;
+
+		if (width == 0) {
+			let buttonCount = table.querySelector("#" + table.id + " .tr-buttons").childElementCount;
+			width = (buttonCount * 35) + 10;
+		}
+
+		let input = width + "px";
+
+		rows.forEach(row => {
+			row.style.paddingRight = input;
+		});
+	}
+
+	if (mutationObserver != null) {
+		mutationObserver.disconnect();
+	}
+}
 
 function hideTableColumnsLoop() {
 	hideTableColumns();

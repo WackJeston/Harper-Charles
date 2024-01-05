@@ -222,12 +222,17 @@
 
 		<script>
 			// DataTable
-			setTableMargin();
-			hideTableColumnsLoop();
+			if (document.querySelector('table')) {
+				setIdWidth();
+				setTableMargin();
+				hideTableColumnsLoop();
+			}
 
 			// DataForm
-			setPasswordToggles();
-			setFileInputs();
+			if (document.querySelector('form')) {
+				setPasswordToggles();
+				setFileInputs();
+			}
 		</script>
 	</body>
 </html>
