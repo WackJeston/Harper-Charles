@@ -18,7 +18,7 @@ class AdminCategoryProfileController extends Controller
   public function show($id)
   {
     if (ProductCategories::find($id) == null) {
-      return redirect('/admin/categories');
+      return redirect('/admin/categories')->withErrors('1' => ['Product not found']);
     }
 
 		// Category

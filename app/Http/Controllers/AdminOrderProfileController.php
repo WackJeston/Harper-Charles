@@ -15,7 +15,9 @@ class AdminOrderProfileController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
+    if (Orders::find($id) == null) {
+      return redirect('/admin/orders')->withErrors('1' => ['Order not found']);
+    }
 		
 		$order = DB::select('SELECT 
 			o.*,

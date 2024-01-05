@@ -14,7 +14,7 @@ class AdminVariantProfileController extends Controller
   public function show($id)
   {
     if (ProductVariants::find($id) == null) {
-      return redirect('/admin/variants');
+      return redirect('/admin/variants')->withErrors(['1' => 'Variant not found']);
     }
 
 		// Vatiant

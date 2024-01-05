@@ -15,10 +15,8 @@ class AdminCustomerProfileController extends Controller
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-
     if (User::find($id) == null) {
-      return redirect('/admin/customers');
+      return redirect('/admin/customers')->withErrors(['1' => 'Customer not found']);
     }
 
     $customer = DB::select(sprintf('SELECT

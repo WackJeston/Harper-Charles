@@ -9,6 +9,18 @@
 @section('content')
   <main class="category">
 
+		@if ($errors->any())
+      <div id="publicerror" class="lt floating">
+        <publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
+      </div>
+    @endif
+
+    @if (session()->has('message'))
+			<div id="publicmessage" class="lt floating">
+				<publicmessage successmessage="{{ session()->get('message') }}" />
+      </div>
+    @endif
+
 		@if (count($banners) > 0)
 			<div id="categorybanner">
 				<categorybanner

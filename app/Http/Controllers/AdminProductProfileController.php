@@ -21,7 +21,7 @@ class AdminProductProfileController extends Controller
   public function show($id)
   {
 		if (Products::find($id) == null) {
-      return redirect('/admin/products');
+      return redirect('/admin/products')->withErrors(['1' => 'Product not found']);
     }
 
 		// Product

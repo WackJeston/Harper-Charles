@@ -14,6 +14,14 @@ class ProductPageController extends Controller
 {
   public function show($id)
   {
+		if (!$product = Products::find($id)) {
+      return redirect('/shop')->withErrors(['1' => 'Product not found']);
+    }
+
+		if ($product->active != 1) {
+			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
+		}
+
     $product = Products::find($id);
 		$productImages = DB::select(sprintf('SELECT
 			pi.id,

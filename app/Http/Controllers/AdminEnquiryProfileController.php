@@ -10,9 +10,9 @@ class AdminEnquiryProfileController extends Controller
 {
   public function show($id)
   {
-		$type = 'standard';
-
-    $enquiry = Enquiry::find($id);
+		if (!$enquiry = Enquiry::find($id)) {
+      return redirect('/admin/enquiries')->withErrors(['1' => 'Enquiry not found']);
+    }
 
     return view('admin/enquiry-profile', compact(
       'enquiry',

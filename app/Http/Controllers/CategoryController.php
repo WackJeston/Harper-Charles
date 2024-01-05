@@ -61,12 +61,18 @@ class CategoryController extends Controller
 			));
 		
 		} else {
+			if (!$category = ProductCategories::find($id)) {
+				return redirect('/shop')->withErrors(['1' => 'Category not found']);
+			}
+	
+			if ($category->active != 1) {
+				return redirect('/shop')->withErrors(['1' => 'Category not currently available']);
+			}
+
 			$categories = false;
 			$bannerTitle = null;
 			$bannerDescription = null;
 			$url = 'product';
-
-			$category = ProductCategories::find($id);
 
 			$banners = DB::select('SELECT 
 				a.fileName

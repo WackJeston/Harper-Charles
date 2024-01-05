@@ -14,7 +14,9 @@ class AdminBannerProfileController extends Controller
 {
   public function show($id)
   {
-		$banner = Banners::find($id);
+		if (!$banner = Banners::find($id)) {
+      return redirect('/admin/banners')->withErrors(['1' => 'Banner not found']);
+    }
 
 		$framingOptions = [];
 		$framingOptions[] = ['value' => null, 'label' => 'Center'];
