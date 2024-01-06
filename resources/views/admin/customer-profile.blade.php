@@ -26,6 +26,7 @@
 
     <div id="customerprofilefunctions" class="dk">
       <customerprofilefunctions 
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:customer="{{ json_encode($customer) }}" 
 				:editform="{{ json_encode($editForm) }}"
 				:orderstable="{{ json_encode($ordersTable) }}"

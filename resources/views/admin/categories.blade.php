@@ -20,7 +20,10 @@
     @endif
 
     <div id="categorycreate" class="dk">
-      <categorycreate :createform="{{ json_encode($createForm) }}" />
+      <categorycreate
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:createform="{{ json_encode($createForm) }}"
+			/>
     </div>
 
 		@php

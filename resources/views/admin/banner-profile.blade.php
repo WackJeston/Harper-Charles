@@ -26,6 +26,7 @@
 
 		<div id="bannerprofilefunctions" class="dk">
       <bannerprofilefunctions
+			pageshowmarker="{{ session()->get('pageShowMarker') }}"
       :banner="{{ json_encode($banner) }}"
 			:slideform="{{ json_encode($slideForm) }}"
     />

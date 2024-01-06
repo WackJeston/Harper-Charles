@@ -19,6 +19,13 @@
       </div>
     @endif
 
+		<div id="productscreate" class="dk">
+			<productscreate
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:createform="{{ json_encode($createForm) }}"
+			/>
+		</div>
+
 		@php
 			echo $searchForm['html'];
 		@endphp
@@ -26,10 +33,6 @@
 		@php
 			echo $productsTable['html'];
 		@endphp
-
-		<div id="productscreate" class="dk">
-			<productscreate :createform="{{ json_encode($createForm) }}" />
-		</div>
 
   </main>
 @endsection

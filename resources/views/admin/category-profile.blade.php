@@ -25,7 +25,8 @@
     @endif
 
     <div id="categoryprofilefunctions">
-      <categoryprofilefunctions 
+      <categoryprofilefunctions
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:category="{{ json_encode($category) }}" 
 				:editform="{{ json_encode($editForm) }}"
 				:imagesform="{{ json_encode($imagesForm) }}"

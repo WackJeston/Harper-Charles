@@ -20,7 +20,10 @@
     @endif
 
     <div id="customerscreate" class="dk">
-      <customerscreate :createform="{{ json_encode($createForm) }}" />
+      <customerscreate
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:createform="{{ json_encode($createForm) }}"
+			/>
     </div>
 
 		@php

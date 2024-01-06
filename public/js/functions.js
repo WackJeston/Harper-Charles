@@ -1,3 +1,10 @@
+function setShowMarker(section) {
+	$.ajax({
+		url: "/functions-setShowMarker/" + section,
+		type: "GET"
+	});
+};
+
 function jumpToElement() {
 	let id = location.href.split('#')[1];
 

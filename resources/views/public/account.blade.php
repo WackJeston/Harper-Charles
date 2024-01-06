@@ -40,7 +40,8 @@
 		@switch($action)
 			@case('account')
 				<div id="accountfunctions" class="section section-width">
-					<accountfunctions 
+					<accountfunctions
+						pageshowmarker="{{ session()->get('pageShowMarker') }}"
 						:user="{{ $sessionUser }}"
 						:orders="{{ json_encode($orders) }}"
 					/>

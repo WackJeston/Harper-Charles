@@ -1,18 +1,15 @@
 <template>
   <!-- Buttons -->
 	<div class="page-button-row">
-		<button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }"
-  	@click="show == 'edit' ? show = false : show = 'edit'">Edit Account Details</button>
-
-		<button class="page-button" type="button" :class="{ 'button-active' : show == 'orders' }"
-  	@click="show == 'orders' ? show = false : show = 'orders'">Orders</button>
+		<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit Account Details</button>
+		<button class="page-button" type="button" onclick="setShowMarker('orders')" :class="{ 'button-active' : this.show == 'orders' }" @click="this.show == 'orders' ? this.show = false : this.show = 'orders'">Orders</button>
 		
 		<a class="page-button pb-danger" href="/customerLogout">Sign Out</a>
 	</div>
 
   <!-- Edit -->
-  <form class="web-box dk" v-show="show == 'edit'" :action="'/accountUpdate/' + this.user.id" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="show = false"></i>
+  <form class="web-box dk" v-show="this.show == 'edit'" :action="'/accountUpdate/' + this.user.id" method="POST" enctype="multipart/form-data">
+    <i class="fa-solid fa-xmark" @click="this.show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
 
     <label for="firstname">First Name<span class="red"> *</span></label>
@@ -35,8 +32,8 @@
   </form>
 
 	<!-- Orders Table -->
-	<table class="web-box" v-show="show == 'orders'">
-		<i class="fa-solid fa-xmark" @click="show = false"></i>
+	<table class="web-box" v-show="this.show == 'orders'">
+		<i class="fa-solid fa-xmark" @click="this.show = false"></i>
 		<thead>
 			<tr>
 				<th width="40">#</th>
@@ -78,6 +75,7 @@
 <script>
   export default {
     props: [
+			'pageshowmarker',
       'user',
 			'orders',
     ],
@@ -85,7 +83,7 @@
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        show: false,
+        show: this.pageshowmarker,
         showPassword: false,
       };
     },

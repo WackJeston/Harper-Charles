@@ -26,17 +26,18 @@
 
     <div id="productprofilefunctions" class="dk">
       <productprofilefunctions
-      :product="{{ json_encode($product) }}"
-			:editform="{{ json_encode($editForm) }}"
-			:imagesform="{{ json_encode($imagesForm) }}"
-      :imagestable="{{ json_encode($imagesTable) }}"
-			:specsform="{{ json_encode($specsForm) }}"
-      :specstable="{{ json_encode($specsTable) }}"
-			:categoryform="{{ json_encode($categoryForm) }}"
-      :categoriestable="{{ json_encode($categoriesTable) }}"
-			:variantsform="{{ json_encode($variantsForm) }}"
-      :variantstable="{{ json_encode($variantsTable) }}"
-    />
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:product="{{ json_encode($product) }}"
+				:editform="{{ json_encode($editForm) }}"
+				:imagesform="{{ json_encode($imagesForm) }}"
+				:imagestable="{{ json_encode($imagesTable) }}"
+				:specsform="{{ json_encode($specsForm) }}"
+				:specstable="{{ json_encode($specsTable) }}"
+				:categoryform="{{ json_encode($categoryForm) }}"
+				:categoriestable="{{ json_encode($categoriesTable) }}"
+				:variantsform="{{ json_encode($variantsForm) }}"
+				:variantstable="{{ json_encode($variantsTable) }}"
+    	/>
     </div>
 
     <div class="web-box profile-main">

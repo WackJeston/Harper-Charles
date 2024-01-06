@@ -20,7 +20,10 @@
     @endif
 
     <div id="variantscreate" class="dk">
-      <variantscreate :createform="{{ json_encode($createForm) }}" />
+      <variantscreate
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:createform="{{ json_encode($createForm) }}"
+			/>
     </div>
 
     @php

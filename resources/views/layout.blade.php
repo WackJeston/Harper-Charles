@@ -65,6 +65,7 @@
   <body>
 		@php
 			$sessionUser = auth()->user();
+			resetShowMarker();
 		@endphp
 
 		@if(str_contains(url()->current(), '/admin/'))

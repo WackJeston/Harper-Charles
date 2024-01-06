@@ -26,6 +26,7 @@
 
     <div id="variantprofilefunctions" class="lt">
       <variantprofilefunctions 
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:variant="{{ json_encode($variant) }}" 
 				:editform="{{ json_encode($editForm) }}"
 				:subvariantsform="{{ json_encode($subVariantsForm) }}"

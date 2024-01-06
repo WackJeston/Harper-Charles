@@ -1,21 +1,20 @@
 <template>
+  <button class="page-button" type="button" onclick="setShowMarker('add')" :class="{ 'button-active' : this.show == 'add' }" @click="this.show == 'add' ? this.show = false : this.show = 'add'">Add Variant</button>
 
-  <button class="page-button" type="button" :class="{ 'button-active' : showCreate == true }" @click="showCreate = !showCreate">Add Variant</button>
-
-  <div v-html="this.createform.html" v-show="showCreate"></div>
-
+  <div v-html="this.createform.html" v-show="this.show == 'add'"></div>
 </template>
 
 <script>
 export default {
 	props: [
-		'createform'
+		'pageshowmarker',
+		'createform',
 	],
 
-  data() {
-    return {
-      showCreate: false,
-    };
-  },
+	data() {
+		return {
+			show: this.pageshowmarker,
+		};
+	},
 }
 </script>

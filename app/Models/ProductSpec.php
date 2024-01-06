@@ -7,22 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSpec extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $table = 'product_spec';
+	protected $table = 'product_spec';
 
-    protected $fillable = [
-      'productId',
-      'label',
-      'value',
-			'description',
-			'active',
-			'sequence'
-    ];
+	protected $fillable = [
+		'productId',
+		'label',
+		'value',
+		'description',
+		'active',
+		'sequence'
+	];
 
-		protected static function booted() {
-			static::created(function ($self) {
-				$self->sequence = $self->id;
-			});
-		}
+	protected static function booted() {
+		static::created(function ($self) {
+			$self->sequence = $self->id;
+			$self->save();
+		});
+	}
 }

@@ -24,6 +24,7 @@ class Banners extends Model
 	protected static function booted() {
 		static::created(function ($self) {
 			$self->sequence = $self->id;
+			$self->save();
     });
 	}
 }

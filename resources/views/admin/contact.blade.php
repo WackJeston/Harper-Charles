@@ -20,7 +20,8 @@
     @endif
 
     <div id="admincontactfunctions" class="dk">
-      <admincontactfunctions 
+      <admincontactfunctions
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:contact="{{ json_encode($contact) }}"
 				:editform="{{ json_encode($editForm) }}"
 				:emailform="{{ json_encode($emailForm) }}" 

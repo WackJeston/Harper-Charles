@@ -25,7 +25,8 @@
     @endif
 
     <div id="userprofilefunctions" class="dk">
-      <userprofilefunctions 
+      <userprofilefunctions
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:user="{{ json_encode($user) }}" 
 				:editform="{{ json_encode($editForm) }}"
 				:orderstable="{{ json_encode($ordersTable) }}"

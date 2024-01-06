@@ -16,7 +16,7 @@ class AdminUserProfileController extends Controller
   public function show($id)
   {
     if (User::find($id) == null) {
-      return redirect('/admin/users')->withErrors('1' => ['User not found']);
+      return redirect('/admin/users')->withErrors(['1' => 'User not found']);
     }
 
     $user = DB::select(sprintf('SELECT

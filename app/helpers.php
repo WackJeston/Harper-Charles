@@ -8,6 +8,12 @@ use Aws\Ses\SesClient;
 use App\Models\Asset;
 use App\Models\Products;
 
+function resetShowMarker() {
+	if (explode('?', url()->current())[0] != explode('?', session()->get('_previous')['url'])[0]) {
+		session()->put('pageShowMarker', false);
+	}
+}
+
 function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $webp = true):string {	
 	$publicFileName = sprintf('%s%s.%s', 
 		explode('.', $fileName)[0], 
@@ -129,15 +135,5 @@ function connectSes() {
   ]);
 
   return $connection;
-}
-
-function getS3Url(array $records):array {
-	foreach ($records as $i => $record) {
-		if (property_exists($record, 'fileName')) {
-			$record->fileName = Storage::disk('s3')->url($record->fileName);
-		}
-	}
-
-	return $records;
 }
 

@@ -1,20 +1,21 @@
 <template>
   <!-- Buttons -->
   <button :onclick="this.deleteLink" class="page-button pb-danger" type="button"><i class="fa-solid fa-trash-can"></i>Delete</button>
-  <button class="page-button" type="button" :class="{ 'button-active' : show == 'edit' }" @click="show == 'edit' ? show = false : show = 'edit'">Edit</button>
-	<button class="page-button" type="button" :class="{ 'button-active': show == 'orders' }" @click="show == 'orders' ? show = false : show = 'orders'">Orders<span v-show="this.orderstable.count > 0"> ({{this.orderstable.count }})</span></button>
+  <button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit</button>
+	<button class="page-button" type="button" onclick="setShowMarker('orders')" :class="{ 'button-active': this.show == 'orders' }" @click="this.show == 'orders' ? this.show = false : this.show = 'orders'">Orders<span v-show="this.orderstable.count > 0"> ({{this.orderstable.count }})</span></button>
 
   <!-- Edit -->
-  <div v-html="this.editform.html" v-show="show == 'edit'"></div>
+  <div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
 
 <!-- Edit -->
-<div v-html="this.orderstable.html" v-show="show == 'orders'"></div>
+<div v-html="this.orderstable.html" v-show="this.show == 'orders'"></div>
 </template>
 
 
 <script>
   export default {
     props: [
+			'pageshowmarker',
       'user',
 			'editform',
 			'orderstable'
@@ -22,7 +23,7 @@
 
     data() {
       return {
-        show: false,
+        show: this.pageshowmarker,
 				deleteLink: "showDeleteWarning('user', " + this.user.id + ", '/user-profileDelete/" + this.user.id + "')",
       };
     },

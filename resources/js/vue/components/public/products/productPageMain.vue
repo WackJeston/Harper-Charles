@@ -131,7 +131,7 @@
             { name: "cart-add" }
           );
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         } finally {
           if (this.result.data['success']) {
             this.cartAlert('Item added to cart.');
