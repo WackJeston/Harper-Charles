@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-			Schema::update('product_spec', function (Blueprint $table) {
-					$table->string('label', 255)->nullable();
+			Schema::table('product_spec', function ($table) {
+					$table->string('label', 255)->nullable()->after('productId');
 			});
     }
 

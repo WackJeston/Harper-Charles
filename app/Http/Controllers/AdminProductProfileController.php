@@ -52,7 +52,6 @@ class AdminProductProfileController extends Controller
 			INNER JOIN asset AS a ON a.id = pi.assetId
 			WHERE pi.productId = ?
 			AND pi.primary = 1
-			AND pi.active = 1
 			LIMIT 1',
 			[$id]
 		);
@@ -161,7 +160,7 @@ class AdminProductProfileController extends Controller
 
 		$variantsForm = new DataForm(request(), sprintf('/product-profileAddVariant/%d', $id), 'Add Variant');
 		$variantsForm->addInput('select', 'variant', 'Variant', null, null, null, true);
-		$variantsForm->populateOptions('variant', $allVariants, false);
+		$variantsForm->populateOptions('variant', $allVariants);
 		$variantsForm = $variantsForm->render();
 
 		$variantsTable = new DataTable('product_variants');

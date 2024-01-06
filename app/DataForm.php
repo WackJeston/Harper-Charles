@@ -48,18 +48,16 @@ class DataForm
 					if (is_array($option)) {
 						$this->form['inputs'][$i]['optionspre'][] = [
 							'value' => $option['value'],
-							'label' => $option['label'],
+							'label' => $showValue ? sprintf('%1$s (#%2$s)', $option['label'], $option['value']) : $option['label'],
 							'parent' => $option['parent'] ?? null,
 							'active' => $option['active'] ?? 0,
-							'showValue' => $showValue,
 						];
 					} else {
 						$this->form['inputs'][$i]['optionspre'][] = [
 							'value' => $option->value,
-							'label' => $option->label,
+							'label' => $showValue ? sprintf('%1$s (#%2$s)', $option->label, $option->value) : $option->label,
 							'parent' => $option->parent ?? null,
 							'active' => $option->active ?? 0,
-							'showValue' => $showValue,
 						];
 					}
 				}
@@ -76,13 +74,11 @@ class DataForm
 							$this->form['inputs'][$i]['options'][] = [
 								'value' => $option['value'],
 								'label' => $option['label'],
-								'showValue' => $option['showValue'],
 							];
 						} else {
 							$this->form['inputs'][$i]['options'][$option['parent']][] = [
 								'value' => $option['value'],
 								'label' => $option['label'],
-								'showValue' => $option['showValue'],
 							];
 						}
 					}
@@ -338,18 +334,11 @@ class DataForm
 							foreach ($input['options'] as $i2 => $option) {
 								$selected = (isset($option['value']) && $option['value'] == $input['value']) ? 'selected' : '';
 
-								if ($option['showValue']) {
-									$title = sprintf('%1$s (#%2$s)', $option['label'], $option['value']);
-
-								} else {
-									$title = $option['label'];
-								}
-
 								if (is_numeric($i2)) {
 									$html .= sprintf('
 									<option value="%1$s" %3$s>%2$s</option>',
 										$option['value'],
-										$title,
+										$option['label'],
 										$selected,
 									);
 								} else {
@@ -358,17 +347,10 @@ class DataForm
 									);
 
 										foreach ($option as $i3 => $option2) {
-											if ($option2['showValue']) {
-												$title = sprintf('%1$s (#%2$s)', $option2['label'], $option2['value']);
-			
-											} else {
-												$title = $option2['label'];
-											}
-
 											$html .= sprintf('
-											<option value="%1$s" %3$s>%2$s (#%1$s)</option>',
+											<option value="%1$s" %3$s>%2$s</option>',
 												$option2['value'],
-												$title,
+												$option2['label'],
 												$selected,
 											);
 										}

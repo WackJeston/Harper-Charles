@@ -225,6 +225,12 @@ tfoot tr td:last-child {
 	display: none;
 }
 
+tfoot .hide-mobile-xs-marker {
+	@media (max-width: 440px) {
+		display: none;
+	}
+}
+
 tfoot input,
 tfoot select {
 	background-color: white;
@@ -271,10 +277,18 @@ tfoot .icon-container {
 	background-color: v.$black;
 	color: v.$white;
 	cursor: pointer;
+
+	@media (max-width: 440px) {
+		font-size: 0.8rem;
+	}
 }
 
 tfoot .icon-container i {
 	color: v.$white;
 	font-size: 0.8rem;
 	margin-right: 5px;
+}
+
+tfoot .icon-container span {
+	margin-left: 5px;
 }

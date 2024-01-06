@@ -18,7 +18,7 @@ class AdminCategoryProfileController extends Controller
   public function show($id)
   {
     if (ProductCategories::find($id) == null) {
-      return redirect('/admin/categories')->withErrors('1' => ['Product not found']);
+      return redirect('/admin/categories')->withErrors(['1' => 'Product not found']);
     }
 
 		// Category
@@ -64,6 +64,7 @@ class AdminCategoryProfileController extends Controller
 		$imagesForm = $imagesForm->render();
 
     $imagesTable = new DataTable('product_category_images');
+		$imagesTable->sequence('categoryId');
 		$imagesTable->setQuery('SELECT 
 			pci.id,
 			pci.primary,

@@ -16,6 +16,13 @@ class ProductSpec extends Model
       'label',
       'value',
 			'description',
-			'active'
+			'active',
+			'sequence'
     ];
+
+		protected static function booted() {
+			static::created(function ($self) {
+				$self->sequence = $self->id;
+			});
+		}
 }

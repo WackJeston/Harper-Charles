@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-      Schema::update('product_images', function (Blueprint $table) {
-					$table->integer('sequence');
+			Schema::table('product_images', function($table)
+			{
+				$table->integer('sequence')->after('active');
 			});
     }
 

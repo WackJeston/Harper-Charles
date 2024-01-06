@@ -79,7 +79,8 @@ class CategoryController extends Controller
 				FROM product_category_images AS pci
 				INNER JOIN asset AS a ON a.id = pci.assetId
 				WHERE pci.categoryId = ?
-				AND pci.active = 1', 
+				AND pci.active = 1
+				ORDER BY pci.sequence ASC', 
 				[$id]
 			);
 

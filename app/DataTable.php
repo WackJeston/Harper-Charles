@@ -462,7 +462,7 @@ class DataTable
 
 					$html .= sprintf('
 					<td>
-						<i class="fa-solid fa-rectangle-list"></i> <span class="hide-mobile-marker">Records</span> <strong>%s</strong> to <strong>%s</strong>, Total: <strong>%s</strong>
+						<i class="fa-solid fa-rectangle-list hide-mobile-xs-marker"></i> <span class="hide-mobile-marker">Records</span> <strong>%s</strong> to <strong>%s</strong>, Total: <strong>%s</strong>
 					</td>', 
 						$this->table['offset'] + 1, 
 						$offset,
@@ -471,7 +471,7 @@ class DataTable
 
 					$html .= sprintf('
 					<td>
-						<i class="fa-solid fa-layer-group"></i> Limit: <select onchange="changeTableLimit(event, \'%s\', \'%s\', \'%s\');">
+						<i class="fa-solid fa-layer-group hide-mobile-xs-marker"></i> Limit: <select onchange="changeTableLimit(event, \'%s\', \'%s\', \'%s\');">
 							<option value="10" %s>10</option>
 							<option value="25" %s>25</option>
 							<option value="50" %s>50</option>
@@ -495,7 +495,7 @@ class DataTable
 
 							$html .= sprintf('
 								<div class="icon-container" onclick="resetTableSequence(\'%s\', \'%s\')">
-									<i class="fa-solid fa-arrow-down-short-wide"></i> Reset Sequence
+									<i class="fa-solid fa-arrow-down-short-wide hide-mobile-xs-marker"></i> Reset <span class="hide-mobile-marker">Sequence</span>
 								</div>',	
 								$this->table['query'],
 								$this->table['ref']

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-			Schema::table('product_spec', function($table)
+			Schema::table('product_category_images', function($table)
 			{
 				$table->integer('sequence')->after('active');
 			});
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('product_spec', function (Blueprint $table) {
-            //
-        });
+			Schema::table('product_category_images', function (Blueprint $table) {
+				//
+			});
     }
 };

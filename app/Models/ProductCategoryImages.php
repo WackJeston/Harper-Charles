@@ -14,27 +14,12 @@ class ProductCategoryImages extends Model
     'assetId',
     'primary',
 		'active',
+		'sequence'
   ];
 
-  protected $guarded = [
-
-  ];
-
-  protected static function booted() {
-    static::updated(function ($self) {
-			if ($self->isDirty('primary') && $self->primary == 1) {
-				$oldPrimary = ProductCategoryImages::where('primary', 1)->first();
-				$oldPrimary->primary = 0;
-				$oldPrimary->update();
-			}
-    });
-
+	protected static function booted() {
 		static::created(function ($self) {
-			if ($self->isDirty('primary') && $self->primary == 1) {
-				$oldPrimary = ProductCategoryImages::where('primary', 1)->first();
-				$oldPrimary->primary = 0;
-				$oldPrimary->update();
-			}
+			$self->sequence = $self->id;
     });
-  }
+	}
 }
