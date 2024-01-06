@@ -24,6 +24,7 @@ class AdminBannerProfileController extends Controller
 		$framingOptions[] = ['value' => 'bottom', 'label' => 'Bottom'];
 
     $slidesTable = new dataTable('banners');
+		$slidesTable->sequence('parentId');
 		$slidesTable->setQuery('SELECT
 			b.id,
 			b.title,

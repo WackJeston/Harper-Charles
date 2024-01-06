@@ -17,7 +17,13 @@ class Banners extends Model
     'title',
     'description',
     'active',
-    'assetId',
+		'sequence',
+    'assetId'
   ];
 
+	protected static function booted() {
+		static::created(function ($self) {
+			$self->sequence = $self->id;
+    });
+	}
 }

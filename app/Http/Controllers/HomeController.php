@@ -27,6 +27,7 @@ class HomeController extends Controller
 			AND b2.position = "top"
 			AND b2.active = 1
 			AND b.active = 1
+			ORDER BY b.sequence ASC
 		');
 
 		$landingZoneBanners = cacheImages($landingZoneBanners, 2400, 2400);

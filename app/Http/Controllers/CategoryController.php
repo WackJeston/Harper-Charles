@@ -31,7 +31,8 @@ class CategoryController extends Controller
 				WHERE b2.page = "shop"
 				AND b2.position = "top"
 				AND b2.active = 1
-				AND b.active = 1'
+				AND b.active = 1
+				ORDER BY b.sequence ASC'
 			);
 			
 			$banners = cacheImages($banners, 2400, 2400);
