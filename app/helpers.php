@@ -14,7 +14,7 @@ function resetShowMarker() {
 	}
 }
 
-function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $webp = true):string {	
+function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $webp = true):string {
 	$publicFileName = sprintf('%s%s.%s', 
 		explode('.', $fileName)[0], 
 		($width > 0 || $height > 0) ? sprintf('-%d-%d', $width, $height) : '',

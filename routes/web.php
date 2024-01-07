@@ -63,7 +63,7 @@ Route::get("sitemap-xml" , function () {
 	return Illuminate\Support\Facades\Redirect::to('https://ipswich-fireworks.s3.eu-west-2.amazonaws.com/public-assets/sitemap.xml');
 });
 
-Route::get("/functions-setShowMarker/{section}" , function ($section == false) {
+Route::get("/functions-setShowMarker/{section}" , function ($section = false) {
 	if ($section == false || $section == session()->get('pageShowMarker', $section)) {
 		session()->put('pageShowMarker', false);
 	} else {
