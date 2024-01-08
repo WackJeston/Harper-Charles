@@ -6,7 +6,6 @@ use DB;
 use App\Models\Cart;
 use App\Models\CartVariants;
 use App\Models\Products;
-use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
 
@@ -23,16 +22,17 @@ class ProductPageController extends Controller
 		}
 
     $product = Products::find($id);
-		$productImages = DB::select(sprintf('SELECT
+		$productImages = DB::select('SELECT
 			pi.id,
 			a.fileName,
 			a.name
 			FROM product_images AS pi
 			INNER JOIN asset AS a ON a.id = pi.assetId
-			WHERE pi.productId = %d
+			WHERE pi.productId = ?
 			AND pi.active = 1
-			ORDER BY pi.sequence ASC, pi.id ASC', $id
-		));
+			ORDER BY pi.sequence ASC, pi.id ASC', 
+			[$id]
+		);
 
 		$productImages = cacheImages($productImages, 2000, 2000);
 		$imageCount = count($productImages);
@@ -50,7 +50,7 @@ class ProductPageController extends Controller
       WHERE pv.parentVariantId IS NULL'
 		);
 
-		$optionsRecords = DB::select(sprintf('SELECT
+		$optionsRecords = DB::select('SELECT
 			pv.*,
 			a.fileName,
 			pv2.id AS parent
@@ -59,11 +59,11 @@ class ProductPageController extends Controller
 			INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id
 			INNER JOIN asset AS a ON a.id=pv.assetId
 			WHERE pv.parentVariantId IS NOT NULL
-			AND pvj.productId = "%d"
+			AND pvj.productId = ?
 			AND pv.active = 1
 			AND pv2.active = 1',
-			$id
-		));
+			[$id]
+		);
 
 		$optionsRecords = cacheImages($optionsRecords, 800, 800);
 
@@ -93,11 +93,22 @@ class ProductPageController extends Controller
 			}
 		}
 
+		$specs = DB::select('SELECT
+			ps.label,
+			ps.value
+			FROM product_spec AS ps
+			WHERE ps.productId = ?
+			AND ps.active = 1
+			ORDER BY ps.sequence ASC',
+			[$id]
+		);
+
 		return view('public/product-page', compact(
 			'product',
 			'productImages',
 			'imageCount',
 			'variants',
+			'specs'
 		));
   }
 

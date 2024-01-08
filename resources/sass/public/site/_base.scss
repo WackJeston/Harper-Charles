@@ -63,7 +63,28 @@ main {
 
 ul {
 	display: flex;
+	flex-direction: column;
 	list-style: none;
+}
+
+.page-column-container {
+	display: flex;
+	flex-direction: column;
+
+	@media (min-width: 640px) {
+		flex-direction: row;
+	}
+}
+
+.page-column-container .page-column {
+	flex-grow: 1;
+	min-width: 200px;
+}
+
+.page-column-container .page-column:not(:first-child) {
+	@media (min-width: 640px) {
+		margin-left: 40px;
+	}
 }
 
 .page-button-row {

@@ -1,12 +1,41 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Aws\Ses\SesClient;
 
 use App\Models\Asset;
 use App\Models\Products;
+
+function getCachedRecords(string $key) {
+	if (Cache::has($key)) {
+		return Cache::get($key);
+	}
+
+	return false;
+}
+
+function cacheRecords(string $key, array $records, int $seconds = null) {
+	if (Cache::has($key)) {
+		$records = Cache::get($key);
+
+	} else {
+		if ($seconds == null) {
+			// $seconds = strtotime(date("Y-m-d 02:00", strtotime('tomorrow'))) - strtotime(now());
+			$seconds = 300;
+		}
+
+		Cache::put($key, $records, $seconds);
+	}
+
+	return $records;
+}
+
+function cacheRecord(array $record) {
+
+}
 
 function resetShowMarker() {
 	if (explode('?', url()->current())[0] != explode('?', session()->get('_previous')['url'])[0]) {

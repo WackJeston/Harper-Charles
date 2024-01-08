@@ -28,6 +28,13 @@
 				<div class="wb-content dk">
 					<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
 					<p>#: {{this.product.id}}</p>
+
+					<!-- <ul>
+						<h3>Product Specifications</h3>
+						<li v-for="(spec, i) in this.specs">
+							<span>{{ spec.label }}: </span>{{ spec.value }}
+						</li>
+					</ul> -->
 				</div>
 				
 				<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
@@ -60,14 +67,6 @@
 			</div>
     </div>
 
-    <!-- <div class="image-viewer-container">
-      <div class="image-viewer" v-show="this.imageView">
-        <img class="viewer-image">
-        <div class="viewer-overlay"></div>
-        <i class="fa-solid fa-xmark" @click="closeImage()"></i>
-      </div>
-    </div> -->
-
     <div id="cartAlert"></div>
   </section>
 </template>
@@ -80,6 +79,7 @@
       'images',
       'count',
       'variants',
+			'specs'
     ],
 
     data() {
