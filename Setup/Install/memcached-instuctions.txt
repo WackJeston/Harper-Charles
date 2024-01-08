@@ -1,0 +1,4 @@
+sudo apt-get install memcached
+sudo apt-get install php-memcached
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-memcached-on-ubuntu-20-04
