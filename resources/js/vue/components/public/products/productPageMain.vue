@@ -28,13 +28,6 @@
 				<div class="wb-content dk">
 					<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
 					<p>#: {{this.product.id}}</p>
-
-					<!-- <ul>
-						<h3>Product Specifications</h3>
-						<li v-for="(spec, i) in this.specs">
-							<span>{{ spec.label }}: </span>{{ spec.value }}
-						</li>
-					</ul> -->
 				</div>
 				
 				<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
@@ -182,18 +175,6 @@
 				
 				imageZone.style.display = 'none';
 			},
-
-      // showImage(fileName) {
-      //   const imageZone = document.querySelector('.viewer-image');
-      //   imageZone.src = fileName;
-      //   this.imageView = true;
-      // },
-
-      // closeImage() {
-      //   const imageZone = document.querySelector('.viewer-image');
-      //   imageZone.src = '';
-      //   this.imageView = false;
-      // },
 
       selectImage(i) {
         document.querySelector('#selected'.concat(this.lastSelected)).classList.remove('selected');
