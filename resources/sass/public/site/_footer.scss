@@ -11,9 +11,13 @@ footer {
 	justify-content: space-between;
   width: 100%;
   background-color: v.$white;
-  padding: 25px;
+  padding: 20px;
   z-index: 5;
   box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
+
+	@media (min-width: 640px) {
+		padding: 40px;
+	}
 }
 
 footer .title img {
@@ -25,7 +29,6 @@ footer .title img {
 footer .logo {
 	display: flex;
 	height: 100px;
-	padding-right: 15px;
 
 	@media (max-width: 640px) {
 		height: 60px;

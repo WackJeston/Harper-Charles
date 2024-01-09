@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Settings;
@@ -97,6 +98,16 @@ class AdminSettingsController extends Controller
 			return redirect("/admin/settings")->withErrors(['error' => 'Noting to update.']);
 		} else {
 			return redirect("/admin/settings")->with('message', 'Settings updated.');
+		}
+	}
+
+	public function clearCache(string $key) {
+		if (Cache::has($key)) {
+			Cache::forget($key);
+			return redirect("/admin/settings")->with('message', 'Cache cleared.');
+		
+		} else {
+			return redirect("/admin/settings")->withErrors(['error' => 'No cache.']);
 		}
 	}
 }
