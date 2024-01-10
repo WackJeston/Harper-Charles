@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Products;
@@ -236,6 +237,13 @@ class AdminProductProfileController extends Controller
 
     return redirect("/admin/products")->with('message', 'Product deleted.');
   }
+
+	
+	function clearCache($id) {
+		Cache::forget("public-page-product-" . $id);
+
+		return redirect("/admin/product-profile/" . $id)->with('message', 'Recached successfully.');
+	}
 
 
   public function addImage(Request $request, $id)

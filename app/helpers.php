@@ -23,18 +23,14 @@ function cacheRecords(string $key, array $records, int $seconds = null) {
 
 	} else {
 		if ($seconds == null) {
-			// $seconds = strtotime(date("Y-m-d 02:00", strtotime('tomorrow'))) - strtotime(now());
-			$seconds = 300;
+			$seconds = strtotime(date("Y-m-d 02:00", strtotime('tomorrow'))) - strtotime(now());
+			// $seconds = 300;
 		}
 
 		Cache::put($key, $records, $seconds);
 	}
 
 	return $records;
-}
-
-function cacheRecord(array $record) {
-
 }
 
 function resetShowMarker() {

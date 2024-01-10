@@ -343,6 +343,31 @@ a.display-link:hover {
 	font-size: 0.9rem;
 }
 
+.vue-button-row {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	@media (min-width: 640px) {
+		flex-direction: row;
+	}
+}
+
+.vue-button-row:last-child {
+	margin-left: auto;
+}
+
+.vue-button-row div {
+	@media (max-width: 640px) {
+		width: 100%;
+	}
+}
+
+.vue-button-row .page-button {
+	height: 33px;
+}
+
 // Alerts ---------------------------------------
 .alert-box {
 	display: flex;
@@ -353,6 +378,7 @@ a.display-link:hover {
 	padding: 10px 30px 10px 15px;
 	border-radius: 5px;
 	color: white;
+	max-width: 600px;
 }
 
 .alert-box.error {

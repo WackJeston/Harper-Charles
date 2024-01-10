@@ -25,7 +25,7 @@
 				@endphp
 			</div>
 			<div class="page-column">
-				<h2>Clear Cache</h2>
+				<h2>Cache</h2>
 
 				<div class="page-button-row web-box">
 					<a href="/settingsClearCache/public-page-home" class="page-button">Home</a>

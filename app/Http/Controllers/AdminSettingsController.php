@@ -102,12 +102,8 @@ class AdminSettingsController extends Controller
 	}
 
 	public function clearCache(string $key) {
-		if (Cache::has($key)) {
-			Cache::forget($key);
-			return redirect("/admin/settings")->with('message', 'Cache cleared.');
+		Cache::forget($key);
 		
-		} else {
-			return redirect("/admin/settings")->withErrors(['error' => 'No cache.']);
-		}
+		return redirect("/admin/settings")->with('message', 'Recached successfully.');
 	}
 }

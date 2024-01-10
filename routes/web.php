@@ -206,6 +206,7 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/product-profileToggleProduct/{product}/{toggle}', 'toggleProduct');
     Route::post('/product-profileUpdate/{id}', 'update');
     Route::get('/product-profileDelete/{id}', 'delete');
+    Route::get('/product-profileClearCache/{id}', 'clearCache');
     Route::post('/product-profileAddImage/{id}', 'addImage');
     Route::get('/product-profileDeleteImage/{imageId}', 'deleteImage');
     Route::get('/product-profilePrimaryImage/{imageId}', 'primaryImage');
@@ -227,6 +228,7 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/admin/category-profile/{id}', 'show');
     Route::post('/category-profileUpdate/{id}', 'update');
     Route::get('/category-profileDelete/{id}', 'delete');
+    Route::get('/category-profileClearCache/{id}', 'clearCache');
     Route::post('/category-profileAddImage/{id}', 'addImage');
     Route::get('/category-profileShowCategory/{category}/{toggle}', 'showCategory');
     Route::get('/category-profileDeleteImage/{imageId}', 'deleteImage');

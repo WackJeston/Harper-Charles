@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Products;
@@ -164,6 +165,11 @@ class AdminCategoryProfileController extends Controller
     return redirect("/admin/categories")->with('message', 'Category deleted.');
   }
 
+	function clearCache($id) {
+		Cache::forget("public-page-category-" . $id);
+
+		return redirect("/admin/category-profile/" . $id)->with('message', 'Recached successfully.');
+	}
 
   public function showCategory($category, $toggle)
   {
