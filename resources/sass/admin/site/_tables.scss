@@ -95,11 +95,15 @@ tr .tr-buttons i {
 }
 
 tr .tr-buttons i:hover {
-  color: v.$alt-semi-dark
+	@media (min-width: 640px) {
+		color: v.$alt-dark;
+	}
 }
 
 tr .tr-buttons i:hover .button-label:not(.button-label:hover) {
-  display: block;
+	@media (min-width: 640px) {
+	  display: block;
+	}
 }
 
 tr .tr-buttons .button-label {
@@ -152,7 +156,9 @@ table td .toggle-true {
 }
 
 table td .toggle-true:hover {
-	color: v.$pale-green-darker;
+	@media (min-width: 640px) {
+		color: v.$pale-green-darker;
+	}
 }
 
 table td .toggle-false {
@@ -160,7 +166,9 @@ table td .toggle-false {
 }
 
 table td .toggle-false:hover {
-	color: v.$pale-red-darker;
+	@media (min-width: 640px) {
+		color: v.$pale-red-darker;
+	}
 }
 
 table .hide-mobile {
@@ -183,11 +191,13 @@ table input:not(tfoot input):hover,
 table input:not(tfoot input):focus,
 table select:not(tfoot select):hover,
 table select:not(tfoot select):focus {
-	-webkit-appearance: menulist;
-  -moz-appearance: menulist;
-	background-color: white;
-	outline: 2px solid v.$black;
-	cursor: pointer;
+	@media (min-width: 640px) {
+		-webkit-appearance: menulist;
+		-moz-appearance: menulist;
+		background-color: white;
+		outline: 2px solid v.$black;
+		cursor: pointer;
+	}
 }
 
 tfoot tr {
@@ -253,7 +263,9 @@ tfoot button {
 }
 
 tfoot button:hover {
-	background-color: v.$alt-semi-dark;
+	@media (min-width: 640px) {
+		background-color: v.$alt-semi-dark;
+	}
 }
 
 tfoot button.button-off {

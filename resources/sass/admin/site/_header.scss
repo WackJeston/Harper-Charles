@@ -25,7 +25,9 @@ header .desktop-nav {
 }
 
 .desktop-nav .header-button:hover {
-  background-color: v.$bg-dark;
+	@media (min-width: 640px) {
+		background-color: v.$bg-dark;
+	}
 }
 
 .desktop-nav .nav-button {
@@ -37,8 +39,10 @@ header .desktop-nav {
 }
 
 .desktop-nav .nav-button:hover:not(.desktop-nav #non-active:hover), .desktop-nav #user-button:hover {
-  background-color: v.$bg-dark;
-  cursor: pointer;
+	@media (min-width: 640px) {
+		background-color: v.$bg-dark;
+		cursor: pointer;
+	}
 }
 
 .desktop-nav #menu-button {
@@ -117,7 +121,9 @@ header #notification-menu .notification-group i {
 }
 
 header #notification-menu .notification-group i:hover {
-	color: v.$bg-main;
+	@media (min-width: 640px) {
+		color: v.$bg-main;
+	}
 }
 
 header #notification-menu .notification-group i.fa-square-xmark {
@@ -152,6 +158,8 @@ header #user-menu a {
 }
 
 header #user-menu a:hover {
-  background-color: v.$bg-dark;
-  color: v.$white;
+	@media (min-width: 640px) {
+		background-color: v.$bg-dark;
+		color: v.$white;
+	}
 }

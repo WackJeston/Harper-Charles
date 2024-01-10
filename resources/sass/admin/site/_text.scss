@@ -41,8 +41,10 @@ h2 {
 }
 
 a:hover {
-  cursor: pointer;
-  text-decoration: none;
+	@media (min-width: 640px) {
+		cursor: pointer;
+		text-decoration: none;
+	}
 }
 
 i {

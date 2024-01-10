@@ -44,8 +44,10 @@ main h2 {
 }
 
 .link-trail a:hover {
-	color: v.$alt-main;
-	text-decoration: underline;
+	@media (min-width: 640px) {
+		color: v.$alt-main;
+		text-decoration: underline;
+	}
 }
 
 .page-column-container {
@@ -200,8 +202,10 @@ main h2 {
 }
 
 .image-viewer .fa-xmark:hover {
-	color: v.$black;
-	background-color: v.$white;
+	@media (min-width: 640px) {
+		color: v.$black;
+		background-color: v.$white;
+	}
 }
 
 ul {
@@ -262,14 +266,24 @@ a.page-button {
 
 button.page-button,
 a.page-button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 	margin: 0 5px 10px 0;
 	background-color: v.$alt-main;
 	color: v.$white;
+
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
+	}
 }
 
 button.page-button:hover,
 a.page-button:hover {
-	background-color: v.$alt-semi-dark;
+	@media (min-width: 640px) {
+		background-color: v.$alt-semi-dark;
+	}
 }
 
 button.page-button i,
@@ -277,6 +291,10 @@ a.page-button i {
 	font-size: 1.1rem;
 	color: white;
 	margin-right: 5px;
+
+	@media (max-width: 640px) {
+		font-size: 1rem;
+	}
 }
 
 button.button-active {
@@ -284,7 +302,9 @@ button.button-active {
 }
 
 button.button-active:hover {
-	background-color: v.$alt-dark;
+	@media (min-width: 640px) {
+		background-color: v.$alt-dark;
+	}
 }
 
 button.pb-success,
@@ -302,7 +322,9 @@ a.pb-success {
 
 button.pb-success:hover,
 a.pb-success:hover {
-	background-color: v.$pale-green;
+	@media (min-width: 640px) {
+		background-color: v.$pale-green;
+	}
 }
 
 button.pb-danger,
@@ -312,7 +334,9 @@ a.pb-danger {
 
 button.pb-danger:hover,
 a.pb-danger:hover {
-	background-color: v.$pale-red;
+	@media (min-width: 640px) {
+		background-color: v.$pale-red;
+	}
 }
 
 .fa-toggle-off {
@@ -328,8 +352,10 @@ a.display-link {
 }
 
 a.display-link:hover {
-	color: v.$baby-blue;
-	text-decoration: underline;
+	@media (min-width: 640px) {
+		color: v.$baby-blue;
+		text-decoration: underline;
+	}
 }
 
 .string-container {
@@ -345,27 +371,44 @@ a.display-link:hover {
 
 .vue-button-row {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-end;
 
 	@media (min-width: 640px) {
 		flex-direction: row;
 	}
 }
 
-.vue-button-row:last-child {
-	margin-left: auto;
-}
-
 .vue-button-row div {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
 	@media (max-width: 640px) {
 		width: 100%;
 	}
 }
 
+.vue-button-row div:last-child {
+	justify-content: flex-end;
+	margin-left: auto;
+}
+
 .vue-button-row .page-button {
 	height: 33px;
+
+	@media (max-width: 640px) {
+		height: 30px;
+	}
+}
+
+.vue-button-row .page-button span {
+	margin-left: 5px;
+
+	@media (max-width: 640px) {
+		margin-left: 3px;
+	}
 }
 
 // Alerts ---------------------------------------
@@ -409,15 +452,21 @@ a.display-link:hover {
 }
 
 .alert-box i:hover {
-	background-color: white;
+	@media (min-width: 640px) {
+		background-color: white;
+	}
 }
 
 .alert-box.error i:hover {
-	color: v.$pale-red;
+	@media (min-width: 640px) {
+		color: v.$pale-red;
+	}
 }
 
 .alert-box.success i:hover {
-	color: v.$pale-green;
+	@media (min-width: 640px) {
+		color: v.$pale-green;
+	}
 }
 
 .warning-overlay {
@@ -471,11 +520,15 @@ a.display-link:hover {
 }
 
 .warning-box button.delete:hover {
-	background-color: v.$pale-red-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-red-darker;
+	}
 }
 
 .warning-box button.cancel:hover {
-	background-color: v.$pale-green-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-green-darker;
+	}
 }
 
 
@@ -484,21 +537,27 @@ a.display-link:hover {
 .hover:hover h2,
 .hover:hover li,
 .hover:hover i {
-	cursor: pointer;
-	text-decoration: none;
-	color: v.$bg-dark;
+	@media (min-width: 640px) {
+		cursor: pointer;
+		text-decoration: none;
+		color: v.$bg-dark;
+	}
 }
 
 .hover-outline:hover {
-	outline: 1px solid v.$white;
-	border-radius: 3px;
-	padding: 5px;
+	@media (min-width: 640px) {
+		outline: 1px solid v.$white;
+		border-radius: 3px;
+		padding: 5px;
+	}
 }
 
 .hover-background:hover {
-	background-color: v.$bg-semi-light;
-	color: v.$white;
-	cursor: pointer;
+	@media (min-width: 640px) {
+		background-color: v.$bg-semi-light;
+		color: v.$white;
+		cursor: pointer;
+	}
 }
 
 

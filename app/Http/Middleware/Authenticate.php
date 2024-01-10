@@ -40,7 +40,7 @@ class Authenticate extends Middleware
         if ($request->ajax()) {
           return response('Unauthorized.', 401);
         } else {
-          return redirect("/admin")->withErrors(['1' => 'Access Denied.']);
+          return redirect("/admin");
         }
       }
 

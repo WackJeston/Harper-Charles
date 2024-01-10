@@ -100,8 +100,10 @@ form.web-box i,
 
 form.web-box i:hover:not(.show-password i),
 .web-box form i:hover:not(.show-password i) {
-	background-color: v.$black;
-	color: v.$white;
+	@media (min-width: 640px) {
+		background-color: v.$black;
+		color: v.$white;
+	}
 }
 
 form input:not(form input:last-child, .radio-container input, .checkbox-container input, .submit),
@@ -136,7 +138,9 @@ form.web-box select:not(.product-page .wb-content) {
 form.web-box input:focus:not(.radio-container input, .checkbox-container input, .submit),
 form.web-box textarea:focus,
 form.web-box label.file-input-label:hover {
-	border: 2px solid v.$black;
+	@media (min-width: 640px) {
+		border: 2px solid v.$black;
+	}
 }
 
 form input.date-input {
@@ -166,13 +170,19 @@ form .submit:not(.web-box .submit, .product-page-main .submit) {
 }
 
 form .submit:hover {
-	background-color: v.$alt-dark;
-	border: none;
+	@media (min-width: 640px) {
+		background-color: v.$alt-dark;
+		border: none;
+	}
 }
 
 form label.show-password {
 	position: relative;
 	margin: 0 0 2px 3px;
+}
+
+form label.show-password i {
+	margin: 2px 2px 0 0;
 }
 
 form label:not(.file-input-label, .show-password),
