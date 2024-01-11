@@ -5,6 +5,38 @@ function setShowMarker(section) {
 	});
 };
 
+function setVueButtonRowListener() {
+	targets = document.querySelectorAll('.vue-button-row');
+
+	targets.forEach((target) => {
+		setVueButtonRow(target);
+
+		window.addEventListener('resize', () => {
+			setVueButtonRow(target);
+		});
+	});
+}
+
+function setVueButtonRow(target) {
+	let rowWidth = 0;
+
+	target.querySelectorAll('.page-button').forEach((button) => {
+		rowWidth += button.offsetWidth;
+		rowWidth += 5;
+	});
+
+	let lastChild = target.lastElementChild;
+
+	if (rowWidth > (window.innerWidth - 50)) {
+		target.classList.add('vue-button-row-js');
+		lastChild.classList.remove('vue-button-row-js');
+
+	} else {
+		target.classList.remove('vue-button-row-js');
+		lastChild.classList.add('vue-button-row-js');
+	}
+}
+
 function jumpToElement() {
 	let id = location.href.split('#')[1];
 

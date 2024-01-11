@@ -222,6 +222,10 @@
 		@endif
 
 		<script>
+			if (document.querySelector('.vue-button-row')) {
+				setVueButtonRowListener();
+			}
+
 			// DataTable
 			if (document.querySelector('table')) {
 				setIdWidth();

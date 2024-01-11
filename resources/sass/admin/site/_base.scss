@@ -32,6 +32,16 @@ main h2 {
 	margin: 0 0 5px 0;
 }
 
+main h1 {
+	@media (max-width: 1000px) {
+		font-size: 1.6rem;
+	}
+
+	@media (max-width: 640px) {
+		font-size: 1.3rem;
+	}
+}
+
 .link-trail {
 	position: relative;
 	top: -8px;
@@ -372,41 +382,26 @@ a.display-link:hover {
 
 .vue-button-row {
 	display: flex;
-	flex-direction: column-reverse;
-	flex-wrap: wrap;
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-end;
+	margin-top: 20px;
+}
 
-	@media (min-width: 640px) {
-		flex-direction: row;
-	}
+.vue-button-row.vue-button-row-js {
+	flex-direction: column-reverse;
+	align-items: flex-start;
 }
 
 .vue-button-row div {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-
-	@media (max-width: 640px) {
-		width: 100%;
-	}
 }
 
-.vue-button-row div:last-child {
+.vue-button-row div.vue-button-row-js {
 	margin-left: auto;
-	justify-content: flex-start;
-
-	@media (min-width: 640px) {
-		justify-content: flex-end;
-	}
-}
-
-.vue-button-row .page-button {
-	// height: 30px;
-
-	// @media (max-width: 640px) {
-	// 	height: 30px;
-	// }
+	justify-content: flex-end;
 }
 
 .vue-button-row .page-button span {
