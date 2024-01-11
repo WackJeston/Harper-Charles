@@ -371,7 +371,7 @@ a.display-link:hover {
 
 .vue-button-row {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column-reverse;
 	justify-content: space-between;
 	align-items: flex-end;
 
@@ -391,8 +391,12 @@ a.display-link:hover {
 }
 
 .vue-button-row div:last-child {
-	justify-content: flex-end;
+	justify-content: flex-start;
 	margin-left: auto;
+
+	@media (min-width: 640px) {
+		justify-content: flex-end;
+	}
 }
 
 .vue-button-row .page-button {
