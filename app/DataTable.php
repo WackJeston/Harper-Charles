@@ -66,7 +66,7 @@ class DataTable
 
 		$this->table['count'] = count(DB::select($query));
 
-		if ($this->table['sequence'] && $this->table['count'] < 2) {
+		if ($this->table['sequence'] == true && $this->table['count'] < 2) {
 			$this->table['sequence'] = false;
 		}
 

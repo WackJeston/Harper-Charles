@@ -273,9 +273,10 @@ a.page-button {
 	margin: 0 5px 10px 0;
 	background-color: v.$alt-main;
 	color: v.$white;
+	font-size: 0.9rem;
 
 	@media (max-width: 640px) {
-		font-size: 0.9rem;
+		font-size: 0.8rem;
 	}
 }
 
@@ -288,12 +289,12 @@ a.page-button:hover {
 
 button.page-button i,
 a.page-button i {
-	font-size: 1.1rem;
+	font-size: 1rem;
 	color: white;
 	margin-right: 5px;
 
 	@media (max-width: 640px) {
-		font-size: 1rem;
+		font-size: 0.9rem;
 	}
 }
 
@@ -372,6 +373,7 @@ a.display-link:hover {
 .vue-button-row {
 	display: flex;
 	flex-direction: column-reverse;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: flex-end;
 
@@ -385,9 +387,9 @@ a.display-link:hover {
 	flex-direction: row;
 	flex-wrap: wrap;
 
-	@media (max-width: 640px) {
-		width: 100%;
-	}
+	// @media (max-width: 640px) {
+	// 	width: 100%;
+	// }
 }
 
 .vue-button-row div:last-child {
@@ -400,11 +402,11 @@ a.display-link:hover {
 }
 
 .vue-button-row .page-button {
-	height: 33px;
+	// height: 30px;
 
-	@media (max-width: 640px) {
-		height: 30px;
-	}
+	// @media (max-width: 640px) {
+	// 	height: 30px;
+	// }
 }
 
 .vue-button-row .page-button span {
