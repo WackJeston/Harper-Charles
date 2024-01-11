@@ -387,14 +387,14 @@ a.display-link:hover {
 	flex-direction: row;
 	flex-wrap: wrap;
 
-	// @media (max-width: 640px) {
-	// 	width: 100%;
-	// }
+	@media (max-width: 640px) {
+		width: 100%;
+	}
 }
 
 .vue-button-row div:last-child {
-	justify-content: flex-start;
 	margin-left: auto;
+	justify-content: flex-start;
 
 	@media (min-width: 640px) {
 		justify-content: flex-end;
