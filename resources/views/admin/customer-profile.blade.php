@@ -10,7 +10,7 @@
       <a href="/admin/customers">Customers</a>
     </div>
 
-    <h2 class="dk">Customer Profile (#{{ $customer->id }})</h2>
+    <h1 class="dk">Customer Profile (#{{ $customer->id }})</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

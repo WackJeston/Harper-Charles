@@ -10,7 +10,7 @@
       <a href="/admin/products">Products</a>
     </div>
 
-    <h2 class="dk">Product Profile (#{{ $product->id }})</h2>
+    <h1 class="dk">Product Profile (#{{ $product->id }})</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

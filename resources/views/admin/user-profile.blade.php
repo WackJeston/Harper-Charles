@@ -10,7 +10,7 @@
       <a href="/admin/users">Users</a>
     </div>
 
-    <h2 class="dk">User Profile (#{{ $user->id }})</h2>
+    <h1 class="dk">User Profile (#{{ $user->id }})</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

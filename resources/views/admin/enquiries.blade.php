@@ -12,11 +12,11 @@
   <main class="enquiries">
 
 		@if ($type == 'standard')
-			<h2 class="dk">Enquiries</h2>
+			<h1 class="dk">Enquiries</h1>
 		@elseif ($type == 'feedback')
-			<h2 class="dk">Feedback</h2>
+			<h1 class="dk">Feedback</h1>
 		@elseif ($type == 'sponsors')
-			<h2 class="dk">Sponsor Enquiries</h2>
+			<h1 class="dk">Sponsor Enquiries</h1>
 		@endif
 
     @if ($errors->any())

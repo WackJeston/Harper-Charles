@@ -35,9 +35,21 @@ class AdminSettingsController extends Controller
 		}
 
 		$form = $form->render();
+
+		$cronJobs = new DataTable('cron_jobs');
+		$cronJobs->setQuery('SELECT * FROM cron_jobs', [], 'id', 'ASC');
+		$cronJobs->addColumn('id', '#');
+		$cronJobs->addColumn('command', 'Command', 2);
+		$cronJobs->addColumn('schedule', 'Schedule', 2);
+		$cronJobs->addColumn('lastRunOn', 'Last Run On', 2, true);
+		$cronJobs->addColumn('lastRunTime', 'Last Run Time', 2, true);
+		$cronJobs->addColumn('active', 'Active', 1, false, 'toggle');
+		// $cronJobs->addLinkButton('enquiry-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$cronJobs = $cronJobs->render();
 		
     return view('admin/settings', compact(
 			'form',
+			'cronJobs',
     ));
   }
 

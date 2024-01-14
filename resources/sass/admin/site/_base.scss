@@ -27,18 +27,27 @@ main {
 	margin: 10px 10px 10px 10px;
 }
 
-main h1,
-main h2 {
-	margin: 0 0 5px 0;
-}
-
 main h1 {
+	margin: 0 0 10px 0;
+
 	@media (max-width: 1000px) {
 		font-size: 1.6rem;
 	}
 
 	@media (max-width: 640px) {
 		font-size: 1.3rem;
+	}
+}
+
+main h2 {
+	margin: 0 0 5px 0;
+
+	@media (max-width: 1000px) {
+		font-size: 1.4rem;
+	}
+
+	@media (max-width: 640px) {
+		font-size: 1.1rem;
 	}
 }
 
@@ -385,7 +394,7 @@ a.display-link:hover {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-end;
-	margin-top: 20px;
+	// margin-top: 10px;
 }
 
 .vue-button-row.vue-button-row-js {

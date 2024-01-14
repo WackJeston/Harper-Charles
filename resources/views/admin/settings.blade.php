@@ -18,7 +18,7 @@
 
 		<div class="page-column-container columns-2">
 			<div class="page-column">
-				<h2 class="dk">Settings</h2>
+				<h2>Settings</h2>
 
 				@php
 					echo $form['html'];
@@ -33,5 +33,11 @@
 				</div>
 			</div>
 		</div>
+
+		<h2>Cron Jobs</h2>
+		
+		@php
+			echo $cronJobs['html'];
+		@endphp
   </main>
 @endsection

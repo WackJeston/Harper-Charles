@@ -17,21 +17,21 @@
 				<a href="/admin/enquiries">Enquiries</a>
 			</div>
 
-			<h2 class="dk">Enquiry</h2>
+			<h1 class="dk">Enquiry</h1>
 		@elseif ($type == 'feedback')
 			<div class="link-trail">
 				<i class="fa-solid fa-arrow-left"></i>
 				<a href="/admin/feedback">Feedback</a>
 			</div>
 
-			<h2 class="dk">Feeback Enquiry</h2>
+			<h1 class="dk">Feeback Enquiry</h1>
 		@elseif ($type == 'sponsor')
 			<div class="link-trail">
 				<i class="fa-solid fa-arrow-left"></i>
 				<a href="/admin/new-sponsors">Sponsor Enquiries</a>
 			</div>
 
-			<h2 class="dk">New Sponsor Enquiry</h2>
+			<h1 class="dk">New Sponsor Enquiry</h1>
 		@endif
 
     @if ($errors->any())
