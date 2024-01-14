@@ -6,21 +6,26 @@ function setShowMarker(section) {
 };
 
 function setVueButtonRowListener() {
-	targets = document.querySelectorAll('.vue-button-row');
+	let targets = document.querySelectorAll('.vue-button-row');
+	let buttons = [];
 
-	targets.forEach((target) => {
-		setVueButtonRow(target);
+	targets.forEach(function (target, i) {
+		if (typeof buttons[i] == 'undefined') {
+			buttons[i] = target.querySelectorAll('.page-button');
+		}
+		
+		setVueButtonRow(target, buttons[i]);
 
 		window.addEventListener('resize', () => {
-			setVueButtonRow(target);
+			setVueButtonRow(target, buttons[i]);
 		});
 	});
 }
 
-function setVueButtonRow(target) {
+function setVueButtonRow(target, buttons) {
 	let rowWidth = 0;
 
-	target.querySelectorAll('.page-button').forEach((button) => {
+	buttons.forEach((button) => {
 		rowWidth += button.offsetWidth;
 		rowWidth += 5;
 	});

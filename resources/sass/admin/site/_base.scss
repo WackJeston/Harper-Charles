@@ -389,8 +389,10 @@ a.display-link:hover {
 }
 
 .vue-button-row.vue-button-row-js {
-	flex-direction: column-reverse;
-	align-items: flex-start;
+	@media (max-width: 640px) {
+		flex-direction: column-reverse;
+		align-items: flex-start;
+	}
 }
 
 .vue-button-row div {
@@ -399,9 +401,20 @@ a.display-link:hover {
 	flex-wrap: wrap;
 }
 
-.vue-button-row div.vue-button-row-js {
-	margin-left: auto;
+.vue-button-row div:last-child {
 	justify-content: flex-end;
+
+	@media (min-width: 640px) {
+		padding-left: 50px;
+	}
+}
+
+.vue-button-row div.vue-button-row-js {
+	@media (max-width: 640px) {
+		margin-left: auto;
+	}
+	
+	// align-items: flex-end;
 }
 
 .vue-button-row .page-button span {
