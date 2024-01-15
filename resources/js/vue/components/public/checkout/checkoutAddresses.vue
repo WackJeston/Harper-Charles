@@ -368,15 +368,14 @@ export default {
 
 		async deleteAddress(type, id) {
 			try {
-				this.result = await this.$http.post(
-					'/checkoutDeleteAddress/' + id,
-					{ name: "delete-address" }
-				);
+				this.response = await fetch("/checkoutDeleteAddress/" + id);
+				this.result = await this.response.json();
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
+				
 			} finally {
-				if (this.result.data == true) {
+				if (this.result == true) {
 					if (type == 'delivery') {
 						this.deliverySelected = 0;
 
@@ -403,13 +402,13 @@ export default {
 
 		async defaultAddress(type, id) {
 			try {
-				this.result = await this.$http.post(
-					'/checkoutDefaultAddress/' + type + '/' + id,
-					{ name: "default-address" }
-				);
+				this.response = await fetch("/checkoutDefaultAddress/" + type + '/' + id);
+				this.result = await this.response.json();
+				
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
+				
 			} finally {
 				let oldDefault = document.querySelector('#' + type + '-container .star-selected');
 				if (oldDefault != null) {
@@ -422,38 +421,36 @@ export default {
 		},
 
 		async addressAdd(submitEvent, type) {
-			try {
-				this.values = '';
+			this.values = '';
 
-				for (var i = 1; i < submitEvent.target.length; i++) {
-					if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
-						if (i == 1) {
-							this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
+			for (var i = 1; i < submitEvent.target.length; i++) {
+				if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
+					if (i == 1) {
+						this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
 
-						} else if (submitEvent.target[i].type == 'checkbox') {
-							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
+					} else if (submitEvent.target[i].type == 'checkbox') {
+						this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
 
-						} else if (submitEvent.target[i].name != 'submit') {
-							this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
-						}
+					} else if (submitEvent.target[i].name != 'submit') {
+						this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
 					}
 				}
+			}
 
-				this.result = await this.$http.post(
-					'/checkoutAddAddress/' + type + '/' + this.values,
-					{ name: "delivery-add" }
-				);
+			try {
+				this.response = await fetch("/checkoutAddAddress/" + type + '/' + this.values);
+				this.result = await this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
-
+				
 			} finally {
 				if (type == 'delivery') {
-					this.deliveryaddresses.push(this.result.data);
+					this.deliveryaddresses.push(this.result);
 					this.deliveryForm = false;
 				} else if (type == 'billing') {
-					this.billingaddresses.push(this.result.data);
+					this.billingaddresses.push(this.result);
 					this.billingForm = false;
 				}
 
@@ -461,10 +458,10 @@ export default {
 				form.reset();
 
 				setTimeout(() => {
-					this.selectAddress(null, type, this.result.data.id);
+					this.selectAddress(null, type, this.result.id);
 
-					if (this.result.data.defaultShipping == 1 || this.result.data.defaultBilling == 1) {
-						this.defaultAddress(type, this.result.data.id);
+					if (this.result.defaultShipping == 1 || this.result.defaultBilling == 1) {
+						this.defaultAddress(type, this.result.id);
 					}
 				}, 10);
 			}

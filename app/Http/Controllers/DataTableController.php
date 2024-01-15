@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 class DataTableController extends Controller
 {
-  public function toggleButton(string $table, string $column, string $primaryColumn, $primaryValue):bool {
+  public function toggleButton(string $table, string $column, string $primaryColumn, $primaryValue):int {
 		$record = DB::SELECT('SELECT * FROM ' . $table . ' WHERE ' . $primaryColumn . ' = ?', [$primaryValue])[0];
 
 		$value = $record->{$column};
@@ -22,7 +22,7 @@ class DataTableController extends Controller
 		return $value;
 	}
 
-	public function setPrimary(string $table, string $column, string $primaryColumn, $primaryValue, string $parent = null, $parentId = null):bool {
+	public function setPrimary(string $table, string $column, string $primaryColumn, $primaryValue, string $parent = null, $parentId = null) {
 		if ($parent != null && $parentId != null) {
 			DB::table($table)->where($column, 1)->where($parent, $parentId)->update([$column => 0]);
 		} else {
@@ -30,8 +30,6 @@ class DataTableController extends Controller
 		}
 		
 		DB::table($table)->where($primaryColumn, $primaryValue)->update([$column => 1]);
-
-		return true;
 	}
 
 	public function selectDropdown(string $table, string $column, string $primaryColumn, $primaryValue, $value = null) {
@@ -40,8 +38,6 @@ class DataTableController extends Controller
 		}
 
 		DB::table($table)->where($primaryColumn, $primaryValue)->update([$column => $value]);
-
-		return true;
 	}
 	
 	public function moveSequence(int $id, string $direction, string $tableName, string $sequenceColumn) {
@@ -58,7 +54,7 @@ class DataTableController extends Controller
 		}
 
 		if (count($records) < 2) {
-			return false;
+			return 0;
 		
 		} else {
 			DB::UPDATE(sprintf('UPDATE %s SET sequence = %d WHERE id = %d', $tableName, $records[0]->sequence, $records[1]->id));
@@ -77,7 +73,7 @@ class DataTableController extends Controller
 		$table['orderColumn'] = $name;
 		session()->put($query, $table);
 
-		return true;
+		return 1;
 	}
 
 	public function setOrderDirection(string $direction, string $query) {
@@ -85,7 +81,7 @@ class DataTableController extends Controller
 		$table['orderDirection'] = $direction;
 		session()->put($query, $table);
 
-		return true;
+		return 1;
 	}
 
 	//Footer
@@ -94,7 +90,7 @@ class DataTableController extends Controller
 		$table['limit'] = $limit;
 		session()->put($query, $table);
 
-		return true;
+		return 1;
 	}
 
 	public function changePage(int $offset, string $query) {
@@ -102,7 +98,7 @@ class DataTableController extends Controller
 		$table['offset'] = $offset;
 		session()->put($query, $table);
 
-		return true;
+		return 1;
 	}
 
 	public function resetTableSequence(string $query) {
@@ -111,6 +107,6 @@ class DataTableController extends Controller
 		$table['orderDirection'] = 'ASC';
 		session()->put($query, $table);
 
-		return true;
+		return 1;
 	}
 }

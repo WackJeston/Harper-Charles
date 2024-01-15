@@ -19,7 +19,7 @@
 
     <h1>{{ $product['title'] }}</h1>
 
-    <section id="productpagemain">
+    <section id="productpagemain" class="product-page-main web-box">
       <productpagemain
         :product="{{ json_encode($product) }}"
         :images="{{ json_encode($productImages) }}"
@@ -29,20 +29,11 @@
       />
     </section>
 
-		<section class="page-column-container">
-			<div class="page-column product-description">
-				<h2>Description</h2>
-    		<p>{{ $product->description }}</p>
-			</div>
-			<div class="page-column product-specs">
-				<h2>Secifications</h2>
-				<ul>
-					@foreach ($specs as $spec)
-						<li><span>{{ $spec->label }}: {{ $spec->value }}</span></li>
-					@endforeach
-				</ul>
-			</div>
-		</section>
-
+		<section id="productpageinfo" class="product-page-tab-section">
+      <productpageinfo
+        :product="{{ json_encode($product) }}"
+        :specs="{{ json_encode($specs) }}"
+      />
+    </section>
   </main>
 @endsection

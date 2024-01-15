@@ -2,8 +2,6 @@
 import { createApp } from 'vue'
 
 import * as Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 
@@ -20,14 +18,19 @@ import Publicalert from './vue/components/public/site/publicAlert.vue'
 import Publiclogin from './vue/components/public/auth/login.vue'
 import Publicsignup from './vue/components/public/auth/signup.vue'
 
-import Bannerhometop from './vue/components/public/homepage/bannerHomeTop.vue'
-import Homecategories from './vue/components/public/homepage/productCategories.vue'
-
 import Accountfunctions from './vue/components/public/account/accountFunctions.vue'
 import Accountorder from './vue/components/public/account/accountOrder.vue'
 
+import Bannerhometop from './vue/components/public/homepage/bannerHomeTop.vue'
+import Homecategories from './vue/components/public/homepage/productCategories.vue'
+
 import Contactmain from './vue/components/public/contactMain.vue'
 import Googlemaps from './vue/components/public/googleMaps.vue'
+
+import Categorybanner from './vue/components/public/products/categoryBanner.vue'
+
+import Productpagemain from './vue/components/public/products/productPageMain.vue'
+import Productpageinfo from './vue/components/public/products/productPageInfo.vue'
 
 import Cartitems from './vue/components/public/cartItems.vue'
 
@@ -36,8 +39,6 @@ import Checkoutpayment from './vue/components/public/checkout/checkoutPayment.vu
 import Checkoutreview from './vue/components/public/checkout/checkoutReview.vue'
 import Checkoutsuccess from './vue/components/public/checkout/checkoutSuccess.vue'
 
-import Categorybanner from './vue/components/public/products/categoryBanner.vue'
-import Productpagemain from './vue/components/public/products/productPageMain.vue'
 
 
 // ADMIN
@@ -104,13 +105,6 @@ const publicSignup = createApp({})
 publicSignup.component('publicsignup', Publicsignup).mount('#publicsignup')
 
 
-const bannerHomeTop = createApp({})
-bannerHomeTop.component('bannerhometop', Bannerhometop).mount('#bannerhometop')
-
-const homeCategories = createApp({})
-homeCategories.component('homecategories', Homecategories).mount('#homecategories')
-
-
 const accountFunctions = createApp({})
 accountFunctions.component('accountfunctions', Accountfunctions).mount('#accountfunctions')
 
@@ -118,24 +112,11 @@ const accountOrder = createApp({})
 accountOrder.component('accountorder', Accountorder).mount('#accountorder')
 
 
-const cartItems = Vue.createApp({})
-cartItems.use(VueAxios, axios)
-cartItems.component('cartitems', Cartitems).mount('#cartitems')
+const bannerHomeTop = createApp({})
+bannerHomeTop.component('bannerhometop', Bannerhometop).mount('#bannerhometop')
 
-
-const checkoutAddresses = Vue.createApp({})
-checkoutAddresses.use(VueAxios, axios)
-checkoutAddresses.component('checkoutaddresses', Checkoutaddresses).mount('#checkoutaddresses')
-
-const checkoutPayment = Vue.createApp({})
-checkoutPayment.use(VueAxios, axios)
-checkoutPayment.component('checkoutpayment', Checkoutpayment).mount('#checkoutpayment')
-
-const checkoutReview = Vue.createApp({})
-checkoutReview.component('checkoutreview', Checkoutreview).mount('#checkoutreview')
-
-const checkoutSuccess = Vue.createApp({})
-checkoutSuccess.component('checkoutsuccess', Checkoutsuccess).mount('#checkoutsuccess')
+const homeCategories = createApp({})
+homeCategories.component('homecategories', Homecategories).mount('#homecategories')
 
 
 const contactMain = Vue.createApp({})
@@ -150,17 +131,38 @@ googleMaps.use(VueGoogleMaps, {
 }).mount('#app')
 googleMaps.component('googlemaps', Googlemaps).mount('#googlemaps')
 
+
 const categoryBanner = createApp({})
 categoryBanner.component('categorybanner', Categorybanner).mount('#categorybanner')
 
+
 const productPageMain = createApp({})
-productPageMain.use(VueAxios, axios)
 productPageMain.component('productpagemain', Productpagemain).mount('#productpagemain')
+
+
+const productPageInfo = createApp({})
+productPageInfo.component('productpageinfo', Productpageinfo).mount('#productpageinfo')
+
+
+const cartItems = Vue.createApp({})
+cartItems.component('cartitems', Cartitems).mount('#cartitems')
+
+
+const checkoutAddresses = Vue.createApp({})
+checkoutAddresses.component('checkoutaddresses', Checkoutaddresses).mount('#checkoutaddresses')
+
+const checkoutPayment = Vue.createApp({})
+checkoutPayment.component('checkoutpayment', Checkoutpayment).mount('#checkoutpayment')
+
+const checkoutReview = Vue.createApp({})
+checkoutReview.component('checkoutreview', Checkoutreview).mount('#checkoutreview')
+
+const checkoutSuccess = Vue.createApp({})
+checkoutSuccess.component('checkoutsuccess', Checkoutsuccess).mount('#checkoutsuccess')
 
 
 // ADMIN
 const adminHeader = createApp({})
-adminHeader.use(VueAxios, axios)
 adminHeader.component('adminheader', Adminheader).mount('#adminheader')
 
 const adminFooter = createApp({})
@@ -181,7 +183,6 @@ adminLogin.component('adminlogin', Adminlogin).mount('#adminlogin')
 
 
 const adminContactFunctions = createApp({})
-adminContactFunctions.use(VueAxios, axios)
 adminContactFunctions.component('admincontactfunctions', Admincontactfunctions).mount('#admincontactfunctions')
 
 

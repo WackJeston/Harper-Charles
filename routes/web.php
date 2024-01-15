@@ -46,6 +46,7 @@ use App\Http\Controllers\AdminBannerProfileController;
 // DataTable -----------------------------------------------------------------------------------
 Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
 Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [DataTableController::class, 'setPrimary']);
+Route::get('/dataTable-selectDropdown/{table}/{column}/{primaryColumn}/{primaryValue}/{value}', [DataTableController::class, 'selectDropdown']);
 Route::get('/dataTable-resetTableSequence/{query}', [DataTableController::class, 'resetTableSequence']);
 Route::get('/dataTable-moveSequence/{id}/{direction}/{tabelName}/{sequenceColumn}', [DataTableController::class, 'moveSequence']);
 
@@ -66,8 +67,10 @@ Route::get("sitemap-xml" , function () {
 Route::get("/functions-setShowMarker/{section}" , function ($section = false) {
 	if ($section == false || $section == session()->get('pageShowMarker', $section)) {
 		session()->put('pageShowMarker', false);
+		session()->put('pageShowMarkerPrevious', false);
 	} else {
 		session()->put('pageShowMarker', $section);
+		session()->put('pageShowMarkerPrevious', session()->get('_previous')['url']);
 	}
 });
 
@@ -107,7 +110,7 @@ Route::controller(ProductPageController::class)->group(function () {
 
 Route::controller(CartController::class)->group(function () {
 	Route::get('/cart', 'show');
-	Route::post('/apiQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
+	Route::post('/cartQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
 	Route::get('/cartRemove/{item}', 'cartRemove');
 });
 

@@ -159,17 +159,16 @@ export default {
 
 		async deletePaymentMethod(id) {
 			try {
-				this.result = await this.$http.post(
-					'/checkoutDeletePaymentMethod/' + id,
-					{ name: "delete-method" }
-				);
+				this.response = await fetch("/checkoutDeletePaymentMethod/" + id);
+				this.result = await this.response.json();
+
 			} catch (err) {
-				console.log('----ERROR----');
-				console.log(err);
+					console.log('----ERROR----');
+					console.log(err);
+
 			} finally {
 				this.paymentMethods.forEach(method => {
 					if (method.id == id) {
-						console.log('----DELETED----');
 						let index = this.paymentMethods.indexOf(method);
 						this.paymentMethods.splice(index, 1);
 					}
@@ -196,9 +195,11 @@ export default {
 					},
 					customer: this.stripeid,
 				});
+
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
+
 			} finally {
 				console.log('Result: ' + this.result);
 				this.addPaymentMethod2(this.result.paymentMethod.id);
@@ -207,30 +208,27 @@ export default {
 
 		async addPaymentMethod2(id) {
 			try {
-				this.result = await this.$http.post(
-					'/checkoutAddPaymentMethod/' + id,
-					{ name: "add-payment-method-2" }
-				);
+				this.response = await fetch("/checkoutAddPaymentMethod/" + id);
+				this.result = await this.response.json();
+
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
+				
 			} finally {
-				console.log('----SUCCESS----');
-				console.log(this.result);
-
-				this.brand = this.result.data.card.brand;
+				this.brand = this.result.card.brand;
 				this.brandFirstLetter = this.brand.charAt(0).toUpperCase();
 				this.brandRest = this.brand.slice(1);
 				this.brand = this.brandFirstLetter + this.brandRest;
-				this.expYear = this.result.data.card.exp_year.toString().slice(2, 4);
+				this.expYear = this.result.card.exp_year.toString().slice(2, 4);
 
 				let newMethod = [];
 
-				newMethod['id'] = this.result.data.id;
+				newMethod['id'] = this.result.id;
 				newMethod['brand'] = this.brand;
-				newMethod['last4'] = this.result.data.card.last4;
-				newMethod['exp'] = this.result.data.card.exp_month + '/' + this.expYear;
-				newMethod['postcode'] = this.result.data.billing_details.address.postal_code;
+				newMethod['last4'] = this.result.card.last4;
+				newMethod['exp'] = this.result.card.exp_month + '/' + this.expYear;
+				newMethod['postcode'] = this.result.billing_details.address.postal_code;
 
 				this.paymentMethods.push(newMethod);
 				this.form = false;
@@ -239,7 +237,7 @@ export default {
 				form.reset();
 
 				setTimeout(() => {
-					this.selectPaymentMethod(null, this.result.data.id);
+					this.selectPaymentMethod(null, this.result.id);
 				}, 10);
 			}
 		},

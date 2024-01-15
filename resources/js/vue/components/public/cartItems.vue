@@ -89,12 +89,13 @@ export default {
 
 		async quantityChange(item, quantity, price) {
 			try {
-				const { data } = await this.$http.post(
-					'/apiQuantityUpdate/' + item + '/' + quantity,
-					{ name: "quantity" }
-				);
-			} catch (err) {
+				this.response = await fetch("/cartQuantityUpdate/" + item + "/" + quantity);
+				this.result = await this.response.json();
 
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+				
 			} finally {
 				let priceElement = document.querySelector('#price' + item);
 				let newPrice = quantity * price;
@@ -108,12 +109,13 @@ export default {
 
 		async remove(item) {
 			try {
-				const { data } = await this.$http.get(
-					'/cartRemove/' + item,
-					{ name: "remove" }
-				);
+				this.response = await fetch("/cartRemove/" + item);
+				this.result = await this.response.json();
+				
 			} catch (err) {
-
+				console.log('----ERROR----');
+				console.log(err);
+				
 			} finally {
 				this.cartItem = document.querySelector('#cartItem' + item);
 				this.cartItem.remove();

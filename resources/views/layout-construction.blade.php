@@ -62,12 +62,27 @@
   </head>
 
   <body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; width: 100vw">
-		<img src="{{ env('ASSET_PATH') . 'website-logo.svg' }}" alt="logo" height="150px">
+		<img src="{{ env('ASSET_PATH') . 'website-logo.svg' }}" alt="logo" height="100px" style="margin: 30vh 0 80px 0;">
 
-		<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 40px; color: gray;">
+		{{-- <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 40px; color: gray;">
 			<h1 style="margin: 0;	padding-right: 10px; font-size: 1.5rem;">Site Under Construction</h1>
-			{{-- <i style="font-size: 1.3rem;" class="fa-solid fa-person-digging"></i> --}}
 			<i class="fa-solid fa-gear fa-spin" style="position: relative; top: 3px;"></i>
-		</div>
+		</div> --}}
+
+		{{-- <h3 style="margin: 0;">Address</h3> --}}
+		<ul style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: auto 0 20px 0; padding-left: 0; font-size: 0.8rem;">
+			<li style="margin-bottom: 20px;"><a href="mailto:contact@harpercharles.com">contact@harpercharles.com</a></li>
+			<li>Unit 2E, Dale Hall Industrial Estate</li>
+			<li>Riverside Ave W</li>
+			<li>Manningtree</li>
+			<li>Essex</li>
+			<li>CO11 1UN</li>
+		</ul>
+
+		<ul style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin: 0 0 10vh 0; padding-left: 0; font-size: 0.8rem;">
+			<li style="margin: 0 5px;"><a href="https://www.instagram.com/harpercharlescompany/"><i class="fa-brands fa-instagram"></i></a></li>
+			<li style="margin: 0 5px;"><a href="https://www.facebook.com/p/Harper-Charles-Bespoke-Interiors-100033144487745/"><i class="fa-brands fa-facebook"></i></a></li>
+			<li style="margin: 0 5px;"><a href="https://www.youtube.com/channel/UCr4e-CcIQWgoMBT_XpPC0HQ"><i class="fa-brands fa-youtube"></i></a></li>
+		</ul>
 	</body>
 </html>

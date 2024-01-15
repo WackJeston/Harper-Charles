@@ -1,67 +1,64 @@
 <template>
-  <section class="product-page-main web-box">
-
-    <div class="wb-row">
-      <div class="wb-images">
-        <div class="wb-image" @click="showImage(this.selectedImage)">
-					<div class="wb-image-container">
-						<img v-if="this.count > 0" :src="this.selectedImage" :alt="this.selectedImage">
-						<i v-else class="fa-solid fa-couch"></i>
-					</div>
-				</div>
-
-        <div v-show="this.count > 1" class="image-row-button-container">
-          <i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
-          <div class="image-row-container">
-            <div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
-              <div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)" :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
-            </div>
-            <div v-show="this.count > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
-              <div v-for="(image, i) in this.images" class="selected-image" :id="'selected' + i"></div>
-            </div>
-          </div>
-          <i class="fa-solid fa-caret-right image-move-buttons" @click="imageRowMove('right')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
-        </div>
-      </div>
-
-			<div class="wb-content-container">
-				<div class="wb-content dk">
-					<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
-					<p>#: {{this.product.id}}</p>
-				</div>
-				
-				<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
-					<form @submit.prevent="cartAdd" enctype="multipart/form-data">
-						<input type="hidden" name="_token" :value="csrf">
-
-						<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
-							<label :for="i">{{ variant['title'] }}</label>
-							<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
-							<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
-							<div class="options-grid">
-								<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
-									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
-									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
-									<!-- <p>{{ option.title }}</p> -->
-								</div>
-							</div>
-						</div>
-						
-						<small v-if="this.variantCount > 0" class="variant-info">
-							Please select from the options above before adding to your cart.
-						</small>
-
-						<div class="bottom-row">
-							<span id="price">£{{ this.product.price }}</span>
-							<button class="submit" type="submit">Add To Cart</button>
-						</div>
-					</form>
+	<div class="wb-row">
+		<div class="wb-images">
+			<div class="wb-image" @click="showImage(this.selectedImage)">
+				<div class="wb-image-container">
+					<img v-if="this.count > 0" :src="this.selectedImage" :alt="this.selectedImage">
+					<i v-else class="fa-solid fa-couch"></i>
 				</div>
 			</div>
-    </div>
 
-    <div id="cartAlert"></div>
-  </section>
+			<div v-show="this.count > 1" class="image-row-button-container">
+				<i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
+				<div class="image-row-container">
+					<div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
+						<div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)" :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
+					</div>
+					<div v-show="this.count > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
+						<div v-for="(image, i) in this.images" class="selected-image" :id="'selected' + i"></div>
+					</div>
+				</div>
+				<i class="fa-solid fa-caret-right image-move-buttons" @click="imageRowMove('right')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
+			</div>
+		</div>
+
+		<div class="wb-content-container">
+			<div class="wb-content dk">
+				<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
+				<p>#: {{this.product.id}}</p>
+			</div>
+			
+			<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
+				<form @submit.prevent="cartAdd" enctype="multipart/form-data">
+					<input type="hidden" name="_token" :value="csrf">
+
+					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
+						<label :for="i">{{ variant['title'] }}</label>
+						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
+						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
+						<div class="options-grid">
+							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
+								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
+								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
+								<!-- <p>{{ option.title }}</p> -->
+							</div>
+						</div>
+					</div>
+					
+					<small v-if="this.variantCount > 0" class="variant-info">
+						Please select from the options above before adding to your cart.
+					</small>
+
+					<div class="bottom-row">
+						<span id="price">£{{ this.product.price }}</span>
+						<button class="submit" type="submit">Add To Cart</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="cartAlert"></div>
 </template>
 
 
@@ -108,30 +105,31 @@
 
     methods: {
       async cartAdd(submitEvent) {
-        try {
-          for (var i = 0; i < this.variants.length; i++) {
-            this.input = document.querySelector('#input' + i);
-            if (i == 0) {
-              this.selectedVariants = '';
-              this.selectedVariants = this.input.value;
-            } else {
-              this.selectedVariants = this.selectedVariants + ',' + this.input.value;
-            }
-          }
+				for (var i = 0; i < this.variants.length; i++) {
+					this.input = document.querySelector('#input' + i);
+					if (i == 0) {
+						this.selectedVariants = '';
+						this.selectedVariants = this.input.value;
+					} else {
+						this.selectedVariants = this.selectedVariants + ',' + this.input.value;
+					}
+				}
 
-          this.result = await this.$http.post(
-            '/product-pageCartAdd/' + this.product.id + '/' + this.variants.length + '/' + this.selectedVariants,
-            { name: "cart-add" }
-          );
-        } catch (err) {
-          // console.log(err);
-        } finally {
-          if (this.result.data['success']) {
-            this.cartAlert('Item added to cart.');
-          } else {
-            window.location.href = '/loginCart';
-          }
-        }
+				try {
+					this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + this.variants.length + "/" + this.selectedVariants);
+					this.result = await this.response.json();
+					
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
+					
+				} finally {
+					if (this.result['success']) {
+						this.cartAlert('Item added to cart.');
+					} else {
+						window.location.href = '/loginCart';
+					}
+				}
       },
 
       cartAlert(message) {

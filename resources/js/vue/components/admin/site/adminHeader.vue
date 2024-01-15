@@ -170,17 +170,21 @@
 
 			// AJAX
 			async toggleNotification(notificationUserId, type, id) {
-        try {
-          this.result = await this.$http.get("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          // let button = document.querySelector("#notification-" + id);
+				try {
+					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
+					this.result = await this.response.json();
+					
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
 
-					if (this.result.data[0]) {
-						this.notificationsData[this.result.data[1]].forEach(notificationItem => {
-							if (notificationItem.name == this.result.data[2]) {
-								notificationItem.notificationUserId = this.result.data[3];
+				} finally {
+					// let button = document.querySelector("#notification-" + id);
+
+					if (this.result[0]) {
+						this.notificationsData[this.result[1]].forEach(notificationItem => {
+							if (notificationItem.name == this.result[2]) {
+								notificationItem.notificationUserId = this.result[3];
 
 								if (type == "email") {
 									notificationItem.email = 1
@@ -193,8 +197,8 @@
 						});
 
 					} else {
-						this.notificationsData[this.result.data[1]].forEach(notificationItem => {
-							if (notificationItem.name == this.result.data[2]) {
+						this.notificationsData[this.result[1]].forEach(notificationItem => {
+							if (notificationItem.name == this.result[2]) {
 								notificationItem.notificationUserId = undefined;
 
 								if (type == "email") {
@@ -207,7 +211,7 @@
 							}
 						});
 					}
-        }
+				}
       },
     },
   };
