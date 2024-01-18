@@ -8,7 +8,7 @@
 			<p>{{ this.product['description'] }}</p>
 		</div>
 		<ul data-tab-content="specs">
-			<li v-for="(spec, i) in this.specs"><span>{{ spec.label }}: {{ spec.value }}</span></li>
+			<li v-for="(spec, i) in this.specs"><strong>{{ spec.label }}:</strong> {{ spec.value }}</li>
 		</ul>
 	</div>
 </template>
