@@ -34,7 +34,7 @@ function cacheRecords(string $key, array $records, int $seconds = null) {
 }
 
 function resetShowMarker() {
-	if (!in_array(explode('?', url()->current())[0], [explode('?', session()->get('pageShowMarkerPrevious'))[0], explode('?', session()->get('_previous')['url'])[0]])) {
+	if ((empty(session()->get('_previous')['url']) && empty(session()->get('pageShowMarkerPrevious')[0])) || !in_array(explode('?', url()->current())[0], [explode('?', session()->get('pageShowMarkerPrevious'))[0], explode('?', session()->get('_previous')['url'])[0]])) {
 		session()->put('pageShowMarker', false);
 	}
 }
