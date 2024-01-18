@@ -276,10 +276,10 @@
 	@media (min-width: 640px) and (max-width: 900px) {
 		grid-template-columns: auto auto auto auto;
 	}
-	@media (min-width: 901px) and (max-width: 1200px) {
+	@media (min-width: 901px) and (max-width: 1150px) {
 		grid-template-columns: auto auto auto auto;
 	}
-	@media (min-width: 1201px) and (max-width: 1400px) {
+	@media (min-width: 1151px) and (max-width: 1400px) {
 		grid-template-columns: auto auto auto auto auto;
 	}
 	@media (min-width: 1401px) {
@@ -292,7 +292,7 @@
 	height: 0;
 	padding-bottom: 100%;
 	border-radius: 3px;
-	overflow: hidden;
+	// overflow: hidden;
 	cursor: pointer;
 	border: 1px solid v.$almost-black;
 	max-width: 100%;
@@ -319,6 +319,14 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+.product-page .wb-content form .options-grid .option small {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	white-space: wrap;
+	top: 100%;
 }
 
 .product-page .wb-content form .bottom-row {
@@ -384,7 +392,7 @@
 	margin-bottom: 0;
 	background-color: v.$background;
 	color: v.$brand-alt-medium;
-	transition: flex-grow 100ms ease-in;
+	transition: flex-grow 200ms ease-in-out;
 
 	// @media (max-width: 640px) {
 	// 	font-size: 0.9rem;

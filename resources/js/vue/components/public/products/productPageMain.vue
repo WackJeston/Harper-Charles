@@ -40,7 +40,7 @@
 							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
 								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
 								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
-								<!-- <p>{{ option.title }}</p> -->
+								<small>{{ option.title }}</small>
 							</div>
 						</div>
 					</div>
