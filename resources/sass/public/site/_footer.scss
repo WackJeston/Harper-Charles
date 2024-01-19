@@ -56,7 +56,9 @@ footer nav .nav-link {
 }
 
 footer nav .nav-link:hover {
-	text-decoration: underline;
+	@media (min-width: 640px) {
+		text-decoration: underline;
+	}
 }
 
 footer #footer-socials {
@@ -75,5 +77,7 @@ footer #footer-socials a {
 }
 
 footer #footer-socials a:hover {
-	color: v.$brand-main;
+	@media (min-width: 640px) {
+		color: v.$brand-main;
+	}
 }

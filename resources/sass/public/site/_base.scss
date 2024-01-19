@@ -57,8 +57,10 @@ main {
 }
 
 .link-trail a:hover {
-	color: v.$brand-alt-dark;
-	text-decoration: underline;
+	@media (min-width: 640px) {
+		color: v.$brand-alt-dark;
+		text-decoration: underline;
+	}
 }
 
 ul {
@@ -91,6 +93,7 @@ ul {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 button {
@@ -110,6 +113,7 @@ a.page-button {
 	background-color: v.$almost-black;
 	color: v.$white;
 	border-radius: 5px;
+	font-size: 1rem;
 	cursor: pointer;
 }
 
@@ -124,8 +128,10 @@ a.page-button:not(:last-child) {
 
 button.page-button:hover:not(.pb-success, .pb-danger),
 a.page-button:hover:not(.pb-success, .pb-danger) {
-	background-color: v.$brand-alt-light;
-	color: v.$black;
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-light;
+		color: v.$black;
+	}
 }
 
 button.page-button i,
@@ -142,7 +148,9 @@ a.page-button i {
 
 button.page-button:hover i,
 a.page-button:hover i {
-	color: v.$black;
+	@media (min-width: 640px) {
+		color: v.$black;
+	}
 }
 
 button.button-active {
@@ -160,7 +168,9 @@ button.button-active {
 }
 
 .page-button.pb-success:hover {
-	background-color: v.$pale-green-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-green-darker;
+	}
 }
 
 .page-button.pb-danger {
@@ -168,7 +178,9 @@ button.button-active {
 }
 
 .page-button.pb-danger:hover {
-	background-color: v.$pale-red-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-red-darker;
+	}
 }
 
 .fa-toggle-off {
@@ -298,7 +310,9 @@ button.button-active {
 }
 
 .popup-label-button:hover .popup-label {
-	display: flex;
+	@media (min-width: 640px) {
+		display: flex;
+	}
 }
 
 .popup-label {
@@ -374,8 +388,10 @@ button.button-active {
 }
 
 .image-viewer .fa-xmark:hover {
-	color: v.$black;
-	background-color: v.$white;
+	@media (min-width: 640px) {
+		color: v.$black;
+		background-color: v.$white;
+	}
 }
 
 // Hover Styles ---------------------------------------
@@ -383,18 +399,24 @@ button.button-active {
 .hover:hover h2,
 .hover:hover li,
 .hover:hover i {
-	cursor: pointer;
-	color: v.$hv-main;
+	@media (min-width: 640px) {
+		cursor: pointer;
+		color: v.$hv-main;
+	}
 }
 
 .hover-background:hover {
-	background-color: v.$brand-alt-dark;
-	color: v.$white;
-	cursor: pointer;
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-dark;
+		color: v.$white;
+		cursor: pointer;
+	}
 }
 
 .hover-background:hover i {
-	color: v.$white;
+	@media (min-width: 640px) {
+		color: v.$white;
+	}
 }
 
 
@@ -480,19 +502,27 @@ button.button-active {
 }
 
 .alert-box i:hover {
-	background-color: v.$white;
+	@media (min-width: 640px) {
+		background-color: v.$white;
+	}
 }
 
 .alert-box.error i:hover {
-	color: v.$pale-red;
+	@media (min-width: 640px) {
+		color: v.$pale-red;
+	}
 }
 
 .alert-box.success i:hover {
-	color: v.$pale-green-darker;
+	@media (min-width: 640px) {
+		color: v.$pale-green-darker;
+	}
 }
 
 .alert-box.info i:hover {
-	color: v.$baby-blue-darker;
+	@media (min-width: 640px) {
+		color: v.$baby-blue-darker;
+	}
 }
 
 .warning-overlay {
@@ -545,9 +575,13 @@ button.button-active {
 }
 
 .warning-box button.delete:hover {
-	background-color: v.$pale-red-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-red-darker;
+	}
 }
 
 .warning-box button.cancel:hover {
-	background-color: v.$pale-green-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-green-darker;
+	}
 }

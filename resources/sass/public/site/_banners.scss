@@ -158,5 +158,7 @@
 .banner .carousel__pagination-button--active,
 .banner .carousel__icon:hover,
 .banner .carousel__pagination-button:hover {
-  opacity: 1;
+  @media (min-width: 640px) {
+		opacity: 1;
+	}
 }

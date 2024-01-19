@@ -35,8 +35,10 @@ table .fa-xmark {
 }
 
 table .fa-xmark:hover {
-	background-color: v.$almost-black;
-	color: v.$white;
+	@media (min-width: 640px) {
+		background-color: v.$almost-black;
+		color: v.$white;
+	}
 }
 
 tr.dark-row {
@@ -100,11 +102,15 @@ tr i:not(tr:first-child, .primary, .non-primary) {
 }
 
 tr i:hover:not(.primary, .non-primary) {
-  color: v.$brand-alt-dark
+  @media (min-width: 640px) {
+		color: v.$brand-alt-dark;
+	}
 }
 
 tr i:hover .button-label:not(tr .button-label:hover) {
-  display: inline-block;
+  @media (min-width: 640px) {
+		display: inline-block;
+	}
 }
 
 tr .button-label {

@@ -55,8 +55,10 @@
 }
 
 .contact a:hover {
-	color: v.$brand-main;
-	text-decoration: underline;
+	@media (min-width: 640px) {
+		color: v.$brand-main;
+		text-decoration: underline;
+	}
 }
 
 .contact h3 {
@@ -117,7 +119,9 @@
 }
 
 .contact form .submit:hover {
-	background-color: v.$brand-main-darker;
+	@media (min-width: 640px) {
+		background-color: v.$brand-main-darker;
+	}
 }
 
 .contact #googlemaps .map {

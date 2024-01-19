@@ -49,8 +49,10 @@ form.web-box i,
 
 form.web-box i:hover:not(.show-password i),
 .web-box form i:hover:not(.show-password i) {
-	background-color: v.$almost-black;
-	color: v.$white;
+	@media (min-width: 640px) {
+		background-color: v.$almost-black;
+		color: v.$white;
+	}
 }
 
 form input:not(form input:last-child, .checkbox-container input, .submit),
@@ -116,9 +118,11 @@ form .submit:not(.web-box .submit, .product-page-main .submit) {
 }
 
 form .submit:hover {
-	background-color: v.$brand-alt-light;
-	border: none;
-	color: v.$black;
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-light;
+		border: none;
+		color: v.$black;
+	}
 }
 
 form label.show-password {

@@ -55,7 +55,9 @@
 .site-menu .primary-nav-link:hover,
 .site-menu .primary-nav-link:hover,
 .site-menu .primary-nav-link:hover {
-	background-color: v.$brand-alt-dark-almost;
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-dark-almost;
+	}
 }
 
 .site-menu .nav-link-icon {
@@ -82,7 +84,9 @@
 
 .site-menu .primary-nav-link:hover .fa-angle-down,
 .site-menu .primary-nav-link:hover .fa-angle-up {
-	color: v.$white;
+	@media (min-width: 640px) {
+		color: v.$white;
+	}
 }
 
 .site-menu .user-nav-link {
@@ -135,7 +139,9 @@
 }
 
 .site-menu #menu-socials i:hover {
-	color: v.$brand-main;
+	@media (min-width: 640px) {
+		color: v.$brand-main;
+	}
 }
 
 header .menu-overlay {

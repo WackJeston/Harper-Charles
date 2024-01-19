@@ -22,6 +22,12 @@ main#account {
 	margin-left: auto;
 }
 
+#account .page-button {
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
+	}
+}
+
 #account ul.web-box {
 	display: flex;
 	flex-direction: column;

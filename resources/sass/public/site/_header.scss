@@ -69,7 +69,9 @@ header #header-end a {
 
 header #header-start a:hover,
 header #header-end a:hover {
-	color: v.$brand-main-darker;
+	@media (min-width: 640px) {
+		color: v.$brand-main-darker;
+	}
 }
 
 header #header-start a i {
@@ -129,7 +131,9 @@ header #header-socials a {
 }
 
 header #header-socials a:hover {
-	color: v.$brand-main-darker;
+	@media (min-width: 640px) {
+		color: v.$brand-main-darker;
+	}
 }
 
 header #nav-menu-button {
@@ -145,7 +149,9 @@ header #nav-menu-button {
 }
 
 header #nav-menu-button:hover {
-	opacity: 1;
+	@media (min-width: 640px) {
+		opacity: 1;
+	}
 }
 
 header .header-button {
@@ -159,7 +165,9 @@ header .header-button {
 }
 
 header .header-button:hover {
-	opacity: 1;
+	@media (min-width: 640px) {
+		opacity: 1;
+	}
 }
 
 header .header-button:not(:first-child) {

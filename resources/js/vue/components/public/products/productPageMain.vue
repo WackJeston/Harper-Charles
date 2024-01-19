@@ -38,9 +38,12 @@
 						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
 						<div class="options-grid">
 							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
-								<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
-								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
-								<small>{{ option.title }}</small>
+								<div class="option-container">
+									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
+									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
+								</div>
+
+								<!-- <small>{{ option.title }}</small> -->
 							</div>
 						</div>
 					</div>

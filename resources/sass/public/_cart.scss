@@ -118,7 +118,9 @@
 }
 
 #cartitems .cart-item-bottom-row .page-button:hover {
-	background-color: v.$pale-red-darker;
+	@media (min-width: 640px) {
+		background-color: v.$pale-red-darker;
+	}
 }
 
 #cartitems .cart-item-bottom-row .page-button i {
