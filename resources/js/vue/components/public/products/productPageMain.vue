@@ -43,7 +43,7 @@
 									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
 								</div>
 
-								<!-- <small>{{ option.title }}</small> -->
+								<small>{{ option.title }}</small>
 							</div>
 						</div>
 					</div>

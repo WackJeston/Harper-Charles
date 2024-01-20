@@ -274,7 +274,7 @@
 
 .product-page .wb-content form .options-grid {
 	display: grid;
-	grid-template-columns: auto auto auto auto auto auto;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
 	gap: 10px;
 	padding: 10px 0;
 	width: 100%;
@@ -284,35 +284,30 @@
 	// 	gap: 20px;
 	// }
 	@media (min-width: 640px) and (max-width: 900px) {
-		grid-template-columns: auto auto auto auto;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 	@media (min-width: 901px) and (max-width: 1150px) {
-		grid-template-columns: auto auto auto auto;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 	@media (min-width: 1151px) and (max-width: 1400px) {
-		grid-template-columns: auto auto auto auto auto;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 	@media (min-width: 1401px) {
-		grid-template-columns: auto auto auto auto auto auto;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
 }
 
 .product-page .wb-content form .options-grid .option {
-	// position: relative;
-	// height: 0;
-	// padding-bottom: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	width: 100%;
 	border-radius: 3px;
-	// overflow: hidden;
-	cursor: pointer;
+	background-color: v.$white;
 	border: 1px solid v.$almost-black;
-	max-width: 100%;
+	cursor: pointer;
 }
-
-// .product-page .wb-content form .options-grid .option p {
-// 	// margin-top: 100%;
-// 	position: absolute;
-// 	top: 100%;
-// }
 
 .product-page .wb-content form .options-grid .option.selected {
 	border: 1px solid v.$background;
@@ -327,8 +322,8 @@
 	overflow: hidden;
 }
 
-.product-page .wb-content form .options-grid .option img,
-.product-page .wb-content form .options-grid .option div {
+.product-page .wb-content form .options-grid .option .option-container img,
+.product-page .wb-content form .options-grid .option .option-container div {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -340,11 +335,13 @@
 }
 
 .product-page .wb-content form .options-grid .option small {
+	display: flex;
 	position: absolute;
-	max-width: 100%;
-	text-align: center;
-	white-space: wrap;
-	// top: 100%;
+	top: calc(100% + 5px);
+	background-color: v.$white;
+	padding: 10px;
+	z-index: 2;
+	white-space: nowrap;
 }
 
 .product-page .wb-content form .bottom-row {
@@ -412,9 +409,9 @@
 	color: v.$brand-alt-medium;
 	transition: flex-grow 150ms ease-in-out;
 
-	// @media (max-width: 640px) {
-	// 	font-size: 0.9rem;
-	// }
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
+	}
 }
 
 .product-page .product-page-tab-section #product-tab-titles h3:not(h3:first-child) {
