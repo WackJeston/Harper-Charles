@@ -54,7 +54,10 @@
 
 					<div class="bottom-row">
 						<span id="price">£{{ this.product.price }}</span>
-						<button class="submit" type="submit">Add To Cart</button>
+						<div class="bottom-row-container">
+							<input type="number" name="quantity" id="quantity" value="1">
+							<button class="submit" type="submit">Add To Cart</button>
+						</div>
 					</div>
 				</form>
 			</div>
