@@ -57,11 +57,12 @@ class ProductPageController extends Controller
 			FROM product_variants AS pv
 			INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
 			INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id
-			INNER JOIN asset AS a ON a.id=pv.assetId
+			LEFT JOIN asset AS a ON a.id=pv.assetId
 			WHERE pv.parentVariantId IS NOT NULL
 			AND pvj.productId = ?
 			AND pv.active = 1
-			AND pv2.active = 1',
+			AND pv2.active = 1
+			GROUP BY pv.id',
 			[$id]
 		);
 
