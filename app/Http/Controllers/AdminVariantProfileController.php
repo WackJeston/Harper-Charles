@@ -21,6 +21,7 @@ class AdminVariantProfileController extends Controller
     $variant = DB::select(sprintf('SELECT
       pv.id,
       pv.title,
+			pv.type,
       COUNT(pv2.id) AS childrenCount,
       GROUP_CONCAT(pv2.id) AS children,
       pv.active
@@ -33,22 +34,22 @@ class AdminVariantProfileController extends Controller
 
     $variant = $variant[0];
 
-		// Edit
-		$editForm = new DataForm(request(), sprintf('/variant-profileUpdate/%d', $id), 'Update Variant');
-		$editForm->addInput('text', 'title', 'Title', $variant->title, 100, 1, true);
-		$editForm = $editForm->render();
-
-		// Sub Variants
 		$variantTypes = [
 			['label' => 'Text', 'value' => 'text'],
 			['label' => 'Image', 'value' => 'image'],
 			['label' => 'Colour', 'value' => 'colour'],
 		];
 
+		// Edit
+		$editForm = new DataForm(request(), sprintf('/variant-profileUpdate/%d', $id), 'Update Variant');
+		$editForm->addInput('text', 'title', 'Title', $variant->title, 100, 1, true);
+		$editForm->addInput('radio', 'type', 'Type', 'text', 100, 1, true);
+		$editForm->populateOptions('type', $variantTypes);
+		$editForm = $editForm->render();
+
+		// Sub Variants
 		$subVariantsForm = new DataForm(request(), sprintf('/variant-profileCreateOption/%d', $id), 'Add Option');
 		$subVariantsForm->addInput('text', 'title', 'Option Title', null, 100, 1, true);
-		$subVariantsForm->addInput('radio', 'type', 'Type', 'text', 100, 1, true);
-		$subVariantsForm->populateOptions('type', $variantTypes);
 		$subVariantsForm->addInput('file', 'image', 'Image', null, null, null, false, null, ['multiple']);
 		$subVariantsForm->addInput('colour', 'colour', 'Colour');
 		$subVariantsForm = $subVariantsForm->render();
@@ -68,7 +69,7 @@ class AdminVariantProfileController extends Controller
 		);
 		$subVariantsTable->addColumn('id', '#');
 		$subVariantsTable->addColumn('title', 'Title', 2);
-		$subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
+		// $subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
 		$subVariantsTable->addColumn('colour', 'Colour', 1, true);
 		$subVariantsTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
@@ -92,6 +93,7 @@ class AdminVariantProfileController extends Controller
 
     ProductVariants::where('id', $id)->update([
       'title' => $request->title,
+			'type' => $request->type,
     ]);
 
     return redirect("/admin/variant-profile/$id")->with('message', 'Variant updated.');
@@ -130,7 +132,6 @@ class AdminVariantProfileController extends Controller
 
 		$option->parentVariantId = $id;
 		$option->title = $request->title;
-		$option->type = $request->type;
 		$option->colour = $request->colour;
 		$option->active = 0;
 

@@ -36,7 +36,10 @@
 						<label :for="i">{{ variant['title'] }}</label>
 						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
 						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
-						<div class="options-grid">
+						<select v-if="variant['type'] == 'text'">
+							<option v-for="(option, i2) in variant['options']" :value="i2">{{ option['title'] }}</option>
+						</select>
+						<div v-else class="options-grid">
 							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
 								<div class="option-container">
 									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
