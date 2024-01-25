@@ -43,7 +43,7 @@ class AdminVariantProfileController extends Controller
 		// Edit
 		$editForm = new DataForm(request(), sprintf('/variant-profileUpdate/%d', $id), 'Update Variant');
 		$editForm->addInput('text', 'title', 'Title', $variant->title, 100, 1, true);
-		$editForm->addInput('radio', 'type', 'Type', 'text', 100, 1, true);
+		$editForm->addInput('radio', 'type', 'Type', $variant->type, 100, 1, true);
 		$editForm->populateOptions('type', $variantTypes);
 		$editForm = $editForm->render();
 
@@ -53,11 +53,6 @@ class AdminVariantProfileController extends Controller
 		$subVariantsForm->addInput('file', 'image', 'Image', null, null, null, false, null, ['multiple']);
 		$subVariantsForm->addInput('colour', 'colour', 'Colour');
 		$subVariantsForm = $subVariantsForm->render();
-
-		$types = [];
-		$types[] = ['value' => 'text', 'label' => 'Text'];
-		$types[] = ['value' => 'image', 'label' => 'Image'];
-		$types[] = ['value' => 'colour', 'label' => 'Colour'];
 
 		$subVariantsTable = new DataTable('product_variants');
 		$subVariantsTable->setQuery('SELECT
@@ -70,7 +65,7 @@ class AdminVariantProfileController extends Controller
 		$subVariantsTable->addColumn('id', '#');
 		$subVariantsTable->addColumn('title', 'Title', 2);
 		// $subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
-		$subVariantsTable->addColumn('colour', 'Colour', 1, true);
+		$subVariantsTable->addColumn('colour', 'Colour', 1);
 		$subVariantsTable->addColumn('active', 'Active', 1, false, 'toggle');
 		$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
 		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
