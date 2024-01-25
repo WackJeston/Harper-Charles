@@ -64,10 +64,13 @@ class AdminVariantProfileController extends Controller
 		);
 		$subVariantsTable->addColumn('id', '#');
 		$subVariantsTable->addColumn('title', 'Title', 2);
-		// $subVariantsTable->addColumn('type', 'Type', 1, false, 'select', $types);
-		$subVariantsTable->addColumn('colour', 'Colour', 1);
+		if ($variant->type == 'colour') {
+			$subVariantsTable->addColumn('colour', 'Colour', 1);
+		}
 		$subVariantsTable->addColumn('active', 'Active', 1, false, 'toggle');
-		$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
+		if ($variant->type == 'image') {
+			$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
+		}
 		$subVariantsTable->addJsButton('showDeleteWarning', ['string:Variant', 'record:id', 'url:/variant-profileDeleteOption/' . $id . '/?'], 'fa-solid fa-trash-can', 'Delete Variant');
 		$subVariantsTable = $subVariantsTable->render();
 

@@ -272,6 +272,14 @@
 	width: 100%;
 }
 
+.product-page .wb-content form .variants-container select {
+	margin: 8px 0 16px 0;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
+}
+
 .product-page .wb-content form .options-grid {
 	display: grid;
 	gap: 10px;

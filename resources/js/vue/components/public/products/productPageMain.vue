@@ -35,7 +35,6 @@
 					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
 						<label :for="i">{{ variant['title'] }}</label>
 						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
-						<!-- <option v-for="(option, i) in variant['options']" :value="i">{{ option[title] }}</option> -->
 						<select v-if="variant['type'] == 'text'">
 							<option v-for="(option, i2) in variant['options']" :value="i2">{{ option['title'] }}</option>
 						</select>
