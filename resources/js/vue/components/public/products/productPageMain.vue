@@ -60,7 +60,7 @@
 					<div class="bottom-row">
 						<span id="price">£{{ this.product.price }}</span>
 						<div class="bottom-row-container">
-							<input type="number" name="quantity" id="quantity" value="1">
+							<input type="number" name="quantity" id="quantity" value="1" min="1" :max="this.product.maxQuantity">
 							<button class="submit" type="submit">Add To Cart</button>
 						</div>
 					</div>

@@ -16,6 +16,7 @@ class Products extends Model
     'description',
     'productnumber',
     'price',
+    'maxQuantity',
 		'active',
   ];
 

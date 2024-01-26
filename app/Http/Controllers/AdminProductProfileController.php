@@ -44,6 +44,7 @@ class AdminProductProfileController extends Controller
 		$editForm->addInput('textarea', 'description', 'Description', $product->description, 5000, 1);
 		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1);
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
+		$editForm->addInput('num', 'maxQuantity', 'Max Quantity', $product->maxQuantity, 999, 1, true);
 		$editForm = $editForm->render();
 
 		// Images
@@ -217,6 +218,7 @@ class AdminProductProfileController extends Controller
       'description' => 'max:5000',
       'productnumber' => ['max:100', Rule::unique('products')->ignore($id)],
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+			'maxQuantity' => 'required|numeric',
     ]);
 
     Products::where('id', $id)->update([
@@ -225,6 +227,7 @@ class AdminProductProfileController extends Controller
       'description' => $request->description,
       'productnumber' => $request->productnumber,
       'price' => $request->price,
+			'maxQuantity' => $request->maxQuantity,
     ]);
 
     return redirect("/admin/product-profile/$id")->with('message', 'Product updated.');
