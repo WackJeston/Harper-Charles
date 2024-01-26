@@ -128,12 +128,31 @@ class ProductPageController extends Controller
 		$variants = $records['variants'];
 		$specs = $records['specs'];
 
+		$scripts = [
+			[
+				'path' => 'https://assets.expivi.net/viewer/latest/viewer.js',
+				'loadType' => 'defer',
+				'onLoad' => '',
+			],
+			[
+				'path' => 'https://assets.expivi.net/options/latest/js/app.js',
+				'loadType' => 'defer',
+				'onLoad' => 'load3dModel()',
+			],
+		];
+
+		$stylesheets = [
+			'https://assets.expivi.net/options/latest/css/app.css',
+		];
+
 		return view('public/product-page', compact(
 			'product',
 			'productImages',
 			'imageCount',
 			'variants',
-			'specs'
+			'specs',
+			'scripts',
+			'stylesheets'
 		));
   }
 

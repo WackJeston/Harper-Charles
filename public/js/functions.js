@@ -1,3 +1,23 @@
+async function load3dModel() {
+	let key = document.querySelector('#viewerContainer').dataset.key;
+	delete document.querySelector('#viewerContainer').dataset.key;
+
+	try {
+		this.expiviInstance = new ExpiviComponent.default({
+			catalogueId: 20232,
+			viewerContainer: '#viewerContainer',
+			// optionContainer: '#viewerContainerStuff #priceContainer',
+			// priceSelectors: '#viewerContainerStuff #optionsContainer',
+			// currency: 'GBP',
+			// locale: 'en',
+			token: key,
+			// preset: {preset}
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 async function setShowMarker(section) {
 	await fetch("/functions-setShowMarker/" + section);
 };

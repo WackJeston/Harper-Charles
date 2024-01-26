@@ -1,10 +1,16 @@
 <template>
 	<div class="wb-row">
 		<div class="wb-images">
-			<div class="wb-image" @click="showImage(this.selectedImage)">
+			<div class="wb-image">
 				<div class="wb-image-container">
-					<img v-if="this.count > 0" :src="this.selectedImage" :alt="this.selectedImage">
-					<i v-else class="fa-solid fa-couch"></i>
+					<div v-show="this.selectedImage == '3d-model'" id="viewerContainer" :data-key="this.orbitalvisionkey"></div>
+					<!-- <div v-show="this.selectedImage == '3d-model'" style="width: 30%;float:left">
+						<div id="priceContainer"></div>
+						<div id="optionsContainer"></div>
+					</div> -->
+
+					<img v-if="this.count > 0 && this.selectedImage != '3d-model'" :src="this.selectedImage" :alt="this.selectedImage" @click="showImage(this.selectedImage)">
+					<i v-else-if="this.selectedImage != '3d-model'" class="fa-solid fa-couch"></i>
 				</div>
 			</div>
 
@@ -12,9 +18,11 @@
 				<i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
 				<div class="image-row-container">
 					<div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
+						<div @click="this.selectedImage = '3d-model', selectImage('3d-model')" id="viewerContainerButton"><i class="fa-solid fa-group-arrows-rotate"></i></div>
 						<div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)" :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
 					</div>
 					<div v-show="this.count > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
+						<div class="selected-image" :id="'selected3d-model'"></div>
 						<div v-for="(image, i) in this.images" class="selected-image" :id="'selected' + i"></div>
 					</div>
 				</div>
@@ -80,7 +88,8 @@
       'images',
       'count',
       'variants',
-			'specs'
+			'specs',
+			'orbitalvisionkey'
     ],
 
     data() {
@@ -97,6 +106,7 @@
         selectedVariants: 0,
         alertIndex: 0,
 				variantCount: Object.keys(this.variants).length,
+				expiviInstance: null,
       }
     },
 
@@ -115,8 +125,7 @@
     },
 
     methods: {
-      async cartAdd(submitEvent) {
-
+			async cartAdd(submitEvent) {
 				let inputs = submitEvent.target.querySelectorAll('input');
 
 				if (submitEvent) {
