@@ -34,12 +34,15 @@
 
 					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
 						<label :for="i">{{ variant['title'] }}</label>
-						<input type="text" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
+
 						<select v-if="variant['type'] == 'text'">
-							<option v-for="(option, i2) in variant['options']" :value="i2">{{ option['title'] }}</option>
+							<option v-for="(option, i2) in variant['options']" :value="i2" :data-variant-id="option.id">{{ option['title'] }}</option>
 						</select>
+
 						<div v-else class="options-grid">
-							<div v-for="(option, i2) in variant['options']" class="option" :id="'option-' + i2" @click="this.setOption(i, i2)">
+							<input type="text" :data-value="variant['selected']" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
+
+							<div v-for="(option, i2) in variant['options']" class="option" :class="{ 'selected' : variant['selected'] == option.id }" :data-variant-id="option.id" :id="'option-' + i2"  @click="this.setOption(i, i2)">
 								<div class="option-container">
 									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
 									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
@@ -113,31 +116,45 @@
 
     methods: {
       async cartAdd(submitEvent) {
-				for (var i = 0; i < this.variants.length; i++) {
-					this.input = document.querySelector('#input' + i);
-					if (i == 0) {
-						this.selectedVariants = '';
-						this.selectedVariants = this.input.value;
-					} else {
-						this.selectedVariants = this.selectedVariants + ',' + this.input.value;
-					}
+
+				let inputs = submitEvent.target.querySelectorAll('input');
+
+				if (submitEvent) {
+					console.log('true');
+				} else {
+					console.log('false');
 				}
 
-				try {
-					this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + this.variants.length + "/" + this.selectedVariants);
-					this.result = await this.response.json();
+
+				// submitEvent.target.forEach(element => {
+				// 	console.log(element);
+				// });
+
+				// for (var i = 0; i < this.variants.length; i++) {
+				// 	this.input = document.querySelector('#input' + i);
+				// 	if (i == 0) {
+				// 		this.selectedVariants = '';
+				// 		this.selectedVariants = this.input.value;
+				// 	} else {
+				// 		this.selectedVariants = this.selectedVariants + ',' + this.input.value;
+				// 	}
+				// }
+
+				// try {
+				// 	this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + this.variants.length + "/" + this.selectedVariants);
+				// 	this.result = await this.response.json();
 					
-				} catch (err) {
-					console.log('----ERROR----');
-					console.log(err);
+				// } catch (err) {
+				// 	console.log('----ERROR----');
+				// 	console.log(err);
 					
-				} finally {
-					if (this.result['success']) {
-						this.cartAlert('Item added to cart.');
-					} else {
-						window.location.href = '/loginCart';
-					}
-				}
+				// } finally {
+				// 	if (this.result['success']) {
+				// 		this.cartAlert('Item added to cart.');
+				// 	} else {
+				// 		window.location.href = '/loginCart';
+				// 	}
+				// }
       },
 
       cartAlert(message) {

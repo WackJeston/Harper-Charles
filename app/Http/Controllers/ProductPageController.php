@@ -77,11 +77,17 @@ class ProductPageController extends Controller
 					'id' => $variant->id,
 					'title' => $variant->title,
 					'type' => $variant->type,
+					'selected' => null,
+					'done' => false,
 					'options' => [],
 				];
 			}
 
 			foreach ($optionsRecords as $i => $option) {
+				if ($variants[$option->parent]['selected'] == null) {
+					$variants[$option->parent]['selected'] = $option->id;
+				}
+				
 				$variants[$option->parent]['options'][$option->id] = [
 					'id' => $option->id,
 					'title' => $option->title,
