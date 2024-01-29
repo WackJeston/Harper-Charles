@@ -3,8 +3,8 @@
 		<div class="wb-images">
 			<div class="wb-image">
 				<div class="wb-image-container">
-					<div v-show="this.selectedImage == '3d-model'" id="viewerContainer" :data-key="this.orbitalvisionkey"></div>
-					<!-- <div v-show="this.selectedImage == '3d-model'" style="width: 30%;float:left">
+					<div v-if="this.product.orbitalVisionId != null" v-show="this.selectedImage == '3d-model'" id="viewerContainer"></div>
+					<!-- <div v-if="this.product.orbitalVisionId != null" v-show="this.selectedImage == '3d-model'" style="width: 30%;float:left">
 						<div id="priceContainer"></div>
 						<div id="optionsContainer"></div>
 					</div> -->
@@ -14,11 +14,12 @@
 				</div>
 			</div>
 
-			<div v-show="this.count > 1" class="image-row-button-container">
+			<div v-if="this.count > 1 || this.product.orbitalVisionId != null" class="image-row-button-container">
 				<i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
 				<div class="image-row-container">
 					<div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
-						<div @click="this.selectedImage = '3d-model', selectImage('3d-model')" id="viewerContainerButton"><i class="fa-solid fa-group-arrows-rotate"></i></div>
+						<div v-if="this.product.orbitalVisionId != null" @click="this.selectedImage = '3d-model', selectImage('3d-model')" id="viewerContainerButton"><i class="fa-solid fa-globe"></i></div>
+						
 						<div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)" :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
 					</div>
 					<div v-show="this.count > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
@@ -111,7 +112,7 @@
     },
 
     mounted() {
-      if (this.images.length > 0) {
+      if (this.count > 1 || this.product.orbitalVisionId != null) {
         document.querySelector('#selected0').classList.add('selected');
         this.imageRowResize();
         window.addEventListener('resize', this.imageRowResize);

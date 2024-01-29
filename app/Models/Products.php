@@ -15,6 +15,7 @@ class Products extends Model
     'subtitle',
     'description',
     'productnumber',
+    'orbitalVisionId',
     'price',
     'maxQuantity',
 		'active',

@@ -1,10 +1,7 @@
-async function load3dModel() {
-	let key = document.querySelector('#viewerContainer').dataset.key;
-	delete document.querySelector('#viewerContainer').dataset.key;
-
+async function load3dModel(key, id) {
 	try {
 		this.expiviInstance = new ExpiviComponent.default({
-			catalogueId: 20232,
+			catalogueId: id,
 			viewerContainer: '#viewerContainer',
 			// optionContainer: '#viewerContainerStuff #priceContainer',
 			// priceSelectors: '#viewerContainerStuff #optionsContainer',

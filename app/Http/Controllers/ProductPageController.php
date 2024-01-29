@@ -112,6 +112,29 @@ class ProductPageController extends Controller
 				ORDER BY ps.sequence ASC',
 				[$id]
 			);
+
+			if ($product->orbitalVisionId != null) {
+				$scripts = [
+					[
+						'path' => 'https://assets.expivi.net/viewer/latest/viewer.js',
+						'loadType' => 'defer',
+						'onLoad' => '',
+					],
+					[
+						'path' => 'https://assets.expivi.net/options/latest/js/app.js',
+						'loadType' => 'defer',
+						'onLoad' => sprintf('load3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
+					],
+				];
+		
+				$stylesheets = [
+					'https://assets.expivi.net/options/latest/css/app.css',
+				];
+
+			} else {
+				$scripts = [];
+				$stylesheets = [];
+			}
 			
 			$records = cacheRecords('public-page-product-' . $id, [
 				'product' => $product,
@@ -119,6 +142,8 @@ class ProductPageController extends Controller
 				'imageCount' => $imageCount,
 				'variants' => $variants,
 				'specs' => $specs,
+				'scripts' => $scripts,
+				'stylesheets' => $stylesheets,
 			]);
 		}
 
@@ -127,23 +152,8 @@ class ProductPageController extends Controller
 		$imageCount = $records['imageCount'];
 		$variants = $records['variants'];
 		$specs = $records['specs'];
-
-		$scripts = [
-			[
-				'path' => 'https://assets.expivi.net/viewer/latest/viewer.js',
-				'loadType' => 'defer',
-				'onLoad' => '',
-			],
-			[
-				'path' => 'https://assets.expivi.net/options/latest/js/app.js',
-				'loadType' => 'defer',
-				'onLoad' => 'load3dModel()',
-			],
-		];
-
-		$stylesheets = [
-			'https://assets.expivi.net/options/latest/css/app.css',
-		];
+		$scripts = $records['scripts'];
+		$stylesheets = $records['stylesheets'];
 
 		return view('public/product-page', compact(
 			'product',

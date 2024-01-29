@@ -154,6 +154,12 @@
 	transition: all 100ms ease;
 }
 
+.product-page .image-row #viewerContainerButton i:hover {
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-medium;
+	}
+}
+
 .product-page .image-row #viewerContainerButton i {
 	color: v.$white;
 }

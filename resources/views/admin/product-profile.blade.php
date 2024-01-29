@@ -47,6 +47,7 @@
 					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
 					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
 					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
+					<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
 					<li><strong>Price: </strong>£{{ $product->price }}</li>
 					<li><strong>Max Quantity: </strong>{{ $product->maxQuantity }}</li>
 					@if ($product->created_at)

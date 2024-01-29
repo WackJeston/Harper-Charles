@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', $product['title']);
+@section('title', $product['title'])
 
 @section('content')
   <main class="product-page dk">
@@ -26,7 +26,6 @@
         count="{{ $imageCount }}"
         :variants="{{ json_encode($variants) }}"
 				:specs="{{ json_encode($specs) }}"
-				orbitalvisionkey="{{ env('ORBITAL_VISION_API_KEY') }}"
       />
     </section>
 

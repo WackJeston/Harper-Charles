@@ -43,6 +43,7 @@ class AdminProductProfileController extends Controller
 		$editForm->addInput('text', 'subtitle', 'Subtitle', $product->subtitle, 255, 1);
 		$editForm->addInput('textarea', 'description', 'Description', $product->description, 5000, 1);
 		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1);
+		$editForm->addInput('text', 'orbitalVisionId', 'Orbital Vision', $product->orbitalVisionId, 100, 1);
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
 		$editForm->addInput('num', 'maxQuantity', 'Max Quantity', $product->maxQuantity, 999, 1, true);
 		$editForm = $editForm->render();
@@ -217,15 +218,21 @@ class AdminProductProfileController extends Controller
       'subtitle' => 'max:255',
       'description' => 'max:5000',
       'productnumber' => ['max:100', Rule::unique('products')->ignore($id)],
+			'orbitalVisionId' => 'max:100',
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
 			'maxQuantity' => 'required|numeric',
     ]);
+
+		if ($request->orbitalVisionId == '') {
+			$request->orbitalVisionId = null;
+		}
 
     Products::where('id', $id)->update([
       'title' => $request->title,
       'subtitle' => $request->subtitle,
       'description' => $request->description,
       'productnumber' => $request->productnumber,
+			'orbitalVisionId' => $request->orbitalVisionId,
       'price' => $request->price,
 			'maxQuantity' => $request->maxQuantity,
     ]);
