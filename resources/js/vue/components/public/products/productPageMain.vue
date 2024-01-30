@@ -37,9 +37,14 @@
 				<p>#: {{this.product.id}}</p>
 			</div>
 			
-			<div class="wb-content bg-gray dk" :class="{ 'full-height' : this.variantCount > 0 }">
+			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0 || this.product.orbitalVisionId != null) }">
 				<form @submit.prevent="cartAdd" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
+
+					<div v-if="this.product.orbitalVisionId != null" style="width: 100%; margin-bottom: 20px;">
+						<div id="optionsContainer"></div>
+						<!-- <div id="priceContainer"></div> -->
+					</div>
 
 					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
 						<label :for="i">{{ variant['title'] }}</label>
@@ -67,7 +72,7 @@
 					</small>
 
 					<div class="bottom-row">
-						<span id="price">£{{ this.product.price }}</span>
+						<span id="priceContainer">£{{ this.product.price }}</span>
 						<div class="bottom-row-container">
 							<input type="number" name="quantity" id="quantity" value="1" min="1" :max="this.product.maxQuantity">
 							<button class="submit" type="submit">Add To Cart</button>

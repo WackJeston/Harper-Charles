@@ -418,7 +418,7 @@
 	padding-top: 20px;
 }
 
-.product-page .wb-content form #price {
+.product-page .wb-content form #priceContainer {
 	position: relative;
 	bottom: 2px;
 	font-size: 1.7rem;
@@ -432,6 +432,25 @@
 
 	@media (min-width: 330px) and (max-width: 1300px) {
 		font-size: 1.4rem;
+	}
+}
+
+.product-page .wb-content form p.price {
+	// position: relative;
+	// bottom: 2px;
+	font-size: 1.7rem;
+	font-weight: 400;
+	margin: auto 10px 0 0;
+	text-align: left;
+	line-height: 30px;
+
+	@media (max-width: 330px) {
+		font-size: 1.1rem;
+	}
+
+	@media (min-width: 330px) and (max-width: 1300px) {
+		font-size: 1.4rem;
+		padding-top: 4px;
 	}
 }
 

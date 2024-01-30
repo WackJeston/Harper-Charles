@@ -3,10 +3,10 @@ async function load3dModel(key, id) {
 		this.expiviInstance = new ExpiviComponent.default({
 			catalogueId: id,
 			viewerContainer: '#viewerContainer',
-			// optionContainer: '#viewerContainerStuff #priceContainer',
-			// priceSelectors: '#viewerContainerStuff #optionsContainer',
-			// currency: 'GBP',
-			// locale: 'en',
+			optionContainer: '#optionsContainer',
+			priceSelectors: '#priceContainer',
+			currency: 'GBP',
+			locale: 'en',
 			token: key,
 			// preset: {preset}
 		});
