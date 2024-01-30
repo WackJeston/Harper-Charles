@@ -14,7 +14,7 @@
 				</div>
 			</div>
 
-			<div v-if="this.count > 1 || this.product.orbitalVisionId != null" class="image-row-button-container">
+			<div v-if="this.imageCount > 1" class="image-row-button-container">
 				<i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
 				<div class="image-row-container">
 					<div class="image-row" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
@@ -22,8 +22,8 @@
 						
 						<div v-for="(image, i) in this.images" @click="this.selectedImage = image.fileName, selectImage(i)" :style="{ backgroundImage: 'url(' + image.fileName + ')' }"></div>
 					</div>
-					<div v-show="this.count > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
-						<div class="selected-image" :id="'selected3d-model'"></div>
+					<div v-show="this.imageCount > 1" class="selected-images" :style="{ transform: 'translate3d(' + this.imageRowPosition + 'px, 0, 0)' }">
+						<div v-if="this.product.orbitalVisionId != null" class="selected-image" :id="'selected3d-model'"></div>
 						<div v-for="(image, i) in this.images" class="selected-image" :id="'selected' + i"></div>
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 				<p>#: {{this.product.id}}</p>
 			</div>
 			
-			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0 || this.product.orbitalVisionId != null) }">
+			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
 				<form @submit.prevent="cartAdd" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 
@@ -101,12 +101,13 @@
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+				imageCount: this.product.orbitalVisionId != null ? parseInt(this.count + 1) :  parseInt(this.count),
         imageView: false,
-        selectedImage: this.count > 0 ? this.images[0].fileName : null,
+        selectedImage: (this.count == 0 && this.product.orbitalVisionId == null) ? null : (this.count == 0 ? '3d-model' : this.images[0].fileName),
         selectedColor: 'blue',
         lastSelected: 0,
         imageRowPosition: 0,
-        imageRowWidth: (50 * this.count) - 5,
+        imageRowWidth: (50 * (this.product.orbitalVisionId != null ? parseInt(this.count + 1) :  parseInt(this.count))) - 5,
         imageRowContainerWidth: 0,
         imageRowButtonContainerWidth: 0,
         selectedVariants: 0,
@@ -117,8 +118,8 @@
     },
 
     mounted() {
-      if (this.count > 1 || this.product.orbitalVisionId != null) {
-        document.querySelector('#selected0').classList.add('selected');
+      if (this.imageCount > 1) {
+				document.querySelector('#selected0').classList.add('selected');
         this.imageRowResize();
         window.addEventListener('resize', this.imageRowResize);
       }
