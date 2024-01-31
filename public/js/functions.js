@@ -1,3 +1,21 @@
+function loadingScreen() {
+	let target = document.querySelector('#loading-screen');
+
+	target.classList.add('transition1');
+
+	setTimeout(() => {
+		target.querySelector('img').classList.add('remove');
+	}, 1500);
+
+	setTimeout(() => {
+		target.classList.add('transition2');
+	}, 1800);
+
+	setTimeout(() => {
+		target.classList.add('remove');
+	}, 2400);
+};
+
 async function load3dModel(key, id) {
 	try {
 		this.expiviInstance = new ExpiviComponent.default({

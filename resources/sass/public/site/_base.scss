@@ -394,6 +394,46 @@ button.button-active {
 	}
 }
 
+#loading-screen {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: v.$white;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 1500ms ease-out;
+}
+
+#loading-screen.transition1 img {
+	transform: scale(0.9);
+}
+
+#loading-screen.transition2 {
+	transition: all 600ms ease-in;
+	opacity: 0;
+}
+
+#loading-screen.remove {
+	display: none;
+}
+
+#loading-screen img {
+	transition: all 1500ms ease-out;
+	height: 30%;
+	position: relative;
+	top: 0%;
+}
+
+#loading-screen img.remove {
+	transition: all 600ms ease-in;
+	opacity: 0;
+	top: 2%;
+}
+
 // Hover Styles ---------------------------------------
 .lt .hover:hover,
 .hover:hover h2,

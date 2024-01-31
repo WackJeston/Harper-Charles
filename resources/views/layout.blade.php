@@ -203,6 +203,12 @@
 					<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
 				</div>
 
+				@if (!session()->has('_previous'))
+					<div id="loading-screen">
+						<img async src="{{ env('ASSET_PATH') . 'website-logo.svg' }}" alt="logo" class="logo">
+					</div>
+				@endif
+
         <div id="vuefooter">
           <vuefooter
 						sitetitle="{{ env('APP_NAME') }}"
@@ -225,34 +231,42 @@
 
 		@if (!str_contains(url()->current(), '/admin'))
 			<script>
-				// Set Header Width
-				let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
-				document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+				window.addEventListener("DOMContentLoaded", function() {
+					// Set Header Width
+					let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
+					document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
+				});
 			</script>
 		@endif
 
 		<script>
-			if (document.querySelector('.vue-button-row')) {
-				setVueButtonRowListener();
-			}
+			window.addEventListener("DOMContentLoaded", function() {
+        if (document.querySelector('.vue-button-row')) {
+					setVueButtonRowListener();
+				}
 
-			//Model Viewer
-			// if (document.querySelector('#viewerContainer')) {
-			// 	load3dModel();
-			// }
+				if (document.querySelector('#loading-screen')) {
+					loadingScreen();	
+				}
 
-			// DataTable
-			if (document.querySelector('table')) {
-				setIdWidth();
-				setTableMargin();
-				hideTableColumnsLoop();
-			}
+				//Model Viewer
+				// if (document.querySelector('#viewerContainer')) {
+				// 	load3dModel();
+				// }
 
-			// DataForm
-			if (document.querySelector('form')) {
-				setPasswordToggles();
-				setFileInputs();
-			}
+				// DataTable
+				if (document.querySelector('table')) {
+					setIdWidth();
+					setTableMargin();
+					hideTableColumnsLoop();
+				}
+
+				// DataForm
+				if (document.querySelector('form')) {
+					setPasswordToggles();
+					setFileInputs();
+				}
+    	});
 		</script>
 	</body>
 </html>
