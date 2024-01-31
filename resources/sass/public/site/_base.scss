@@ -413,7 +413,7 @@ button.button-active {
 }
 
 #loading-screen.transition2 {
-	transition: all 600ms ease-in;
+	transition: all 800ms ease-in;
 	opacity: 0;
 }
 
@@ -422,8 +422,8 @@ button.button-active {
 }
 
 #loading-screen img {
-	transition: all 1500ms ease-out;
-	height: 30%;
+	transition: all 2300ms ease-out;
+	height: 20%;
 	position: relative;
 	top: 0%;
 }

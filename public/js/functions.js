@@ -3,17 +3,21 @@ function loadingScreen() {
 
 	target.classList.add('transition1');
 
+	// setTimeout(() => {
+	// 	target.classList.add('transition1');
+	// }, 800);
+
 	setTimeout(() => {
 		target.querySelector('img').classList.add('remove');
-	}, 1500);
+	}, 2300);
 
 	setTimeout(() => {
 		target.classList.add('transition2');
-	}, 1800);
+	}, 2600);
 
 	setTimeout(() => {
 		target.classList.add('remove');
-	}, 2400);
+	}, 3400);
 };
 
 async function load3dModel(key, id) {
