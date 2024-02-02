@@ -58,7 +58,7 @@ class AuthController extends Controller
 
   public function veiwLoginCart()
   {
-    return redirect("/login")->withErrors(['1' => 'Please login before adding items your cart.']);
+    return redirect("/login")->withErrors(['1' => 'Please login before adding items to your cart.']);
   }
 
   public function authenticateCustomer(Request $request)

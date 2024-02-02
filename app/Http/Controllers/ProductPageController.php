@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Models\Cart;
-use App\Models\CartVariants;
+use App\Models\Order;
+use App\Models\OrderLine;
+use App\Models\OrderLineVariant;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -167,91 +168,42 @@ class ProductPageController extends Controller
   }
 
 
-  public function cartAdd($productId, $variantCount, $selectedVariants)
+  public function cartAdd(Request $request)
   {
-    $response = [];
+		if (!$product = Products::find($request->productId)) {
+			return redirect('/shop')->withErrors(['1' => 'Product not found']);
+		}
 
-    if (!auth()->user()) {
-      $response['success'] = false;
-      return $response;
-    }
+		if ($product->active != 1) {
+			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
+		}
 
-    $allCartItems = DB::select(sprintf('SELECT
-      id,
-      quantity
-      FROM cart
-      WHERE userId=%1$d
-      AND productId=%2$d',
-      $sessionUser->id,
-      $productId
-    ));
+		if (!$sessionUser = auth()->user()) {
+			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your cart.']);
+		}
 
-    if (!empty($allCartItems)) {
-      $allCartVariants = DB::select(sprintf('SELECT
-        cartId,
-        variantId
-        FROM cart_variants
-        WHERE cartId IN (%1$s)',
-        implode(',', array_column($allCartItems, 'id'))
-      ));
+		if (!$order = Order::where('userId', $sessionUser->id)->where('status', 'cart')->first()) {
+			$order = new Order;
+			$order->userId = $sessionUser->id;
+			$order->status = 'cart';
+			$order->save();
+		}
 
-      if (!empty($allCartVariants)) {
-        $allItemRecords = [];
+		$orderLine = new OrderLine;
+		$orderLine->orderId = $order->id;
+		$orderLine->productId = $product->id;
+		$orderLine->quantity = $request->quantity;
+		$orderLine->save();
 
-        foreach ($allCartItems as $i => $item) {
-          $allItemRecords[$item->id]['quantity'] = $item->quantity;
-          $allItemRecords[$item->id]['variants'] = [];
-        }
+		foreach ($request->all() as $i => $variantId) {
+			if (str_contains($i, 'variant')) {
+				$orderLineVariant = new OrderLineVariant;
+				$orderLineVariant->orderLineId = $orderLine->id;
+				$orderLineVariant->variantId = $variantId;
+				$orderLineVariant->save();
+			}
+		}
 
-        foreach ($allCartVariants as $i => $variant) {
-          $allItemRecords[$variant->cartId]['variants'][$i] = $variant->variantId;
-        }
-
-        $selectedVariants = explode(',', $selectedVariants);
-        sort($selectedVariants);
-        $selectedVariants = implode(',', $selectedVariants);
-
-        foreach ($allItemRecords as $recordId => $record) {
-          sort($record['variants']);
-
-          if (implode(',', $record['variants']) == $selectedVariants) {
-            Cart::where('id', $recordId)->update([
-              'quantity' => $record['quantity'] + 1,
-            ]);
-
-            $response['success'] = true;
-            return $response;
-          }
-        }
-
-      } else {
-        Cart::where('id', $allCartItems[0]->id)->update([
-          'quantity' => $allCartItems[0]->quantity + 1,
-        ]);
-
-        $response['success'] = true;
-        return $response;
-      }
-    }
-
-    $cart = Cart::create([
-      'userId' => $sessionUser->id,
-      'productId' => $productId,
-      'quantity' => 1,
-    ]);
-
-    if ($variantCount > 0) { 
-      $selectedVariants = explode(',', $selectedVariants);
-
-      for ($i=0; $i < $variantCount; $i++) {
-        CartVariants::create([
-          'cartId' => $cart->id,
-          'variantId' => $selectedVariants[$i],
-        ]);
-      }
-    }
-
-    $response['success'] = true;
-    return $response;
+		return redirect('/product/' . $product->id)->with('message', 'Added to cart.');
   }
 }

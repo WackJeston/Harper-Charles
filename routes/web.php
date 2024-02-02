@@ -14,11 +14,12 @@ use App\Http\Controllers\TestController;
 // PUBLIC
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductPageController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SitemapController;
 
 // ADMIN
 use App\Http\Controllers\AdminHeaderController;
@@ -105,7 +106,7 @@ Route::controller(CategoryController::class)->group(function () {
 
 Route::controller(ProductPageController::class)->group(function () {
   Route::get('/product/{id}', 'show');
-  Route::post('/product-pageCartAdd/{id}/{variantCount}/{selectedVariants}', 'cartAdd');
+  Route::post('/product-pageCartAdd', 'cartAdd');
 });
 
 Route::controller(CartController::class)->group(function () {

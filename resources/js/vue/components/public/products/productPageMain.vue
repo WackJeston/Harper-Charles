@@ -38,23 +38,23 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form @submit.prevent="cartAdd" enctype="multipart/form-data">
+				<form action="/product-pageCartAdd" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
+					<input type="hidden" name="productId" :value="this.product.id">
 
 					<div v-if="this.product.orbitalVisionId != null" style="width: 100%; margin-bottom: 20px;">
 						<div id="optionsContainer"></div>
-						<!-- <div id="priceContainer"></div> -->
 					</div>
 
 					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
 						<label :for="i">{{ variant['title'] }}</label>
 
-						<select v-if="variant['type'] == 'text'">
+						<select v-if="variant['type'] == 'text'" :name="'variant-' + i" required>
 							<option v-for="(option, i2) in variant['options']" :value="i2" :data-variant-id="option.id">{{ option['title'] }}</option>
 						</select>
 
 						<div v-else class="options-grid">
-							<input type="text" :data-value="variant['selected']" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
+							<input type="text" :data-value="variant['selected']" :value="variant['selected']" :name="'variant-' + i" :v-model="'variant-input-' + i" :id="'variant-input-' + i" hidden required>
 
 							<div v-for="(option, i2) in variant['options']" class="option" :class="{ 'selected' : variant['selected'] == option.id }" :data-variant-id="option.id" :id="'option-' + i2"  @click="this.setOption(i, i2)">
 								<div class="option-container">
@@ -133,13 +133,15 @@
 
     methods: {
 			async cartAdd(submitEvent) {
-				let inputs = submitEvent.target.querySelectorAll('input');
+				// let inputs = submitEvent.target.querySelectorAll('input');
 
-				if (submitEvent) {
-					console.log('true');
-				} else {
-					console.log('false');
-				}
+				console.log(submitEvent);
+
+				// if (submitEvent) {
+				// 	console.log('true');
+				// } else {
+				// 	console.log('false');
+				// }
 
 
 				// submitEvent.target.forEach(element => {
@@ -156,21 +158,24 @@
 				// 	}
 				// }
 
-				// try {
-				// 	this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + this.variants.length + "/" + this.selectedVariants);
-				// 	this.result = await this.response.json();
+				try {
+					this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + submitEvent);
+					this.result = await this.response.json();
 					
-				// } catch (err) {
-				// 	console.log('----ERROR----');
-				// 	console.log(err);
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
 					
-				// } finally {
-				// 	if (this.result['success']) {
-				// 		this.cartAlert('Item added to cart.');
-				// 	} else {
-				// 		window.location.href = '/loginCart';
-				// 	}
-				// }
+				} finally {
+					console.log('----FINALLY----');
+					console.log(this.result);
+
+					// if (this.result['success']) {
+					// 	this.cartAlert('Item added to cart.');
+					// } else {
+					// 	window.location.href = '/loginCart';
+					// }
+				}
       },
 
       cartAlert(message) {
@@ -263,7 +268,7 @@
 				document.querySelector('#variant-input-' + variant).value = option;
 
 				let container = document.querySelector('#variant-container-' + variant);
-				let options = container.querySelectorAll('.option');
+				let options = container.querySelectorAll('.option.selected');
 
 				for (let i = 0; i < options.length; i++) {
 					options[i].classList.remove('selected');
@@ -271,6 +276,9 @@
 
 				let target = document.querySelector('#option-' + option);
 				target.classList.add('selected');
+
+				let input = container.querySelector('input');
+				input.value = option;
 			},
     },
   };

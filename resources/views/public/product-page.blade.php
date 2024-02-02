@@ -6,13 +6,13 @@
   <main class="product-page dk">
 
     @if ($errors->any())
-      <div id="alerterror" class="lt">
+      <div id="alerterror" class="lt floating">
         <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
     @if (session()->has('message'))
-      <div id="alertmessage" class="lt">
+      <div id="alertmessage" class="lt floating">
         <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
