@@ -35,7 +35,7 @@ class CartController extends Controller
 				p.title,
 				p.subtitle,
 				p.price,
-				a.filename
+				a.fileName
 				FROM order_lines AS ol
 				INNER JOIN products AS p ON p.id = ol.productId
 				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
@@ -45,6 +45,8 @@ class CartController extends Controller
 				ORDER BY ol.created_at ASC',
 				[$cart->id]
 			);
+
+			$cart->lines = cacheImages($cart->lines, 600, 600);
 
 			foreach ($cart->lines as $i => $line) {
 				$cart->lines[$i]->variants = DB::select('SELECT
@@ -66,18 +68,6 @@ class CartController extends Controller
 				);
 			}
 		}
-
-		dd($cart);
-
-    // $variants = [];
-
-    // foreach ($cartItems as $i => $item) {
-    //   foreach (explode(',', $item->variants) as $i2 => $variant) {
-    //     if ($variant != '') {
-    //       $variants[$item->id][] = $variant;
-    //     }
-    //   }
-    // }
 
     return view('public/cart', compact(
       'cart',

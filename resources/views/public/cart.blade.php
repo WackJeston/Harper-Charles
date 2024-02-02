@@ -5,22 +5,22 @@
 @section('content')
   <main class="dk" id="cart">
 
-    <h1 class="page-margin"><i class="fa-solid fa-cart-shopping"></i> Cart</h1>
+    <h1><i class="fa-solid fa-cart-shopping"></i> Cart</h1>
 
     @if ($errors->any())
-      <div id="alerterror" class="lt page-margin">
+      <div id="alerterror" class="lt">
         <alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
       </div>
     @endif
 
     @if (session()->has('message'))
-      <div id="alertmessage" class="lt page-margin">
+      <div id="alertmessage" class="lt">
         <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
 
-    <div id="cartitems" class="page-margin">
-      <cartitems :items="{{ json_encode($cartItems) }}" :variants="{{ json_encode($variants) }}" />
+    <div id="cartlines">
+      <cartlines :cart="{{ json_encode($cart) }}" />
     </div>
 
   </main>

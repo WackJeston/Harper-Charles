@@ -170,6 +170,8 @@ class ProductPageController extends Controller
 
   public function cartAdd(Request $request)
   {
+		dd($request->all());
+
 		if (!$product = Products::find($request->productId)) {
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
 		}
@@ -189,6 +191,57 @@ class ProductPageController extends Controller
 			$order->save();
 		}
 
+		$matchingOrders = DB::select('SELECT
+			ol.id
+			FROM order_lines AS ol
+			INNER JOIN orders AS o ON o.id = ol.orderId
+			WHERE ol.orderId = ?
+			AND ol.productId = ?
+			AND o.status = "cart"
+			GROUP BY ol.id',
+			[$order->id, $product->id]
+		);
+
+		if (!empty($matchingOrders)) {
+			$variantsIds = [];
+
+			foreach ($request->all() as $i => $variantId) {
+				if (str_contains($i, 'variant')) {
+					$variantsIds[] = $variantId;
+				}
+			}
+
+			sort($variantsIds);
+			$variantsString = implode('-', $variantsIds);
+
+			foreach ($matchingOrders as $i => $matchingOrder) {
+				$matchingOrderVariants = DB::select('SELECT
+					olv.variantId
+					FROM order_line_variants AS olv
+					WHERE olv.orderLineId = ?
+					GROUP BY olv.id',
+					[$matchingOrder->id]
+				);
+
+				$matchingOrderVariantsIds = [];
+
+				foreach ($matchingOrderVariants as $i => $matchingOrderVariant) {
+					$matchingOrderVariantsIds[] = $matchingOrderVariant->variantId;
+				}
+
+				sort($matchingOrderVariantsIds);
+				$matchingOrderVariantsString = implode('-', $matchingOrderVariantsIds);
+
+				if ($matchingOrderVariantsString == $variantsString) {
+					$orderLine = OrderLine::find($matchingOrder->id);
+					$orderLine->quantity += $request->quantity;
+					$orderLine->save();
+
+					return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to cart.', $product->id));
+				}
+			}
+		}
+
 		$orderLine = new OrderLine;
 		$orderLine->orderId = $order->id;
 		$orderLine->productId = $product->id;
@@ -204,6 +257,6 @@ class ProductPageController extends Controller
 			}
 		}
 
-		return redirect('/product/' . $product->id)->with('message', 'Added to cart.');
+		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to cart.', $product->id));
   }
 }

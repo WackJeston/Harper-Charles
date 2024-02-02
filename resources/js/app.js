@@ -32,7 +32,7 @@ import Categorybanner from './vue/components/public/products/categoryBanner.vue'
 import Productpagemain from './vue/components/public/products/productPageMain.vue'
 import Productpageinfo from './vue/components/public/products/productPageInfo.vue'
 
-import Cartitems from './vue/components/public/cartItems.vue'
+import Cartlines from './vue/components/public/cartLines.vue'
 
 import Checkoutaddresses from './vue/components/public/checkout/checkoutAddresses.vue'
 import Checkoutpayment from './vue/components/public/checkout/checkoutPayment.vue'
@@ -144,8 +144,8 @@ const productPageInfo = createApp({})
 productPageInfo.component('productpageinfo', Productpageinfo).mount('#productpageinfo')
 
 
-const cartItems = Vue.createApp({})
-cartItems.component('cartitems', Cartitems).mount('#cartitems')
+const cartLines = Vue.createApp({})
+cartLines.component('cartlines', Cartlines).mount('#cartlines')
 
 
 const checkoutAddresses = Vue.createApp({})
