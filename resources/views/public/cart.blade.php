@@ -5,7 +5,7 @@
 @section('content')
   <main class="dk" id="cart">
 
-    <h1><i class="fa-solid fa-cart-shopping"></i> Cart</h1>
+    <h1><i class="fa-solid fa-cart-shopping"></i><br>Shopping Cart</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
