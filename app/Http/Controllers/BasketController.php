@@ -9,27 +9,27 @@ use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class BasketController extends Controller
 {
   public function show()
   {
     if (!auth()->user()) {
-      return redirect("/login")->withErrors(['1' => 'Please login before viewing your cart.']);
+      return redirect("/login")->withErrors(['1' => 'Please login before viewing your basket.']);
     }
 
-		$cart = DB::select('SELECT
+		$basket = DB::select('SELECT
 			o.*
 			FROM orders AS o
 			WHERE o.userId = ?
-			AND o.status = "cart"
+			AND o.status = "basket"
 			LIMIT 1',
 			[auth()->user()->id]
 		);
 
-		if (!empty($cart)) {
-			$cart = $cart[0];
+		if (!empty($basket)) {
+			$basket = $basket[0];
 
-			$cart->lines = DB::select('SELECT
+			$basket->lines = DB::select('SELECT
 				ol.*,
 				p.id AS productId,
 				p.title,
@@ -43,13 +43,13 @@ class CartController extends Controller
 				WHERE ol.orderId = ?
 				GROUP BY ol.id
 				ORDER BY ol.created_at ASC',
-				[$cart->id]
+				[$basket->id]
 			);
 
-			$cart->lines = cacheImages($cart->lines, 600, 600);
+			$basket->lines = cacheImages($basket->lines, 600, 600);
 
-			foreach ($cart->lines as $i => $line) {
-				$cart->lines[$i]->variants = DB::select('SELECT
+			foreach ($basket->lines as $i => $line) {
+				$basket->lines[$i]->variants = DB::select('SELECT
 					olv.*,
 					pv.id AS variantId,
 					pv.title,
@@ -69,21 +69,21 @@ class CartController extends Controller
 			}
 		}
 
-    return view('public/cart', compact(
-      'cart',
+    return view('public/basket', compact(
+      'basket',
     ));
   }
 
   public function quantityUpdate($item, $quantity)
   {
-    Cart::where('id', $item)->update([
+    Order::where('id', $item)->update([
       'quantity' => $quantity,
     ]);
   }
 
-  public function cartRemove($item)
+  public function basketRemove($item)
   {
-    Cart::where('id', $item)->delete();
-    CartVariants::where('cartId', $item)->delete();
+    Order::where('id', $item)->delete();
+    OrderVariants::where('basketId', $item)->delete();
   }
 }

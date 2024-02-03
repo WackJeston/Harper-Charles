@@ -168,7 +168,7 @@ class ProductPageController extends Controller
   }
 
 
-  public function cartAdd(Request $request)
+  public function basketAdd(Request $request)
   {
 		dd($request->all());
 
@@ -181,13 +181,13 @@ class ProductPageController extends Controller
 		}
 
 		if (!$sessionUser = auth()->user()) {
-			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your cart.']);
+			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your basket.']);
 		}
 
-		if (!$order = Order::where('userId', $sessionUser->id)->where('status', 'cart')->first()) {
+		if (!$order = Order::where('userId', $sessionUser->id)->where('status', 'basket')->first()) {
 			$order = new Order;
 			$order->userId = $sessionUser->id;
-			$order->status = 'cart';
+			$order->status = 'basket';
 			$order->save();
 		}
 
@@ -197,7 +197,7 @@ class ProductPageController extends Controller
 			INNER JOIN orders AS o ON o.id = ol.orderId
 			WHERE ol.orderId = ?
 			AND ol.productId = ?
-			AND o.status = "cart"
+			AND o.status = "basket"
 			GROUP BY ol.id',
 			[$order->id, $product->id]
 		);
@@ -237,7 +237,7 @@ class ProductPageController extends Controller
 					$orderLine->quantity += $request->quantity;
 					$orderLine->save();
 
-					return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to cart.', $product->id));
+					return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to basket.', $product->id));
 				}
 			}
 		}
@@ -257,6 +257,6 @@ class ProductPageController extends Controller
 			}
 		}
 
-		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to cart.', $product->id));
+		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to basket.', $product->id));
   }
 }

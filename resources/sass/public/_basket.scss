@@ -1,6 +1,6 @@
 @use 'site/v';
 
-#cart {
+#basket {
 	padding: 20px;
 
 	@media (min-width: 640px) {
@@ -8,7 +8,7 @@
 	}
 }
 
-#cart h1 {
+#basket h1 {
 	width: 100%;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -18,11 +18,11 @@
 	text-align: center;
 }
 
-#cart h1 i {
+#basket h1 i {
 	font-size: 2.5rem;
 }
 
-#cart .cart-functions {
+#basket .basket-functions {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -30,7 +30,7 @@
 	margin: 10px 0;
 }
 
-#cart .cart-functions strong {
+#basket .basket-functions strong {
 	font-size: 1rem;
 
 	@media (min-width: 640px) {
@@ -39,19 +39,19 @@
 	}
 }
 
-#cart .cart-functions strong br {
+#basket .basket-functions strong br {
 	@media (min-width: 640px) {
 		display: none;
 	}
 }
 
-#cart .cart-functions strong span {
+#basket .basket-functions strong span {
 	@media (max-width: 640px) {
 		display: none;
 	}
 }
 
-#cart .cart-functions a {
+#basket .basket-functions a {
 	margin: 0 0 0 auto;
 	padding: 8px 16px;
 	background-color: v.$brand-main;
@@ -66,11 +66,13 @@
 	}
 }
 
-#cart .cart-functions a:hover {
+#basket .basket-functions a:hover {
 	background-color: v.$brand-main-darker;
 }
 
-#cart .cart-line {
+#basket .basket-empty
+
+#basket .basket-line {
 	display: flex;
 	flex-direction: column;
 	background-color: v.$background;
@@ -81,11 +83,11 @@
 	}
 }
 
-#cart .cart-line:not(:last-child) {
+#basket .basket-line:not(:last-child) {
 	margin-bottom: 20px;
 }
 
-#cartlines .wb-image {
+#basketlines .wb-image {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -105,12 +107,12 @@
 	}
 }
 
-#cartlines .wb-image i {
+#basketlines .wb-image i {
 	color: v.$white;
 	font-size: 3rem;
 }
 
-#cartlines .cart-line-content {
+#basketlines .basket-line-content {
 	display: flex;
 	flex-direction: column;
 	min-height: 100%;
@@ -125,7 +127,7 @@
 	}
 }
 
-#cartlines .cart-line-content .cart-line-top-row {
+#basketlines .basket-line-content .basket-line-top-row {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -140,24 +142,24 @@
 	}
 }
 
-#cartlines .cart-line-content .cart-line-top-row a,
-#cartlines .cart-line-content .cart-line-top-row div.line-price-container {
+#basketlines .basket-line-content .basket-line-top-row a,
+#basketlines .basket-line-content .basket-line-top-row div.line-price-container {
 	display: flex;
 	flex-direction: column;
 }
 
-#cartlines .cart-line-top-row a {
+#basketlines .basket-line-top-row a {
 	@media (max-width: 640px) {
 		margin-bottom: 5px;
 	}
 }
 
-#cartlines .cart-line-top-row a h2 {
+#basketlines .basket-line-top-row a h2 {
 	font-size: 2rem;
 	margin: 0;
 }
 
-#cartlines .cart-line-top-row div.line-price-container span {
+#basketlines .basket-line-top-row div.line-price-container span {
 	font-size: 1.1rem;
 	text-align: right;
 
@@ -167,11 +169,11 @@
 	}
 }
 
-#cartlines .cart-line-top-row div.line-price-container span:first-child {
+#basketlines .basket-line-top-row div.line-price-container span:first-child {
 	margin-bottom: 5px;
 }
 
-#cartlines .cart-line-content .variants-container {
+#basketlines .basket-line-content .variants-container {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -183,7 +185,7 @@
 	}
 }
 
-#cartlines .cart-line-content .variants-container span {
+#basketlines .basket-line-content .variants-container span {
 	padding: 4px 8px 6px 8px;
 	margin: 0 5px 5px 0;
 	background-color: v.$brand-alt-medium;
@@ -193,7 +195,7 @@
 	font-size: 0.8rem;
 }
 
-#cartlines .cart-line-content .cart-line-bottom-row {
+#basketlines .basket-line-content .basket-line-bottom-row {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -201,14 +203,14 @@
 	order: 3;
 }
 
-#cartlines .cart-line-bottom-row input {
+#basketlines .basket-line-bottom-row input {
 	width: 80px;
 	height: 28px;
 	margin-left: 8px;
 	padding-right: 3px;
 }
 
-#cartlines .cart-line-bottom-row .remove-line {
+#basketlines .basket-line-bottom-row .remove-line {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -225,13 +227,13 @@
 	}
 }
 
-#cartlines .cart-line-bottom-row .remove-line:hover {
+#basketlines .basket-line-bottom-row .remove-line:hover {
 	@media (min-width: 640px) {
 		background-color: v.$pale-red-darker;
 	}
 }
 
-#cartlines .cart-line-bottom-row .remove-line i {
+#basketlines .basket-line-bottom-row .remove-line i {
 	color: v.$white;
 	margin: 0;
 	font-size: 1rem;

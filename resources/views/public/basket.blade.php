@@ -1,11 +1,15 @@
 @extends('layout')
 
-@section('title', 'Cart')
+@section('title', 'Basket')
 
 @section('content')
-  <main class="dk" id="cart">
+  <main class="dk" id="basket">
 
-    <h1><i class="fa-solid fa-cart-shopping"></i><br>Shopping Cart</h1>
+		@if (isset($basket['lines']) && count($basket['lines']) > 0)
+			<h1><i class="fa-solid fa-basket-shopping"></i><br>Shopping Basket</h1>
+		@else
+			<h1 class="empty-basket"><i class="fa-solid fa-basket-shopping"></i><br>Shopping Basket<br>Is Empty</h1>
+		@endif
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -19,8 +23,8 @@
       </div>
     @endif
 
-    <div id="cartlines">
-      <cartlines :cart="{{ json_encode($cart) }}" />
+    <div id="basketlines">
+      <basketlines :basket="{{ json_encode($basket) }}" />
     </div>
 
   </main>

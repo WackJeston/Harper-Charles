@@ -22933,7 +22933,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context.next = 4;
-                return _this.$http.post('/product-pageCartAdd/' + _this.product.id + '/' + _this.variants.length + '/' + _this.selectedVariants, {
+                return _this.$http.post('/product-pageBasketAdd/' + _this.product.id + '/' + _this.variants.length + '/' + _this.selectedVariants, {
                   name: "cart-add"
                 });
 
@@ -22953,7 +22953,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 if (_this.result.data['success']) {
                   _this.cartAlert('Item added to cart.');
                 } else {
-                  window.location.href = '/loginCart';
+                  window.location.href = '/loginBasket';
                 }
 
                 return _context.finish(10);
@@ -28475,7 +28475,7 @@ var _hoisted_19 = {
 var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   "class": "submit",
   type: "submit"
-}, "Add To Cart", -1
+}, "Add To Basket", -1
 /* HOISTED */
 );
 
@@ -28809,7 +28809,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: '/product-page/' + product.id
     }, _hoisted_19, 8
     /* PROPS */
-    , _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a href=\"#\"><button class=\"lt\" type=\"button\">Add to Cart</button></a> ")])]);
+    , _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a href=\"#\"><button class=\"lt\" type=\"button\">Add to Basket</button></a> ")])]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])], 64

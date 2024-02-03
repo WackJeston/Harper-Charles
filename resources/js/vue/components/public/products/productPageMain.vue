@@ -38,7 +38,7 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form action="/product-pageCartAdd" method="POST" enctype="multipart/form-data">
+				<form action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="productId" :value="this.product.id">
 
@@ -75,7 +75,7 @@
 						<span id="priceContainer">£{{ this.product.price }}</span>
 						<div class="bottom-row-container">
 							<input type="number" name="quantity" id="quantity" value="1" min="1" :max="this.product.maxQuantity">
-							<button class="submit" type="submit">Add To Cart</button>
+							<button class="submit" type="submit">Add To Basket</button>
 						</div>
 					</div>
 				</form>
@@ -159,7 +159,7 @@
 				// }
 
 				try {
-					this.response = await fetch("/product-pageCartAdd/" + this.product.id + "/" + submitEvent);
+					this.response = await fetch("/product-pageBasketAdd/" + this.product.id + "/" + submitEvent);
 					this.result = await this.response.json();
 					
 				} catch (err) {
@@ -173,7 +173,7 @@
 					// if (this.result['success']) {
 					// 	this.cartAlert('Item added to cart.');
 					// } else {
-					// 	window.location.href = '/loginCart';
+					// 	window.location.href = '/loginBasket';
 					// }
 				}
       },

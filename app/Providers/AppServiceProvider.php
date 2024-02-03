@@ -135,15 +135,15 @@ class AppServiceProvider extends ServiceProvider
 
       else {
         $publicLinks = [
-          $cart = [
-            "title"=>"cart",
-            "link"=>"/cart",
-            "icon"=>"fa-solid fa-cart-shopping",
-          ],
           $shop = [
             "title"=>"shop",
             "link"=>"/shop",
             "icon"=>"fa-solid fa-tags",
+          ],
+          $basket = [
+            "title"=>"basket",
+            "link"=>"/basket",
+            "icon"=>"fa-solid fa-basket-shopping",
           ],
           $contact = [
             "title"=>"contact",

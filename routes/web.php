@@ -17,7 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SitemapController;
 
@@ -80,7 +80,7 @@ Route::get('/', [HomeController::class, 'show']);
 
 Route::controller(AuthController::class)->group(function () {
   Route::get('/login', 'veiwLogin');
-  Route::get('/loginCart', 'veiwLoginCart');
+  Route::get('/loginBasket', 'veiwLoginBasket');
   Route::get('/customerLogin', 'authenticateCustomer');
   Route::get('/customerLogout', 'logoutCustomer');
   Route::get('/sign-up', 'veiwSignup');
@@ -106,13 +106,13 @@ Route::controller(CategoryController::class)->group(function () {
 
 Route::controller(ProductPageController::class)->group(function () {
   Route::get('/product/{id}', 'show');
-  Route::post('/product-pageCartAdd', 'cartAdd');
+  Route::post('/product-pageBasketAdd', 'basketAdd');
 });
 
-Route::controller(CartController::class)->group(function () {
-	Route::get('/cart', 'show');
-	Route::post('/cartQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
-	Route::get('/cartRemove/{item}', 'cartRemove');
+Route::controller(BasketController::class)->group(function () {
+	Route::get('/basket', 'show');
+	Route::post('/basketQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
+	Route::get('/basketRemove/{item}', 'basketRemove');
 });
 
 // Auth Middleware

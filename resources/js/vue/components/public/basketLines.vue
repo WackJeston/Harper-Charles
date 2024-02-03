@@ -1,11 +1,11 @@
 <template>
-	<div class="cart-functions dk">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Cart Total: £{{ this.totalPrice.toFixed(2) }}</strong>
+	<div class="basket-functions dk" v-if="this.lineCount > 0">
+		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice.toFixed(2) }}</strong>
 		<a href="/checkout/addresses">Proceed To Checkout</a>
 	</div>
 
-	<div id="cartLinesContainer">
-		<div class="dk cart-line" v-for="(line, i) in this.lines" :id="'cartLine' + line.id">
+	<div id="basketLinesContainer">
+		<div class="dk basket-line" v-for="(line, i) in this.lines" :id="'basketLine' + line.id">
 			<a :href="'/product/' + line.productId" v-if="line.fileName">
 				<img :src="line.fileName" :alt="line.title" class="wb-image">
 			</a>
@@ -13,8 +13,8 @@
 				<i class="fa-solid fa-couch"></i>
 			</a>
 
-			<div class="cart-line-content">
-				<div class="cart-line-top-row">
+			<div class="basket-line-content">
+				<div class="basket-line-top-row">
 					<a :href="'/product/' + line.productId">
 						<h2>{{ line.title }}</h2>
 						<small>#{{ line.productId }}</small>
@@ -28,7 +28,7 @@
 					<span v-for="(variant, i2) in line.variants">{{ variant.parentTitle }}: {{ variant.title }}</span>
 				</div>
 
-				<div class="form cart-line-bottom-row">
+				<div class="form basket-line-bottom-row">
 					<label for="quantity">Quantity</label>
 					<input type="number" min="1" name="quantity" :id="'quantity' + line.id" v-model="line.quantity"
 						v-on:change="quantityChange(line.id, $event.target.value, line.price)">
@@ -40,8 +40,8 @@
 		</div>
 	</div>
 
-	<div v-show="(this.lineCount > 4)" class="cart-functions dk">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Cart Total: £{{ this.totalPrice.toFixed(2) }}</strong>
+	<div v-show="(this.lineCount > 4)" class="basket-functions dk">
+		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice.toFixed(2) }}</strong>
 		<a href="/checkout/addresses">Proceed To Checkout</a>
 	</div>
 </template>
@@ -50,12 +50,12 @@
 <script>
 export default {
 	props: [
-		'cart',
+		'basket',
 	],
 
 	data() {
 		return {
-			lines: this.cart.lines,
+			lines: this.basket.lines,
 			totalPrice: 0,
 			lineCount: 0,
 			lineCountQuantity: 0,
@@ -77,7 +77,7 @@ export default {
 		countLines() {
 			this.lineCount = 0;
 			this.lineCountQuantity = 0;
-			const container = document.getElementById('cartLinesContainer');
+			const container = document.getElementById('basketLinesContainer');
 
 			for (let i = 0; i < container.children.length; i++) {
 				this.lineCount++;
@@ -87,7 +87,7 @@ export default {
 
 		total() {
 			this.totalPrice = 0;
-			const container = document.getElementById('cartLinesContainer');
+			const container = document.getElementById('basketLinesContainer');
 
 			for (let i = 0; i < container.children.length; i++) {
 				this.totalPrice += parseFloat(container.children[i].children[1].children[0].children[1].innerHTML.replace('£', ''));
@@ -96,7 +96,7 @@ export default {
 
 		async quantityChange(line, quantity, price) {
 			try {
-				this.response = await fetch("/cartQuantityUpdate/" + line + "/" + quantity);
+				this.response = await fetch("/basketQuantityUpdate/" + line + "/" + quantity);
 				this.result = await this.response.json();
 
 			} catch (err) {
@@ -116,7 +116,7 @@ export default {
 
 		async remove(line) {
 			try {
-				this.response = await fetch("/cartRemove/" + line);
+				this.response = await fetch("/basketRemove/" + line);
 				this.result = await this.response.json();
 				
 			} catch (err) {
@@ -124,8 +124,8 @@ export default {
 				console.log(err);
 				
 			} finally {
-				this.cartLine = document.querySelector('#cartLine' + line);
-				this.cartLine.remove();
+				this.basketLine = document.querySelector('#basketLine' + line);
+				this.basketLine.remove();
 
 				this.countLines();
 				this.total();
