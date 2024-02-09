@@ -58,8 +58,8 @@
 
 							<div v-for="(option, i2) in variant['options']" class="option" :class="{ 'selected' : variant['selected'] == option.id }" :data-variant-id="option.id" :id="'option-' + i2"  @click="this.setOption(i, i2)">
 								<div class="option-container">
-									<img v-if="option.type == 'image'" :src="option.fileName" alt="option.fileName">
-									<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
+									<img v-if="variant['type'] == 'image'" :src="option.fileName" alt="option.fileName">
+									<div v-else-if="variant['type'] == 'colour'" :style="{ backgroundColor: option.colour }"></div>
 								</div>
 
 								<small>{{ option.title }}</small>

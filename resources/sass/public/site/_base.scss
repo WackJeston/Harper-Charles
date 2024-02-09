@@ -106,13 +106,14 @@ button.page-button,
 a.page-button {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	padding-right: 9px;
 	padding-left: 9px;
-	background-color: v.$almost-black;
+	background-color: v.$brand-main;
 	color: v.$white;
-	border-radius: 5px;
+	border-radius: 3px;
 	font-size: 1rem;
 	cursor: pointer;
 }
@@ -121,16 +122,19 @@ a.page-button {
 	padding: 5px 10px;
 }
 
-button.page-button:not(:last-child),
-a.page-button:not(:last-child) {
-	margin-right: 10px;
+.page-button.padding-large {
+	padding: 8px 16px;
 }
 
-button.page-button:hover:not(.pb-success, .pb-danger),
-a.page-button:hover:not(.pb-success, .pb-danger) {
+button.page-button:not(.page-button:first-child),
+a.page-button:not(.page-button:first-child) {
+	margin-left: 10px;
+}
+
+button.page-button:hover:not(.pb-success, .pb-danger, .pb-dark),
+a.page-button:hover:not(.pb-success, .pb-danger, .pb-dark) {
 	@media (min-width: 640px) {
-		background-color: v.$brand-alt-light;
-		color: v.$black;
+		background-color: v.$brand-main-darker;
 	}
 }
 
@@ -146,21 +150,19 @@ a.page-button i {
 	margin-right: 5px;
 }
 
-button.page-button:hover i,
-a.page-button:hover i {
-	@media (min-width: 640px) {
-		color: v.$black;
-	}
-}
+// button.page-button:hover i,
+// a.page-button:hover i {
+// 	@media (min-width: 640px) {
+// 		color: v.$black;
+// 	}
+// }
 
 button.button-active {
 	background-color: v.$brand-alt-dark
 }
 
-.page-button.pb-success,
-.page-button.pb-success,
-.page-button.pb-danger {
-	color: v.$white;
+.page-button.pb-dark {
+	background-color: v.$almost-black;
 }
 
 .page-button.pb-success {

@@ -74,16 +74,16 @@ class BasketController extends Controller
     ));
   }
 
-  public function quantityUpdate($item, $quantity)
+  public function quantityUpdate($id, $quantity)
   {
-    Order::where('id', $item)->update([
+    Order::where('id', $id)->update([
       'quantity' => $quantity,
     ]);
   }
 
-  public function basketRemove($item)
+  public function basketRemove($id)
   {
-    Order::where('id', $item)->delete();
-    OrderVariants::where('basketId', $item)->delete();
+    Order::where('id', $id)->delete();
+    // OrderVariants::where('basketId', $item)->delete();
   }
 }

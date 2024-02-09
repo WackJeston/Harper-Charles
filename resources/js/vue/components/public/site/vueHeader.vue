@@ -3,7 +3,7 @@
 
 		<nav id="header-start">
 			<a v-for="(link, i) in this.publiclinks" :href="link.link" class="header-desktop">
-				<i class="header-desktop" :class="link.icon"></i>
+				<i class="header-desktop" :class="link.icon"><span class="basket-count" v-if="link.title == 'basket' && this.basketcount > 0">{{ this.basketcount }}</span></i>
 				<span class="header-desktop">{{ link.title }}</span>
 			</a>
 		</nav>
@@ -47,7 +47,8 @@ export default {
 		'publiclinks',
 		'userlinks',
 		'socials',
-		'sessionuser'
+		'sessionuser',
+		'basketcount'
 	],
 
 	data() {

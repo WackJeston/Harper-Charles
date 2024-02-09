@@ -111,8 +111,8 @@ Route::controller(ProductPageController::class)->group(function () {
 
 Route::controller(BasketController::class)->group(function () {
 	Route::get('/basket', 'show');
-	Route::post('/basketQuantityUpdate/{item}/{quantity}', 'quantityUpdate');
-	Route::get('/basketRemove/{item}', 'basketRemove');
+	Route::post('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
+	Route::get('/basketRemove/{id}', 'basketRemove');
 });
 
 // Auth Middleware

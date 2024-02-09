@@ -171,6 +171,26 @@
 
     @else
 
+			@php
+				$basketCount = 0;
+
+				if ($sessionUser != null) {
+					$basketCountData = DB::select('SELECT
+						SUM(ol.quantity) AS count
+						FROM order_lines AS ol
+						INNER JOIN orders AS o ON o.id=ol.orderId
+						WHERE o.status = "basket" 
+						AND o.userId = ?
+						GROUP BY o.userId',
+						[$sessionUser['id']]
+					);
+
+					if (!empty($basketCountData)) {
+						$basketCount = $basketCountData[0]->count;
+					}
+				}
+			@endphp
+
       <div id="vuemenu">
         <vuemenu
           sitetitle="{{ env('APP_NAME') }}"
@@ -179,6 +199,7 @@
           :userlinks="{{ json_encode($userLinks) }}"
 					:socials="{{ json_encode($socials) }}"
 					:sessionuser="{{ $sessionUser }}"
+					basketcount="{{ $basketCount }}"
         />
       </div>
 
@@ -192,6 +213,7 @@
             :userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
             :sessionuser="{{ $sessionUser }}"
+						basketcount="{{ $basketCount }}"
           />
         </div>
 

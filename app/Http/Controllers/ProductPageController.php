@@ -170,7 +170,7 @@ class ProductPageController extends Controller
 
   public function basketAdd(Request $request)
   {
-		dd($request->all());
+		// dd($request->all());
 
 		if (!$product = Products::find($request->productId)) {
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);

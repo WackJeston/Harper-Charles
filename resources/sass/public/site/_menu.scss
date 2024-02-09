@@ -38,18 +38,49 @@
 	transition: border-radius 200ms ease;
 }
 
-.site-menu .nav-link,
 .site-menu .primary-nav-link {
-	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 60px;
+	padding: 0 20px;
 }
 
-.site-menu .primary-nav-link,
 .site-menu .nav-sublink {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 60px;
 	padding: 0 20px;
+}
+
+.site-menu .nav-link,
+.site-menu .primary-nav-link {
+	cursor: pointer;
+}
+
+.site-menu .primary-nav-link i {
+	position: relative;
+	display: flex;
+	padding-right: 10px;
+}
+
+.site-menu .primary-nav-link .basket-count {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: -3px;
+	right: 4px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: v.$white;
+	color: v.$brand-alt-dark-almost;
+	font-size: 0.5rem;
+	z-index: 7;
+	padding-left: 0px;
+	margin-left: 0px;
 }
 
 .site-menu .primary-nav-link:hover,
@@ -62,7 +93,7 @@
 
 .site-menu .nav-link-icon {
 	font-size: 1rem;
-	width: 40px;
+	// width: 40px;
 	text-align: center;
 }
 

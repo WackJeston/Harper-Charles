@@ -1,7 +1,7 @@
 <template>
 	<div class="basket-functions dk" v-if="this.lineCount > 0">
 		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice.toFixed(2) }}</strong>
-		<a href="/checkout/addresses">Proceed To Checkout</a>
+		<a href="/checkout/addresses" class="page-button padding">Proceed To Checkout</a>
 	</div>
 
 	<div id="basketLinesContainer">
@@ -89,14 +89,26 @@ export default {
 			this.totalPrice = 0;
 			const container = document.getElementById('basketLinesContainer');
 
-			for (let i = 0; i < container.children.length; i++) {
-				this.totalPrice += parseFloat(container.children[i].children[1].children[0].children[1].innerHTML.replace('£', ''));
-			}
+			let lines = document.querySelectorAll('.basket-line');
+
+			lines.forEach(function(line) {
+				console.log(line);
+			});
+
+			// for (let i = 0; i < container.children.length; i++) {
+			// 	this.totalPrice += parseFloat(container.children[i].children[1].children[0].children[1].innerHTML.replace('£', ''));
+			// }
 		},
 
-		async quantityChange(line, quantity, price) {
+		async quantityChange(id, quantity, price) {
+			console.log(id);
+			console.log(quantity);
+			console.log(price);
+
 			try {
-				this.response = await fetch("/basketQuantityUpdate/" + line + "/" + quantity);
+				this.response = await fetch("/basketQuantityUpdate/" + id + "/" + quantity, {
+					method: 'POST'
+				});
 				this.result = await this.response.json();
 
 			} catch (err) {
@@ -104,7 +116,7 @@ export default {
 				console.log(err);
 				
 			} finally {
-				let priceElement = document.querySelector('#price' + line);
+				let priceElement = document.querySelector('#price' + id);
 				let newPrice = quantity * price;
 
 				priceElement.innerHTML = '£' + newPrice.toFixed(2);
@@ -114,9 +126,9 @@ export default {
 			}
 		},
 
-		async remove(line) {
+		async remove(id) {
 			try {
-				this.response = await fetch("/basketRemove/" + line);
+				this.response = await fetch("/basketRemove/" + id);
 				this.result = await this.response.json();
 				
 			} catch (err) {
@@ -124,7 +136,7 @@ export default {
 				console.log(err);
 				
 			} finally {
-				this.basketLine = document.querySelector('#basketLine' + line);
+				this.basketLine = document.querySelector('#basketLine' + id);
 				this.basketLine.remove();
 
 				this.countLines();
