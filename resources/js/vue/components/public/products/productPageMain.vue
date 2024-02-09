@@ -160,7 +160,7 @@
 
 				try {
 					this.response = await fetch("/product-pageBasketAdd/" + this.product.id + "/" + submitEvent);
-					this.result = await this.response.json();
+					this.result = this.response.json();
 					
 				} catch (err) {
 					console.log('----ERROR----');

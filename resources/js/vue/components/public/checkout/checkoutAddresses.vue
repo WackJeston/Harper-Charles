@@ -369,7 +369,7 @@ export default {
 		async deleteAddress(type, id) {
 			try {
 				this.response = await fetch("/checkoutDeleteAddress/" + id);
-				this.result = await this.response.json();
+				this.result = this.response.json();
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
@@ -403,7 +403,7 @@ export default {
 		async defaultAddress(type, id) {
 			try {
 				this.response = await fetch("/checkoutDefaultAddress/" + type + '/' + id);
-				this.result = await this.response.json();
+				this.result = this.response.json();
 				
 			} catch (err) {
 				console.log('----ERROR----');
@@ -439,7 +439,7 @@ export default {
 
 			try {
 				this.response = await fetch("/checkoutAddAddress/" + type + '/' + this.values);
-				this.result = await this.response.json();
+				this.result = this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');

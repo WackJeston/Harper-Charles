@@ -11,8 +11,7 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
-  public function show()
-  {
+  public function show() {
     if (!auth()->user()) {
       return redirect("/login")->withErrors(['1' => 'Please login before viewing your basket.']);
     }
@@ -74,16 +73,20 @@ class BasketController extends Controller
     ));
   }
 
-  public function quantityUpdate($id, $quantity)
-  {
-    Order::where('id', $id)->update([
+  public function quantityUpdate(int $id, int $quantity) {
+		// return OrderLine::where('id', $id)->get();
+
+    OrderLine::where('id', $id)->update([
       'quantity' => $quantity,
     ]);
+
+		return true;
   }
 
-  public function basketRemove($id)
-  {
-    Order::where('id', $id)->delete();
+  public function basketRemove(int $id) {
+    OrderLine::where('id', $id)->delete();
     // OrderVariants::where('basketId', $item)->delete();
+
+		return true;
   }
 }

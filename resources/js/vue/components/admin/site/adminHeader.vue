@@ -172,7 +172,7 @@
 			async toggleNotification(notificationUserId, type, id) {
 				try {
 					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
-					this.result = await this.response.json();
+					this.result = this.response.json();
 					
 				} catch (err) {
 					console.log('----ERROR----');

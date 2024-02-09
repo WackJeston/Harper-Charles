@@ -111,7 +111,7 @@ Route::controller(ProductPageController::class)->group(function () {
 
 Route::controller(BasketController::class)->group(function () {
 	Route::get('/basket', 'show');
-	Route::post('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
+	Route::get('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
 	Route::get('/basketRemove/{id}', 'basketRemove');
 });
 

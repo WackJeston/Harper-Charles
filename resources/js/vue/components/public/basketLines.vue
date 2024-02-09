@@ -1,6 +1,6 @@
 <template>
 	<div class="basket-functions dk" v-if="this.lineCount > 0">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice.toFixed(2) }}</strong>
+		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice }}</strong>
 		<a href="/checkout/addresses" class="page-button padding">Proceed To Checkout</a>
 	</div>
 
@@ -21,7 +21,7 @@
 					</a>
 					<div class="line-price-container">
 						<span class="price"><strong>Item Price:</strong> £{{ line.price }}</span>
-						<span class="price" :id="'price' + line.id"><strong>Total Price:</strong> £{{ (line.price * line.quantity).toFixed(2) }}</span>
+						<span class="price" :id="'price' + line.id"><strong>Total Price:</strong> £{{ parseFloat(line.price * line.quantity).toFixed(2) }}</span>
 					</div>
 				</div>
 				<div v-if="line.variants" class="variants-container">
@@ -31,7 +31,7 @@
 				<div class="form basket-line-bottom-row">
 					<label for="quantity">Quantity</label>
 					<input type="number" min="1" name="quantity" :id="'quantity' + line.id" v-model="line.quantity"
-						v-on:change="quantityChange(line.id, $event.target.value, line.price)">
+						v-on:change="quantityChange(line.id, $event.target.value)">
 					<button type="button" name="remove" class="remove-line" @click="remove(line.id)">
 						<i class="fa-solid fa-xmark"></i>
 					</button>
@@ -41,7 +41,7 @@
 	</div>
 
 	<div v-show="(this.lineCount > 4)" class="basket-functions dk">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice.toFixed(2) }}</strong>
+		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice }}</strong>
 		<a href="/checkout/addresses">Proceed To Checkout</a>
 	</div>
 </template>
@@ -64,64 +64,39 @@ export default {
 
 	mounted() {
 		this.total();
-
-		if (this.lines != null) {
-			this.lines.forEach(line => {
-				this.lineCount++;
-				this.lineCountQuantity += line.quantity;
-			});
-		}
 	},
 
 	methods: {
-		countLines() {
-			this.lineCount = 0;
-			this.lineCountQuantity = 0;
-			const container = document.getElementById('basketLinesContainer');
-
-			for (let i = 0; i < container.children.length; i++) {
-				this.lineCount++;
-				this.lineCountQuantity += parseFloat(container.children[i].children[1].children[2].children[1].value);
-			}
-		},
-
 		total() {
-			this.totalPrice = 0;
-			const container = document.getElementById('basketLinesContainer');
-
 			let lines = document.querySelectorAll('.basket-line');
+			let price = 0;
+			let count = 0;
+			let quantity = 0;
 
 			lines.forEach(function(line) {
-				console.log(line);
-			});
+				let quantityTemp = line.querySelector('input[name="quantity"]').value;
+				let priceTemp = line.querySelector('.price').innerHTML.split('£')[1];
 
-			// for (let i = 0; i < container.children.length; i++) {
-			// 	this.totalPrice += parseFloat(container.children[i].children[1].children[0].children[1].innerHTML.replace('£', ''));
-			// }
+				price += parseFloat(priceTemp * quantityTemp);
+				count++;
+				quantity += parseFloat(quantityTemp);
+			});
+			
+			this.lineCount = count;
+			this.lineCountQuantity = quantity;
+			this.totalPrice = price;
 		},
 
-		async quantityChange(id, quantity, price) {
-			console.log(id);
-			console.log(quantity);
-			console.log(price);
-
+		async quantityChange(id, quantity) {
 			try {
-				this.response = await fetch("/basketQuantityUpdate/" + id + "/" + quantity, {
-					method: 'POST'
-				});
-				this.result = await this.response.json();
+				this.response = await fetch("/basketQuantityUpdate/" + id + "/" + quantity);
+				this.result = this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
 				
 			} finally {
-				let priceElement = document.querySelector('#price' + id);
-				let newPrice = quantity * price;
-
-				priceElement.innerHTML = '£' + newPrice.toFixed(2);
-
-				this.countLines();
 				this.total();
 			}
 		},
@@ -129,7 +104,7 @@ export default {
 		async remove(id) {
 			try {
 				this.response = await fetch("/basketRemove/" + id);
-				this.result = await this.response.json();
+				this.result = this.response.json();
 				
 			} catch (err) {
 				console.log('----ERROR----');
@@ -139,7 +114,6 @@ export default {
 				this.basketLine = document.querySelector('#basketLine' + id);
 				this.basketLine.remove();
 
-				this.countLines();
 				this.total();
 			}
 		}
