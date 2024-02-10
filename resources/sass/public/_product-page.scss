@@ -195,10 +195,6 @@
 	flex-direction: row;
 	margin-top: 5px;
 	transition: all 100ms ease-in;
-
-	@media (max-width: 640px) {
-		margin-bottom: 20px;
-	}
 }
 
 .product-page .selected-images div {
@@ -224,6 +220,10 @@
 	align-items: flex-start;
 	justify-content: space-between;
 	width: 100%;
+
+	@media (max-width: 640px) {
+		margin-top: 20px;
+	}
 
 	@media (min-width: 640px) and (max-width: 760px) {
 		max-width: calc(50% - 20px);

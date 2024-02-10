@@ -15,7 +15,6 @@
 	line-height: 1.5;
 	font-weight: 500;
 	font-size: 2.2rem;
-	// color: v.$brand-main;
 }
 
 #basket h1 i {
@@ -23,7 +22,12 @@
 	bottom: 3px;
 	margin-right: 10px;
 	font-size: 2rem;
-	// color: v.$brand-main;
+}
+
+#basket h1.empty-basket {
+	text-align: center;
+	margin-top: 8vh;
+	margin-bottom: 20px;
 }
 
 #basket a#continueShopping {
