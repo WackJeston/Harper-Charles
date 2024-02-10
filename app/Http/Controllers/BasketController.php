@@ -74,9 +74,7 @@ class BasketController extends Controller
   }
 
   public function quantityUpdate(int $id, int $quantity) {
-		// return OrderLine::where('id', $id)->get();
-
-    OrderLine::where('id', $id)->update([
+		OrderLine::where('id', $id)->update([
       'quantity' => $quantity,
     ]);
 
@@ -85,7 +83,6 @@ class BasketController extends Controller
 
   public function basketRemove(int $id) {
     OrderLine::where('id', $id)->delete();
-    // OrderVariants::where('basketId', $item)->delete();
 
 		return true;
   }

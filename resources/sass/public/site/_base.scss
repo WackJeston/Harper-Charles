@@ -341,6 +341,18 @@ button.button-active {
 	bottom: -9px;
 }
 
+.hide-mobile {
+	@media (max-width: 640px) {
+		display: none;
+	}
+}
+
+.hide-desktop {
+	@media (min-width: 640px) {
+		display: none;
+	}
+}
+
 // Image Viewer
 .image-viewer {
 	position: absolute;

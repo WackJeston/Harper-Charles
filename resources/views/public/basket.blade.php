@@ -6,9 +6,9 @@
   <main class="dk" id="basket">
 
 		@if (isset($basket->lines) && count($basket->lines) > 0)
-			<h1><i class="fa-solid fa-basket-shopping"></i><br>Shopping Basket</h1>
+			<h1><i class="fa-solid fa-basket-shopping"></i>Your Basket</h1>
 		@else
-			<h1 class="empty-basket"><i class="fa-solid fa-basket-shopping"></i><br>Shopping Basket<br>Is Empty</h1>
+			<h1 class="empty-basket"><i class="fa-solid fa-basket-shopping"></i><br>Your Shopping Basket<br>Is Empty</h1>
 			<a href="/shop" class="page-button padding-large" id="continueShopping">Continue Shopping</a>
 		@endif
 

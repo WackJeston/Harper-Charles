@@ -1,7 +1,7 @@
 <template>
 	<div class="basket-functions dk" v-if="this.lineCount > 0">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice }}</strong>
-		<a href="/checkout/addresses" class="page-button padding">Proceed To Checkout</a>
+		<strong>{{ this.lineCountQuantity }} Items <br class="hide-desktop"><span class="hide-mobile">|</span> Basket Total: £{{ this.totalPrice }}</strong>
+		<a href="/checkout/addresses" class="page-button padding"><span class="hide-mobile">Proceed To </span> Checkout <i class="fa-solid fa-angle-right"></i></a>
 	</div>
 
 	<div id="basketLinesContainer">
@@ -20,29 +20,27 @@
 						<small>#{{ line.productId }}</small>
 					</a>
 					<div class="line-price-container">
-						<span class="price"><strong>Item Price:</strong> £{{ line.price }}</span>
-						<span class="price" :id="'price' + line.id"><strong>Total Price:</strong> £{{ parseFloat(line.price * line.quantity).toFixed(2) }}</span>
+						<span class="price"><strong>Price:</strong> £{{ line.price }}</span>
+						<span class="price" :id="'price' + line.id"><strong>Total:</strong> £{{ parseFloat(line.price * line.quantity).toFixed(2) }}</span>
 					</div>
-				</div>
-				<div v-if="line.variants" class="variants-container">
-					<span v-for="(variant, i2) in line.variants">{{ variant.parentTitle }}: {{ variant.title }}</span>
 				</div>
 
 				<div class="form basket-line-bottom-row">
-					<label for="quantity">Quantity</label>
-					<input type="number" min="1" name="quantity" :id="'quantity' + line.id" v-model="line.quantity"
-						v-on:change="quantityChange(line.id, $event.target.value)">
-					<button type="button" name="remove" class="remove-line" @click="remove(line.id)">
-						<i class="fa-solid fa-xmark"></i>
-					</button>
+					<input type="number" min="1" name="quantity" :id="'quantity' + line.id" v-model="line.quantity" v-on:change="quantityChange(line.id, $event.target.value)">
+
+					<small class="remove-line" @click="remove(line.id)">Remove</small>
+				</div>
+				
+				<div v-if="line.variants.length > 0" class="variants-container">
+					<span v-for="(variant, i2) in line.variants">{{ variant.parentTitle }}: {{ variant.title }}</span>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div v-show="(this.lineCount > 4)" class="basket-functions dk">
-		<strong>{{ this.lineCountQuantity }} items <br><span>|</span> Basket Total: £{{ this.totalPrice }}</strong>
-		<a href="/checkout/addresses">Proceed To Checkout</a>
+	<div v-show="(this.lineCount > 3)" class="basket-functions dk">
+		<strong>{{ this.lineCountQuantity }} Items <br class="hide-desktop"><span class="hide-mobile">|</span> Basket Total: £{{ this.totalPrice }}</strong>
+		<a href="/checkout/addresses" class="page-button padding"><span class="hide-mobile">Proceed To </span> Checkout <i class="fa-solid fa-angle-right"></i></a>
 	</div>
 </template>
 
