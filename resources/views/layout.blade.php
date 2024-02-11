@@ -271,11 +271,6 @@
 					loadingScreen();	
 				}
 
-				//Model Viewer
-				// if (document.querySelector('#viewerContainer')) {
-				// 	load3dModel();
-				// }
-
 				// DataTable
 				if (document.querySelector('table')) {
 					setIdWidth();

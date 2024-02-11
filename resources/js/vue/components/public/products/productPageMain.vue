@@ -38,7 +38,7 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
+				<form @submit.prevent="cartAdd" :action="'/product-pageBasketAdd/' + this.configurationId" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="productId" :value="this.product.id">
 
@@ -114,6 +114,7 @@
         alertIndex: 0,
 				variantCount: Object.keys(this.variants).length,
 				expiviInstance: null,
+				configurationId: [],
       }
     },
 
@@ -133,49 +134,19 @@
 
     methods: {
 			async cartAdd(submitEvent) {
-				// let inputs = submitEvent.target.querySelectorAll('input');
+				if (this.product.orbitalVisionId != null) {
+					let configurationData = await window.expivi.saveConfiguration(600, 600);
+					// let configuration = [];
 
-				console.log(submitEvent);
+					this.configurationId[configurationData.configured_products[0].catalogue_id] = [configurationData.configured_products[0].price, configurationData.configured_products[0].thumbnail];
 
-				// if (submitEvent) {
-				// 	console.log('true');
-				// } else {
-				// 	console.log('false');
-				// }
-
-
-				// submitEvent.target.forEach(element => {
-				// 	console.log(element);
-				// });
-
-				// for (var i = 0; i < this.variants.length; i++) {
-				// 	this.input = document.querySelector('#input' + i);
-				// 	if (i == 0) {
-				// 		this.selectedVariants = '';
-				// 		this.selectedVariants = this.input.value;
-				// 	} else {
-				// 		this.selectedVariants = this.selectedVariants + ',' + this.input.value;
-				// 	}
-				// }
-
-				try {
-					this.response = await fetch("/product-pageBasketAdd/" + this.product.id + "/" + submitEvent);
-					this.result = this.response.json();
-					
-				} catch (err) {
-					console.log('----ERROR----');
-					console.log(err);
-					
-				} finally {
-					console.log('----FINALLY----');
-					console.log(this.result);
-
-					// if (this.result['success']) {
-					// 	this.cartAlert('Item added to cart.');
-					// } else {
-					// 	window.location.href = '/loginBasket';
-					// }
+					console.log(this.configurationId);
+					// this.configurationId = configuration;
 				}
+
+				// setTimeout(() => {
+				// 	submitEvent.target.submit();
+				// }, 10);
       },
 
       cartAlert(message) {

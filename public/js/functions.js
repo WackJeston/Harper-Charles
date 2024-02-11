@@ -20,7 +20,7 @@ function loadingScreen() {
 	}, 3400);
 };
 
-async function load3dModel(key, id) {
+async function orbitalVistionLoad3dModel(key, id) {
 	try {
 		this.expiviInstance = new ExpiviComponent.default({
 			catalogueId: id,

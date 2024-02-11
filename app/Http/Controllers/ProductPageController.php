@@ -36,7 +36,7 @@ class ProductPageController extends Controller
 				[$id]
 			);
 
-			$productImages = cacheImages($productImages, 2000, 2000);
+			$productImages = cacheImages($productImages, 1800, 1800);
 			$imageCount = count($productImages);
 
 			if (!empty($productImages)) {
@@ -69,7 +69,7 @@ class ProductPageController extends Controller
 				[$id]
 			);
 
-			$optionsRecords = cacheImages($optionsRecords, 800, 800);
+			$optionsRecords = cacheImages($optionsRecords, 600, 600);
 
 			$variants = [];
 
@@ -124,7 +124,7 @@ class ProductPageController extends Controller
 					[
 						'path' => 'https://assets.expivi.net/options/latest/js/app.js',
 						'loadType' => 'defer',
-						'onLoad' => sprintf('load3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
+						'onLoad' => sprintf('orbitalVistionLoad3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
 					],
 				];
 		
@@ -168,9 +168,10 @@ class ProductPageController extends Controller
   }
 
 
-  public function basketAdd(Request $request)
+  public function basketAdd(Request $request, $configurationId = null)
   {
 		// dd($request->all());
+		dd($configurationId);
 
 		if (!$product = Products::find($request->productId)) {
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
