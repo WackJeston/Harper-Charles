@@ -38,7 +38,7 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form @submit.prevent="cartAdd" :action="'/product-pageBasketAdd/' + this.configurationId" method="POST" enctype="multipart/form-data">
+				<form @submit.prevent="cartAdd" :action="'/product-pageBasketAdd/' + this.configuration" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="productId" :value="this.product.id">
 
@@ -114,7 +114,7 @@
         alertIndex: 0,
 				variantCount: Object.keys(this.variants).length,
 				expiviInstance: null,
-				configurationId: [],
+				configuration: [],
       }
     },
 
@@ -138,10 +138,10 @@
 					let configurationData = await window.expivi.saveConfiguration(600, 600);
 					// let configuration = [];
 
-					this.configurationId[configurationData.configured_products[0].catalogue_id] = [configurationData.configured_products[0].price, configurationData.configured_products[0].thumbnail];
+					this.configuration[configurationData.configured_products[0].catalogue_id] = [configurationData.configured_products[0].price, configurationData.configured_products[0].thumbnail];
 
-					console.log(this.configurationId);
-					// this.configurationId = configuration;
+					console.log(this.configuration);
+					// this.configuration = configuration;
 				}
 
 				// setTimeout(() => {
