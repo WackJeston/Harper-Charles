@@ -34,11 +34,12 @@ class BasketController extends Controller
 				p.title,
 				p.subtitle,
 				p.price,
-				a.fileName
+				IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 				FROM order_lines AS ol
 				INNER JOIN products AS p ON p.id = ol.productId
 				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
 				LEFT JOIN asset AS a ON a.id = pi.assetId
+				LEFT JOIN asset AS a2 ON a2.id = ol.assetId
 				WHERE ol.orderId = ?
 				GROUP BY ol.id
 				ORDER BY ol.created_at ASC',

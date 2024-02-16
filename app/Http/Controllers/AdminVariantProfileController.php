@@ -22,6 +22,7 @@ class AdminVariantProfileController extends Controller
       pv.id,
       pv.title,
 			pv.type,
+			pv.reference,
       COUNT(pv2.id) AS childrenCount,
       GROUP_CONCAT(pv2.id) AS children,
       pv.active

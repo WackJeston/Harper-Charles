@@ -10,7 +10,7 @@
       <a href="/admin/variants">Variants</a>
     </div>
 
-    <h1 class="dk">Variant Profile (<span>{{ $variant->title }}</span> #{{ $variant->id }})</h1>
+    <h1 class="dk">Variant Profile (<span class="text-red">{{ $variant->title }}</span> #{{ $variant->id }}) <span class="text-muted">{{$variant->reference}}</span></h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

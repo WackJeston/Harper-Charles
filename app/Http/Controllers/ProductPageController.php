@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
 use App\Models\Products;
+use App\Models\ProductVariants;
+use App\Models\ProductVariantJoins;
 use Illuminate\Http\Request;
 
 
@@ -170,12 +172,6 @@ class ProductPageController extends Controller
 
   public function basketAdd(Request $request)
   {
-		if (!empty($request->configuration)) {
-			$configuration = json_decode($request->configuration);
-			
-			dd($configuration);
-		}
-
 		if (!$product = Products::find($request->productId)) {
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
 		}
@@ -186,6 +182,42 @@ class ProductPageController extends Controller
 
 		if (!$sessionUser = auth()->user()) {
 			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your basket.']);
+		}
+
+		if (!empty($request->configuration)) {
+			$configuration = json_decode($request->configuration);
+
+			foreach ($configuration->configured_products as $i => $productData) {
+				foreach ($productData->attributes as $i2 => $variantData) {
+					$variantTitle = trim($variantData->attribute_name, ':');
+					$variantTitle = trim($variantTitle, 's');
+
+					$variant = ProductVariants::where('parentVariantId', null)->where('title', $variantTitle)->first();
+
+					if ($variant == null) {
+						$variant = new ProductVariants;
+						$variant->title = $variantTitle;
+						$variant->type = 'text';
+						$variant->reference = 'orbital-vision';
+						$variant->save();
+					}
+
+					$optionTitle = $variantData->attribute_value_name;
+
+					$option = ProductVariants::where('parentVariantId', $variant->id)->where('title', $optionTitle)->first();
+
+					if ($option == null) {
+						$option = new ProductVariants;
+						$option->parentVariantId = $variant->id;
+						$option->title = $optionTitle;
+						$option->type = 'text';
+						$option->reference = 'orbital-vision';
+						$option->save();
+					}
+
+					$configuration->configured_products[$i]->attributes[$i2]->custom_id = $option->id;
+				}
+			}
 		}
 
 		if (!$order = Order::where('userId', $sessionUser->id)->where('status', 'basket')->first()) {
@@ -212,6 +244,14 @@ class ProductPageController extends Controller
 			foreach ($request->all() as $i => $variantId) {
 				if (str_contains($i, 'variant')) {
 					$variantsIds[] = $variantId;
+				}
+			}
+
+			if (!empty($request->configuration)) {
+				foreach ($configuration->configured_products as $i => $productData) {
+					foreach ($productData->attributes as $key => $variantData) {
+						$variantsIds[] = $variantData->custom_id;
+					}
 				}
 			}
 
@@ -262,9 +302,22 @@ class ProductPageController extends Controller
 		}
 
 		if (!empty($request->configuration)) {
-			$configuration = json_decode($request->configuration);
-			
-			dd($configuration);
+			foreach ($configuration->configured_products as $i => $productData) {
+				$fileName = sprintf('orbital-vision-order-line-image-%s.%s',
+					$orderLine->id,
+					'jpg'
+				);
+
+				$orderLine->assetId = storeImageFromString($fileName, $productData->thumbnail);
+				$orderLine->save();
+
+				foreach ($productData->attributes as $key => $variantData) {
+					$orderLineVariant = new OrderLineVariant;
+					$orderLineVariant->orderLineId = $orderLine->id;
+					$orderLineVariant->variantId = $variantData->custom_id;
+					$orderLineVariant->save();
+				}
+			}
 		}
 
 		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to basket.', $product->id));

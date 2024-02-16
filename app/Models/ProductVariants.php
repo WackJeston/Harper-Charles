@@ -13,6 +13,7 @@ class ProductVariants extends Model
     'parentVariantId',
     'title',
 		'type',
+		'reference',
     'assetId',
     'colour',
     'active',

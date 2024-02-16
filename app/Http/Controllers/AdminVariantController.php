@@ -30,6 +30,7 @@ class AdminVariantController extends Controller
 			pv.id,
 			pv.title,
 			pv.type,
+			pv.reference,
 			COUNT(pv2.id) AS children,
 			pv.active
 			FROM product_variants AS pv
@@ -40,6 +41,7 @@ class AdminVariantController extends Controller
 		$variantsTable->addColumn('id', '#');
 		$variantsTable->addColumn('title', 'Title', 3);
 		$variantsTable->addColumn('type', 'Type', 2, false, 'select', $variantTypes);
+		$variantsTable->addColumn('reference', 'Ref', 2, true);
 		$variantsTable->addColumn('children', 'Children', 2);
 		$variantsTable->addColumn('active', 'Show', 2, false, 'toggle');
 		$variantsTable->addLinkButton('variant-profile/?', 'fa-solid fa-folder-open', 'Open Record');

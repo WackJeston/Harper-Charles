@@ -151,6 +151,17 @@ function storeImages(Request $request, $id, string $type):array {
 	return $fileNames;
 }
 
+function storeImageFromString(string $fileName, string $data) {
+	Storage::put($fileName, $data);
+
+	$asset = Asset::create([
+		'name' => $fileName,
+		'fileName' => $fileName,
+	]);
+
+	return $asset->id;
+}
+
 // AWS S3
 function connectSes() {
   $connection = new SesClient([
