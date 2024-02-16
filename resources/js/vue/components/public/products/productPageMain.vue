@@ -4,10 +4,6 @@
 			<div class="wb-image">
 				<div class="wb-image-container">
 					<div v-if="this.product.orbitalVisionId != null" v-show="this.selectedImage == '3d-model'" id="viewerContainer"></div>
-					<!-- <div v-if="this.product.orbitalVisionId != null" v-show="this.selectedImage == '3d-model'" style="width: 30%;float:left">
-						<div id="priceContainer"></div>
-						<div id="optionsContainer"></div>
-					</div> -->
 
 					<img v-if="this.count > 0 && this.selectedImage != '3d-model'" :src="this.selectedImage" :alt="this.selectedImage" @click="showImage(this.selectedImage)">
 					<i v-else-if="this.selectedImage != '3d-model'" class="fa-solid fa-couch"></i>
@@ -38,12 +34,14 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form @submit.prevent="cartAdd" :action="'/product-pageBasketAdd/' + this.configuration" method="POST" enctype="multipart/form-data">
+				<form @submit.prevent="cartAdd" action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="productId" :value="this.product.id">
 
 					<div v-if="this.product.orbitalVisionId != null" style="width: 100%; margin-bottom: 20px;">
 						<div id="optionsContainer"></div>
+
+						<input type="hidden" name="configuration" :value="this.configuration">
 					</div>
 
 					<div v-for="(variant, i) in this.variants" class="variants-container" :id="'variant-container-' + i">
@@ -111,10 +109,9 @@
         imageRowContainerWidth: 0,
         imageRowButtonContainerWidth: 0,
         selectedVariants: 0,
-        alertIndex: 0,
 				variantCount: Object.keys(this.variants).length,
 				expiviInstance: null,
-				configuration: [],
+				configuration: null,
       }
     },
 
@@ -124,54 +121,20 @@
         this.imageRowResize();
         window.addEventListener('resize', this.imageRowResize);
       }
-
-      // document.querySelector('.alert-box .fa-xmark').addEventListener('click', function() {
-      //   EventTarget.parent('ul').remove();
-      // })
-
-      this.alertContainer = document.querySelector('#cartAlert');
     },
 
     methods: {
 			async cartAdd(submitEvent) {
 				if (this.product.orbitalVisionId != null) {
 					let configurationData = await window.expivi.saveConfiguration(600, 600);
-					// let configuration = [];
-
-					this.configuration[configurationData.configured_products[0].catalogue_id] = [configurationData.configured_products[0].price, configurationData.configured_products[0].thumbnail];
-
-					console.log(this.configuration);
-					// this.configuration = configuration;
+					
+					this.configuration = JSON.stringify(configurationData);
 				}
 
-				// setTimeout(() => {
-				// 	submitEvent.target.submit();
-				// }, 10);
+				setTimeout(() => {
+					submitEvent.target.submit();
+				}, 10);
       },
-
-      cartAlert(message) {
-        // this.alertContainer.innerHTML += '<ul id="alert' + this.alertIndex + '" class="alert-box success lt"><i class="fa-solid fa-xmark"></i><li>' + message + '</li></ul>';
-        this.alertContainer.innerHTML += '<ul id="alert' + this.alertIndex + '" class="alert-box success lt"><li>' + message + '</li></ul>';
-        this.cartAlertRemove(this.alertIndex);
-        // this.cartAlertRemoveButton(this.alertIndex);
-        this.alertIndex += 1;
-      },
-
-      cartAlertRemove(i) {
-        setTimeout(() => {
-          let alert = document.querySelector('#alert' + i);
-          alert.style.transform = 'translate3d(calc(100% + 50px), 0, 0)';
-          setTimeout(() => {
-            alert.remove();
-          }, 700);
-        }, 4000);
-      },
-
-      // cartAlertRemoveButton(i) {
-      //   document.querySelector('#alert' + i + ' .fa-xmark').addEventListener('click', function() {
-      //     document.querySelector('#alert' + i).remove();
-      //   });
-      // },
 
 			showImage(url) {
 				const imageZone = document.querySelector('.image-viewer');

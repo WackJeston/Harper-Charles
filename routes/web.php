@@ -106,7 +106,7 @@ Route::controller(CategoryController::class)->group(function () {
 
 Route::controller(ProductPageController::class)->group(function () {
   Route::get('/product/{id}', 'show');
-  Route::post('/product-pageBasketAdd/{configuration}', 'basketAdd');
+  Route::post('/product-pageBasketAdd', 'basketAdd');
 });
 
 Route::controller(BasketController::class)->group(function () {

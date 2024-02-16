@@ -16,7 +16,7 @@ return new class extends Migration
       Schema::create('product_images', function (Blueprint $table) {
         $table->id();
 				$table->foreignId('productId')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-        $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
+        $table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade')->nullable();
         $table->boolean('primary');
 				$table->boolean('active')->default(0);
         $table->timestamps();

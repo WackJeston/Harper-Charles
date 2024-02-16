@@ -72,10 +72,13 @@ class DataForm
 					if (!$option['active']) {
 						if ($option['parent'] == null) {
 							$this->form['inputs'][$i]['options'][] = [
+								'parent' => false,
 								'value' => $option['value'],
 								'label' => $option['label'],
 							];
 						} else {
+							$this->form['inputs'][$i]['options'][$option['parent']]['parent'] = true;
+
 							$this->form['inputs'][$i]['options'][$option['parent']][] = [
 								'value' => $option['value'],
 								'label' => $option['label'],
@@ -332,27 +335,30 @@ class DataForm
 						);
 
 							foreach ($input['options'] as $i2 => $option) {
+
 								$selected = (isset($option['value']) && $option['value'] == $input['value']) ? 'selected' : '';
 
-								if (is_numeric($i2)) {
+								if ($option['parent'] == false) {
 									$html .= sprintf('
 									<option value="%1$s" %3$s>%2$s</option>',
 										$option['value'],
 										$option['label'],
 										$selected,
 									);
-								} else {
+								} elseif ($option['parent'] == true) {
 									$html .= sprintf('
 									<optgroup label="%s">', $i2
 									);
 
 										foreach ($option as $i3 => $option2) {
-											$html .= sprintf('
-											<option value="%1$s" %3$s>%2$s</option>',
-												$option2['value'],
-												$option2['label'],
-												$selected,
-											);
+											if (is_array($option2)) {
+												$html .= sprintf('
+												<option value="%1$s" %3$s>%2$s</option>',
+													$option2['value'],
+													$option2['label'],
+													$selected,
+												);
+											}
 										}
 
 									$html .= '

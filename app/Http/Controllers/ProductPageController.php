@@ -168,10 +168,13 @@ class ProductPageController extends Controller
   }
 
 
-  public function basketAdd(Request $request, $configuration = null)
+  public function basketAdd(Request $request)
   {
-		// dd($request->all());
-		dd($configuration);
+		if (!empty($request->configuration)) {
+			$configuration = json_decode($request->configuration);
+			
+			dd($configuration);
+		}
 
 		if (!$product = Products::find($request->productId)) {
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
@@ -256,6 +259,12 @@ class ProductPageController extends Controller
 				$orderLineVariant->variantId = $variantId;
 				$orderLineVariant->save();
 			}
+		}
+
+		if (!empty($request->configuration)) {
+			$configuration = json_decode($request->configuration);
+			
+			dd($configuration);
 		}
 
 		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to basket.', $product->id));

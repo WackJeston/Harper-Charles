@@ -17,7 +17,7 @@ return new class extends Migration
       $table->id();
 			$table->foreignId('parentVariantId')->nullable()->constrained('product_variants')->onUpdate('cascade')->onDelete('cascade');
       $table->string('title', 100);
-			$table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreignId('assetId')->constrained('asset')->onUpdate('cascade')->onDelete('cascade')->nullable();
 			$table->string('colour', 100);
       $table->boolean('active')->default(0);
       $table->timestamps();

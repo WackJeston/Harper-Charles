@@ -12,6 +12,11 @@ class OrderLine extends Model
 	protected $fillable = [
 		'orderId',
 		'productId',
+		'orbitalVisionConfigurationId',
+		'orbitalVisionFileName',
 		'quantity',
+		'price',
+		'total',
+		'assetId',
 	];
 }

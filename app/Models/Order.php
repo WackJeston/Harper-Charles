@@ -16,6 +16,7 @@ class Order extends Model
 		'deliveryAddressId',
 		'billingAddressId',
 		'paymentMethodId',
+		'items',
 		'total',
 		'status',
 	];
