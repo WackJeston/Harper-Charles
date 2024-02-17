@@ -68,6 +68,7 @@ class AdminVariantProfileController extends Controller
 		if ($variant->type == 'colour') {
 			$subVariantsTable->addColumn('colour', 'Colour', 1);
 		}
+		$subVariantsTable->addColumn('reference', 'Ref', 1, true);
 		$subVariantsTable->addColumn('active', 'Active', 1, false, 'toggle');
 		if ($variant->type == 'image') {
 			$subVariantsTable->addJsButton('showImage', ['record:fileName'], 'fa-solid fa-eye', 'View Image');
