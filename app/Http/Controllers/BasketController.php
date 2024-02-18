@@ -33,7 +33,7 @@ class BasketController extends Controller
 				p.id AS productId,
 				p.title,
 				p.subtitle,
-				p.price,
+				ol.price,
 				IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 				FROM order_lines AS ol
 				INNER JOIN products AS p ON p.id = ol.productId
@@ -74,17 +74,48 @@ class BasketController extends Controller
     ));
   }
 
-  public function quantityUpdate(int $id, int $quantity) {
-		OrderLine::where('id', $id)->update([
-      'quantity' => $quantity,
-    ]);
-
-		return true;
-  }
-
   public function basketRemove(int $id) {
-    OrderLine::where('id', $id)->delete();
+		$orderLine = OrderLine::find($id);
+		$orderId = $orderLine->orderId;
+		$orderLine->delete();
+
+		self::setTotal($orderId);
 
 		return true;
   }
+
+  public function quantityUpdate(int $id, int $quantity) {
+		$orderLine = OrderLine::find($id);
+		$orderLine->quantity = $quantity;
+		$orderLine->total = $orderLine->price * $quantity;
+		$orderLine->save();
+
+		self::setTotal($orderLine->orderId);
+
+		return true;
+  }
+
+	public function setTotal(int $id) {
+		$order = Order::find($id);
+
+		$order->items = DB::select('SELECT
+			SUM(ol.quantity) AS items
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			GROUP BY ol.orderId
+			LIMIT 1',
+			[$order->id]
+		)[0]->items;
+
+		$order->total = DB::select('SELECT
+			SUM(ol.quantity * ol.price) AS total
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			GROUP BY ol.orderId
+			LIMIT 1',
+			[$order->id]
+		)[0]->total;
+
+		$order->save();
+	}
 }

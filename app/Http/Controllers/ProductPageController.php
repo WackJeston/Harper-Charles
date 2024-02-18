@@ -290,6 +290,11 @@ class ProductPageController extends Controller
 		$orderLine->orderId = $order->id;
 		$orderLine->productId = $product->id;
 		$orderLine->quantity = $request->quantity;
+
+		if (empty($request->configuration)) {
+			$orderLine->price = $product->price;
+		}
+
 		$orderLine->save();
 
 		foreach ($request->all() as $i => $variantId) {
@@ -309,6 +314,7 @@ class ProductPageController extends Controller
 				);
 
 				$orderLine->assetId = storeImageFromString($fileName, $productData->thumbnail);
+				$orderLine->price = $productData->price->base;
 				$orderLine->save();
 
 				foreach ($productData->attributes as $key => $variantData) {
