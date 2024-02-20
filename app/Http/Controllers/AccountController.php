@@ -13,7 +13,7 @@ use App\Models\Invoice;
 use App\Models\Address;
 
 
-class AccountController extends Controller
+class AccountController extends PublicController
 {
   public function show() {
     $sessionUser = auth()->user();

@@ -6,7 +6,7 @@ use DB;
 use App\Models\Enquiry;
 
 
-class AdminEnquiryProfileController extends Controller
+class AdminEnquiryProfileController extends AdminController
 {
   public function show($id)
   {

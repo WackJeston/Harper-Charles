@@ -10,6 +10,7 @@
 					</div>
 				</div>
 
+<<<<<<< Updated upstream
         <div v-show="this.count > 1" class="image-row-button-container">
           <i class="fa-solid fa-caret-left image-move-buttons" @click="imageRowMove('left')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
           <div class="image-row-container">
@@ -23,6 +24,18 @@
           <i class="fa-solid fa-caret-right image-move-buttons" @click="imageRowMove('right')" v-show="this.imageRowWidth > this.imageRowButtonContainerWidth"></i>
         </div>
       </div>
+=======
+		<div class="wb-content-container">
+			<div class="wb-content dk">
+				<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
+				<p>#: {{this.product.id}}</p>
+			</div>
+			
+			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
+				<form @submit.prevent="basketAdd" action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="_token" :value="csrf">
+					<input type="hidden" name="productId" :value="this.product.id">
+>>>>>>> Stashed changes
 
       <div class="wb-content dk">
         <h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
@@ -43,7 +56,15 @@
 								<div v-else-if="option.type == 'colour'" :style="{ backgroundColor: option.colour }"></div>
 							</div>
 						</div>
+<<<<<<< Updated upstream
           </div>
+=======
+					</div>
+					
+					<small v-if="this.variantCount > 0" class="variant-info">
+						Please select from the options above before adding to your basket.
+					</small>
+>>>>>>> Stashed changes
 
           <div class="bottom-row">
             <span id="price">£{{ this.product.price }}</span>
@@ -53,6 +74,7 @@
 			</div>
     </div>
 
+<<<<<<< Updated upstream
     <div class="image-viewer-container">
       <div class="image-viewer" v-show="this.imageView">
         <img class="viewer-image">
@@ -63,6 +85,9 @@
 
     <div id="cartAlert"></div>
   </section>
+=======
+	<div id="basketAlert"></div>
+>>>>>>> Stashed changes
 </template>
 
 
@@ -106,6 +131,7 @@
     },
 
     methods: {
+<<<<<<< Updated upstream
       async cartAdd(submitEvent) {
         try {
           for (var i = 0; i < this.variants.length; i++) {
@@ -117,6 +143,14 @@
               this.selectedVariants = this.selectedVariants + ',' + this.input.value;
             }
           }
+=======
+			async basketAdd(submitEvent) {
+				if (this.product.orbitalVisionId != null) {
+					let configurationData = await window.expivi.saveConfiguration(600, 600);
+					
+					this.configuration = JSON.stringify(configurationData);
+				}
+>>>>>>> Stashed changes
 
           this.result = await this.$http.post(
             '/product-pageCartAdd/' + this.product.id + '/' + this.variants.length + '/' + this.selectedVariants,

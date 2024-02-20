@@ -14,7 +14,7 @@ use App\Http\Api\InvoiceRenderer;
 
 
 
-class CheckoutController extends Controller
+class CheckoutController extends PublicController
 {
   public function show($action) 
   {

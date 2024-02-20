@@ -10,7 +10,7 @@ use App\DataForm;
 use App\Models\Banners;
 
 
-class AdminBannerProfileController extends Controller
+class AdminBannerProfileController extends AdminController
 {
   public function show($id)
   {

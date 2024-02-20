@@ -10,7 +10,7 @@ use App\Models\productCategoryImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
-class HomeController extends Controller
+class HomeController extends PublicController
 {
   public function show()
   {

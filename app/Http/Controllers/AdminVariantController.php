@@ -9,7 +9,7 @@ use App\DataForm;
 use App\Models\ProductVariants;
 use App\Models\Products;
 
-class AdminVariantController extends Controller
+class AdminVariantController extends AdminController
 {
   public function show()
   {

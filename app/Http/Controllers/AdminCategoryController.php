@@ -12,7 +12,7 @@ use App\Models\ProductCategoryJoins;
 use App\Models\ProductCategoryImages;
 use App\Models\Products;
 
-class AdminCategoryController extends Controller
+class AdminCategoryController extends AdminController
 {
   public function show()
   {

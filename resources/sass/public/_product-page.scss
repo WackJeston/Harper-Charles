@@ -316,7 +316,7 @@ p.product-description {
 }
 
 // Transitions ------------------------------
-.product-page #cartAlert {
+.product-page #basketAlert {
 	display: flex;
 	flex-direction: column-reverse;
 	transition: all 200ms ease-in;
@@ -328,7 +328,7 @@ p.product-description {
 	max-width: 400px;
 }
 
-.product-page #cartAlert ul {
+.product-page #basketAlert ul {
 	transition: all 200ms ease-in;
 	margin-bottom: 20px;
 }

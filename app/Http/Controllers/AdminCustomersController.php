@@ -11,7 +11,7 @@ use App\DataForm;
 use App\Models\User;
 
 
-class AdminCustomersController extends Controller
+class AdminCustomersController extends AdminController
 {
   public function show()
   {

@@ -64,7 +64,12 @@
 
   <body>
 		@php
+<<<<<<< Updated upstream
 			$sessionUser = auth()->user();
+=======
+			// $sessionUser = auth()->user();
+			resetShowMarker();
+>>>>>>> Stashed changes
 		@endphp
 
 		@if(str_contains(url()->current(), '/admin/'))
@@ -157,6 +162,28 @@
 
     @else
 
+<<<<<<< Updated upstream
+=======
+			@php
+				$basketCount = 0;
+
+				// if ($sessionUser != null) {
+				// 	$basketCountData = DB::select('SELECT
+				// 		o.items
+				// 		FROM orders AS o
+				// 		WHERE o.status = "basket" 
+				// 		AND o.userId = ?
+				// 		LIMIT 1',
+				// 		[$sessionUser['id']]
+				// 	);
+
+				// 	if (!empty($basketCountData)) {
+				// 		$basketCount = $basketCountData[0]->items;
+				// 	}
+				// }
+			@endphp
+
+>>>>>>> Stashed changes
       <div id="vuemenu">
         <vuemenu
           sitetitle="{{ env('APP_NAME') }}"

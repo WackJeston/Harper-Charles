@@ -9,7 +9,7 @@ use App\DataTable;
 use App\DataForm;
 use App\Models\Contact;
 
-class AdminContactController extends Controller
+class AdminContactController extends AdminController
 {
   public function show()
   {

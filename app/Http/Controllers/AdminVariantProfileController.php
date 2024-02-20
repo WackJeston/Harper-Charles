@@ -9,7 +9,7 @@ use App\DataForm;
 use App\Models\Products;
 use App\Models\ProductVariants;
 
-class AdminVariantProfileController extends Controller
+class AdminVariantProfileController extends AdminController
 {
   public function show($id)
   {

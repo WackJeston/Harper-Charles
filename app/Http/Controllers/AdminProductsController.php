@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\ProductImages;
 
-class AdminProductsController extends Controller
+class AdminProductsController extends AdminController
 {
   public function show(Products $products)
   {

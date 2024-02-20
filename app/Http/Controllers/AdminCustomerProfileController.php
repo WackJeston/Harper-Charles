@@ -11,7 +11,7 @@ use App\DataForm;
 use App\Models\User;
 
 
-class AdminCustomerProfileController extends Controller
+class AdminCustomerProfileController extends AdminController
 {
   public function show($id)
   {

@@ -15,7 +15,7 @@ use App\Models\ProductCategoryJoins;
 use App\Models\ProductVariants;
 use App\Models\ProductVariantJoins;
 
-class AdminProductProfileController extends Controller
+class AdminProductProfileController extends AdminController
 {
   public function show($id)
   {
