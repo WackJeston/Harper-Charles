@@ -6,21 +6,19 @@ use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
-	protected $sessionUser;
-
   public function __construct()
 	{
-		$this->middleware(function ($request, $next) {
-			$this->sessionUser= Auth::user();
+		// $this->middleware(function ($request, $next) {
+		// 	$this->sessionUser= Auth::user();
 
-			return $next($request);
-	});
+		// 	return $next($request);
+		// });
 
 		// dd($this->sessionUser);
 
-		$basketCount = 0;
+		// $basketCount = 0;
 
-		// if ($sessionUser != null) {
+		// if (auth()->user() != null) {
 		// 	$basketCountData = DB::select('SELECT
 		// 		o.*
 		// 		FROM orders AS o
@@ -34,7 +32,6 @@ class PublicController extends Controller
 		// 	}
 		// }
 
-		// view()->share('sessionUser', $sessionUser);
-		view()->share('basketCount', $basketCount);
+		// view()->share('basketCount', $basketCount);
 	}
 }

@@ -15,9 +15,7 @@ class AdminCustomersController extends AdminController
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
-		$createForm = new DataForm(request(), '/customersCreate', 'Add');
+    $createForm = new DataForm(request(), '/customersCreate', 'Add');
 		$createForm->addInput('text', 'firstname', 'First Name', null, 100, 1, true);
 		$createForm->addInput('text', 'lastname', 'Last Name', null, 100, 1, true);
 		$createForm->addInput('email', 'email', 'Email', null, 100, 1, true);
@@ -34,7 +32,6 @@ class AdminCustomersController extends AdminController
 		$customersTable = $customersTable->render();
 
     return view('admin/customers', compact(
-      'sessionUser',
 			'createForm',
       'customersTable',
     ));

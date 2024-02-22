@@ -19,8 +19,6 @@ class CartController extends Controller
       return redirect("/login")->withErrors(['1' => 'Please login before viewing your cart.']);
     }
 
-    $sessionUser = auth()->user();
-
     $cartItems = DB::select(sprintf('SELECT
       c.id,
       p.id AS productId,
@@ -38,7 +36,7 @@ class CartController extends Controller
       LEFT JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
       WHERE c.userId = %d
       GROUP BY c.id
-      ORDER BY c.created_at', $sessionUser->id
+      ORDER BY c.created_at', auth()->user()->id
     ));
 
     $variants = [];
@@ -52,7 +50,6 @@ class CartController extends Controller
     }
 
     return view('public/cart', compact(
-      'sessionUser',
       'cartItems',
       'variants',
     ));

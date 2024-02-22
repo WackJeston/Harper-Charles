@@ -64,12 +64,7 @@
 
   <body>
 		@php
-<<<<<<< Updated upstream
-			$sessionUser = auth()->user();
-=======
-			// $sessionUser = auth()->user();
 			resetShowMarker();
->>>>>>> Stashed changes
 		@endphp
 
 		@if(str_contains(url()->current(), '/admin/'))
@@ -100,7 +95,7 @@
               sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(true) }}"
-              :sessionuser="{{ $sessionUser }}"
+              :sessionuser="{{ auth()->user() }}"
 							:notifications="{{ json_encode($notifications) }}"
             />
           @else
@@ -108,7 +103,7 @@
               sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(false) }}"
-              :sessionuser="{{ $sessionUser }}"
+              :sessionuser="{{ auth()->user() }}"
 							:notifications="{{ json_encode($notifications) }}"
             />
           @endif
@@ -162,19 +157,17 @@
 
     @else
 
-<<<<<<< Updated upstream
-=======
 			@php
 				$basketCount = 0;
 
-				// if ($sessionUser != null) {
+				// if (auth()->user() != null) {
 				// 	$basketCountData = DB::select('SELECT
 				// 		o.items
 				// 		FROM orders AS o
 				// 		WHERE o.status = "basket" 
 				// 		AND o.userId = ?
 				// 		LIMIT 1',
-				// 		[$sessionUser['id']]
+				// 		[auth()->user()['id']]
 				// 	);
 
 				// 	if (!empty($basketCountData)) {
@@ -183,7 +176,6 @@
 				// }
 			@endphp
 
->>>>>>> Stashed changes
       <div id="vuemenu">
         <vuemenu
           sitetitle="{{ env('APP_NAME') }}"
@@ -191,7 +183,7 @@
           :publiclinks="{{ json_encode($publicLinks) }}"
           :userlinks="{{ json_encode($userLinks) }}"
 					:socials="{{ json_encode($socials) }}"
-					:sessionuser="{{ $sessionUser }}"
+					:sessionuser="{{ auth()->user() }}"
         />
       </div>
 
@@ -204,7 +196,7 @@
             :publiclinks="{{ json_encode($publicLinks) }}"
             :userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
-            :sessionuser="{{ $sessionUser }}"
+            :sessionuser="{{ auth()->user() }}"
           />
         </div>
 
@@ -225,7 +217,7 @@
 						:publiclinks="{{ json_encode($publicLinks) }}"
 						:userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
-						:sessionuser="{{ $sessionUser }}"
+						:sessionuser="{{ auth()->user() }}"
           />
         </div>
       </div>

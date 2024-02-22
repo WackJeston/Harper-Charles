@@ -13,9 +13,7 @@ class AdminProductsController extends AdminController
 {
   public function show(Products $products)
   {
-    $sessionUser = auth()->user();
-
-		$createForm = new DataForm(request(), '/productsCreate', 'Add');
+    $createForm = new DataForm(request(), '/productsCreate', 'Add');
 		$createForm->addInput('text', 'title', 'Title', null, 100, 1, true);
 		$createForm->addInput('text', 'subtitle', 'Subtitle', null, 255, 1);
 		$createForm->addInput('textarea', 'description', 'Description', null, 5000, 1);
@@ -34,7 +32,6 @@ class AdminProductsController extends AdminController
 		$productsTable = $productsTable->render();
 
     return view('/admin/products', compact(
-      'sessionUser',
 			'createForm',
 			'productsTable'
     ));

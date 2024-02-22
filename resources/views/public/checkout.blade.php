@@ -72,7 +72,7 @@
 				<div id="checkoutpayment" class="dk checkout-section">
 					<checkoutpayment 
 						stripekey="{{ env('STRIPE_KEY') }}"
-						:stripeid="{{ $sessionUser->stripe_id }}"
+						:stripeid="{{ auth()->user()->stripe_id }}"
 						:billingaddress="{{ json_encode($billingAddress) }}"
 						:paymentmethods="{{ json_encode($paymentMethods) }}"
 						:clientsecret="{{ $clientSecret }}"

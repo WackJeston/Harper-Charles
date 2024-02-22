@@ -15,8 +15,6 @@ class AdminCustomerProfileController extends AdminController
 {
   public function show($id)
   {
-    $sessionUser = auth()->user();
-
     if (User::find($id) == null) {
       return redirect('/admin/customers');
     }
@@ -50,7 +48,6 @@ class AdminCustomerProfileController extends AdminController
 		$ordersTable = $ordersTable->render();
 
     return view('admin/customer-profile', compact(
-      'sessionUser',
       'customer',
 			'editForm',
 			'ordersTable',

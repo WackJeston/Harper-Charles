@@ -15,13 +15,9 @@ class AdminOrderProfileController extends AdminController
 {
   public function show($id)
   {
-<<<<<<< Updated upstream
-    $sessionUser = auth()->user();
-=======
     if (Orders::find($id) == null) {
       return redirect('/admin/orders')->withErrors('1', ['Order not found']);
     }
->>>>>>> Stashed changes
 		
 		$order = DB::select('SELECT 
 			o.*,
@@ -63,7 +59,6 @@ class AdminOrderProfileController extends AdminController
 		$itemsTable = $itemsTable->render();
 
     return view('admin/order-profile', compact(
-      'sessionUser',
 			'order',
 			'addresses',
 			'itemsTable',

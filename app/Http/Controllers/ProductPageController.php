@@ -205,7 +205,7 @@ class ProductPageController extends PublicController
       FROM cart
       WHERE userId=%1$d
       AND productId=%2$d',
-      $sessionUser->id,
+      auth()->user()->id,
       $productId
     ));
 
@@ -258,7 +258,7 @@ class ProductPageController extends PublicController
     }
 
     $cart = Cart::create([
-      'userId' => $sessionUser->id,
+      'userId' => auth()->user()->id,
       'productId' => $productId,
       'quantity' => 1,
     ]);

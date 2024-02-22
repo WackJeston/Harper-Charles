@@ -8,9 +8,7 @@ class AdminTestController extends AdminController
 {
   public function show()
   {
-    $sessionUser = auth()->user();
-
-		$dataForm = new dataForm(request(), '/admin/test');
+    $dataForm = new dataForm(request(), '/admin/test');
 
 		$dataForm->addInput('text', 'firstName', 'First Name', null, 50, 1, true, 'John');
 		$dataForm->addInput('text', 'lastName', 'Last Name', null, 50, 1, true, 'Doe');
@@ -22,7 +20,6 @@ class AdminTestController extends AdminController
 		$form = $dataForm->render();
 
     return view('admin/test', compact(
-      'sessionUser',
 			'form',
     ));
   }

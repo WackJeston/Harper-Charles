@@ -16,13 +16,11 @@ use App\Models\Address;
 class AccountController extends PublicController
 {
   public function show() {
-    $sessionUser = auth()->user();
 		$action = 'account';
 
-		$orders = User::getOrders($sessionUser->id);
+		$orders = User::getOrders(auth()->user()->id);
 
     return view('public/account', compact(
-      'sessionUser',
 			'action',
 			'orders',
     ));
@@ -52,7 +50,6 @@ class AccountController extends PublicController
   }
 
 	public function orderShow(int $orderId) {
-    $sessionUser = auth()->user();
 		$action = 'order';
 
 		if ($order = Order::getOrder($orderId)) {
@@ -60,7 +57,6 @@ class AccountController extends PublicController
 			$notes = Order::getNotes($orderId);
 
 			return view('public/account', compact(
-				'sessionUser',
 				'action',
 				'order',
 				'invoice',

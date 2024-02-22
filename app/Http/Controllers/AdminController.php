@@ -8,8 +8,6 @@ class AdminController extends Controller
 {
   public function __construct()
 	{
-		$sessionUser = auth()->user();
-
-		view()->share('sessionUser', $sessionUser);
+		
 	}
 }
