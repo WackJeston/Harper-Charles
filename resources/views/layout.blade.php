@@ -173,20 +173,20 @@
 			@php
 				$basketCount = 0;
 
-				// if (auth()->user() != null) {
-				// 	$basketCountData = DB::select('SELECT
-				// 		o.items
-				// 		FROM orders AS o
-				// 		WHERE o.status = "basket" 
-				// 		AND o.userId = ?
-				// 		LIMIT 1',
-				// 		[auth()->user()['id']]
-				// 	);
+				if (auth()->user() != null) {
+					$basketCountData = DB::select('SELECT
+						o.items
+						FROM orders AS o
+						WHERE o.status = "basket" 
+						AND o.userId = ?
+						LIMIT 1',
+						[auth()->user()['id']]
+					);
 
-				// 	if (!empty($basketCountData)) {
-				// 		$basketCount = $basketCountData[0]->items;
-				// 	}
-				// }
+					if (!empty($basketCountData)) {
+						$basketCount = $basketCountData[0]->items;
+					}
+				}
 			@endphp
 
       <div id="vuemenu">
