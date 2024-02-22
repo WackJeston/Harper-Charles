@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataForm;
 
-class AdminTestController extends Controller
+class AdminTestController extends AdminController
 {
   public function show()
   {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 
-class SitemapController extends Controller
+class SitemapController extends PublicController
 {
   public function show()
   {

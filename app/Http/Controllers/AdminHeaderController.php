@@ -7,7 +7,7 @@ use App\Models\Notification;
 use App\Models\NotificationUser;
 
 
-class AdminHeaderController extends Controller
+class AdminHeaderController extends AdminController
 {
   public function toggleNotification(int $id, int $notificationUserId, string $type)
   {

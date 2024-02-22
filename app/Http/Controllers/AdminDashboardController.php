@@ -6,7 +6,7 @@ use DB;
 use App\DataTable;
 
 
-class AdminDashboardController extends Controller
+class AdminDashboardController extends AdminController
 {
   public function show()
   {

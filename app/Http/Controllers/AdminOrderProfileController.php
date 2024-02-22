@@ -11,12 +11,12 @@ use App\DataForm;
 use App\Models\Orders;
 
 
-class AdminOrderProfileController extends Controller
+class AdminOrderProfileController extends AdminController
 {
   public function show($id)
   {
     if (Orders::find($id) == null) {
-      return redirect('/admin/orders')->withErrors('1' => ['Order not found']);
+      return redirect('/admin/orders')->withErrors(['1' => 'Order not found']);
     }
 		
 		$order = DB::select('SELECT 

@@ -10,7 +10,7 @@ use App\DataTable;
 use App\DataForm;
 use App\Models\Settings;
 
-class AdminSettingsController extends Controller
+class AdminSettingsController extends AdminController
 {
   public function show()
   {

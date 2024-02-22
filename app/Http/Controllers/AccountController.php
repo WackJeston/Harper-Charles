@@ -13,17 +13,14 @@ use App\Models\Invoice;
 use App\Models\Address;
 
 
-class AccountController extends Controller
+class AccountController extends PublicController
 {
   public function show() {
-		$sessionUser = auth()->user();
-
 		$action = 'account';
 
-		$orders = User::getOrders($sessionUser->id);
+		$orders = User::getOrders(auth()->user()->id);
 
     return view('public/account', compact(
-			'sessionUser',
 			'action',
 			'orders',
     ));
@@ -53,8 +50,6 @@ class AccountController extends Controller
   }
 
 	public function orderShow(int $orderId) {
-		$sessionUser = auth()->user();
-
 		$action = 'order';
 
 		if ($order = Order::getOrder($orderId)) {
@@ -62,7 +57,6 @@ class AccountController extends Controller
 			$notes = Order::getNotes($orderId);
 
 			return view('public/account', compact(
-				'sessionUser',
 				'action',
 				'order',
 				'invoice',

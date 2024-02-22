@@ -11,7 +11,7 @@ use App\DataForm;
 use App\Models\Orders;
 
 
-class AdminOrdersController extends Controller
+class AdminOrdersController extends AdminController
 {
   public function show()
   {

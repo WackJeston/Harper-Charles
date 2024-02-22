@@ -9,7 +9,7 @@ use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
 use Illuminate\Http\Request;
 
-class BasketController extends Controller
+class BasketController extends PublicController
 {
   public function show() {
     if (!auth()->user()) {

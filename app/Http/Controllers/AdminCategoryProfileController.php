@@ -14,7 +14,7 @@ use App\Models\ProductCategories;
 use App\Models\ProductCategoryImages;
 use App\Models\ProductCategoryJoins;
 
-class AdminCategoryProfileController extends Controller
+class AdminCategoryProfileController extends AdminController
 {
   public function show($id)
   {

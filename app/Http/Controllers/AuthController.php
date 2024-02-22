@@ -13,7 +13,7 @@ use App\Mail\VerifyEmailCustomer;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
-class AuthController extends Controller
+class AuthController extends PublicController
 {
   public function authenticateAdmin(Request $request)
   {

@@ -42,7 +42,7 @@
 				<div id="accountfunctions" class="section section-width">
 					<accountfunctions
 						pageshowmarker="{{ session()->get('pageShowMarker') }}"
-						:user="{{ $sessionUser }}"
+						:user="{{ auth()->user() }}"
 						:orders="{{ json_encode($orders) }}"
 					/>
 				</div>
@@ -50,7 +50,7 @@
 			@case('order')
 				<div id="accountorder" class="section section-width">
 					<accountorder 
-						:user="{{ $sessionUser }}"
+						:user="{{ auth()->user() }}"
 						:order="{{ json_encode($order) }}"
 						:invoice="{{ json_encode($invoice) }}"
 						:notes="{{ json_encode($notes) }}"

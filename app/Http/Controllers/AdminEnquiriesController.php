@@ -7,7 +7,7 @@ use App\DataTable;
 use App\Models\Enquiry;
 
 
-class AdminEnquiriesController extends Controller
+class AdminEnquiriesController extends AdminController
 {
   public function show()
   {

@@ -25,7 +25,6 @@ class Authenticate extends Middleware
 
   public function handle($request, Closure $next, ...$guards)
   {
-
     if (str_ends_with(url()->current(), '/admin')) {
       if (Auth::check() && auth()->user()['admin'] == 1) {
 				if ($request->ajax()) {

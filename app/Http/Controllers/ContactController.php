@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Enquiry;
 
 
-class ContactController extends Controller
+class ContactController extends PublicController
 {
   public function show()
   {

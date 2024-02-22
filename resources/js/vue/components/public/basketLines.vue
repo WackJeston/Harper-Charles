@@ -66,18 +66,24 @@ export default {
 
 	methods: {
 		total() {
-			let lines = document.querySelectorAll('.basket-line');
+			let basketLinks = document.querySelectorAll('a[href="/basket"] .basket-count');
+			let lineElements = document.querySelectorAll('.basket-line');
+			let lines = this.lines;
 			let price = 0;
 			let count = 0;
 			let quantity = 0;
 
-			lines.forEach(function(line) {
-				let quantityTemp = line.querySelector('input[name="quantity"]').value;
-				let priceTemp = line.querySelector('.price').innerHTML.split('£')[1];
+			lineElements.forEach(function(lineElement, index) {
+				let quantityTemp = lineElement.querySelector('input[name="quantity"]').value;
+				let priceTemp = lines[index].price;
 
 				price += parseFloat(priceTemp * quantityTemp);
 				count++;
 				quantity += parseFloat(quantityTemp);
+			});
+			
+			basketLinks.forEach(function(basketLink) {
+				basketLink.innerHTML = quantity;
 			});
 			
 			this.lineCount = count;

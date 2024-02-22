@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Models\Basket;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
@@ -12,7 +13,7 @@ use App\Models\ProductVariantJoins;
 use Illuminate\Http\Request;
 
 
-class ProductPageController extends Controller
+class ProductPageController extends PublicController
 {
   public function show($id)
   {
@@ -84,6 +85,106 @@ class ProductPageController extends Controller
 					'done' => false,
 					'options' => [],
 				];
+
+				$optionsRecords = DB::select('SELECT
+					pv.*,
+					a.fileName,
+					pv2.id AS parent
+					FROM product_variants AS pv
+					INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
+					INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id
+					LEFT JOIN asset AS a ON a.id=pv.assetId
+					WHERE pv.parentVariantId IS NOT NULL
+					AND pvj.productId = ?
+					AND pv.active = 1
+					AND pv2.active = 1
+					GROUP BY pv.id',
+					[$id]
+				);
+
+				$optionsRecords = cacheImages($optionsRecords, 600, 600);
+
+				$variants = [];
+			
+			}
+
+			foreach ($optionsRecords as $i => $option) {
+				if ($variants[$option->parent]['selected'] == null) {
+					$variants[$option->parent]['selected'] = $option->id;
+				}
+				
+				$variants[$option->parent]['options'][$option->id] = [
+					'id' => $option->id,
+					'title' => $option->title,
+					'type' => $option->type,
+					'fileName' => $option->fileName,
+					'colour' => $option->colour,
+				];
+			}
+
+			foreach ($variants as $i => $variant) {
+				if(empty($variant['options'])) {
+					unset($variants[$i]);
+				}
+			}
+
+			$specs = DB::select('SELECT
+				ps.label,
+				ps.value
+				FROM product_spec AS ps
+				WHERE ps.productId = ?
+				AND ps.active = 1
+				ORDER BY ps.sequence ASC',
+				[$id]
+			);
+
+			if ($product->orbitalVisionId != null) {
+				$scripts = [
+					[
+						'path' => '/js/viewer.js',
+						'loadType' => 'defer',
+						'onLoad' => '',
+					],
+					[
+						'path' => '/js/app.js',
+						'loadType' => 'defer',
+						'onLoad' => sprintf('orbitalVistionLoad3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
+					],
+				];
+		
+				$stylesheets = [
+					'/css/app.css',
+				];
+
+			} else {
+				$scripts = [];
+				$stylesheets = [];
+			}
+			
+			$records = cacheRecords('public-page-product-' . $id, [
+				'product' => $product,
+				'productImages' => $productImages,
+				'imageCount' => $imageCount,
+				'variants' => $variants,
+				'specs' => $specs,
+				'scripts' => $scripts,
+				'stylesheets' => $stylesheets,
+			]);
+		}
+
+		foreach ($optionsRecords as $i => $option) {
+			$variants[$option->parent]['options'][$option->id] = [
+				'id' => $option->id,
+				'title' => $option->title,
+				'type' => $option->type,
+				'fileName' => $option->fileName,
+				'colour' => $option->colour,
+			];
+		}
+
+		foreach ($variants as $i => $variant) {
+			if(empty($variant['options'])) {
+				unset($variants[$i]);
 			}
 
 			foreach ($optionsRecords as $i => $option) {
@@ -180,9 +281,19 @@ class ProductPageController extends Controller
 			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
 		}
 
-		if (!$sessionUser = auth()->user()) {
+		if (!auth()->user()) {
 			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your basket.']);
 		}
+
+    $allCartItems = DB::select(sprintf('SELECT
+      id,
+      quantity
+      FROM cart
+      WHERE userId=%1$d
+      AND productId=%2$d',
+      auth()->user()->id,
+      $productId
+    ));
 
 		if (!empty($request->configuration)) {
 			$configuration = json_decode($request->configuration);
@@ -240,6 +351,12 @@ class ProductPageController extends Controller
 
 		if (!empty($matchingOrders)) {
 			$variantsIds = [];
+
+			$cart = Basket::create([
+				'userId' => auth()->user()->id,
+				'productId' => $productId,
+				'quantity' => 1,
+			]);
 
 			foreach ($request->all() as $i => $variantId) {
 				if (str_contains($i, 'variant')) {

@@ -34,7 +34,7 @@
 			</div>
 			
 			<div class="wb-content bg-gray dk" :class="{ 'full-height' : (this.variantCount > 0) }">
-				<form @submit.prevent="cartAdd" action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
+				<form @submit.prevent="basketAdd" action="/product-pageBasketAdd" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="productId" :value="this.product.id">
 
@@ -66,7 +66,7 @@
 					</div>
 					
 					<small v-if="this.variantCount > 0" class="variant-info">
-						Please select from the options above before adding to your cart.
+						Please select from the options above before adding to your basket.
 					</small>
 
 					<div class="bottom-row">
@@ -81,7 +81,15 @@
 		</div>
 	</div>
 
-	<div id="cartAlert"></div>
+	<div class="image-viewer-container">
+		<div class="image-viewer" v-show="this.imageView">
+			<img class="viewer-image">
+			<div class="viewer-overlay"></div>
+			<i class="fa-solid fa-xmark" @click="closeImage()"></i>
+		</div>
+	</div>
+
+	<div id="basketAlert"></div>
 </template>
 
 
@@ -124,7 +132,7 @@
     },
 
     methods: {
-			async cartAdd(submitEvent) {
+			async basketAdd(submitEvent) {
 				if (this.product.orbitalVisionId != null) {
 					let configurationData = await window.expivi.saveConfiguration(600, 600);
 					

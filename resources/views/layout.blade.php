@@ -77,7 +77,6 @@
 
   <body>
 		@php
-			$sessionUser = auth()->user();
 			resetShowMarker();
 		@endphp
 
@@ -109,7 +108,7 @@
               sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(true) }}"
-              :sessionuser="{{ $sessionUser }}"
+              :sessionuser="{{ auth()->user() }}"
 							:notifications="{{ json_encode($notifications) }}"
             />
           @else
@@ -117,7 +116,7 @@
               sitetitle="{{ env('APP_NAME') }}"
               :adminlinks="{{ json_encode($adminLinks) }}"
               showHome="{{ json_encode(false) }}"
-              :sessionuser="{{ $sessionUser }}"
+              :sessionuser="{{ auth()->user() }}"
 							:notifications="{{ json_encode($notifications) }}"
             />
           @endif
@@ -174,21 +173,20 @@
 			@php
 				$basketCount = 0;
 
-				if ($sessionUser != null) {
-					$basketCountData = DB::select('SELECT
-						SUM(ol.quantity) AS count
-						FROM order_lines AS ol
-						INNER JOIN orders AS o ON o.id=ol.orderId
-						WHERE o.status = "basket" 
-						AND o.userId = ?
-						GROUP BY o.userId',
-						[$sessionUser['id']]
-					);
+				// if (auth()->user() != null) {
+				// 	$basketCountData = DB::select('SELECT
+				// 		o.items
+				// 		FROM orders AS o
+				// 		WHERE o.status = "basket" 
+				// 		AND o.userId = ?
+				// 		LIMIT 1',
+				// 		[auth()->user()['id']]
+				// 	);
 
-					if (!empty($basketCountData)) {
-						$basketCount = $basketCountData[0]->count;
-					}
-				}
+				// 	if (!empty($basketCountData)) {
+				// 		$basketCount = $basketCountData[0]->items;
+				// 	}
+				// }
 			@endphp
 
       <div id="vuemenu">
@@ -198,7 +196,7 @@
           :publiclinks="{{ json_encode($publicLinks) }}"
           :userlinks="{{ json_encode($userLinks) }}"
 					:socials="{{ json_encode($socials) }}"
-					:sessionuser="{{ $sessionUser }}"
+					:sessionuser="{{ auth()->user() }}"
 					basketcount="{{ $basketCount }}"
         />
       </div>
@@ -212,7 +210,7 @@
             :publiclinks="{{ json_encode($publicLinks) }}"
             :userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
-            :sessionuser="{{ $sessionUser }}"
+						:sessionuser="{{ auth()->user() }}"
 						basketcount="{{ $basketCount }}"
           />
         </div>
@@ -238,7 +236,7 @@
 						:publiclinks="{{ json_encode($publicLinks) }}"
 						:userlinks="{{ json_encode($userLinks) }}"
 						:socials="{{ json_encode($socials) }}"
-						:sessionuser="{{ $sessionUser }}"
+						:sessionuser="{{ auth()->user() }}"
           />
         </div>
       </div>

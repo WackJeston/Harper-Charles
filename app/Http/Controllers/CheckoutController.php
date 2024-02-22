@@ -14,7 +14,7 @@ use App\Http\Api\InvoiceRenderer;
 
 
 
-class CheckoutController extends Controller
+class CheckoutController extends PublicController
 {
   public function show($action) 
   {
@@ -23,7 +23,7 @@ class CheckoutController extends Controller
 			case 'addresses':
 				Checkout::createCheckout();
 
-				$defaultDelivery = Address::where('userId', $sessionUser->id)->where('defaultShipping', 1)->first();
+				$defaultDelivery = Address::where('userId', auth()->user()->id)->where('defaultShipping', 1)->first();
 				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
 
 				$deliveryAddresses = DB::select('SELECT
@@ -34,11 +34,11 @@ class CheckoutController extends Controller
 					WHERE a.userId=?
 					AND a.type="delivery"
 					ORDER BY defaultShipping DESC, firstName, lastName',
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
-				$billingAddresses = Address::where('userId', $sessionUser->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-				$defaultBilling = Address::where('userId', $sessionUser->id)->where('defaultBilling', 1)->first();
+				$billingAddresses = Address::where('userId', auth()->user()->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
+				$defaultBilling = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first();
 				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
 
 				$billingAddresses = DB::select('SELECT
@@ -49,7 +49,7 @@ class CheckoutController extends Controller
 					WHERE a.userId=?
 					AND a.type="billing"
 					ORDER BY defaultBilling DESC, firstName, lastName',
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
 				$countries = DB::select('SELECT * FROM countries ORDER BY name ASC');
@@ -65,7 +65,7 @@ class CheckoutController extends Controller
 				break;
 
 			case 'payment':
-				$checkout = Checkout::where('userId', $sessionUser->id)->first();
+				$checkout = Checkout::where('userId', auth()->user()->id)->first();
 
 				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
 					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
@@ -73,7 +73,7 @@ class CheckoutController extends Controller
 
 				$paymentMethods = [];
 
-				foreach ($sessionUser->paymentMethods() as $i => $method) {
+				foreach (auth()->user()->paymentMethods() as $i => $method) {
 					$paymentMethods[$i] = [
 						'id' => $method->id,
 						'brand' => ucfirst($method->card->brand),
@@ -89,12 +89,12 @@ class CheckoutController extends Controller
 					INNER JOIN checkout AS c ON c.billingAddressId = a.id
 					WHERE c.userId = ?
 					LIMIT 1', 
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
 				$billingAddress = $billingAddress[0];
 
-				$payment = $sessionUser->pay(
+				$payment = auth()->user()->pay(
 					$checkout->total * 100
 				);
 				$clientSecret = $payment->client_secret;
@@ -111,7 +111,7 @@ class CheckoutController extends Controller
 				break;
 
 			case 'review':
-				$checkout = Checkout::where('userId', $sessionUser->id)->first();
+				$checkout = Checkout::where('userId', auth()->user()->id)->first();
 
 				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
 					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
@@ -131,7 +131,7 @@ class CheckoutController extends Controller
 					LEFT JOIN products AS p ON p.id=cp.productId
 					WHERE c.userId=?
 					GROUP BY c.id',
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
 				$checkout = $checkout[0];
@@ -153,7 +153,7 @@ class CheckoutController extends Controller
 					LEFT JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
 					WHERE c.userId=?
 					GROUP BY p.id',
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
 				$addresses = DB::select('SELECT
@@ -173,10 +173,10 @@ class CheckoutController extends Controller
 					INNER JOIN countries AS co ON co.code=a.country
 					WHERE c.userId=?
 					GROUP BY a.id',
-					[$sessionUser->id]
+					[auth()->user()->id]
 				);
 
-				$method = $sessionUser->findPaymentMethod(Checkout::where('userId', $sessionUser->id)->first()->paymentMethodId);
+				$method = auth()->user()->findPaymentMethod(Checkout::where('userId', auth()->user()->id)->first()->paymentMethodId);
 
 				$paymentMethod = [
 					'id' => $method->id,

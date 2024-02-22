@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTable;
 
 
-class AdminBannersController extends Controller
+class AdminBannersController extends AdminController
 {
   public function show()
   {
