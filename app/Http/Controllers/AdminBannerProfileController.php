@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\DataTable;
+use App\DataForm;
 use App\Models\Banners;
 
 

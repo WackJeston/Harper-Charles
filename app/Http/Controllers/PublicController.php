@@ -1,89 +1,37 @@
 <?php
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\View;
-use Illuminate\Validation\Rule;
+Use DB;
+use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
   public function __construct()
 	{
-		$publicLinks = [
-			$shop = [
-				"title"=>"shop",
-				"link"=>"/shop",
-				"icon"=>"fa-solid fa-tags",
-			],
-			$basket = [
-				"title"=>"basket",
-				"link"=>"/basket",
-				"icon"=>"fa-solid fa-basket-shopping",
-			],
-			$contact = [
-				"title"=>"contact",
-				"link"=>"/contact",
-				"icon"=>"fa-regular fa-address-card",
-			],
-		];
+		// $this->middleware(function ($request, $next) {
+		// 	$this->sessionUser= Auth::user();
 
-		$userLinks = [
-			$account = [
-				"title"=>"account",
-				"link"=>"/account",
-				"icon"=>"fa-solid fa-user-gear",
-			],
-			$logout =[
-				"title"=>"logout",
-				"link"=>"/customerLogout",
-				"icon"=>"fa-solid fa-arrow-right-from-bracket",
-			],
-		];
+		// 	return $next($request);
+		// });
 
-		$socials = [
-			$instagram = [
-				"title"=>"instagram",
-				"link"=>"https://www.instagram.com/harpercharlescompany/",
-				"icon"=>"fa-brands fa-instagram",
-			],
-			$facebook = [
-				"title"=>"facebook",
-				"link"=>"https://www.facebook.com/p/Harper-Charles-Bespoke-Interiors-100033144487745/",
-				"icon"=>"fa-brands fa-facebook",
-			],
-			$youtube = [
-				"title"=>"youtube",
-				"link"=>"https://www.youtube.com/channel/UCr4e-CcIQWgoMBT_XpPC0HQ/",
-				"icon"=>"fa-brands fa-youtube",
-			],
-		];
+		// dd($this->sessionUser);
 
-		$contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
+		// $basketCount = 0;
 
-		$contact = [
-			'email' => [],
-			'phone' => [],
-			'line2' => '',
-			'line3' => '',
-		];
+		// if (auth()->user() != null) {
+		// 	$basketCountData = DB::select('SELECT
+		// 		o.*
+		// 		FROM orders AS o
+		// 		WHERE o.status = "basket" 
+		// 		AND o.userId = 3
+		// 		LIMIT 1'
+		// 	);
 
-		foreach ($contactResult as $i => $row) {
-			if ($row->type == 'email') {
-				$contact['email'][] = $row->value;
-			} elseif ($row->type == 'phone') {
-				$contact['phone'][] = $row->value;
-			}	else {
-				$contact[$row->type] = $row->value;
-			}
-		}
+		// 	if (!empty($basketCountData)) {
+		// 		$basketCount = $basketCountData[0]->items;
+		// 	}
+		// }
 
-		View::share([
-			'publicLinks' => $publicLinks,
-			'userLinks' => $userLinks,
-			'socials' => $socials,
-			'contact' => $contact,
-		]);
+		// view()->share('basketCount', $basketCount);
 	}
 }

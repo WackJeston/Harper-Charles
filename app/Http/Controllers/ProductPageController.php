@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Basket;
 use App\Models\Order;
 use App\Models\OrderLine;
@@ -9,6 +10,7 @@ use App\Models\OrderLineVariant;
 use App\Models\Products;
 use App\Models\ProductVariants;
 use App\Models\ProductVariantJoins;
+use Illuminate\Http\Request;
 
 
 class ProductPageController extends PublicController

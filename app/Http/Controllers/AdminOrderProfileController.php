@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\DataTable;
+use App\DataForm;
 use App\Models\Orders;
 
 

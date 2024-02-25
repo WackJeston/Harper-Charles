@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Illuminate\Http\Request;
+use App\DataTable;
+use App\DataForm;
 use App\Models\Products;
 use App\Models\ProductVariants;
 

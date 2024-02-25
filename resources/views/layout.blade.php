@@ -245,6 +245,8 @@
     <script src="{{ mix('js/app.js') }}"></script>
 
 		{{-- Custom JS --}}
+		<script src="/js/dataTable.js"></script>
+		<script src="/js/dataForm.js"></script>
 		<script src="/js/functions.js"></script>
 
 		@if (!str_contains(url()->current(), '/admin'))
@@ -268,12 +270,7 @@
 				}
 
 				// DataTable
-				if (document.querySelector('.data-table')) {
-					let file = document.createElement('script');
-					file.setAttribute("type","text/javascript");
-					file.setAttribute("src", "/js/dataTable.js");
-					document.body.appendChild(file);
-
+				if (document.querySelector('table')) {
 					setIdWidth();
 					setTableMargin();
 					hideTableColumnsLoop();
@@ -281,11 +278,6 @@
 
 				// DataForm
 				if (document.querySelector('form')) {
-					let file = document.createElement('script');
-					file.setAttribute("type","text/javascript");
-					file.setAttribute("src", "/js/dataForm.js");
-					document.body.appendChild(file);
-
 					setPasswordToggles();
 					setFileInputs();
 				}

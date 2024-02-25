@@ -1,6 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use File;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
+use App\DataTable;
+use App\DataForm;
 use App\Models\Products;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryImages;

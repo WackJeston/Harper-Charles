@@ -250,7 +250,7 @@ class DataTable
 		}
 
 		$html .= sprintf('
-		<table class="data-table web-box dk" id="table-%s">
+		<table class="web-box dk" id="table-%s">
 			<thead>
 				<tr>', $this->table['ref']);
 

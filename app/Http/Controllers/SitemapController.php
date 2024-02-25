@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Illuminate\Http\Request;
 
 class SitemapController extends PublicController
 {

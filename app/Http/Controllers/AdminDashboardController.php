@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\DataTable;
 
 
 class AdminDashboardController extends AdminController

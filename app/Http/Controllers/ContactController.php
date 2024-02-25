@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+Use DB;
+use Illuminate\Http\Request;
 use App\Models\Enquiry;
 
 
