@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use DB;
 use Illuminate\Support\Facades\Session;
 
 class DataTableController extends Controller

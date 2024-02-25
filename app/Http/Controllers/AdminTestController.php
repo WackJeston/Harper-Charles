@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DataForm;
 
 class AdminTestController extends AdminController
 {

@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-Use DB;
 use App\Models\Address;
 use App\Models\Checkout;
 use App\Models\CheckoutProduct;

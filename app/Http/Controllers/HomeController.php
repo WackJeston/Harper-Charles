@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Models\LandingZoneCarousels;
 use App\Models\LandingZones;
 use App\Models\productCategories;
 use App\Models\productCategoryImages;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class HomeController extends PublicController
 {

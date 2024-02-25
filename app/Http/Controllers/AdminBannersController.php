@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTable;
 
 
 class AdminBannersController extends AdminController

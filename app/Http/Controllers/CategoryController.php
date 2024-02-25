@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryImages;
 use App\Models\ProductImages;

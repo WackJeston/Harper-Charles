@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Hash;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;

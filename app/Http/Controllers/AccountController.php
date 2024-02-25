@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Hash;
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderNote;
