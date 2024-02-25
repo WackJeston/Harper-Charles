@@ -53,7 +53,12 @@ class ProductPageController extends PublicController
 				pv.title,
 				pv.type
 				FROM product_variants AS pv
-				WHERE pv.parentVariantId IS NULL'
+				INNER JOIN product_variants AS pv2 ON pv2.parentVariantId=pv.id
+				INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv2.id
+				WHERE pvj.productId = ?
+				AND pv.parentVariantId IS NULL
+				GROUP BY pv.id',
+				[$id]
 			);
 
 			$optionsRecords = DB::select('SELECT
@@ -85,27 +90,6 @@ class ProductPageController extends PublicController
 					'done' => false,
 					'options' => [],
 				];
-
-				$optionsRecords = DB::select('SELECT
-					pv.*,
-					a.fileName,
-					pv2.id AS parent
-					FROM product_variants AS pv
-					INNER JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
-					INNER JOIN product_variant_joins AS pvj ON pvj.variantId=pv.id
-					LEFT JOIN asset AS a ON a.id=pv.assetId
-					WHERE pv.parentVariantId IS NOT NULL
-					AND pvj.productId = ?
-					AND pv.active = 1
-					AND pv2.active = 1
-					GROUP BY pv.id',
-					[$id]
-				);
-
-				$optionsRecords = cacheImages($optionsRecords, 600, 600);
-
-				$variants = [];
-			
 			}
 
 			foreach ($optionsRecords as $i => $option) {
@@ -122,12 +106,6 @@ class ProductPageController extends PublicController
 				];
 			}
 
-			foreach ($variants as $i => $variant) {
-				if(empty($variant['options'])) {
-					unset($variants[$i]);
-				}
-			}
-
 			$specs = DB::select('SELECT
 				ps.label,
 				ps.value
@@ -141,98 +119,19 @@ class ProductPageController extends PublicController
 			if ($product->orbitalVisionId != null) {
 				$scripts = [
 					[
-						'path' => '/js/viewer.js',
+						'path' => '/js/orbital-vision/viewer.js',
 						'loadType' => 'defer',
 						'onLoad' => '',
 					],
 					[
-						'path' => '/js/app.js',
+						'path' => '/js/orbital-vision/app.js',
 						'loadType' => 'defer',
 						'onLoad' => sprintf('orbitalVistionLoad3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
 					],
 				];
 		
 				$stylesheets = [
-					'/css/app.css',
-				];
-
-			} else {
-				$scripts = [];
-				$stylesheets = [];
-			}
-			
-			$records = cacheRecords('public-page-product-' . $id, [
-				'product' => $product,
-				'productImages' => $productImages,
-				'imageCount' => $imageCount,
-				'variants' => $variants,
-				'specs' => $specs,
-				'scripts' => $scripts,
-				'stylesheets' => $stylesheets,
-			]);
-		}
-
-		foreach ($optionsRecords as $i => $option) {
-			$variants[$option->parent]['options'][$option->id] = [
-				'id' => $option->id,
-				'title' => $option->title,
-				'type' => $option->type,
-				'fileName' => $option->fileName,
-				'colour' => $option->colour,
-			];
-		}
-
-		foreach ($variants as $i => $variant) {
-			if(empty($variant['options'])) {
-				unset($variants[$i]);
-			}
-
-			foreach ($optionsRecords as $i => $option) {
-				if ($variants[$option->parent]['selected'] == null) {
-					$variants[$option->parent]['selected'] = $option->id;
-				}
-				
-				$variants[$option->parent]['options'][$option->id] = [
-					'id' => $option->id,
-					'title' => $option->title,
-					'type' => $option->type,
-					'fileName' => $option->fileName,
-					'colour' => $option->colour,
-				];
-			}
-
-			foreach ($variants as $i => $variant) {
-				if(empty($variant['options'])) {
-					unset($variants[$i]);
-				}
-			}
-
-			$specs = DB::select('SELECT
-				ps.label,
-				ps.value
-				FROM product_spec AS ps
-				WHERE ps.productId = ?
-				AND ps.active = 1
-				ORDER BY ps.sequence ASC',
-				[$id]
-			);
-
-			if ($product->orbitalVisionId != null) {
-				$scripts = [
-					[
-						'path' => 'https://assets.expivi.net/viewer/latest/viewer.js',
-						'loadType' => 'defer',
-						'onLoad' => '',
-					],
-					[
-						'path' => 'https://assets.expivi.net/options/latest/js/app.js',
-						'loadType' => 'defer',
-						'onLoad' => sprintf('orbitalVistionLoad3dModel("%s", %d)', env('ORBITAL_VISION_API_KEY'), $product->orbitalVisionId),
-					],
-				];
-		
-				$stylesheets = [
-					'https://assets.expivi.net/options/latest/css/app.css',
+					'/css/orbital-vision/app.css',
 				];
 
 			} else {
@@ -285,16 +184,6 @@ class ProductPageController extends PublicController
 			return redirect("/login")->withErrors(['1' => 'Please login before adding items to your basket.']);
 		}
 
-    $allCartItems = DB::select(sprintf('SELECT
-      id,
-      quantity
-      FROM cart
-      WHERE userId=%1$d
-      AND productId=%2$d',
-      auth()->user()->id,
-      $productId
-    ));
-
 		if (!empty($request->configuration)) {
 			$configuration = json_decode($request->configuration);
 
@@ -331,9 +220,9 @@ class ProductPageController extends PublicController
 			}
 		}
 
-		if (!$order = Order::where('userId', $sessionUser->id)->where('status', 'basket')->first()) {
+		if (!$order = Order::where('userId', auth()->user()->id)->where('status', 'basket')->first()) {
 			$order = new Order;
-			$order->userId = $sessionUser->id;
+			$order->userId = auth()->user()->id;
 			$order->status = 'basket';
 			$order->save();
 		}
@@ -351,12 +240,6 @@ class ProductPageController extends PublicController
 
 		if (!empty($matchingOrders)) {
 			$variantsIds = [];
-
-			$cart = Basket::create([
-				'userId' => auth()->user()->id,
-				'productId' => $productId,
-				'quantity' => 1,
-			]);
 
 			foreach ($request->all() as $i => $variantId) {
 				if (str_contains($i, 'variant')) {
@@ -442,6 +325,26 @@ class ProductPageController extends PublicController
 				}
 			}
 		}
+
+		$order->items = DB::select('SELECT
+			SUM(ol.quantity) AS items
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			GROUP BY ol.orderId
+			LIMIT 1',
+			[$order->id]
+		)[0]->items;
+
+		$order->total = DB::select('SELECT
+			SUM(ol.quantity * ol.price) AS total
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			GROUP BY ol.orderId
+			LIMIT 1',
+			[$order->id]
+		)[0]->total;
+
+		$order->save();
 
 		return redirect('/product/' . $product->id)->with('message', sprintf('Product #%d Added to basket.', $product->id));
   }
