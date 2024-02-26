@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('body-admin')
 
 @if ($type == 'standard')
 	@section('title', 'Enquiry')

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('body-public')
 
 @section('title', $product['title'])
 

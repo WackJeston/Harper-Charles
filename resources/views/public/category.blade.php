@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('body-public')
 
 @if ($categories)
 	@section('title', 'Shop')

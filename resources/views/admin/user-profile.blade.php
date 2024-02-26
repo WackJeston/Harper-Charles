@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('body-admin')
 
 @section('title', 'User Profile')
 

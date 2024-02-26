@@ -3,10 +3,9 @@ namespace App\Http\Controllers;
 
 Use DB;
 use App\Models\Address;
-use App\Models\Checkout;
-use App\Models\CheckoutProduct;
-use App\Models\CheckoutProductsVariant;
 use App\Models\Order;
+use App\Models\OrderLine;
+use App\Models\OrderLineVariant;
 use App\Models\User;
 use App\Models\Invoice;
 
@@ -21,8 +20,6 @@ class CheckoutController extends PublicController
     switch ($action) {
 			// default: // addresses
 			case 'addresses':
-				Checkout::createCheckout();
-
 				$defaultDelivery = Address::where('userId', auth()->user()->id)->where('defaultShipping', 1)->first();
 				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
 
