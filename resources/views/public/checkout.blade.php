@@ -1,4 +1,4 @@
-@extends('body-public')
+@extends('body-public-checkout')
 
 @section('title', 'Checkout')
 

@@ -34,6 +34,7 @@ import Productpageinfo from './vue/components/public/products/productPageInfo.vu
 
 import Basketlines from './vue/components/public/basketLines.vue'
 
+import Checkoutheader from './vue/components/public/checkout/checkoutHeader.vue'
 import Checkoutaddresses from './vue/components/public/checkout/checkoutAddresses.vue'
 import Checkoutpayment from './vue/components/public/checkout/checkoutPayment.vue'
 import Checkoutreview from './vue/components/public/checkout/checkoutReview.vue'
@@ -147,6 +148,9 @@ productPageInfo.component('productpageinfo', Productpageinfo).mount('#productpag
 const basketLines = Vue.createApp({})
 basketLines.component('basketlines', Basketlines).mount('#basketlines')
 
+
+const checkoutHeader = Vue.createApp({})
+checkoutHeader.component('checkoutheader', Checkoutheader).mount('#checkoutheader')
 
 const checkoutAddresses = Vue.createApp({})
 checkoutAddresses.component('checkoutaddresses', Checkoutaddresses).mount('#checkoutaddresses')

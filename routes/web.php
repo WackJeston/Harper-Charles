@@ -109,15 +109,15 @@ Route::controller(ProductPageController::class)->group(function () {
   Route::post('/product-pageBasketAdd', 'basketAdd');
 });
 
-Route::controller(BasketController::class)->group(function () {
-	Route::get('/basket', 'show');
-	Route::get('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
-	Route::get('/basketRemove/{id}', 'basketRemove');
-});
-
 // Auth Middleware
 Route::group( ['middleware' => 'auth' ], function()
 {
+	Route::controller(BasketController::class)->group(function () {
+		Route::get('/basket', 'show');
+		Route::get('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
+		Route::get('/basketRemove/{id}', 'basketRemove');
+	});
+	
 	Route::controller(AccountController::class)->group(function () {
 		Route::get('/account', 'show');
 		Route::post('/accountUpdate/{id}', 'update');
@@ -142,6 +142,7 @@ Route::group( ['middleware' => 'auth' ], function()
 	Route::get('/header-toggleNotification/{id}/{notificationUserId}/{type}', [AdminHeaderController::class, 'toggleNotification']);
   
 	Route::view('/admin', 'admin/auth/login');
+	
   Route::controller(AuthController::class)->group(function () {
     Route::get('/adminLogin', 'authenticateAdmin');
     Route::get('/adminLogout', 'logoutAdmin');

@@ -77,24 +77,13 @@
 			
 			@yield('body-admin')
 
-    @elseif (str_contains(url()->current(), '/admin') || str_contains(url()->current(), '/admin-registration'))
-      <div id="admin-container">
-        @yield('content')
-      </div>
+    @elseif (str_contains(url()->current(), '/admin'))
+      
+			@yield('body-admin-login')
 
 		@elseif (str_contains(url()->current(), '/checkout'))
-			<div id="page-container">
-				<header id="checkout-header" class="lt">
-					<nav class="desktop-nav">
-						<a href="/" class="title section-width">
-							<h2 id="header-title">{{ env('APP_NAME') }}</h2>
-							<h2 id="header-title-mini">{{ env('APP_NAME_MINI') }}</h2>
-						</a>
-					</nav>
-				</header>
-
-				@yield('content')
-			</div>
+			
+			@yield('body-public-checkout')
 
     @else
 
@@ -103,8 +92,6 @@
     @endif
 
     <script src="{{ mix('js/app.js') }}"></script>
-
-		{{-- Custom JS --}}
 		<script src="/js/dataTable.js"></script>
 		<script src="/js/dataForm.js"></script>
 		<script src="/js/functions.js"></script>
@@ -119,7 +106,6 @@
 		@if (!str_contains(url()->current(), '/admin'))
 			<script>
 				window.addEventListener("DOMContentLoaded", function() {
-					// Set Header Width
 					let scrollbarWidth = document.body.offsetWidth - document.querySelector('main').offsetWidth;
 					document.querySelector('header').style.width = `calc(100% - ${scrollbarWidth}px)`;
 				});

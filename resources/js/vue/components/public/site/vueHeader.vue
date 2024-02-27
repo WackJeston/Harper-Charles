@@ -121,10 +121,6 @@ export default {
 
 			return;
 		},
-
-		capFL(string) {
-			return string.charAt(0).toUpperCase() + string.slice(1);
-		},
 	},
 };
 </script>

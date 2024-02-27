@@ -1,4 +1,4 @@
-@extends('body-admin')
+@extends('body-admin-login')
 
 @section('title', 'Login')
 

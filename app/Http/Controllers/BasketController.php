@@ -12,11 +12,7 @@ use Illuminate\Http\Request;
 class BasketController extends PublicController
 {
   public function show() {
-    if (!auth()->user()) {
-      return redirect("/login")->withErrors(['1' => 'Please login before viewing your basket.']);
-    }
-
-		$basket = DB::select('SELECT
+    $basket = DB::select('SELECT
 			o.*
 			FROM orders AS o
 			WHERE o.userId = ?
