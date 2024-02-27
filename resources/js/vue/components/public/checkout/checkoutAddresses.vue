@@ -7,128 +7,127 @@
 		</h3>
 
 		<div id="delivery-container" class="checkout-container">
-				<div class="saved-records-container">
-					<ul v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id"
-						:class="[address.defaultShipping == 1 ? 'selected-record' : '']"
-						@click.stop="this.selectAddress($event, 'delivery', address.id)">
-						<li>{{ address.firstName }} {{ address.lastName }}</li>
-						<li>{{ address.company }}</li>
-						<li>{{ address.line1 }}</li>
-						<li>{{ address.city }}, {{ address.region }}</li>
-						<li>{{ address.country }}</li>
-						<li>{{ address.postCode }}</li>
-						<li>{{ address.phone }}</li>
-						<li>{{ address.email }}</li>
-						<div class="record-buttons">
-							<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
-								<div class="popup-label-container">
-									<span class="popup-label">Delete Address</span>
-								</div>
-							</i>
-							<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
-								<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
-								<div class="popup-label-container">
-									<span class="popup-label">Make Default</span>
-								</div>
-							</i>
-						</div>
-						<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
-					</ul>
-				</div>
+			<div class="saved-records-container">
+				<ul v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id"
+					:class="[address.defaultShipping == 1 ? 'selected-record' : '']"
+					@click.stop="this.selectAddress($event, 'delivery', address.id)">
+					<li>{{ address.firstName }} {{ address.lastName }}</li>
+					<li>{{ address.company }}</li>
+					<li>{{ address.line1 }}</li>
+					<li>{{ address.city }}, {{ address.region }}</li>
+					<li>{{ address.country }}</li>
+					<li>{{ address.postCode }}</li>
+					<li>{{ address.phone }}</li>
+					<li>{{ address.email }}</li>
+					<div class="record-buttons">
+						<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
+							<div class="popup-label-container">
+								<span class="popup-label">Delete Address</span>
+							</div>
+						</i>
+						<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
+							<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
+							<div class="popup-label-container">
+								<span class="popup-label">Make Default</span>
+							</div>
+						</i>
+					</div>
+					<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
+				</ul>
+			</div>
 
-				<button v-if="this.deliveryaddresses.length > 0" class="record-toggle page-button"
-					@click="this.deliveryForm = !this.deliveryForm">
+			<div class="record-toggle-container">
+				<button v-if="this.deliveryaddresses.length > 0" class="record-toggle page-button" @click="this.deliveryForm = !this.deliveryForm">
+					New Address
 					<i v-if="this.deliveryForm" class="fa-solid fa-angle-up"></i>
 					<i v-else class="fa-solid fa-angle-down"></i>
-					Add New Address
 				</button>
-
-				<form @submit.prevent="this.addressAdd($event, 'delivery')" enctype="multipart/form-data"
-					:style="[(this.deliveryForm == true || this.deliveryaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
-					<input type="hidden" name="_token" :value="csrf">
-
-					<div :style="[this.deliveryaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
-						<div class="input-label-container">
-							<label for="firstname">First Name<span class="red"> *</span></label>
-							<input type="text" name="firstname" required maxlength="100">
-						</div>
-
-						<div class="input-label-container">
-							<label for="lastname">Last Name<span class="red"> *</span></label>
-							<input type="text" name="lastname" required maxlength="100">
-						</div>
-					</div>
-
-					<label for="company">Company</label>
-					<input type="text" name="company" maxlength="100">
-
-					<label for="line1">Address Line 1<span class="red"> *</span></label>
-					<input type="text" name="line1" required maxlength="200">
-
-					<div class="wb-row">
-						<div class="input-label-container">
-							<label for="line2">Address Line 2</label>
-							<input type="text" name="line2" maxlength="200">
-						</div>
-
-						<div class="input-label-container">
-							<label for="line3">Address Line 3</label>
-							<input type="text" name="line3" maxlength="200">
-						</div>
-					</div>
-
-					<div class="wb-row">
-						<div class="input-label-container">
-							<label for="city">City / Town<span class="red"> *</span></label>
-							<input type="text" name="city" required maxlength="100">
-						</div>
-
-						<div class="input-label-container">
-							<label for="region">County</label>
-							<input type="text" name="region" maxlength="100">
-						</div>
-					</div>
-
-					<div class="wb-row">
-						<div class="input-label-container">
-							<label for="postcode">Postcode<span class="red"> *</span></label>
-							<input type="text" name="postcode" required maxlength="50">
-						</div>
-
-						<div class="input-label-container">
-							<label for="country">Country<span class="red"> *</span></label>
-							<select type="text" name="country" required maxlength="100">
-								<option value="">Select Country</option>
-								<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="wb-row">
-						<div class="input-label-container">
-							<label for="phone">Phone<span class="red"> *</span></label>
-							<input type="tel" name="phone" required maxlength="20">
-						</div>
-
-						<div class="input-label-container">
-							<label for="email">email<span class="red"> *</span></label>
-							<input type="email" name="email" required maxlength="100">
-						</div>
-					</div>
-
-					<div class="checkbox-container">
-						<input type="checkbox" name="defaultdelivery">
-						<label for="defaultdelivery">Make this your default delivery address.</label>
-					</div>
-
-					<input id="billingMarker" class="submit" type="submit" name="submit" value="Save">
-				</form>
 			</div>
+
+			<form @submit.prevent="this.addressAdd($event, 'delivery')" enctype="multipart/form-data" :style="[(this.deliveryForm == true || this.deliveryaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
+				<input type="hidden" name="_token" :value="csrf">
+
+				<div :style="[this.deliveryaddresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
+					<div class="input-label-container">
+						<label for="firstname">First Name<span class="red"> *</span></label>
+						<input type="text" name="firstname" required maxlength="100">
+					</div>
+
+					<div class="input-label-container">
+						<label for="lastname">Last Name<span class="red"> *</span></label>
+						<input type="text" name="lastname" required maxlength="100">
+					</div>
+				</div>
+
+				<label for="company">Company</label>
+				<input type="text" name="company" maxlength="100">
+
+				<label for="line1">Address Line 1<span class="red"> *</span></label>
+				<input type="text" name="line1" required maxlength="200">
+
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="line2">Address Line 2</label>
+						<input type="text" name="line2" maxlength="200">
+					</div>
+
+					<div class="input-label-container">
+						<label for="line3">Address Line 3</label>
+						<input type="text" name="line3" maxlength="200">
+					</div>
+				</div>
+
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="city">City / Town<span class="red"> *</span></label>
+						<input type="text" name="city" required maxlength="100">
+					</div>
+
+					<div class="input-label-container">
+						<label for="region">County</label>
+						<input type="text" name="region" maxlength="100">
+					</div>
+				</div>
+
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="postcode">Postcode<span class="red"> *</span></label>
+						<input type="text" name="postcode" required maxlength="50">
+					</div>
+
+					<div class="input-label-container">
+						<label for="country">Country<span class="red"> *</span></label>
+						<select type="text" name="country" required maxlength="100">
+							<option value="">Select Country</option>
+							<option v-for="country in this.countries" :value="country.code">{{ country.name }}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="wb-row">
+					<div class="input-label-container">
+						<label for="phone">Phone<span class="red"> *</span></label>
+						<input type="tel" name="phone" required maxlength="20">
+					</div>
+
+					<div class="input-label-container">
+						<label for="email">email<span class="red"> *</span></label>
+						<input type="email" name="email" required maxlength="100">
+					</div>
+				</div>
+
+				<div class="checkbox-container">
+					<input type="checkbox" name="defaultdelivery">
+					<label for="defaultdelivery">Make this your default delivery address.</label>
+				</div>
+
+				<input id="billingMarker" class="submit" type="submit" name="submit" value="Save">
+			</form>
 		</div>
 
-		<div class="web-box section-width">
+		<!-- <div class="web-box section-width">
 			<h3 id="billing-header">
-				<i class="fa-solid fa-house-chimney"></i>
+				<i class="fa-solid fa-file-invoice-dollar"></i>
 				Billing Address
 				<p></p>
 			</h3>
@@ -163,12 +162,13 @@
 				</ul>
 			</div>
 
-			<button v-if="this.billingaddresses.length > 0" class="record-toggle page-button"
-				@click="this.billingForm = !this.billingForm">
-				<i v-if="this.billingForm" class="fa-solid fa-angle-up"></i>
-				<i v-else class="fa-solid fa-angle-down"></i>
-				Add New Address
-			</button>
+			<div class="record-toggle-container">
+				<button v-if="this.billingaddresses.length > 0" class="record-toggle page-button" @click="this.billingForm = !this.billingForm">
+					New Address
+					<i v-if="this.billingForm" class="fa-solid fa-angle-up"></i>
+					<i v-else class="fa-solid fa-angle-down"></i>
+				</button>
+			</div>
 
 			<form @submit.prevent="this.addressAdd($event, 'billing')" enctype="multipart/form-data"
 				:style="[(this.billingForm == true || this.billingaddresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
@@ -250,7 +250,7 @@
 
 				<input id="billingMarker" class="submit" type="submit" name="submit" value="Save">
 			</form>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="checkout-button-container section-width">
@@ -283,11 +283,6 @@ export default {
 			billingSelected: this.defaultbilling,
 			billingForm: this.billingaddressespre.length > 0 ? false : true,
 		}
-	},
-
-	mounted() {
-		console.log(this.defaultbilling);
-		console.log(this.billingSelected);
 	},
 
 	methods: {
@@ -421,49 +416,54 @@ export default {
 		},
 
 		async addressAdd(submitEvent, type) {
-			this.values = '';
+			let values = [];
 
 			for (var i = 1; i < submitEvent.target.length; i++) {
-				if (submitEvent.target[i].value != '' && submitEvent.target[i].value != null) {
-					if (i == 1) {
-						this.values += submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
+				let name = submitEvent.target[i].name;
+				let value = null;
 
-					} else if (submitEvent.target[i].type == 'checkbox') {
-						this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].checked;
+				if (submitEvent.target[i].type == 'checkbox') {
+					value = submitEvent.target[i].checked;
 
-					} else if (submitEvent.target[i].name != 'submit') {
-						this.values += '<&>' + submitEvent.target[i].name + '<=>' + submitEvent.target[i].value;
-					}
+				} else if (submitEvent.target[i].name != 'submit') {
+					value = submitEvent.target[i].value;
 				}
+
+				values.push([name, value]);
 			}
 
+			values = JSON.stringify(values);
+
 			try {
-				this.response = await fetch("/checkoutAddAddress/" + type + '/' + this.values);
+				this.response = await fetch("/checkoutAddAddress/" + type + '/' + values);
 				this.result = this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
 				
-			} finally {
+			} finally {				
 				if (type == 'delivery') {
 					this.deliveryaddresses.push(this.result);
 					this.deliveryForm = false;
+
+					console.log(deliveryaddresses);
+
 				} else if (type == 'billing') {
 					this.billingaddresses.push(this.result);
 					this.billingForm = false;
 				}
 
-				let form = document.querySelector('#' + type + '-container form');
-				form.reset();
+				// let form = document.querySelector('#' + type + '-container form');
+				// form.reset();
 
-				setTimeout(() => {
-					this.selectAddress(null, type, this.result.id);
+				// setTimeout(() => {
+				// 	this.selectAddress(null, type, this.result.id);
 
-					if (this.result.defaultShipping == 1 || this.result.defaultBilling == 1) {
-						this.defaultAddress(type, this.result.id);
-					}
-				}, 10);
+				// 	if (this.result.defaultShipping == 1 || this.result.defaultBilling == 1) {
+				// 		this.defaultAddress(type, this.result.id);
+				// 	}
+				// }, 10);
 			}
 		},
 	},

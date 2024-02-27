@@ -209,12 +209,12 @@ class CheckoutController extends PublicController
 
 	public function addAddress($type, $addressData)
 	{
-		$address = [];
-		$addressPre = explode('<&>', $addressData);
+		$addressData = json_decode($addressData, true);
 
-		foreach ($addressPre as $i => $line) {
-			$linearray = explode('<=>', $line);
-			$address[$linearray[0]] = $linearray[1];
+		$address = [];
+
+		foreach ($addressData as $i => $line) {
+			$address[$line[0]] = $line[1];
 		}
 
 		$defaultBilling = isset($address['defaultbilling']) && $address['defaultbilling'] == 'true' ? 1 : 0;

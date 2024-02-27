@@ -6,7 +6,7 @@
   <main id="checkout-page">
 
 		<div id="deliveryMarker" class="checkout-title section-width">
-			<h1>Checkout {{ $action }}</h1>
+			<h1>Checkout</h1>
 			@switch($action)
 				@case('addresses')
 					<p>Please select a delivery address and a billing address.</p>
