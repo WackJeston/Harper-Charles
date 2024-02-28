@@ -278,14 +278,20 @@ class CheckoutController extends PublicController
 			Address::where('userId', auth()->user()->id)->where('type', 'delivery')->update(['defaultShipping' => 0]);
 			Address::where('id', $id)->update(['defaultShipping' => 1]);
 		}
+
+		return true;
 	}
 
 	public function deleteAddress($id)
 	{
-		$address = Address::where('id', $id)->first();
-		$address->delete();
+		if ($address = Address::find($id)) {
+			$address->delete();
 
-		return true;
+			return true;
+
+		} else {
+			return false;
+		}
 	}	
 
 

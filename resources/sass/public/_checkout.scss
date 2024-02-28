@@ -177,10 +177,7 @@
 
 .checkout-section .saved-records-container {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 20px;
-	margin-bottom: 10px;
+	flex-direction: column;
 }
 
 .checkout-section .saved-record {
@@ -190,39 +187,15 @@
 	background-color: v.$brand-alt-light;
 	padding: 10px;
 	position: relative;
-
-	@media (min-width: 700px) {
-		width: calc(33.3% - 14px);
-	}
-
-	@media (min-width: 500px) and (max-width: 700px) {
-		width: calc(50% - 10px);
-	}
-
-	@media (max-width: 500px) {
-		width: 100%;
-	}
+	width: 100%;
 }
 
-.checkout-section .saved-record:not(.selected-record) {
-	cursor: pointer;
-}
-
-.checkout-section .saved-record:hover {
-	@media (min-width: 640px) {
-		background-color: v.$brand-alt-dark;
-	}
+.checkout-section .saved-record:not(:last-child) {
+	margin-bottom: 10px;
 }
 
 .checkout-section .selected-record {
 	background-color: v.$brand-alt-dark;
-}
-
-.checkout-section .saved-record:hover li,
-.checkout-section .saved-record:hover li i {
-	@media (min-width: 640px) {
-		color: v.$white;
-	}
 }
 
 .checkout-section .selected-record li,
@@ -259,12 +232,6 @@
 
 .checkout-section .selected-record .record-buttons {
 	background-color: v.$brand-alt-dark;
-}
-
-.checkout-section .saved-record:hover .record-buttons {
-	@media (min-width: 640px) {
-		background-color: v.$brand-alt-dark;
-	}
 }
 
 .checkout-section .saved-record .record-buttons:not(.selected-record .record-buttons, .saved-record:hover .record-buttons) {

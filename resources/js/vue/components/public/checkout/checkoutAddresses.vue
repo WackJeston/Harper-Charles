@@ -8,9 +8,7 @@
 
 		<div id="delivery-container" class="checkout-container">
 			<div class="saved-records-container">
-				<ul v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id"
-					:class="[address.defaultShipping == 1 ? 'selected-record' : '']"
-					@click.stop="this.selectAddress($event, 'delivery', address.id)">
+				<ul v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id">
 					<li>{{ address.firstName }} {{ address.lastName }}</li>
 					<li>{{ address.company }}</li>
 					<li>{{ address.line1 }}</li>
@@ -19,20 +17,21 @@
 					<li>{{ address.postCode }}</li>
 					<li>{{ address.phone }}</li>
 					<li>{{ address.email }}</li>
+
 					<div class="record-buttons">
-						<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button">
-							<div class="popup-label-container">
-								<span class="popup-label">Delete Address</span>
-							</div>
-						</i>
-						<i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
+						<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button"></i>
+
+						<span class="record-button">Set As Default</span>
+
+						<!-- <i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
 							<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
 							<div class="popup-label-container">
 								<span class="popup-label">Make Default</span>
 							</div>
-						</i>
+						</i> -->
 					</div>
-					<i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i>
+					
+					<!-- <i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i> -->
 				</ul>
 			</div>
 
@@ -370,6 +369,8 @@ export default {
 				console.log(err);
 				
 			} finally {
+				console.log(this.result);
+
 				if (this.result == true) {
 					if (type == 'delivery') {
 						this.deliverySelected = 0;
@@ -447,7 +448,7 @@ export default {
 					this.deliveryaddresses.push(this.result);
 					this.deliveryForm = false;
 
-					console.log(deliveryaddresses);
+					console.log(this.deliveryaddresses);
 
 				} else if (type == 'billing') {
 					this.billingaddresses.push(this.result);
