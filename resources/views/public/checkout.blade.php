@@ -9,7 +9,7 @@
 			<h1>Checkout</h1>
 			@switch($action)
 				@case('addresses')
-					<p>Please select a delivery address and a billing address.</p>
+					<p>Please select your delivery address.</p>
 					@break
 				@case('payment')
 					<p>Please select a payment method.</p>

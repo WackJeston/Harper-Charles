@@ -91,6 +91,23 @@
 			
     @endif
 
+		<div class="image-viewer" style="display: none;">
+			<img class="viewer-image">
+			<div class="viewer-overlay"></div>
+			<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
+		</div>
+
+		<div class="warning-overlay" style="display: none;" onclick="closeDeleteWarning()">
+			<div class="web-box warning-box dk">
+				<h3 class="warning">WARNING</h3>
+				<p></p>
+				<div class="row">
+					<a id="delete-link"><button type="button" name="delete" class="delete">Delete</button></a>
+					<button type="button" name="cancel" class="cancel" onclick="closeDeleteWarning()">Cancel</button>
+				</div>
+			</div>
+		</div>
+
     <script src="{{ mix('js/app.js') }}"></script>
 		<script src="/js/dataTable.js"></script>
 		<script src="/js/dataForm.js"></script>

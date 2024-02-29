@@ -94,7 +94,7 @@ export default {
 		async quantityChange(id, quantity) {
 			try {
 				this.response = await fetch("/basketQuantityUpdate/" + id + "/" + quantity);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');
@@ -108,7 +108,7 @@ export default {
 		async remove(id) {
 			try {
 				this.response = await fetch("/basketRemove/" + id);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 				
 			} catch (err) {
 				console.log('----ERROR----');

@@ -8,20 +8,28 @@
 
 		<div id="delivery-container" class="checkout-container">
 			<div class="saved-records-container">
-				<ul v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id">
-					<li>{{ address.firstName }} {{ address.lastName }}</li>
-					<li>{{ address.company }}</li>
-					<li>{{ address.line1 }}</li>
-					<li>{{ address.city }}, {{ address.region }}</li>
-					<li>{{ address.country }}</li>
-					<li>{{ address.postCode }}</li>
-					<li>{{ address.phone }}</li>
-					<li>{{ address.email }}</li>
+				<div v-for="(address, i) in this.deliveryaddresses" class="saved-record" :id="'address-' + address.id">
+					<ul>
+						<li>{{ address.firstName }} {{ address.lastName }}</li>
+						<li>{{ address.company }}</li>
+						<li>{{ address.line1 }}</li>
+						<li>{{ address.city }}, {{ address.region }}</li>
+						<li>{{ address.country }}</li>
+						<li>{{ address.postCode }}</li>
+						<li>{{ address.phone }}</li>
+						<li>{{ address.email }}</li>
+					</ul>
 
 					<div class="record-buttons">
-						<i @click.stop="this.deleteAddress('delivery', address.id)" class="fa-solid fa-square-xmark popup-label-button"></i>
+						<button @click="this.checkoutContinue(address.id)" id="continue" class="page-button padding">
+							Deliver to this address
+							<!-- <i class="fa-solid fa-angles-right"></i> -->
+						</button>
 
-						<span class="record-button">Set As Default</span>
+						<span v-if="address.defaultShipping" class="default-record">Default Address</span>
+						<button v-else class="record-button">Set as default address</button>
+
+						<button @click="this.deleteAddress('delivery', address.id)" class="record-button delete-record">Remove <i class="fa-solid fa-xmark"></i></button>
 
 						<!-- <i @click.stop="this.defaultAddress('delivery', address.id)" class="fa-solid fa-square popup-label-button">
 							<i class="fa-solid fa-star" :class="[address.defaultShipping == 1 ? 'star-selected' : '']"></i>
@@ -30,9 +38,7 @@
 							</div>
 						</i> -->
 					</div>
-					
-					<!-- <i v-if="address.defaultShipping == 1" class="fa-regular fa-circle-check"></i> -->
-				</ul>
+				</div>
 			</div>
 
 			<div class="record-toggle-container">
@@ -252,12 +258,12 @@
 		</div> -->
 	</div>
 
-	<div class="checkout-button-container section-width">
+	<!-- <div class="checkout-button-container section-width">
 		<button @click="this.checkoutContinue()" id="continue" class="page-button padding">
 			Payment Method
 			<i class="fa-solid fa-angles-right"></i>
 		</button>
-	</div>
+	</div> -->
 </template>
 
 <script>
@@ -360,18 +366,31 @@ export default {
 			}
 		},
 
-		async deleteAddress(type, id) {
+		deleteAddress(type, id) {
+			const warningZone = document.querySelector('.warning-overlay');
+			const message = document.querySelector('.warning-overlay p');
+			const deleteLink = document.querySelector('.warning-overlay #delete-link');
+
+			message.innerHTML = 'This address will be permanently deleted. Are you sure?';
+			deleteLink.addEventListener('click', () => {
+				this.deleteAddress2(type, id);
+				warningZone.style.display = 'none';
+			});
+
+			warningZone.style.display = 'flex';
+		},
+
+		async deleteAddress2(type, id) {
 			try {
 				this.response = await fetch("/checkoutDeleteAddress/" + id);
-				this.result = this.response.json();
+				this.result = await this.response.json();
+
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
 				
 			} finally {
-				console.log(this.result);
-
-				if (this.result == true) {
+				if (this.result) {
 					if (type == 'delivery') {
 						this.deliverySelected = 0;
 
@@ -399,7 +418,7 @@ export default {
 		async defaultAddress(type, id) {
 			try {
 				this.response = await fetch("/checkoutDefaultAddress/" + type + '/' + id);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 				
 			} catch (err) {
 				console.log('----ERROR----');
@@ -437,34 +456,24 @@ export default {
 
 			try {
 				this.response = await fetch("/checkoutAddAddress/" + type + '/' + values);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');
 				console.log(err);
 				
-			} finally {				
+			} finally {
 				if (type == 'delivery') {
 					this.deliveryaddresses.push(this.result);
 					this.deliveryForm = false;
-
-					console.log(this.deliveryaddresses);
 
 				} else if (type == 'billing') {
 					this.billingaddresses.push(this.result);
 					this.billingForm = false;
 				}
 
-				// let form = document.querySelector('#' + type + '-container form');
-				// form.reset();
-
-				// setTimeout(() => {
-				// 	this.selectAddress(null, type, this.result.id);
-
-				// 	if (this.result.defaultShipping == 1 || this.result.defaultBilling == 1) {
-				// 		this.defaultAddress(type, this.result.id);
-				// 	}
-				// }, 10);
+				let form = document.querySelector('#' + type + '-container form');
+				form.reset();
 			}
 		},
 	},

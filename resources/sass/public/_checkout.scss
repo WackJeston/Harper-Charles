@@ -182,126 +182,70 @@
 
 .checkout-section .saved-record {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	padding: 10px;
 	border-radius: 5px;
 	background-color: v.$brand-alt-light;
-	padding: 10px;
-	position: relative;
-	width: 100%;
 }
 
 .checkout-section .saved-record:not(:last-child) {
 	margin-bottom: 10px;
 }
 
-.checkout-section .selected-record {
-	background-color: v.$brand-alt-dark;
-}
-
-.checkout-section .selected-record li,
-.checkout-section .selected-record li i,
-.checkout-section .selected-record {
-	color: v.$white;
-}
-
-.checkout-section .selected-record .fa-circle-check {
-	position: absolute;
-	right: 1px;
-	bottom: 1px;
-	color: v.$pale-green;
-	padding: 9px;
-	background-color: v.$brand-alt-dark;
+.checkout-section .saved-record ul {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
 }
 
 .checkout-section .saved-record .record-buttons {
 	display: flex;
 	flex-direction: column;
-	position: absolute;
-	right: 0;
-	padding: 9px 9px;
-	border-radius: 5px;
+	align-items: flex-end;
 }
 
-.checkout-section .saved-record .record-buttons:not(#checkoutreview .saved-record .record-buttons) {
-	top: 0;
-}
-
-#checkoutreview .saved-record .record-buttons {
-	bottom: 0;
-}
-
-.checkout-section .selected-record .record-buttons {
-	background-color: v.$brand-alt-dark;
-}
-
-.checkout-section .saved-record .record-buttons:not(.selected-record .record-buttons, .saved-record:hover .record-buttons) {
-	background-color: v.$brand-alt-light;
-}
-
-.checkout-section .saved-record .record-buttons i:not(.fa-square i) {
-	border-radius: 5px;
-	cursor: pointer;
-	padding: 0;
-}
-
-.checkout-section .saved-record .record-buttons i:not(.fa-square i, :last-child) {
-	padding: 0 0 5px 0;
-}
-
-.checkout-section .saved-record .record-buttons .fa-square {
-	align-items: center;
-}
-
-.checkout-section .saved-record .fa-square-xmark,
-.checkout-section .saved-record .fa-square {
+.checkout-section .saved-record .record-buttons .record-button {
 	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-radius: 3px;
+	font-size: 0.8rem;
+	padding: 5px 10px;
+	margin-top: 10px;
+	background-color: v.$brand-alt-dark;
 	color: v.$white;
 }
 
-.checkout-section .saved-record .fa-square-xmark:hover {
+.checkout-section .saved-record .record-buttons .record-button:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-red;
+		background-color: v.$brand-alt-dark-almost;
 	}
 }
 
-#checkoutaddresses .saved-record .fa-square:hover {
+.checkout-section .saved-record .record-buttons .record-button i {
+	font-size: 0.75rem;
+	margin-left: 5px;
+	color: v.$white;
+}
+
+.checkout-section .saved-record .record-buttons .default-record {
+	text-decoration: underline;
+	color: v.$black;
+	font-size: 0.9rem;
+	margin-top: 10px;
+}
+
+.checkout-section .saved-record .record-buttons .delete-record {
+	background-color: v.$pale-red;
+	margin-top: auto;
+}
+
+.checkout-section .saved-record .record-buttons .delete-record:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-green;
+		background-color: v.$pale-red-darker;
 	}
-}
-
-#checkoutreview .saved-record .fa-square:hover {
-	@media (min-width: 640px) {
-		color: v.$brand-alt-light;
-	}
-}
-
-.checkout-section .fa-square .fa-star,
-.checkout-section .fa-square .fa-pencil {
-	font-size: 0.8rem;
-	line-height: 0;
-	width: 0;
-	position: relative;
-	right: 82%;
-}
-
-.checkout-section .fa-square .fa-star:not(.star-selected, .selected-record, .saved-record:hover) {
-	color: v.$brand-alt-light;
-}
-
-.checkout-section .saved-record:hover .fa-square .fa-star:not(.star-selected) {
-	@media (min-width: 640px) {
-		color: v.$brand-alt-dark;
-	}
-}
-
-.checkout-section .selected-record .fa-square .fa-star:not(.star-selected),
-.checkout-section .fa-square .fa-pencil {
-	color: v.$brand-alt-dark;
-}
-
-.checkout-section .fa-square .star-selected {
-	color: v.$dull-yellow;
 }
 
 .checkout-section .saved-record li {

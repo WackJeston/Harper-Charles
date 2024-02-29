@@ -160,7 +160,7 @@ export default {
 		async deletePaymentMethod(id) {
 			try {
 				this.response = await fetch("/checkoutDeletePaymentMethod/" + id);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 
 			} catch (err) {
 					console.log('----ERROR----');
@@ -209,7 +209,7 @@ export default {
 		async addPaymentMethod2(id) {
 			try {
 				this.response = await fetch("/checkoutAddPaymentMethod/" + id);
-				this.result = this.response.json();
+				this.result = await this.response.json();
 
 			} catch (err) {
 				console.log('----ERROR----');

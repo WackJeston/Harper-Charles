@@ -580,7 +580,6 @@ button.button-active {
 }
 
 .warning-overlay {
-	display: none;
 	align-items: center;
 	justify-content: center;
 	position: absolute;
@@ -589,15 +588,22 @@ button.button-active {
 	right: 0;
 	left: 0;
 	background-color: v.$trans-semi;
+	z-index: 6;
 }
 
 .warning-box {
 	width: 90%;
+	max-width: 800px;
 	padding: 10px 15px;
 }
 
-.warning-box p,
 .warning-box h3 {
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+}
+
+.warning-box p {
 	margin: 0;
 	padding: 0;
 }
@@ -611,6 +617,7 @@ button.button-active {
 	color: v.$white;
 	margin-top: 10px;
 	margin-bottom: 4px;
+	border-radius: 3px;
 }
 
 .warning-box .row a {
