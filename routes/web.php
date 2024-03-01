@@ -128,9 +128,9 @@ Route::group( ['middleware' => 'auth' ], function()
 	Route::controller(CheckoutController::class)->group(function () {
 		Route::get('/checkout/{action}', 'show');
 		Route::get('/checkoutContinueAddresses/{delivery}/{billing}', 'continueAddress');
-		Route::get('/checkoutAddAddress/{type}/{addressData}', 'addAddress');
+		Route::get('/checkoutAddAddress/{addressData}', 'addAddress');
 		Route::get('/checkoutDeleteAddress/{id}', 'deleteAddress');
-		Route::get('/checkoutDefaultAddress/{type}/{id}', 'defaultAddress');
+		Route::get('/checkoutSetBillingAddress/{id}', 'setBillingAddress');
 		Route::get('/checkoutContinuePayment/{paymentMethod}', 'continuePayment');
 		Route::post('/checkoutAddPaymentMethod/{id}', 'addPaymentMethod');
 		Route::post('/checkoutDeletePaymentMethod/{id}', 'deletePaymentMethod');

@@ -9,7 +9,7 @@
 			<h1>Checkout</h1>
 			@switch($action)
 				@case('addresses')
-					<p>Please select your delivery address.</p>
+					{{-- <p>Please select your delivery address.</p> --}}
 					@break
 				@case('payment')
 					<p>Please select a payment method.</p>
@@ -49,10 +49,7 @@
 
 				<div id="checkoutaddresses" class="dk checkout-section">
 					<checkoutaddresses 
-					:deliveryaddressespre="{{ json_encode($deliveryAddresses) }}" 
-					:defaultdelivery="{{ $defaultDelivery }}" 
-					:billingaddressespre="{{ json_encode($billingAddresses) }}" 
-					:defaultbilling="{{ $defaultBilling }}"
+					:addressespre="{{ json_encode($addresses) }}"
 					:countries="{{ json_encode($countries) }}"
 					/>
 				</div>

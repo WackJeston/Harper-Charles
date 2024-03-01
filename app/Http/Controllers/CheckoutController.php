@@ -20,32 +20,26 @@ class CheckoutController extends PublicController
     switch ($action) {
 			// default: // addresses
 			case 'addresses':
-				$defaultDelivery = Address::where('userId', auth()->user()->id)->where('defaultShipping', 1)->first();
-				$defaultDelivery = isset($defaultDelivery->id) ? $defaultDelivery->id : null;
-
-				$deliveryAddresses = DB::select('SELECT
-					a.*,
-					co.name AS countryName
+				$addresses = DB::select('SELECT
+					a.id,
+					a.userId,
+					a.defaultBilling,
+					a.firstName,
+					a.lastName,
+					a.company,
+					a.line1,
+					a.line2,
+					a.line3,
+					a.city,
+					a.region,
+					co.name AS country,
+					a.postCode,
+					a.phone,
+					a.email
 					FROM addresses AS a
 					INNER JOIN countries AS co ON co.code=a.country
-					WHERE a.userId=?
-					AND a.type="delivery"
-					ORDER BY defaultShipping DESC, firstName, lastName',
-					[auth()->user()->id]
-				);
-
-				$billingAddresses = Address::where('userId', auth()->user()->id)->where('type', 'billing')->orderBy('defaultBilling', 'desc')->get();
-				$defaultBilling = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first();
-				$defaultBilling = isset($defaultBilling->id) ? $defaultBilling->id : null;
-
-				$billingAddresses = DB::select('SELECT
-					a.*,
-					co.name AS countryName
-					FROM addresses AS a
-					INNER JOIN countries AS co ON co.code=a.country
-					WHERE a.userId=?
-					AND a.type="billing"
-					ORDER BY defaultBilling DESC, firstName, lastName',
+					WHERE a.userId = ?
+					ORDER BY a.defaultBilling DESC, a.firstName ASC, a.lastName ASC',
 					[auth()->user()->id]
 				);
 
@@ -53,10 +47,7 @@ class CheckoutController extends PublicController
 
 				return view('public/checkout', compact(
 					'action',
-					'deliveryAddresses',
-					'defaultDelivery',
-					'billingAddresses',
-					'defaultBilling',
+					'addresses',
 					'countries',
 				));
 				break;
@@ -207,7 +198,7 @@ class CheckoutController extends PublicController
 		return redirect('/checkout/payment');
 	}
 
-	public function addAddress($type, $addressData)
+	public function addAddress($addressData)
 	{
 		$addressData = json_decode($addressData, true);
 
@@ -218,13 +209,9 @@ class CheckoutController extends PublicController
 		}
 
 		$defaultBilling = isset($address['defaultbilling']) && $address['defaultbilling'] == 'true' ? 1 : 0;
-		$defaultDelivery = isset($address['defaultdelivery']) && $address['defaultdelivery'] == 'true' ? 1 : 0;
 
 		if ($defaultBilling) {
-			Address::where('userId', auth()->user()->id)->where('type', 'billing')->update(['defaultBilling' => 0]);
-		}
-		if ($defaultDelivery) {
-			Address::where('userId', auth()->user()->id)->where('type', 'delivery')->update(['defaultShipping' => 0]);
+			Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->update(['defaultBilling' => 0]);
 		}
 
 		$company = !empty($address['company']) ? $address['company'] : null;
@@ -234,9 +221,7 @@ class CheckoutController extends PublicController
 
 		$result = Address::create([
 			'userId' => auth()->user()->id,
-			'type' => $type,
 			'defaultBilling' => $defaultBilling,
-			'defaultShipping' => $defaultDelivery,
 			'firstName' => $address['firstname'],
 			'lastName' => $address['lastname'],
 			'company' => $company,
@@ -254,12 +239,11 @@ class CheckoutController extends PublicController
 		return $result;
 	}
 
-	public function defaultAddress($type, $id)
+	public function setBillingAddress(int $id): bool
 	{
-		if ($type == 'billing') {
-			Address::where('userId', auth()->user()->id)->where('type', 'billing')->update(['defaultBilling' => 0]);
+		Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->update(['defaultBilling' => 0]);
 
-			$default = Address::where('id', $id)->first();
+		if ($default = Address::find($id)) {
 			$default->update(['defaultBilling' => 1]);
 
 			$options = [
@@ -274,24 +258,22 @@ class CheckoutController extends PublicController
 
 			auth()->user()->updateStripeCustomer($options);
 
-		} else {
-			Address::where('userId', auth()->user()->id)->where('type', 'delivery')->update(['defaultShipping' => 0]);
-			Address::where('id', $id)->update(['defaultShipping' => 1]);
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
-	public function deleteAddress($id)
+	public function deleteAddress(int $id): bool
 	{
 		if ($address = Address::find($id)) {
 			$address->delete();
 
 			return true;
-
-		} else {
-			return false;
+			exit;
 		}
+
+		return false;
 	}	
 
 

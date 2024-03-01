@@ -89,7 +89,16 @@
 	background-color: v.$white;
 }
 
-.checkout-section h3 {
+.checkout-section .page-button {
+	display: flex;
+	
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+		padding: 3px 6px;
+	}
+}
+
+.checkout-section #record-header {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -100,15 +109,19 @@
 	max-height: 200px;
 	background-color: v.$brand-alt-dark;
 	color: v.$white;
+
+	@media (max-width: 640px) {
+		font-size: 1.2rem;
+	}
 }
 
-.checkout-section h3 i {
+.checkout-section #record-header i {
 	color: v.$white;
 	margin: 20px 10px 20px 0;
 	font-size: 1.2rem;
 }
 
-.checkout-section h3 p {
+.checkout-section #record-header p {
 	display: flex;
 	font-size: 1rem;
 	font-weight: 400;
@@ -117,7 +130,7 @@
 	padding-left: 20px;
 }
 
-.checkout-section h3 p:not(#checkoutreview h3 p) {
+.checkout-section #record-header p:not(#checkoutreview #record-header p) {
 	@media (min-width: 600px) {
 		margin: 10px 0 10px auto;
 	}
@@ -127,7 +140,7 @@
 	}
 }
 
-#checkoutreview h3 p {
+#checkoutreview #record-header p {
 	margin: 10px 0 10px auto;
 	padding-left: 20px;
 }
@@ -190,6 +203,10 @@
 	background-color: v.$brand-alt-light;
 }
 
+.checkout-section .saved-record-billing-address {
+	border: 2px solid v.$black;
+}
+
 .checkout-section .saved-record:not(:last-child) {
 	margin-bottom: 10px;
 }
@@ -212,10 +229,15 @@
 	align-items: center;
 	border-radius: 3px;
 	font-size: 0.8rem;
-	padding: 5px 10px;
+	padding: 3px 6px;
 	margin-top: 10px;
 	background-color: v.$brand-alt-dark;
 	color: v.$white;
+	
+	@media (max-width: 640px) {
+		font-size: 0.5rem;
+		margin-top: 5px;
+	}
 }
 
 .checkout-section .saved-record .record-buttons .record-button:hover {
@@ -228,13 +250,10 @@
 	font-size: 0.75rem;
 	margin-left: 5px;
 	color: v.$white;
-}
 
-.checkout-section .saved-record .record-buttons .default-record {
-	text-decoration: underline;
-	color: v.$black;
-	font-size: 0.9rem;
-	margin-top: 10px;
+	@media (max-width: 640px) {
+		font-size: 0.6rem;
+	}
 }
 
 .checkout-section .saved-record .record-buttons .delete-record {
@@ -248,11 +267,27 @@
 	}
 }
 
+.checkout-section .saved-record .billing-address {
+	margin: auto 6px 0 0;
+	padding: 0;
+	font-weight: 600;
+	font-size: 1.2rem;
+	text-align: end;
+
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
+	}
+}
+
 .checkout-section .saved-record li {
 	margin: 0 0 0 3px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
 }
 
 .checkout-section .saved-record li i {
