@@ -57,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
     });
 	}
 
-	public static function getOrders(int $userId = 0) {
+	public static function getOrders(int $userId = 0, string $type = 'order') {
 		if ($userId == 0) {
 			$user = auth()->user();
 		} else {
@@ -68,8 +68,12 @@ class User extends Authenticatable implements MustVerifyEmail
 			o.*,
 			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
 			FROM orders AS o
-			WHERE o.userId=?',
-			[$user->id]
+			WHERE o.userId=?
+			AND o.type=?',
+			[
+				$user->id,
+				$type
+			]
 		);
 
 		foreach ($orders as $i => $order) {

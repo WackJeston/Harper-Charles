@@ -21,21 +21,29 @@
 					</ul>
 
 					<div class="record-buttons">
-						<button @click="this.checkoutContinue(address.id)" id="continue" class="page-button padding">
-							Deliver to this address
-							<i class="fa-solid fa-angles-right hide-mobile"></i>
-						</button>
+						<div class="record-button-container">
+							<button @click="this.checkoutContinue(address.id)" id="continue" class="page-button padding">
+								Deliver to this address
+								<i class="fa-solid fa-angles-right"></i>
+							</button>
+						</div>
 
-						<button v-show="!address.defaultBilling" @click="this.setBillingAddress(address.id)" class="record-button">Make this my billing address</button>
+						<div v-show="!address.defaultBilling" class="record-button-container">
+							<button @click="this.deleteAddress(address.id)" class="record-button delete-record">Remove <i class="fa-solid fa-xmark"></i></button>
+						</div>
+						<div v-show="!address.defaultBilling" class="record-button-container">
+							<button @click="this.setBillingAddress(address.id)" class="record-button">Use as billing address</button>
+						</div>
 
-						<button v-show="!address.defaultBilling" @click="this.deleteAddress(address.id)" class="record-button delete-record">Remove <i class="fa-solid fa-xmark"></i></button>
-						<span v-show="address.defaultBilling" class="billing-address">Billing Address</span>
+						<div v-show="address.defaultBilling" class="record-button-container">
+							<span class="billing-address">Billing Address</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="record-toggle-container">
-				<button v-if="this.addresses.length > 0" class="record-toggle page-button" @click="this.showForm = !this.showForm">
+				<button v-if="this.addresses.length > 0" class="record-toggle page-button padding" @click="this.showForm = !this.showForm">
 					New Address
 					<i v-if="this.showForm" class="fa-solid fa-angle-up"></i>
 					<i v-else class="fa-solid fa-angle-down"></i>
@@ -119,7 +127,7 @@
 					<label for="defaultbilling">Make this your default billing address.</label>
 				</div>
 
-				<input class="submit" type="submit" name="submit" value="Save">
+				<input class="submit page-button padding" type="submit" name="submit" value="Save">
 			</form>
 		</div>
 	</div>
@@ -180,7 +188,7 @@ export default {
 		async setBillingAddress(id) {
 			try {
 				this.response = await fetch("/checkoutSetBillingAddress/" + id);
-				this.result = await this.response.json();
+				this.result = await this.response;
 				
 			} catch (err) {
 				console.log('----ERROR----');

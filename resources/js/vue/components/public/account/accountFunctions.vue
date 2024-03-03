@@ -1,15 +1,14 @@
 <template>
   <!-- Buttons -->
 	<div class="page-button-row">
-		<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit Account Details</button>
-		<button class="page-button" type="button" onclick="setShowMarker('orders')" :class="{ 'button-active' : this.show == 'orders' }" @click="this.show == 'orders' ? this.show = false : this.show = 'orders'">Orders</button>
+		<button class="page-button padding" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit Account Details</button>
+		<button class="page-button padding" type="button" onclick="setShowMarker('orders')" :class="{ 'button-active' : this.show == 'orders' }" @click="this.show == 'orders' ? this.show = false : this.show = 'orders'">Orders</button>
 		
-		<a class="page-button pb-danger" href="/customerLogout">Sign Out</a>
+		<a class="page-button padding pb-danger" href="/customerLogout">Sign Out</a>
 	</div>
 
   <!-- Edit -->
   <form class="web-box dk" v-show="this.show == 'edit'" :action="'/accountUpdate/' + this.user.id" method="POST" enctype="multipart/form-data">
-    <i class="fa-solid fa-xmark" @click="this.show = false"></i>
     <input type="hidden" name="_token" :value="csrf">
 
     <label for="firstname">First Name<span class="red"> *</span></label>
@@ -28,12 +27,11 @@
     </label>
     <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" value="">
 
-    <button class="submit" type="submit">Update</button>
+    <button class="submit page-button padding" type="submit">Update</button>
   </form>
 
 	<!-- Orders Table -->
 	<table class="web-box" v-show="this.show == 'orders'">
-		<i class="fa-solid fa-xmark" @click="this.show = false"></i>
 		<thead>
 			<tr>
 				<th width="40">#</th>
@@ -87,15 +85,5 @@
         showPassword: false,
       };
     },
-
-    // methods: {
-    //   delete(toggle = 1) {
-    //     if (toggle == 1) {
-    //       document.querySelector('.warning-overlay').style.display = 'flex';
-    //     } else {
-    //       document.querySelector('.warning-overlay').style.display = 'none';
-    //     }
-    //   },
-    // },
   };
 </script>

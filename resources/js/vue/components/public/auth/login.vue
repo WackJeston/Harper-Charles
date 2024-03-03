@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="auth-form">
 
     <form action="/customerLogin" method="GET" class="web-box dk" enctype="multipart/form-data">
@@ -14,7 +14,7 @@
       </label>
       <input class="password" :type="!showLoginPassword ? 'password' : 'text'" name="password" required>
 
-      <input class="submit" type="submit" name="submit" value="Login">
+      <input class="submit page-button padding" type="submit" name="submit" value="Login">
     </form>
 
   </div>

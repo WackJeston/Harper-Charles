@@ -103,31 +103,47 @@ button {
 }
 
 button.page-button,
-a.page-button {
+a.page-button,
+input.page-button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding-right: 9px;
-	padding-left: 9px;
-	background-color: v.$brand-main;
+	// background-color: v.$brand-main;
+	background-color: v.$black;
 	color: v.$white;
 	border-radius: 3px;
 	font-size: 1rem;
 	cursor: pointer;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
 }
 
 .page-button.padding {
 	padding: 5px 10px;
+
+	@media (max-width: 640px) {
+		padding: 3px 8px;
+	}
 }
 
 .page-button.padding-large {
 	padding: 8px 16px;
+
+	@media (max-width: 640px) {
+		padding: 6px 14px;
+	}
 }
 
-button.page-button:not(.page-button:first-child),
-a.page-button:not(.page-button:first-child) {
+button.page-button:not(.submit, .warning-overlay .page-button),
+a.page-button:not(.submit, .warning-overlay .page-button) {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button.page-button:not(:first-child, .submit, .warning-overlay .page-button),
+a.page-button:not(:first-child, .submit, .warning-overlay .page-button) {
 	margin-left: 10px;
 }
 
@@ -143,6 +159,10 @@ a.page-button i {
 	font-size: 1.1rem;
 	color: v.$white;
 	margin-left: 5px;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .page-button .fa-angles-left {
@@ -159,10 +179,6 @@ a.page-button i {
 
 button.button-active {
 	background-color: v.$brand-alt-dark
-}
-
-.page-button.pb-dark {
-	background-color: v.$almost-black;
 }
 
 .page-button.pb-success {
@@ -613,36 +629,14 @@ button.button-active {
 	width: 100%;
 }
 
-.warning-box .row button {
-	color: v.$white;
-	margin-top: 10px;
-	margin-bottom: 4px;
-	border-radius: 3px;
-}
-
-.warning-box .row a {
-	margin-right: 15px;
-}
-
-.warning-box button.delete {
-	background-color: v.$pale-red;
+.warning-box .pb-danger {
 	flex-grow: 1;
 	min-width: 100px;
+	margin: 5px 10px 0 0;
 }
 
-.warning-box button.cancel {
-	background-color: v.$pale-green;
+.warning-box .pb-success {
 	flex-grow: 5;
-}
-
-.warning-box button.delete:hover {
-	@media (min-width: 640px) {
-		background-color: v.$pale-red-darker;
-	}
-}
-
-.warning-box button.cancel:hover {
-	@media (min-width: 640px) {
-		background-color: v.$pale-green-darker;
-	}
+	margin-top: 5px;
+	margin: 5px 0 0 0;
 }

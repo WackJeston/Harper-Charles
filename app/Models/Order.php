@@ -18,6 +18,7 @@ class Order extends Model
 		'paymentMethodId',
 		'items',
 		'total',
+		'type',
 		'status',
 	];
 

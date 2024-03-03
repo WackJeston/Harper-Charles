@@ -102,8 +102,8 @@
 				<h3 class="warning">WARNING</h3>
 				<p></p>
 				<div class="row">
-					<a id="delete-link"><button type="button" name="delete" class="delete">Delete</button></a>
-					<button type="button" name="cancel" class="cancel" onclick="closeDeleteWarning()">Cancel</button>
+					<a id="delete-link" class="page-button padding pb-danger">Delete</a>
+					<button type="button" name="cancel" class="cancel page-button padding pb-success" onclick="closeDeleteWarning()">Cancel</button>
 				</div>
 			</div>
 		</div>

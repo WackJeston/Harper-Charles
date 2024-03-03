@@ -9,7 +9,7 @@
 			$basketCountData = DB::select('SELECT
 				o.items
 				FROM orders AS o
-				WHERE o.status = "basket" 
+				WHERE o.type = "basket" 
 				AND o.userId = ?
 				LIMIT 1',
 				[auth()->user()['id']]
@@ -48,12 +48,6 @@
 		</div>
 
 		@yield('content')
-
-		<div class="image-viewer" style="display: none;">
-			<img class="viewer-image">
-			<div class="viewer-overlay"></div>
-			<i class="fa-solid fa-xmark" onclick="closeImage()"></i>
-		</div>
 
 		@if (!session()->has('_previous'))
 			<div id="loading-screen">

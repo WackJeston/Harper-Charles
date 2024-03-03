@@ -47,7 +47,7 @@
 				<!-- Stripe Elements Placeholder -->
 				<div id="payment-element" class="stripe-element" :style="[this.paymentMethods.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]"></div>
 
-				<button id="payment-button" class="submit" type="submit">
+				<button id="payment-button" class="submit page-button padding" type="submit">
 					Save
 				</button>
 			</form>

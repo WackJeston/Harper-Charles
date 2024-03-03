@@ -23,7 +23,7 @@
 			<label for="message">Message<span class="red"> *</span></label>
 			<textarea name="message" required></textarea>
 
-			<input type="submit" value="Send" class="submit">
+			<input type="submit page-button padding" value="Send" class="submit">
 		</form>
 	</div>
 </template>

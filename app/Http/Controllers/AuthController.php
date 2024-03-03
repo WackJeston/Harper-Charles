@@ -89,7 +89,7 @@ class AuthController extends PublicController
 
     $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials) && $customer[0]->admin == 0) {
+    if (Auth::attempt($credentials)) {
       $request->session()->regenerate();
 
       return redirect('/')->with('message', 'Signed in.');
@@ -116,13 +116,6 @@ class AuthController extends PublicController
   public function signupCustomer(Request $request)
   {
 		$user = User::where('email', $request->email)->first();
-
-		// if (!empty($user)) {
-		// 	if ($user->email_verified_at == null) {
-		// 		$user->sendEmailVerificationNotification();
-		// 		return redirect('/verify-email/' . $user->id)->with('message', 'An account with this email already exists.');
-		// 	}
-		// }
 
     $request->validate([
       'firstname' => 'required|max:100',

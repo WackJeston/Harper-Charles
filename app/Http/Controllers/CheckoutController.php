@@ -270,7 +270,6 @@ class CheckoutController extends PublicController
 			$address->delete();
 
 			return true;
-			exit;
 		}
 
 		return false;

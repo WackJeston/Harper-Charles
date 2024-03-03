@@ -233,7 +233,7 @@ class ProductPageController extends PublicController
 			INNER JOIN orders AS o ON o.id = ol.orderId
 			WHERE ol.orderId = ?
 			AND ol.productId = ?
-			AND o.status = "basket"
+			AND o.type = "basket"
 			GROUP BY ol.id',
 			[$order->id, $product->id]
 		);

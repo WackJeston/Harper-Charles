@@ -97,6 +97,11 @@
 	text-align: center;
 }
 
+.site-menu .nav-sublink .nav-link-icon {
+	color: v.$brand-alt-dark;
+	margin-left: 5px;
+}
+
 .site-menu .nav-link .fa-angle-down,
 .site-menu .nav-link .fa-angle-up {
 	position: absolute;

@@ -89,15 +89,6 @@
 	background-color: v.$white;
 }
 
-.checkout-section .page-button {
-	display: flex;
-	
-	@media (max-width: 640px) {
-		font-size: 0.7rem;
-		padding: 3px 6px;
-	}
-}
-
 .checkout-section #record-header {
 	display: flex;
 	flex-wrap: wrap;
@@ -163,6 +154,10 @@
 .checkout-section .checkout-container {
 	padding: 20px;
 	background-color: v.$background;
+
+	@media (max-width: 640px) {
+		padding: 10px;
+	}
 }
 
 .checkout-section form {
@@ -213,77 +208,13 @@
 
 .checkout-section .saved-record ul {
 	display: flex;
-	flex-direction: column;
+	min-width: 10px;
 	padding: 0;
-}
-
-.checkout-section .saved-record .record-buttons {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-}
-
-.checkout-section .saved-record .record-buttons .record-button {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	border-radius: 3px;
-	font-size: 0.8rem;
-	padding: 3px 6px;
-	margin-top: 10px;
-	background-color: v.$brand-alt-dark;
-	color: v.$white;
-	
-	@media (max-width: 640px) {
-		font-size: 0.5rem;
-		margin-top: 5px;
-	}
-}
-
-.checkout-section .saved-record .record-buttons .record-button:hover {
-	@media (min-width: 640px) {
-		background-color: v.$brand-alt-dark-almost;
-	}
-}
-
-.checkout-section .saved-record .record-buttons .record-button i {
-	font-size: 0.75rem;
-	margin-left: 5px;
-	color: v.$white;
-
-	@media (max-width: 640px) {
-		font-size: 0.6rem;
-	}
-}
-
-.checkout-section .saved-record .record-buttons .delete-record {
-	background-color: v.$pale-red;
-	margin-top: auto;
-}
-
-.checkout-section .saved-record .record-buttons .delete-record:hover {
-	@media (min-width: 640px) {
-		background-color: v.$pale-red-darker;
-	}
-}
-
-.checkout-section .saved-record .billing-address {
-	margin: auto 6px 0 0;
-	padding: 0;
-	font-weight: 600;
-	font-size: 1.2rem;
-	text-align: end;
-
-	@media (max-width: 640px) {
-		font-size: 0.9rem;
-	}
 }
 
 .checkout-section .saved-record li {
-	margin: 0 0 0 3px;
-	overflow: hidden;
+	margin: 0 0 0 3px; 
 	white-space: nowrap;
-	text-overflow: ellipsis;
 
 	@media (max-width: 640px) {
 		font-size: 0.7rem;
@@ -311,85 +242,90 @@
 	background-position: center;
 }
 
-.checkout-section .saved-record-label-container {
+.checkout-section .saved-record .record-buttons {
 	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
 }
 
-.checkout-section .saved-record .saved-record-label {
-	display: flex;
-	align-items: center;
-	margin: 0 0 0 5px;
-	// font-size: 1.1rem;
-	max-width: 300px;
-	// text-align: center;
+.checkout-section .saved-record .record-buttons .record-button-container {
+	padding-left: 10px;
 	background-color: v.$brand-alt-light;
-	color: v.$brand-alt-dark;
-	border-radius: 3px;
-	margin: 0 auto 5px 0;
-	padding: 0 8px;
-	
-	@media (min-width: 800px) {
-		font-size: 1rem;
-	}
+}
 
-	@media (min-width: 700px) and (max-width: 800px) {
-		font-size: 0.8rem;
-	}
-	
-	@media (min-width: 500px) and (max-width: 700px) {
-		font-size: 0.8rem;
-	}
-	
-	@media (max-width: 500px) {
-		font-size: 1rem;
+.checkout-section .saved-record .record-buttons .record-button-container:first-child {
+	margin-bottom: auto;
+	padding-bottom: 10px;
+}
+
+.checkout-section .saved-record .record-buttons .record-button-container:not(:first-child) {
+	padding-top: 10px;
+
+	@media (max-width: 640px) {
+		padding-top: 5px;
 	}
 }
 
-.checkout-section .saved-record h4 i {
-	// font-size: 0.8rem;
-	color: v.$brand-alt-dark;
-	margin-right: 3px;
-	
-	@media (min-width: 800px) {
-		font-size: 0.8rem;
-	}
-
-	@media (min-width: 700px) and (max-width: 800px) {
-		font-size: 0.6rem;
-	}
-	
-	@media (min-width: 500px) and (max-width: 700px) {
-		font-size: 0.6rem;
-	}
-	
-	@media (max-width: 500px) {
-		font-size: 0.8rem;
-	}
+.checkout-section .saved-record .record-buttons #continue {
+	margin: 0;
+	background-color: v.$brand-main;
+	white-space: nowrap;
 }
 
-.checkout-section .saved-record h4 span.media-control {
-	// @media (min-width: 700px) {
-	// 	width: calc(33.3% - 14px);
-	// }
-	
-	@media (min-width: 500px) and (max-width: 700px) {
-		display: none;
-	}
-	
-	// @media (max-width: 500px) {
-	// 	width: 100%;
-	// }
-}
-
-.checkout-section #continue {
+.checkout-section .saved-record .record-buttons .record-button {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
-	max-width: 250px;
-	margin: 0 0 0 auto;
+	font-size: 0.8rem;
+	white-space: nowrap;
+	padding: 3px 6px;
+	border-radius: 3px;
+	background-color: v.$brand-alt-dark;
+	color: v.$white;
+	
+	@media (max-width: 640px) {
+		font-size: 0.6rem;
+	}
 }
 
-.checkout-section #continue i {
-	font-size: 1rem;
+.checkout-section .saved-record .record-buttons .record-button:hover {
+	@media (min-width: 640px) {
+		background-color: v.$brand-alt-dark-almost;
+	}
+}
+
+.checkout-section .saved-record .record-buttons .record-button i {
+	font-size: 0.75rem;
+	margin-left: 5px;
+	color: v.$white;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
+}
+
+.checkout-section .saved-record .record-buttons .delete-record {
+	background-color: v.$pale-red;
+	// margin-top: auto;
+}
+
+.checkout-section .saved-record .record-buttons .delete-record:hover {
+	@media (min-width: 640px) {
+		background-color: v.$pale-red-darker;
+	}
+}
+
+.checkout-section .saved-record .billing-address {
+	margin: 0 6px 0 0;
+	padding: 0;
+	font-weight: 600;
+	font-size: 1.2rem;
+	text-align: end;
+
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
+	}
 }
 
 

@@ -53,6 +53,7 @@
 
 #basket .basket-functions a {
 	margin: 0 0 0 auto;
+	background-color: v.$brand-main;
 
 	@media (max-width: 640px) {
 		font-size: 0.9rem;

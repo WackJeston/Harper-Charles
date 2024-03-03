@@ -16,7 +16,7 @@ class BasketController extends PublicController
 			o.*
 			FROM orders AS o
 			WHERE o.userId = ?
-			AND o.status = "basket"
+			AND o.type = "basket"
 			LIMIT 1',
 			[auth()->user()->id]
 		);
