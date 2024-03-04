@@ -1,8 +1,14 @@
 <template>
 	<div class="web-box section-width">
-		<h3 id="record-header">
+		<h3 v-if="this.addresses.length > 0" id="record-header">
 			<!-- <i class="fa-solid fa-house-chimney"></i> -->
 			Please select your delivery address
+			<p></p>
+		</h3>
+
+		<h3 v-else id="record-header">
+			<!-- <i class="fa-solid fa-house-chimney"></i> -->
+			Please enter your billing address
 			<p></p>
 		</h3>
 
@@ -31,6 +37,9 @@
 						<div v-show="!address.defaultBilling" class="record-button-container">
 							<button @click="this.deleteAddress(address.id)" class="record-button delete-record">Remove <i class="fa-solid fa-xmark"></i></button>
 						</div>
+						<div class="record-button-container">
+							<button @click="this.editAddress(address.id)" class="record-button">Edit <i class="fa-solid fa-pen-to-square"></i></button>
+						</div>
 						<div v-show="!address.defaultBilling" class="record-button-container">
 							<button @click="this.setBillingAddress(address.id)" class="record-button">Use as billing address</button>
 						</div>
@@ -42,14 +51,15 @@
 				</div>
 			</div>
 
-			<button v-if="this.addresses.length > 0" class="record-toggle page-button padding no-margin" @click="this.showForm = !this.showForm">
+			<button v-if="this.addresses.length > 0" class="record-toggle page-button padding no-margin" @click="this.toggleForm()">
 				New Address
 				<i v-if="this.showForm" class="fa-solid fa-angle-up"></i>
 				<i v-else class="fa-solid fa-angle-down"></i>
 			</button>
 
-			<form @submit.prevent="this.addressAdd($event)" enctype="multipart/form-data" :style="[(this.showForm == true || this.addresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
+			<form @submit.prevent="this.addressAdd($event)" enctype="multipart/form-data" id="#addressForm" :style="[(this.showForm == true || this.addresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
+				<input type="hidden" name="update">
 
 				<div :style="[this.addresses.length > 0 ? { marginTop: '20px' } : { marginTop: '0px' }]" class="wb-row">
 					<div class="input-label-container">
@@ -120,7 +130,7 @@
 					</div>
 				</div>
 
-				<div class="checkbox-container">
+				<div v-show="this.addresses.length > 0 && !this.billingAddressEdit" class="checkbox-container">
 					<input type="checkbox" name="defaultbilling">
 					<label for="defaultbilling">Make this your default billing address.</label>
 				</div>
@@ -144,10 +154,25 @@ export default {
 
 			addresses: this.addressespre,
 			showForm: this.addressespre.length > 0 ? false : true,
+			billingAddressEdit: false,
 		}
 	},
 
 	methods: {
+		toggleForm() {
+			this.showForm = !this.showForm;
+
+			let form = document.querySelector('#address-container form');
+
+			if (!this.showForm) {
+				setTimeout(() => {
+					this.billingAddressEdit = false;
+					form.update.value = null;
+					form.reset();
+				}, 300);
+			}
+		},
+
 		deleteAddress(id) {
 			const warningZone = document.querySelector('.warning-overlay');
 			const message = document.querySelector('.warning-overlay p');
@@ -207,8 +232,46 @@ export default {
 			}
 		},
 
+		editAddress(id) {
+			let form = document.querySelector('#address-container form');
+
+			this.addresses.forEach(address => {
+				if (address.id == id) {
+					form.querySelector('input[name="update"]').value = address.id;
+					form.firstname.value = address.firstName;
+					form.lastname.value = address.lastName;
+					form.company.value = address.company;
+					form.line1.value = address.line1;
+					form.line2.value = address.line2;
+					form.line3.value = address.line3;
+					form.city.value = address.city;
+					form.region.value = address.region;
+					form.postcode.value = address.postCode;
+					form.country.value = address.countryCode;
+					form.phone.value = address.phone;
+					form.email.value = address.email;
+					form.defaultbilling.checked = address.defaultBilling;
+
+					if (address.defaultBilling) {
+						this.billingAddressEdit = true;
+					}
+				}
+			});
+
+			this.showForm = true;
+
+			setTimeout(() => {
+				form.scrollIntoView();
+			}, 300);
+		},
+
 		async addressAdd(submitEvent) {
-			let values = [];
+			let form = document.querySelector('#address-container form');
+			var values = [];
+
+			if (this.addresses.length == 0) {
+				submitEvent.target.defaultbilling.checked = true;
+			}
 
 			for (var i = 1; i < submitEvent.target.length; i++) {
 				let name = submitEvent.target[i].name;
@@ -235,11 +298,36 @@ export default {
 				console.log(err);
 				
 			} finally {
-				this.addresses.push(this.result);
-				this.showForm = false;
+				if (this.result.data.defaultBilling) {
+					this.addresses.forEach(address => {
+						if (address.defaultBilling) {
+							address.defaultBilling = false;
+						}
+					});
+				}
 
-				let form = document.querySelector('#address-container form');
-				form.reset();
+				if (this.result.updated) {
+					this.addresses.forEach(address => {
+						if (address.id == this.result.data.id) {
+							let index = this.addresses.indexOf(address);
+							this.addresses.splice(index, 1, this.result.data);
+						}
+					});
+				
+				} else {
+					this.addresses.push(this.result.data);
+				}
+
+				this.toggleForm();
+
+				setTimeout(() => {
+					let scrollElement = document.querySelector('#addres-' + this.result.data.id);
+
+					if (scrollElement) {
+						scrollElement.scrollIntoView();
+					}
+
+				}, 300);
 			}
 		},
 	},

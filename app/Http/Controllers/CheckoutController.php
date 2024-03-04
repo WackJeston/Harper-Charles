@@ -47,6 +47,7 @@ class CheckoutController extends PublicController
 					a.city,
 					a.region,
 					co.name AS country,
+					co.code AS countryCode,
 					a.postCode,
 					a.phone,
 					a.email
@@ -233,7 +234,7 @@ class CheckoutController extends PublicController
 		$line3 = !empty($address['line3']) ? $address['line3'] : null;
 		$region = !empty($address['region']) ? $address['region'] : null;
 
-		$result = Address::create([
+		$request = [
 			'userId' => auth()->user()->id,
 			'defaultBilling' => $defaultBilling,
 			'firstName' => $address['firstname'],
@@ -248,7 +249,45 @@ class CheckoutController extends PublicController
 			'postCode' => $address['postcode'],
 			'phone' => $address['phone'],
 			'email' => $address['email'],
-		]);
+		];
+
+		if (!empty($address['update']) && Address::exists($address['update'])) {
+			Address::where('id', $address['update'])->update($request);
+			$resultId = $address['update'];
+			$updated = true;
+
+		} else {
+			$resultId = Address::create($request);
+			$resultId = $resultId->id;
+			$updated = false;
+		}
+
+		$result = DB::select('SELECT
+			a.id,
+			a.userId,
+			a.defaultBilling,
+			a.firstName,
+			a.lastName,
+			a.company,
+			a.line1,
+			a.line2,
+			a.line3,
+			a.city,
+			a.region,
+			co.name AS country,
+			co.code AS countryCode,
+			a.postCode,
+			a.phone,
+			a.email
+			FROM addresses AS a
+			INNER JOIN countries AS co ON co.code=a.country
+			WHERE a.id = ?
+			ORDER BY a.defaultBilling DESC, a.firstName ASC, a.lastName ASC
+			LIMIT 1',
+			[$resultId]
+		);
+
+		$result = $result[0];
 
 		if ($defaultBilling) {
 			$options = [
@@ -265,7 +304,10 @@ class CheckoutController extends PublicController
 			auth()->user()->updateStripeCustomer($options);
 		}
 
-		return $result;
+		return [
+			'updated' => $updated, 
+			'data' => $result
+		];
 	}
 
 	public function setBillingAddress(int $id): bool
