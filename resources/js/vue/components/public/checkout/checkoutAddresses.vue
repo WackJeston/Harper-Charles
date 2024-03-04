@@ -118,17 +118,11 @@
 					</div>
 				</div>
 
-				<div class="wb-row">
-					<div class="input-label-container">
-						<label for="phone">Phone<span class="red"> *</span></label>
-						<input type="tel" name="phone" required maxlength="20">
-					</div>
+				<label for="phone">Phone<span class="red"> *</span></label>
+				<input type="tel" name="phone" required maxlength="20">
 
-					<div class="input-label-container">
-						<label for="email">email<span class="red"> *</span></label>
-						<input type="email" name="email" required maxlength="100">
-					</div>
-				</div>
+				<label for="email">email<span class="red"> *</span></label>
+				<input type="email" name="email" required maxlength="100">
 
 				<div v-show="this.addresses.length > 0 && !this.billingAddressEdit" class="checkbox-container">
 					<input type="checkbox" name="defaultbilling">
