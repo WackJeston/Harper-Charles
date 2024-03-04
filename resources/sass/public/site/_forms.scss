@@ -58,7 +58,7 @@ form.web-box i:hover:not(.show-password i),
 form input:not(form input:last-child, .checkbox-container input, .submit),
 form textarea,
 form label.file-input-label,
-form select,
+form select:not(form select:last-child, .checkbox-container select),
 .stripe-input {
 	margin-bottom: 10px;
 }
