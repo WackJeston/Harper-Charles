@@ -20,6 +20,20 @@ class CheckoutController extends PublicController
     switch ($action) {
 			// default: // addresses
 			case 'addresses':
+				$user = User::find(auth()->user()->id);
+
+				if ($user->stripe_id == null) {
+					$options = [
+						'name' => $user->firstName . ' ' . $user->lastName,
+						'email' => $user->email,
+						'metadata' => [
+							'id' => $user->id,
+						],
+					];
+			
+					$stripeUser = $user->createAsStripeCustomer($options);
+				}
+
 				$addresses = DB::select('SELECT
 					a.id,
 					a.userId,
@@ -236,6 +250,21 @@ class CheckoutController extends PublicController
 			'email' => $address['email'],
 		]);
 
+		if ($defaultBilling) {
+			$options = [
+				'address' => [
+					'city' => $result->city,
+					'country' => $result->country,
+					'line1' => $result->line1,
+					'line2' => $result->line2,
+					'postal_code' => $result->postCode,
+					'state' => $result->region,
+				],
+			];
+
+			auth()->user()->updateStripeCustomer($options);
+		}
+
 		return $result;
 	}
 
@@ -249,6 +278,7 @@ class CheckoutController extends PublicController
 			$options = [
 				'address' => [
 					'city' => $default->city,
+					'country' => $default->country,
 					'line1' => $default->line1,
 					'line2' => $default->line2,
 					'postal_code' => $default->postCode,

@@ -510,8 +510,13 @@ a.display-link:hover {
 	padding: 10px 15px;
 }
 
-.warning-box p,
 .warning-box h3 {
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+}
+
+.warning-box p {
 	margin: 0;
 	padding: 0;
 }
@@ -521,37 +526,16 @@ a.display-link:hover {
 	width: 100%;
 }
 
-.warning-box .row button {
-	color: v.$white;
-	margin-top: 10px;
-	margin-bottom: 4px;
-}
-
-.warning-box .row a {
-	margin-right: 15px;
-}
-
-.warning-box button.delete {
-	background-color: v.$pale-red;
+.warning-box .pb-danger {
 	flex-grow: 1;
 	min-width: 100px;
+	margin: 5px 10px 0 0;
 }
 
-.warning-box button.cancel {
-	background-color: v.$pale-green;
+.warning-box .pb-success {
 	flex-grow: 5;
-}
-
-.warning-box button.delete:hover {
-	@media (min-width: 640px) {
-		background-color: v.$pale-red-darker;
-	}
-}
-
-.warning-box button.cancel:hover {
-	@media (min-width: 640px) {
-		background-color: v.$pale-green-darker;
-	}
+	margin-top: 5px;
+	margin: 5px 0 0 0;
 }
 
 

@@ -132,19 +132,12 @@ class AuthController extends PublicController
       'password' => Hash::make($request->password),
     ]);
 
-		$options = [
-			'email' => $user->email,
-			'name' => $user->firstname . ' ' . $user->lastname,
-			'metadata' => [
-				'id' => $user->id,
-			],
-		];
+		$credentials = $request->only('email', 'password');
+		Auth::attempt($credentials);
 
-		$stripeUser = $user->createAsStripeCustomer($options);
-    // event(new Registered($user));
+		$request->session()->regenerate();
 
-    // return redirect('/verify-email/' . $user->id)->with('message', 'Signed in.');
-    return redirect('/')->with('message', 'Signed up successfully.');
+		return redirect('/')->with('message', 'Signed up successfully.');
   }
 
   public function viewVerifyEmailCustomer($id)

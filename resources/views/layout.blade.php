@@ -98,9 +98,9 @@
 		</div>
 
 		<div class="warning-overlay" style="display: none;" onclick="closeDeleteWarning()">
-			<div class="web-box warning-box dk">
-				<h3 class="warning">WARNING</h3>
-				<p></p>
+			<div class="web-box warning-box">
+				<h3 class="warning dk">WARNING</h3>
+				<p class="dk"></p>
 				<div class="row">
 					<a id="delete-link" class="page-button padding pb-danger">Delete</a>
 					<button type="button" name="cancel" class="cancel page-button padding pb-success" onclick="closeDeleteWarning()">Cancel</button>

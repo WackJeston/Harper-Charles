@@ -136,14 +136,14 @@ input.page-button {
 	}
 }
 
-button.page-button:not(.submit, .warning-overlay .page-button),
-a.page-button:not(.submit, .warning-overlay .page-button) {
+button.page-button:not(.submit, .warning-overlay .page-button, .no-margin),
+a.page-button:not(.submit, .warning-overlay .page-button, .no-margin) {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-button.page-button:not(:first-child, .submit, .warning-overlay .page-button),
-a.page-button:not(:first-child, .submit, .warning-overlay .page-button) {
+button.page-button:not(:first-child, .submit, .warning-overlay .page-button, .no-margin),
+a.page-button:not(:first-child, .submit, .warning-overlay .page-button, .no-margin) {
 	margin-left: 10px;
 }
 

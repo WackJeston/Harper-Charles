@@ -42,13 +42,11 @@
 				</div>
 			</div>
 
-			<div class="record-toggle-container">
-				<button v-if="this.addresses.length > 0" class="record-toggle page-button padding" @click="this.showForm = !this.showForm">
-					New Address
-					<i v-if="this.showForm" class="fa-solid fa-angle-up"></i>
-					<i v-else class="fa-solid fa-angle-down"></i>
-				</button>
-			</div>
+			<button v-if="this.addresses.length > 0" class="record-toggle page-button padding no-margin" @click="this.showForm = !this.showForm">
+				New Address
+				<i v-if="this.showForm" class="fa-solid fa-angle-up"></i>
+				<i v-else class="fa-solid fa-angle-down"></i>
+			</button>
 
 			<form @submit.prevent="this.addressAdd($event)" enctype="multipart/form-data" :style="[(this.showForm == true || this.addresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
