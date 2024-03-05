@@ -5,21 +5,6 @@
 @section('content')
   <main id="checkout-page">
 
-		<div id="deliveryMarker" class="checkout-title section-width">
-			<h1>Checkout</h1>
-			@switch($action)
-				@case('addresses')
-					{{-- <p>Please select your delivery address.</p> --}}
-					@break
-				@case('payment')
-					<p>Please select a payment method.</p>
-					@break
-				@case('review')
-					<p>Please review your details before completing your order.</p>
-					@break
-			@endswitch
-		</div>
-
     @if ($errors->any())
       <div id="publicerror" class="lt section-width">
         <publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
@@ -38,7 +23,7 @@
 
 
 		@switch($action)
-			@case('addresses')
+			@case('address')
 				<div id="checkout-timeline" class="section-width">
 					<i class="fa-solid fa-circle"></i>
 					<div></div>
@@ -57,7 +42,7 @@
 				@break
 			@case('payment')
 				<div id="checkout-timeline" class="section-width">
-					<a href="/checkout/addresses">
+					<a href="/checkout/address">
 						<i class="fa-solid fa-circle-check"></i>
 					</a>
 					<div></div>
@@ -82,7 +67,7 @@
 
 			@case('review')
 				<div id="checkout-timeline" class="section-width">
-					<a href="/checkout/addresses">
+					<a href="/checkout/address">
 						<i class="fa-solid fa-circle-check"></i>
 					</a>
 					<div></div>

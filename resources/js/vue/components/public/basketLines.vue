@@ -1,7 +1,7 @@
 <template>
 	<div class="basket-functions dk" v-if="this.lineCount > 0">
 		<strong>{{ this.lineCountQuantity }} Items <br class="hide-desktop"><span class="hide-mobile">|</span> Basket Total: £{{ this.totalPrice }}</strong>
-		<a href="/checkout/addresses" class="page-button padding"><span class="hide-mobile">Proceed To </span> Checkout <i class="fa-solid fa-angles-right"></i></a>
+		<a href="/checkout/address" class="page-button padding"><span class="hide-mobile">Proceed To </span> Checkout <i class="fa-solid fa-angles-right"></i></a>
 	</div>
 
 	<div id="basketLinesContainer">

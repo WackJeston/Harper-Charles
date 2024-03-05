@@ -18,8 +18,7 @@ class CheckoutController extends PublicController
   public function show($action) 
   {
     switch ($action) {
-			// default: // addresses
-			case 'addresses':
+			case 'address':
 				$user = User::find(auth()->user()->id);
 
 				if ($user->stripe_id == null) {
@@ -71,7 +70,7 @@ class CheckoutController extends PublicController
 				$checkout = Checkout::where('userId', auth()->user()->id)->first();
 
 				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
-					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
+					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
 				}
 
 				$paymentMethods = [];
@@ -117,7 +116,7 @@ class CheckoutController extends PublicController
 				$checkout = Checkout::where('userId', auth()->user()->id)->first();
 
 				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
-					return redirect('/checkout/addresses')->withErrors(['1' => 'Please select an address.']);
+					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
 
 				} elseif ($checkout->paymentMethodId == null) {
 					return redirect('/checkout/payment')->withErrors(['1' => 'Please select a payment method.']);
@@ -196,6 +195,10 @@ class CheckoutController extends PublicController
 					'addresses',
 					'paymentMethod',
 				));
+				break;
+				
+			default:
+				return redirect('/checkout/address');
 				break;
 		}
   }
