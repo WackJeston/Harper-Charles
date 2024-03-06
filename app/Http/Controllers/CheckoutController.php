@@ -66,73 +66,20 @@ class CheckoutController extends PublicController
 				));
 				break;
 
-			case 'payment':
-				$checkout = Checkout::where('userId', auth()->user()->id)->first();
+			case 'summary':
+				$checkout = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 
-				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
+				if ($checkout->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
 					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
 				}
-
-				$paymentMethods = [];
-
-				foreach (auth()->user()->paymentMethods() as $i => $method) {
-					$paymentMethods[$i] = [
-						'id' => $method->id,
-						'brand' => ucfirst($method->card->brand),
-						'last4' => $method->card->last4,
-						'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
-						'postcode' => $method->billing_details->address->postal_code,
-					];
-				};
-
-				$billingAddress = DB::select('SELECT
-					a.*
-					FROM addresses AS a
-					INNER JOIN checkout AS c ON c.billingAddressId = a.id
-					WHERE c.userId = ?
-					LIMIT 1', 
-					[auth()->user()->id]
-				);
-
-				$billingAddress = $billingAddress[0];
-
-				$payment = auth()->user()->pay(
-					$checkout->total * 100
-				);
-				$clientSecret = $payment->client_secret;
-
-				$total = $checkout->total;
-
-				return view('public/checkout', compact(
-					'action',
-					'billingAddress',
-					'paymentMethods',
-					'clientSecret',
-					'total',
-				));
-				break;
-
-			case 'review':
-				$checkout = Checkout::where('userId', auth()->user()->id)->first();
-
-				if ($checkout->billingAddressId == null || $checkout->deliveryAddressId == null) {
-					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
-
-				} elseif ($checkout->paymentMethodId == null) {
-					return redirect('/checkout/payment')->withErrors(['1' => 'Please select a payment method.']);
-				}
-
 
 				$checkout = DB::select('SELECT 
-					c.id,
-					c.userId,
-					SUM(cp.quantity) AS `count`,
-					SUM(p.price * cp.quantity) AS `total`
-					FROM checkout AS c
-					LEFT JOIN checkout_products AS cp ON cp.checkoutId=c.id
-					LEFT JOIN products AS p ON p.id=cp.productId
-					WHERE c.userId=?
-					GROUP BY c.id',
+					o.id,
+					o.userId,
+					o.items AS `count`
+					FROM order AS o
+					WHERE o.userId=?
+					GROUP BY o.id',
 					[auth()->user()->id]
 				);
 
@@ -178,7 +125,7 @@ class CheckoutController extends PublicController
 					[auth()->user()->id]
 				);
 
-				$method = auth()->user()->findPaymentMethod(Checkout::where('userId', auth()->user()->id)->first()->paymentMethodId);
+				$method = auth()->user()->findPaymentMethod(Order::where('userId', auth()->user()->id)->first()->paymentMethodId);
 
 				$paymentMethod = [
 					'id' => $method->id,
@@ -196,6 +143,52 @@ class CheckoutController extends PublicController
 					'paymentMethod',
 				));
 				break;
+			
+			case 'payment':
+				$checkout = Order::where('userId', auth()->user()->id)->first();
+
+				if ($checkout->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
+					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
+				}
+
+				// $paymentMethods = [];
+
+				// foreach (auth()->user()->paymentMethods() as $i => $method) {
+				// 	$paymentMethods[$i] = [
+				// 		'id' => $method->id,
+				// 		'brand' => ucfirst($method->card->brand),
+				// 		'last4' => $method->card->last4,
+				// 		'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
+				// 		'postcode' => $method->billing_details->address->postal_code,
+				// 	];
+				// };
+
+				// $billingAddress = DB::select('SELECT
+				// 	a.*
+				// 	FROM addresses AS a
+				// 	INNER JOIN checkout AS c ON c.billingAddressId = a.id
+				// 	WHERE c.userId = ?
+				// 	LIMIT 1', 
+				// 	[auth()->user()->id]
+				// );
+
+				// $billingAddress = $billingAddress[0];
+
+				// $payment = auth()->user()->pay(
+				// 	$checkout->total * 100
+				// );
+				// $clientSecret = $payment->client_secret;
+
+				$total = $checkout->total;
+
+				return view('public/checkout', compact(
+					'action',
+					'billingAddress',
+					// 'paymentMethods',
+					// 'clientSecret',
+					'total',
+				));
+				break;
 				
 			default:
 				return redirect('/checkout/address');
@@ -205,15 +198,14 @@ class CheckoutController extends PublicController
 
 
 	// ADDRESSES --------------------------------------------------
-	public function continueAddress($delivery, $billing)
+	public function continueAddress($deliveryId)
 	{
-		Checkout::where('userId', auth()->user()->id)->update([
-			'deliveryAddressId' => $delivery,
-			'billingAddressId' => $billing,
-			'status' => 'payment'
+		Order::where('userId', auth()->user()->id)->where('type', 'basket')->update([
+			'deliveryAddressId' => $deliveryId,
+			'status' => 'summary'
 		]);
 
-		return redirect('/checkout/payment');
+		return redirect('/checkout/summary');
 	}
 
 	public function addAddress($addressData)
@@ -354,12 +346,12 @@ class CheckoutController extends PublicController
 	// PAYMENT --------------------------------------------------
 	public function continuePayment($paymentMethod)
 	{
-		Checkout::where('userId', auth()->user()->id)->update([
+		Order::where('userId', auth()->user()->id)->update([
 			'paymentMethodId' => $paymentMethod,
-			'status' => 'review',
+			'status' => 'summary',
 		]);
 
-		return redirect('/checkout/review');
+		return redirect('/checkout/summary');
 	}
 
 	public function addPaymentMethod($id) {
@@ -375,13 +367,13 @@ class CheckoutController extends PublicController
 	}
 
 
-	// REVIEW --------------------------------------------------
-	public function continueReview(int $userId = 0)
+	// SUMMARY --------------------------------------------------
+	public function continueSummary(int $userId = 0)
 	{
 		$orderId = Order::createOrder($userId);
 
 		if ($orderId == 0) {
-			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
+			return redirect('/checkout/summary')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
 
 		Invoice::createInvoice($orderId);

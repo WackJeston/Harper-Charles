@@ -40,15 +40,40 @@
 				</div>
 
 				@break
+
+			@case('summary')
+				<div id="checkout-timeline" class="section-width">
+					<a href="/checkout/address">
+						<i class="fa-solid fa-circle-check"></i>
+					</a>
+					<div></div>
+					<i class="fa-solid fa-circle-check"></i>
+					<div></div>
+					<i class="fa-regular fa-circle"></i>
+				</div>
+
+				<div id="checkoutreview" class="dk checkout-section">
+					<checkoutreview 
+						:checkout="{{ json_encode($checkout) }}"
+						:products="{{ json_encode($products) }}"
+						:addresses="{{ json_encode($addresses) }}"
+						{{-- :paymentmethod="{{ json_encode($paymentMethod) }}" --}}
+					/>
+				</div>
+				
+				@break
+				
 			@case('payment')
 				<div id="checkout-timeline" class="section-width">
 					<a href="/checkout/address">
 						<i class="fa-solid fa-circle-check"></i>
 					</a>
 					<div></div>
-					<i class="fa-solid fa-circle"></i>
+					<a href="/checkout/summary">
+						<i class="fa-solid fa-circle-check"></i>
+					</a>
 					<div></div>
-					<i class="fa-regular fa-circle"></i>
+					<i class="fa-solid fa-circle"></i>
 				</div>
 
 				<div id="checkoutpayment" class="dk checkout-section">
@@ -63,30 +88,6 @@
 				</div>
 
 				<script src="https://js.stripe.com/v3/"></script>
-				@break
-
-			@case('review')
-				<div id="checkout-timeline" class="section-width">
-					<a href="/checkout/address">
-						<i class="fa-solid fa-circle-check"></i>
-					</a>
-					<div></div>
-					<a href="/checkout/payment">
-						<i class="fa-solid fa-circle-check"></i>
-					</a>
-					<div></div>
-					<i class="fa-solid fa-circle"></i>
-				</div>
-
-				<div id="checkoutreview" class="dk checkout-section">
-					<checkoutreview 
-						:checkout="{{ json_encode($checkout) }}"
-						:products="{{ json_encode($products) }}"
-						:addresses="{{ json_encode($addresses) }}"
-						:paymentmethod="{{ json_encode($paymentMethod) }}"
-					/>
-				</div>
-				
 				@break
 		@endswitch
 

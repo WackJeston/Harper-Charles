@@ -116,25 +116,19 @@ input.page-button {
 	cursor: pointer;
 
 	@media (max-width: 640px) {
-		font-size: 0.7rem;
+		font-size: 0.8rem;
 	}
 }
 
 .page-button.padding {
-	padding: 5px 10px;
-}
-
-.page-button.padding:not(.auth-form .submit) {
-	@media (max-width: 640px) {
-		padding: 3px 8px;
-	}
+	padding: 6px 10px;
 }
 
 .page-button.padding-large {
 	padding: 8px 16px;
 
 	@media (max-width: 640px) {
-		padding: 6px 14px;
+		padding: 6px 12px;
 	}
 }
 

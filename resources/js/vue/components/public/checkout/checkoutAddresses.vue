@@ -153,6 +153,10 @@ export default {
 	},
 
 	methods: {
+		checkoutContinue(id) {
+			location.href = '/checkoutContinueAddresses/' + id;
+		},
+
 		toggleForm() {
 			this.showForm = !this.showForm;
 

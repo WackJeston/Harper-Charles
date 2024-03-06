@@ -21,24 +21,24 @@
 	margin: 0;
 	font-weight: 400;
 
-	@media (min-width: 700px) {
+	@media (min-width: 640px) {
 		font-size: 1.8rem;
 		line-height: 1.8rem;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 640px) {
 		font-size: 1.4rem;
 		line-height: 1.4rem;
 	}
 }
 
 #checkoutheader header.scroll #checkout-title h1 {
-	@media (min-width: 700px) {
+	@media (min-width: 640px) {
 		font-size: 1.4rem;
 		line-height: 1.4rem;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 640px) {
 		font-size: 1rem;
 		line-height: 1rem;
 	}
@@ -50,11 +50,11 @@
 	margin: 0;
 	cursor: pointer;
 
-	@media (min-width: 700px) {
+	@media (min-width: 640px) {
 		font-size: 0.9rem;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 640px) {
 		font-size: 0.7rem;
 	}
 }
@@ -62,11 +62,11 @@
 
 
 #checkoutheader header.scroll #checkout-title a {
-	@media (min-width: 700px) {
+	@media (min-width: 640px) {
 		font-size: 0.7rem;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 640px) {
 		font-size: 0.5rem;
 	}
 }
@@ -74,6 +74,10 @@
 #checkout-page {
 	margin: v.$header-height 0 30px 0;
 	padding: 60px 20px 0 20px;
+
+	@media (min-width: 640px) {
+		padding: 60px 40px 0 40px;
+	}
 }
 
 #checkout-timeline {
@@ -144,7 +148,9 @@
 	color: v.$white;
 
 	@media (max-width: 640px) {
-		font-size: 1.2rem;
+		font-size: 1rem;
+		min-height: 45px;
+		padding: 0 13px;
 	}
 }
 
@@ -305,6 +311,17 @@
 	margin: 0;
 	background-color: v.$brand-main;
 	white-space: nowrap;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+		padding: 5px 8px;
+	}
+}
+
+.checkout-section .saved-record .record-buttons #continue i {
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
 }
 
 .checkout-section .saved-record .record-buttons .record-button {

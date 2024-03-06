@@ -127,14 +127,14 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(CheckoutController::class)->group(function () {
 		Route::get('/checkout/{action}', 'show');
-		Route::get('/checkoutContinueAddresses/{delivery}/{billing}', 'continueAddress');
+		Route::get('/checkoutContinueAddresses/{deliveryId}', 'continueAddress');
 		Route::get('/checkoutAddAddress/{addressData}', 'addAddress');
 		Route::get('/checkoutDeleteAddress/{id}', 'deleteAddress');
 		Route::get('/checkoutSetBillingAddress/{id}', 'setBillingAddress');
 		Route::get('/checkoutContinuePayment/{paymentMethod}', 'continuePayment');
 		Route::post('/checkoutAddPaymentMethod/{id}', 'addPaymentMethod');
 		Route::post('/checkoutDeletePaymentMethod/{id}', 'deletePaymentMethod');
-		Route::get('/checkoutContinueReview/{userId}', 'continueReview');
+		Route::get('/checkoutContinueSummary/{userId}', 'continueSummary');
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
