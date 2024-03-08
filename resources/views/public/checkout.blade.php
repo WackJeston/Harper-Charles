@@ -55,9 +55,6 @@
 				<div id="checkoutreview" class="dk checkout-section">
 					<checkoutreview 
 						:checkout="{{ json_encode($checkout) }}"
-						:products="{{ json_encode($products) }}"
-						:addresses="{{ json_encode($addresses) }}"
-						{{-- :paymentmethod="{{ json_encode($paymentMethod) }}" --}}
 					/>
 				</div>
 				

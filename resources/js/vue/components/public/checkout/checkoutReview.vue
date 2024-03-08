@@ -1,17 +1,73 @@
 <template>
 	<div class="web-box section-width">
+		<h3 id="checkout-header">
+			<i class="fa-solid fa-check-to-slot"></i>
+			Details
+			<p></p>
+		</h3>
+
+		<div id="review-container" class="checkout-container">
+			<div class="saved-records-container">
+
+				<!-- Checkout -->
+				<ul class="saved-record selected-record">
+					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ this.checkout.billingAddress.type }} Address</h4>
+					<li>{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
+					<li>{{ this.checkout.billingAddress.company }}</li>
+					<li>{{ this.checkout.billingAddress.line1 }}</li>
+					<li>{{ this.checkout.billingAddress.city }}, {{ this.checkout.billingAddress.region }}</li>
+					<li>{{ this.checkout.billingAddress.country }}</li>
+					<li>{{ this.checkout.billingAddress.postCode }}</li>
+					<li>{{ this.checkout.billingAddress.phone }}</li>
+					<li>{{ this.checkout.billingAddress.email }}</li>
+					<div class="record-buttons">
+						<a href="/checkout/addresses">
+							<i class="fa-solid fa-square popup-label-button">
+								<i class="fa-solid fa-pencil"></i>
+								<div class="popup-label-container">
+									<span class="popup-label">Change Address</span>
+								</div>
+							</i>
+						</a>
+					</div>
+				</ul>
+
+				<ul class="saved-record selected-record">
+					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ this.checkout.deliveryAddress.type }} Address</h4>
+					<li>{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
+					<li>{{ this.checkout.deliveryAddress.company }}</li>
+					<li>{{ this.checkout.deliveryAddress.line1 }}</li>
+					<li>{{ this.checkout.deliveryAddress.city }}, {{ this.checkout.deliveryAddress.region }}</li>
+					<li>{{ this.checkout.deliveryAddress.country }}</li>
+					<li>{{ this.checkout.deliveryAddress.postCode }}</li>
+					<li>{{ this.checkout.deliveryAddress.phone }}</li>
+					<li>{{ this.checkout.deliveryAddress.email }}</li>
+					<div class="record-buttons">
+						<a href="/checkout/addresses">
+							<i class="fa-solid fa-square popup-label-button">
+								<i class="fa-solid fa-pencil"></i>
+								<div class="popup-label-container">
+									<span class="popup-label">Change Address</span>
+								</div>
+							</i>
+						</a>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- <div class="web-box section-width">
 		<h3 class="checkout-header">
 			<i class="fa-solid fa-cube"></i>
 			Items
-			<p>{{ checkout.count }} Items | Total: £{{ checkout.total }}</p>
+			<p>{{ checkout.items }} Items | Total: £{{ checkout.total }}</p>
 		</h3>
 
 		<div id="products-container" class="checkout-container">
 			<div class="saved-records-container">
 
-
-				<!-- Products -->
-				<ul v-for="(product, i) in this.products" class="saved-record selected-record">
+				<ul v-for="(product, i) in this.checkout.lines" class="saved-record selected-record">
 					<a :href="'/product-page/' + product.id" class="saved-record-label-container">
 						<h4 class="saved-record-label">{{ product.title }}</h4>
 					</a>
@@ -25,70 +81,7 @@
 				</ul>
 			</div>
 		</div>
-	</div>
-		
-	<div class="web-box section-width">
-		<h3 id="checkout-header">
-			<i class="fa-solid fa-check-to-slot"></i>
-			Details
-			<p></p>
-		</h3>
-
-		<div id="review-container" class="checkout-container">
-			<div class="saved-records-container">
-
-				<!-- Checkout -->
-				<ul v-for="(address, i) in this.addresses" class="saved-record selected-record">
-					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ address.type }} Address</h4>
-					<li>{{ address.firstName }} {{ address.lastName }}</li>
-					<li>{{ address.company }}</li>
-					<li>{{ address.line1 }}</li>
-					<li>{{ address.city }}, {{ address.region }}</li>
-					<li>{{ address.country }}</li>
-					<li>{{ address.postCode }}</li>
-					<li>{{ address.phone }}</li>
-					<li>{{ address.email }}</li>
-					<div class="record-buttons">
-						<a href="/checkout/addresses">
-							<i class="fa-solid fa-square popup-label-button">
-								<i class="fa-solid fa-pencil"></i>
-								<div class="popup-label-container">
-									<span class="popup-label">Change Address</span>
-								</div>
-							</i>
-						</a>
-					</div>
-				</ul>
-
-				<!-- Payment Mathod -->
-				<ul class="saved-record selected-record">
-					<h4 class="saved-record-label"><i class="fa-solid fa-wallet"></i> Payment Method</h4>
-					<li>
-						{{ this.paymentmethod.brand }} 
-						<i v-if="this.paymentmethod.brand == 'Amex'" class="fa-brands fa-cc-amex"></i>
-						<i v-if="this.paymentmethod.brand == 'Diners'" class="fa-brands fa-cc-diners-club"></i>
-						<i v-if="this.paymentmethod.brand == 'Discover'" class="fa-brands fa-cc-discover"></i>
-						<i v-if="this.paymentmethod.brand == 'Jcb'" class="fa-brands fa-cc-jcb"></i>
-						<i v-if="this.paymentmethod.brand == 'Mastercard'" class="fa-brands fa-cc-mastercard"></i>
-						<i v-if="this.paymentmethod.brand == 'Visa'" class="fa-brands fa-cc-visa"></i>
-					</li>
-					<li>{{ this.paymentmethod.last4 }}</li>
-					<li>{{ this.paymentmethod.exp }}</li>
-					<li>{{ this.paymentmethod.postcode }}</li>
-					<div class="record-buttons">
-						<a href="/checkout/payment">
-							<i class="fa-solid fa-square popup-label-button">
-								<i class="fa-solid fa-pencil"></i>
-								<div class="popup-label-container">
-									<span class="popup-label">Change Payment Method</span>
-								</div>
-							</i>
-						</a>
-					</div>
-				</ul>
-			</div>
-		</div>
-	</div>
+	</div> -->
 
 	<div class="checkout-button-container section-width">
 		<span>{{ checkout.count }} Items | Total: £{{ checkout.total }}</span>
@@ -103,9 +96,6 @@
 export default {
 	props: [
 		'checkout',
-		'products',
-		'addresses',
-		'paymentmethod',
 	],
 }
 </script>

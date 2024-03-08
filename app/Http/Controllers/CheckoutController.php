@@ -67,80 +67,87 @@ class CheckoutController extends PublicController
 				break;
 
 			case 'summary':
-				$checkout = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+				$checkout = DB::select('SELECT
+					o.*
+					FROM orders AS o
+					WHERE o.userId = ?
+					AND o.type = "basket"
+					LIMIT 1',
+					[auth()->user()->id]
+				);
 
-				if ($checkout->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
-					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
+				if (empty($checkout)) {
+					return redirect('/basket');
+
+				} else {
+					$checkout = $checkout[0];
+
+					$checkout->billingAddress = DB::select('SELECT
+						a.*
+						FROM addresses AS a
+						WHERE a.userId = ?
+						AND a.defaultBilling = true',
+						[auth()->user()->id]
+					);
+
+					$checkout->deliveryAddress = DB::select('SELECT
+						a.*
+						FROM addresses AS a
+						WHERE a.id = ?',
+						[$checkout->deliveryAddressId]
+					);
+					
+					if (empty($checkout->deliveryAddressId) || empty($checkout->billingAddress)) {
+						return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
+					}
+
+					$checkout->deliveryAddress = $checkout->deliveryAddress[0];
+					$checkout->billingAddress = $checkout->billingAddress[0];
+
+					$checkout->lines = DB::select('SELECT
+						ol.*,
+						p.id AS productId,
+						p.title,
+						p.subtitle,
+						ol.price,
+						IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
+						FROM order_lines AS ol
+						INNER JOIN products AS p ON p.id = ol.productId
+						LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
+						LEFT JOIN asset AS a ON a.id = pi.assetId
+						LEFT JOIN asset AS a2 ON a2.id = ol.assetId
+						WHERE ol.orderId = ?
+						GROUP BY ol.id
+						ORDER BY ol.created_at ASC',
+						[$checkout->id]
+					);
+
+					$checkout->lines = cacheImages($checkout->lines, 600, 600);
+
+					foreach ($checkout->lines as $i => $line) {
+						$checkout->lines[$i]->variants = DB::select('SELECT
+							olv.*,
+							pv.id AS variantId,
+							pv.title,
+							pv.type,
+							a.fileName,
+							pv.colour,
+							pv2.id AS parentVariantId,
+							pv2.title AS parentTitle
+							FROM order_line_variants AS olv
+							INNER JOIN product_variants AS pv ON pv.id = olv.variantId
+							INNER JOIN product_variants AS pv2 ON pv2.id = pv.parentVariantId
+							LEFT JOIN asset AS a ON a.id = pv.assetId
+							WHERE olv.orderLineId = ?
+							GROUP BY olv.id',
+							[$line->id]
+						);
+					}
 				}
-
-				$checkout = DB::select('SELECT 
-					o.id,
-					o.userId,
-					o.items AS `count`
-					FROM order AS o
-					WHERE o.userId=?
-					GROUP BY o.id',
-					[auth()->user()->id]
-				);
-
-				$checkout = $checkout[0];
-
-				$products = DB::select('SELECT
-					p.id,
-					p.title,
-					p.subtitle,
-					p.price,
-					cp.quantity,
-					pi.fileName,
-					GROUP_CONCAT(pv2.title, ": ", pv.title) AS `variants`
-					FROM checkout AS c
-					LEFT JOIN checkout_products AS cp ON cp.checkoutId=c.id
-					LEFT JOIN products AS p ON p.id=cp.productId
-					LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
-					LEFT JOIN checkout_product_variants AS cpv ON cpv.checkoutProductId=cp.id
-					LEFT JOIN product_variants AS pv ON pv.id=cpv.variantId
-					LEFT JOIN product_variants AS pv2 ON pv2.id=pv.parentVariantId
-					WHERE c.userId=?
-					GROUP BY p.id',
-					[auth()->user()->id]
-				);
-
-				$addresses = DB::select('SELECT
-					a.id,
-					a.type,
-					CONCAT(a.firstName, " ", a.lastName) AS `name`,
-					a.company,
-					a.line1,
-					a.city,
-					a.region,
-					co.name AS country,
-					a.postCode,
-					a.phone,
-					a.email
-					FROM checkout AS c
-					LEFT JOIN addresses AS a ON a.id=c.deliveryAddressId OR a.id=c.billingAddressId
-					INNER JOIN countries AS co ON co.code=a.country
-					WHERE c.userId=?
-					GROUP BY a.id',
-					[auth()->user()->id]
-				);
-
-				$method = auth()->user()->findPaymentMethod(Order::where('userId', auth()->user()->id)->first()->paymentMethodId);
-
-				$paymentMethod = [
-					'id' => $method->id,
-					'brand' => ucfirst($method->card->brand),
-					'last4' => $method->card->last4,
-					'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
-					'postcode' => $method->billing_details->address->postal_code,
-				];
 
 				return view('public/checkout', compact(
 					'action',
 					'checkout',
-					'products',
-					'addresses',
-					'paymentMethod',
 				));
 				break;
 			
