@@ -57,7 +57,7 @@
 				<i v-else class="fa-solid fa-angle-down"></i>
 			</button>
 
-			<form @submit.prevent="this.addressAdd($event)" enctype="multipart/form-data" id="#addressForm" :style="[(this.showForm == true || this.addresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
+			<form @submit.prevent="this.addressAdd($event)" enctype="multipart/form-data" id="addressForm" :style="[(this.showForm == true || this.addresses.length == 0) ? { maxHeight: '1000px' } : { maxHeight: '0px' }]">
 				<input type="hidden" name="_token" :value="csrf">
 				<input type="hidden" name="update">
 
@@ -259,7 +259,7 @@ export default {
 			this.showForm = true;
 
 			setTimeout(() => {
-				form.scrollIntoView();
+				form.scrollIntoView({behavior: 'smooth'});
 			}, 300);
 		},
 
@@ -322,7 +322,7 @@ export default {
 					let scrollElement = document.querySelector('#addres-' + this.result.data.id);
 
 					if (scrollElement) {
-						scrollElement.scrollIntoView();
+						scrollElement.scrollIntoView({behavior: 'smooth'});
 					}
 
 				}, 300);

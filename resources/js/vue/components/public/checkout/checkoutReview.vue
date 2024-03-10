@@ -1,8 +1,7 @@
 <template>
 	<div class="web-box section-width">
-		<h3 id="checkout-header">
-			<i class="fa-solid fa-check-to-slot"></i>
-			Details
+		<h3 id="record-header">
+			Please check your details before continuing to payment
 			<p></p>
 		</h3>
 
@@ -10,49 +9,51 @@
 			<div class="saved-records-container">
 
 				<!-- Checkout -->
-				<ul class="saved-record selected-record">
-					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ this.checkout.billingAddress.type }} Address</h4>
-					<li>{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
-					<li>{{ this.checkout.billingAddress.company }}</li>
-					<li>{{ this.checkout.billingAddress.line1 }}</li>
-					<li>{{ this.checkout.billingAddress.city }}, {{ this.checkout.billingAddress.region }}</li>
-					<li>{{ this.checkout.billingAddress.country }}</li>
-					<li>{{ this.checkout.billingAddress.postCode }}</li>
-					<li>{{ this.checkout.billingAddress.phone }}</li>
-					<li>{{ this.checkout.billingAddress.email }}</li>
-					<div class="record-buttons">
-						<a href="/checkout/addresses">
-							<i class="fa-solid fa-square popup-label-button">
-								<i class="fa-solid fa-pencil"></i>
-								<div class="popup-label-container">
-									<span class="popup-label">Change Address</span>
-								</div>
-							</i>
-						</a>
-					</div>
-				</ul>
+				<div class="saved-record columns cols-2">
+					<div class="saved-record-column">
+						<ul>
+							<li>{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
+							<li>{{ this.checkout.billingAddress.company }}</li>
+							<li>{{ this.checkout.billingAddress.line1 }}</li>
+							<li>{{ this.checkout.billingAddress.city }}, {{ this.checkout.billingAddress.region }}</li>
+							<li>{{ this.checkout.billingAddress.country }}</li>
+							<li>{{ this.checkout.billingAddress.postCode }}</li>
+							<li>{{ this.checkout.billingAddress.phone }}</li>
+							<li>{{ this.checkout.billingAddress.email }}</li>
+						</ul>
 
-				<ul class="saved-record selected-record">
-					<h4 class="saved-record-label"><i class="fa-solid fa-house-chimney"></i> {{ this.checkout.deliveryAddress.type }} Address</h4>
-					<li>{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
-					<li>{{ this.checkout.deliveryAddress.company }}</li>
-					<li>{{ this.checkout.deliveryAddress.line1 }}</li>
-					<li>{{ this.checkout.deliveryAddress.city }}, {{ this.checkout.deliveryAddress.region }}</li>
-					<li>{{ this.checkout.deliveryAddress.country }}</li>
-					<li>{{ this.checkout.deliveryAddress.postCode }}</li>
-					<li>{{ this.checkout.deliveryAddress.phone }}</li>
-					<li>{{ this.checkout.deliveryAddress.email }}</li>
-					<div class="record-buttons">
-						<a href="/checkout/addresses">
-							<i class="fa-solid fa-square popup-label-button">
-								<i class="fa-solid fa-pencil"></i>
-								<div class="popup-label-container">
-									<span class="popup-label">Change Address</span>
-								</div>
-							</i>
-						</a>
+						<div class="record-buttons">
+							<div class="record-button-container">
+							</div>
+
+							<div class="record-button-container">
+								<a href="/checkout/addresses" class="record-button">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+							</div>
+						</div>
 					</div>
-				</ul>
+
+					<div class="saved-record-column">
+						<ul>
+							<li>{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
+							<li>{{ this.checkout.deliveryAddress.company }}</li>
+							<li>{{ this.checkout.deliveryAddress.line1 }}</li>
+							<li>{{ this.checkout.deliveryAddress.city }}, {{ this.checkout.deliveryAddress.region }}</li>
+							<li>{{ this.checkout.deliveryAddress.country }}</li>
+							<li>{{ this.checkout.deliveryAddress.postCode }}</li>
+							<li>{{ this.checkout.deliveryAddress.phone }}</li>
+							<li>{{ this.checkout.deliveryAddress.email }}</li>
+						</ul>
+
+						<div class="record-buttons">
+							<div class="record-button-container">
+							</div>
+
+							<div class="record-button-container">
+								<a href="/checkout/addresses" class="record-button">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

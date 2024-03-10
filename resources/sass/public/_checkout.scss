@@ -229,13 +229,45 @@
 }
 
 .checkout-section .saved-record {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
 	width: 100%;
 	padding: 10px;
 	border-radius: 5px;
 	background-color: v.$brand-alt-light;
+}
+
+.checkout-section .saved-record:not(.columns)  {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.checkout-section .saved-record.columns {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(1, minmax(auto, 1fr));
+}
+
+.checkout-section .saved-record.columns.cols-2 {
+	grid-template-columns: repeat(2, minmax(auto, 1fr));
+}
+
+.checkout-section .saved-record.columns.cols-3 {
+	grid-template-columns:  repeat(3, minmax(auto, 1fr));
+}
+
+.checkout-section .saved-record.columns.cols-4 {
+	grid-template-columns:  repeat(4, minmax(auto, 1fr));
+}
+
+.checkout-section .saved-record.columns.cols-5 {
+	grid-template-columns:  repeat(5, minmax(auto, 1fr));
+}
+
+.checkout-section .saved-record .saved-record-column {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .checkout-section .saved-record-billing-address {
