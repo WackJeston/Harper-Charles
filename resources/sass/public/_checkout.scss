@@ -282,14 +282,32 @@
 	display: flex;
 	min-width: 10px;
 	padding: 0;
+	margin-bottom: 4px;
 }
 
 .checkout-section .saved-record li {
-	margin: 0 0 0 3px; 
 	white-space: nowrap;
 
 	@media (max-width: 640px) {
 		font-size: 0.7rem;
+	}
+}
+
+.checkout-section .saved-record li:not(.billing-address) {
+	margin: 0 0 0 8px;
+}
+
+.checkout-section .saved-record li.first {
+	margin-top: 4px;
+}
+
+.checkout-section .saved-record .billing-address {
+	font-weight: 600;
+	font-size: 1.2rem;
+	margin: 0 0 0 4px;
+
+	@media (max-width: 640px) {
+		font-size: 0.9rem;
 	}
 }
 
@@ -396,18 +414,6 @@
 .checkout-section .saved-record .record-buttons .delete-record:hover {
 	@media (min-width: 640px) {
 		background-color: v.$pale-red-darker;
-	}
-}
-
-.checkout-section .saved-record .billing-address {
-	margin: 0 6px 0 0;
-	padding: 0;
-	font-weight: 600;
-	font-size: 1.2rem;
-	text-align: end;
-
-	@media (max-width: 640px) {
-		font-size: 0.9rem;
 	}
 }
 

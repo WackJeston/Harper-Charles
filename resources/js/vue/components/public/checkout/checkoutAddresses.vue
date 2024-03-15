@@ -16,7 +16,8 @@
 			<div class="saved-records-container">
 				<div v-for="(address, i) in this.addresses" :class="{ 'saved-record-billing-address' : address.defaultBilling }" class="saved-record" :id="'address-' + address.id">
 					<ul>
-						<li>{{ address.firstName }} {{ address.lastName }}</li>
+						<li v-show="address.defaultBilling" class="billing-address">Billing Address</li>
+						<li class="first">{{ address.firstName }} {{ address.lastName }}</li>
 						<li>{{ address.company }}</li>
 						<li>{{ address.line1 }}</li>
 						<li>{{ address.city }}, {{ address.region }}</li>
@@ -42,10 +43,6 @@
 						</div>
 						<div v-show="!address.defaultBilling" class="record-button-container">
 							<button @click="this.setBillingAddress(address.id)" class="record-button">Use as billing address</button>
-						</div>
-
-						<div v-show="address.defaultBilling" class="record-button-container">
-							<span class="billing-address">Billing Address</span>
 						</div>
 					</div>
 				</div>

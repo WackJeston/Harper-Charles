@@ -6,13 +6,35 @@
 		</h3>
 
 		<div id="review-container" class="checkout-container">
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							2301
+						</td>
+						<td>
+							Test Product
+						</td>
+						<td>
+							Quantity: 4
+						</td>
+						<td>
+							£10.00
+						</td>
+						<td>
+							£40.00
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
 			<div class="saved-records-container">
 
 				<!-- Checkout -->
 				<div class="saved-record columns cols-2">
 					<div class="saved-record-column">
 						<ul>
-							<li>{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
+							<li class="first">{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
 							<li>{{ this.checkout.billingAddress.company }}</li>
 							<li>{{ this.checkout.billingAddress.line1 }}</li>
 							<li>{{ this.checkout.billingAddress.city }}, {{ this.checkout.billingAddress.region }}</li>
@@ -34,7 +56,7 @@
 
 					<div class="saved-record-column">
 						<ul>
-							<li>{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
+							<li class="first">{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
 							<li>{{ this.checkout.deliveryAddress.company }}</li>
 							<li>{{ this.checkout.deliveryAddress.line1 }}</li>
 							<li>{{ this.checkout.deliveryAddress.city }}, {{ this.checkout.deliveryAddress.region }}</li>
