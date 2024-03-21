@@ -39,10 +39,11 @@ function resetShowMarker() {
 	}
 }
 
-function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $webp = true):string {
-	$publicFileName = sprintf('%s%s.%s', 
+function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $trim = false, string $background = null, bool $webp = true):string {
+	$publicFileName = sprintf('%s%s%s.%s', 
 		explode('.', $fileName)[0], 
 		($width > 0 || $height > 0) ? sprintf('-%d-%d', $width, $height) : '',
+		$trim ? '-trim' : '',
 		$webp ? 'webp' : explode('.', $fileName)[1]
 	);
 
@@ -53,11 +54,22 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $web
 			$manager = new ImageManager(['driver' => 'imagick']);
 			$image = $manager->make($data);
 
+			if($trim) {
+				$image->trim();
+			}
+
 			if ($width > 0 || $height > 0) {
-				$image->resize($width == 0 ? null : $width, $height == 0 ? null : $height, function($constraint) {
+				$width = $width > 0 ? $width : null;
+				$height = $height > 0 ? $height : null;
+
+				$image->resize($width, $height, function($constraint) {
 					$constraint->aspectRatio();
-					$constraint->upsize();
+					// $constraint->upsize();
 				});
+
+				if (!is_null($background)) {
+					$image->resizeCanvas($width, $height, 'center', false, $background);
+				}
 			}
 			
 			if($webp) {
@@ -72,16 +84,16 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $web
 	return Storage::disk('public')->url($publicFileName);
 }
 
-function cacheImages($records, int $width = 0, int $height = 0, bool $webp = true) {
+function cacheImages($records, int $width = 0, int $height = 0, bool $trim = false, string $background = null, bool $webp = true) {
 	foreach ($records as $i => $record) {
 		if (property_exists($record, 'fileName')) {
 			if (is_array($record)) {
 				if (!empty($record['fileName'])) {
-					$record['fileName'] = cacheImage($record['fileName'], $width, $height, $webp);
+					$record['fileName'] = cacheImage($record['fileName'], $width, $height, $trim, $background, $webp);
 				}
 			} else {
 				if (!empty($record->fileName)) {
-					$record->fileName = cacheImage($record->fileName, $width, $height, $webp);
+					$record->fileName = cacheImage($record->fileName, $width, $height, $trim, $background, $webp);
 				}
 			}
 		}

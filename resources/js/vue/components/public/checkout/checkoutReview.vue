@@ -8,24 +8,25 @@
 		<div id="review-container" class="checkout-container">
 			<table>
 				<tbody>
-					<tr>
-						<td>
-							2301
-						</td>
-						<td>
-							Test Product
-						</td>
-						<td>
-							Quantity: 4
-						</td>
-						<td>
-							£10.00
-						</td>
-						<td>
-							£40.00
-						</td>
+					<tr v-for="(line, i) in this.checkout.lines">
+						<td>#{{ line.id }}</td>
+						<td><img async :src="line.fileName" height="100"></td>
+						<td>{{ line.title }}</td>
+						<td>Quantity: {{ line.quantity }}</td>
+						<td class="align-right">£{{ line.price }}</td>
+						<td class="align-right">£{{ line.total }}</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="align-right">Total:</td>
+						<td class="align-right">£{{ checkout.total }}</td>
+					</tr>
+				</tfoot>
 			</table>
 
 			<div class="saved-records-container">

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class BasketController extends PublicController
 {
   public function show() {
-    $basket = DB::select('SELECT
+		$basket = DB::select('SELECT
 			o.*
 			FROM orders AS o
 			WHERE o.userId = ?
@@ -23,6 +23,12 @@ class BasketController extends PublicController
 
 		if (!empty($basket)) {
 			$basket = $basket[0];
+
+			if ($basket->status != 'basket') {
+				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+				$order->status = 'basket';
+				$order->save();
+			}
 
 			$basket->lines = DB::select('SELECT
 				ol.*,
@@ -42,7 +48,7 @@ class BasketController extends PublicController
 				[$basket->id]
 			);
 
-			$basket->lines = cacheImages($basket->lines, 600, 600);
+			$basket->lines = cacheImages($basket->lines, 600, 600, true, 'EFEFEF');
 
 			foreach ($basket->lines as $i => $line) {
 				$basket->lines[$i]->variants = DB::select('SELECT

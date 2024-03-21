@@ -19,6 +19,10 @@ class CheckoutController extends PublicController
   {
     switch ($action) {
 			case 'address':
+				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+				$order->status = 'checkout-address';
+				$order->save();
+
 				$user = User::find(auth()->user()->id);
 
 				if ($user->stripe_id == null) {
@@ -67,6 +71,10 @@ class CheckoutController extends PublicController
 				break;
 
 			case 'summary':
+				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+				$order->status = 'checkout-summary';
+				$order->save();
+
 				$checkout = DB::select('SELECT
 					o.*
 					FROM orders AS o
@@ -122,7 +130,7 @@ class CheckoutController extends PublicController
 						[$checkout->id]
 					);
 
-					$checkout->lines = cacheImages($checkout->lines, 600, 600);
+					$checkout->lines = cacheImages($checkout->lines, 600, 600, true, 'EFEFEF');
 
 					foreach ($checkout->lines as $i => $line) {
 						$checkout->lines[$i]->variants = DB::select('SELECT
@@ -152,6 +160,10 @@ class CheckoutController extends PublicController
 				break;
 			
 			case 'payment':
+				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+				$order->status = 'checkout-payment';
+				$order->save();
+
 				$checkout = Order::where('userId', auth()->user()->id)->first();
 
 				if ($checkout->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {

@@ -7,7 +7,7 @@
 	<div id="basketLinesContainer">
 		<div class="dk basket-line" v-for="(line, i) in this.lines" :id="'basketLine' + line.id">
 			<a :href="'/product/' + line.productId" v-if="line.fileName">
-				<img :src="line.fileName" :alt="line.title" class="wb-image">
+				<img :src="line.fileName" :alt="line.title">
 			</a>
 			<a :href="'/product/' + line.productId" v-else class="wb-image">
 				<i class="fa-solid fa-couch"></i>

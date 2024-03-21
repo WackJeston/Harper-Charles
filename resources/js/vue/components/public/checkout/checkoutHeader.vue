@@ -7,7 +7,7 @@
 				<h1 v-else-if="this.action == 'payment'">Payment Method</h1>
 				<h1 v-else-if="this.action == 'summary'">Summary</h1>
 
-				<a href="/shop">Continue Shopping</a>
+				<a href="/basket">Continue Shopping</a>
 			</div>
 
 			<a class="logo-link" href="/">

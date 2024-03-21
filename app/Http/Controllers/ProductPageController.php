@@ -220,9 +220,14 @@ class ProductPageController extends PublicController
 			}
 		}
 
-		if (!$order = Order::where('userId', auth()->user()->id)->where('status', 'basket')->first()) {
+		if (!$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first()) {
 			$order = new Order;
 			$order->userId = auth()->user()->id;
+			$order->type = 'basket';
+			$order->status = 'basket';
+			$order->save();
+		
+		} else {
 			$order->status = 'basket';
 			$order->save();
 		}

@@ -417,6 +417,22 @@
 	}
 }
 
+.checkout-section table {
+	margin: 10px 0;
+}
+
+.checkout-section table tbody tr:not(:last-child) {
+	border-bottom: 1px solid v.$brand-alt-medium;
+}
+
+.checkout-section table tbody tr:last-child {
+	border-bottom: 2px solid v.$black;
+}
+
+.checkout-section table td.align-right {
+	text-align: right;
+}
+
 
 // Order Successful
 .order-successful .order-details {
