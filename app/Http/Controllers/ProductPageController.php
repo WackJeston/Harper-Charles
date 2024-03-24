@@ -298,6 +298,7 @@ class ProductPageController extends PublicController
 
 		if (empty($request->configuration)) {
 			$orderLine->price = $product->price;
+			$orderLine->total = $product->price * $request->quantity;
 		}
 
 		$orderLine->save();
@@ -320,6 +321,7 @@ class ProductPageController extends PublicController
 
 				$orderLine->assetId = storeImageFromString($fileName, $productData->thumbnail);
 				$orderLine->price = $productData->price->base;
+				$orderLine->total = $orderLine->price * $request->quantity;
 				$orderLine->save();
 
 				foreach ($productData->attributes as $key => $variantData) {
@@ -332,16 +334,15 @@ class ProductPageController extends PublicController
 		}
 
 		$order->items = DB::select('SELECT
-			SUM(ol.quantity) AS items
+			COUNT(ol.id) AS items
 			FROM order_lines AS ol
 			WHERE ol.orderId = ?
-			GROUP BY ol.orderId
 			LIMIT 1',
 			[$order->id]
 		)[0]->items;
 
 		$order->total = DB::select('SELECT
-			SUM(ol.quantity * ol.price) AS total
+			SUM(ol.total) AS total
 			FROM order_lines AS ol
 			WHERE ol.orderId = ?
 			GROUP BY ol.orderId

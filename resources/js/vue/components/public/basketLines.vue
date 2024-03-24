@@ -79,7 +79,7 @@ export default {
 
 				price += parseFloat(priceTemp * quantityTemp);
 				count++;
-				quantity += parseFloat(quantityTemp);
+				quantity++;
 			});
 			
 			basketLinks.forEach(function(basketLink) {

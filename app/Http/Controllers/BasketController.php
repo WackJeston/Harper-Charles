@@ -35,7 +35,6 @@ class BasketController extends PublicController
 				p.id AS productId,
 				p.title,
 				p.subtitle,
-				ol.price,
 				IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 				FROM order_lines AS ol
 				INNER JOIN products AS p ON p.id = ol.productId
@@ -101,7 +100,7 @@ class BasketController extends PublicController
 		$order = Order::find($id);
 
 		$order->items = DB::select('SELECT
-			SUM(ol.quantity) AS items
+			COUNT(ol.id) AS items
 			FROM order_lines AS ol
 			WHERE ol.orderId = ?
 			GROUP BY ol.orderId
@@ -110,10 +109,9 @@ class BasketController extends PublicController
 		)[0]->items;
 
 		$order->total = DB::select('SELECT
-			SUM(ol.quantity * ol.price) AS total
+			SUM(ol.total) AS total
 			FROM order_lines AS ol
 			WHERE ol.orderId = ?
-			GROUP BY ol.orderId
 			LIMIT 1',
 			[$order->id]
 		)[0]->total;

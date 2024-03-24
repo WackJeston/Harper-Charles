@@ -140,7 +140,7 @@
 				}
 
 				// DataTable
-				if (document.querySelector('table')) {
+				if (document.querySelector('table.data-table')) {
 					setIdWidth();
 					setTableMargin();
 					hideTableColumnsLoop();

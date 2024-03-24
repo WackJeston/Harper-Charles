@@ -47,7 +47,7 @@
 						<i class="fa-solid fa-circle-check"></i>
 					</a>
 					<div></div>
-					<i class="fa-solid fa-circle-check"></i>
+					<i class="fa-solid fa-circle"></i>
 					<div></div>
 					<i class="fa-regular fa-circle"></i>
 				</div>

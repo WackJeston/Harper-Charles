@@ -112,33 +112,36 @@
 #checkout-page .checkout-button-container {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
+	align-items: flex-end;
 	margin-top: 0;
 	margin-bottom: 0;
-}
-
-#checkout-page .checkout-button-container a,
-#checkout-page .checkout-button-container button {
-	height: 35px;
-}
-
-#checkout-page .checkout-button-container a:last-child,
-#checkout-page .checkout-button-container button:last-child {
-	margin-left: auto;
 }
 
 #checkout-page .checkout-button-container span {
 	padding: 5px 10px;
 	font-size: 1rem;
-	margin: 0;
+	margin: 0 10px 0 auto;
 	border-radius: 5px;
 	background-color: v.$white;
+}
+
+.checkout-section #continue {
+	margin: 0;
+	background-color: v.$brand-main;
+	white-space: nowrap;
+}
+
+.checkout-section #continue i {
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
 }
 
 .checkout-section #record-header {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	font-size: 1.2rem;
 	margin: 0;
 	padding: 0 20px;
 	width: 100%;
@@ -223,51 +226,53 @@
 	padding: 5px 5px 10px 5px;
 }
 
+.checkout-section .saved-records-columns {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(1, minmax(auto, 1fr));
+
+	@media (max-width: 640px) {
+		gap: 10px;
+	}
+}
+
+.checkout-section .saved-records-columns.cols-2 {
+	@media (min-width: 500px) {
+		grid-template-columns: repeat(2, minmax(auto, 1fr));
+	}
+}
+
+.checkout-section .saved-records-columns.cols-3 {
+	@media (min-width: 500px) {
+		grid-template-columns:  repeat(3, minmax(auto, 1fr));
+	}
+}
+
+.checkout-section .saved-records-columns.cols-4 {
+	@media (min-width: 500px) {
+		grid-template-columns:  repeat(4, minmax(auto, 1fr));
+	}
+}
+
+.checkout-section .saved-records-columns.cols-5 {
+	@media (min-width: 500px) {
+		grid-template-columns:  repeat(5, minmax(auto, 1fr));
+	}
+}
+
 .checkout-section .saved-records-container {
 	display: flex;
 	flex-direction: column;
 }
 
 .checkout-section .saved-record {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	width: 100%;
 	padding: 10px;
 	border-radius: 5px;
 	background-color: v.$brand-alt-light;
-}
-
-.checkout-section .saved-record:not(.columns)  {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
-
-.checkout-section .saved-record.columns {
-	display: grid;
-	gap: 20px;
-	grid-template-columns: repeat(1, minmax(auto, 1fr));
-}
-
-.checkout-section .saved-record.columns.cols-2 {
-	grid-template-columns: repeat(2, minmax(auto, 1fr));
-}
-
-.checkout-section .saved-record.columns.cols-3 {
-	grid-template-columns:  repeat(3, minmax(auto, 1fr));
-}
-
-.checkout-section .saved-record.columns.cols-4 {
-	grid-template-columns:  repeat(4, minmax(auto, 1fr));
-}
-
-.checkout-section .saved-record.columns.cols-5 {
-	grid-template-columns:  repeat(5, minmax(auto, 1fr));
-}
-
-.checkout-section .saved-record .saved-record-column {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
 }
 
 .checkout-section .saved-record-billing-address {
@@ -357,23 +362,6 @@
 	}
 }
 
-.checkout-section .saved-record .record-buttons #continue {
-	margin: 0;
-	background-color: v.$brand-main;
-	white-space: nowrap;
-
-	@media (max-width: 640px) {
-		font-size: 0.7rem;
-		padding: 5px 8px;
-	}
-}
-
-.checkout-section .saved-record .record-buttons #continue i {
-	@media (max-width: 640px) {
-		font-size: 0.7rem;
-	}
-}
-
 .checkout-section .saved-record .record-buttons .record-button {
 	display: flex;
 	flex-direction: row;
@@ -418,7 +406,18 @@
 }
 
 .checkout-section table {
-	margin: 10px 0;
+	margin: 0 0 10px 0;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
+}
+
+.checkout-section table tr {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 100%;
 }
 
 .checkout-section table tbody tr:not(:last-child) {
@@ -429,8 +428,33 @@
 	border-bottom: 2px solid v.$black;
 }
 
+.checkout-section table td {
+	flex-basis: 0;
+	flex-grow: 1;
+}
+
+.checkout-section table td:first-child {
+	max-width: 80px;
+}
+
 .checkout-section table td.align-right {
 	text-align: right;
+}
+
+.checkout-section table td.product-title {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.checkout-section table td small {
+	font-size: 0.8rem;
+	color: v.$brand-main-darker;
+}
+
+.checkout-section table tfoot tr {
+	padding: 8px 0 0 0;
 }
 
 

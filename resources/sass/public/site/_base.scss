@@ -122,6 +122,10 @@ input.page-button {
 
 .page-button.padding {
 	padding: 6px 10px;
+
+	@media (max-width: 640px) {
+		padding: 4px 8px;
+	}
 }
 
 .page-button.padding-large {

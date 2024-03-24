@@ -9,10 +9,12 @@
 			<table>
 				<tbody>
 					<tr v-for="(line, i) in this.checkout.lines">
-						<td>#{{ line.id }}</td>
-						<td><img async :src="line.fileName" height="100"></td>
-						<td>{{ line.title }}</td>
-						<td>Quantity: {{ line.quantity }}</td>
+						<td><img async :src="line.fileName" height="60"></td>
+						<td class="product-title">
+							<span>{{ line.title }}</span>
+							<small>#{{ line.id }}</small>
+						</td>
+						<td>Qty: {{ line.quantity }}</td>
 						<td class="align-right">£{{ line.price }}</td>
 						<td class="align-right">£{{ line.total }}</td>
 					</tr>
@@ -22,19 +24,17 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						<td></td>
 						<td class="align-right">Total:</td>
 						<td class="align-right">£{{ checkout.total }}</td>
 					</tr>
 				</tfoot>
 			</table>
 
-			<div class="saved-records-container">
-
-				<!-- Checkout -->
-				<div class="saved-record columns cols-2">
-					<div class="saved-record-column">
+			<div class="saved-records-columns cols-2">
+				<div class="saved-records-container">
+					<div class="saved-record">
 						<ul>
+							<li class="billing-address">Billing Address</li>
 							<li class="first">{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
 							<li>{{ this.checkout.billingAddress.company }}</li>
 							<li>{{ this.checkout.billingAddress.line1 }}</li>
@@ -54,9 +54,12 @@
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="saved-record-column">
+				<div class="saved-records-container">
+					<div class="saved-record">
 						<ul>
+							<li class="billing-address">Delivery Address</li>
 							<li class="first">{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
 							<li>{{ this.checkout.deliveryAddress.company }}</li>
 							<li>{{ this.checkout.deliveryAddress.line1 }}</li>
@@ -80,36 +83,10 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- <div class="web-box section-width">
-		<h3 class="checkout-header">
-			<i class="fa-solid fa-cube"></i>
-			Items
-			<p>{{ checkout.items }} Items | Total: £{{ checkout.total }}</p>
-		</h3>
-
-		<div id="products-container" class="checkout-container">
-			<div class="saved-records-container">
-
-				<ul v-for="(product, i) in this.checkout.lines" class="saved-record selected-record">
-					<a :href="'/product-page/' + product.id" class="saved-record-label-container">
-						<h4 class="saved-record-label">{{ product.title }}</h4>
-					</a>
-					<li>{{ product.subtitle }}</li>
-					<li>Quantity: {{ product.quantity }}</li>
-					<li>£{{ product.price }}</li>
-					<li class="record-image-container">
-						<a :href="'/product-page/' + product.id" class="record-image"
-						:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div> -->
 
 	<div class="checkout-button-container section-width">
-		<span>{{ checkout.count }} Items | Total: £{{ checkout.total }}</span>
-		<a :href="'/checkoutContinueReview/' + this.checkout.userId" id="continue" class="page-button padding">
+		<span>{{ checkout.items }} Items | Total: £{{ checkout.total }}</span>
+		<a href="/checkout/payment" id="continue" class="page-button padding">
 			Pay Now
 			<i class="fa-solid fa-angles-right"></i>
 		</a>
