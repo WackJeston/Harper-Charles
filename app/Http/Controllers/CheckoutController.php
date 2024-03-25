@@ -204,57 +204,35 @@ class CheckoutController extends PublicController
 				$scripts = [
 					[
 						'path' => 'https://js.stripe.com/v3/',
-						'loadType' => 'async',
+						'loadType' => '',
 						'onLoad' => '',
-						'body' => '',
-					],
-					[
-						'path' => '/js/stripe/paymentElement.js',
-						'loadType' => 'defer',
-						'onLoad' => '',
-						'body' => '',
-					],
-					[
-						'path' => '',
-						'loadType' => 'defer',
-						'onLoad' => '',
-						'body' => sprintf('
-							key = "%s";
-							amount = %s;
-							billingDetails = {
-								name: "%s",
-								email: "%s",
-								phone: "%s",
-								address: {
-									line1: "%s",
-									line2: "%s",
-									city: "%s",
-									state: "%s",
-									postal_code: "%s",
-									country: "%s",
-								},
-							};',
-							env('STRIPE_KEY'),
-							$order->total * 100,
-							$billingAddress->firstName . ' ' . $billingAddress->lastName,
-							$billingAddress->email,
-							$billingAddress->phone,
-							$billingAddress->line1,
-							$billingAddress->line2,
-							$billingAddress->city,
-							$billingAddress->region,
-							$billingAddress->postCode,
-							$billingAddress->country
-						),
+						'location' => 'head',
 					]
+				];
+
+				$paymentElementData = [
+					'key' => env('STRIPE_KEY'),
+					'clientSecret' => $intent->client_secret,
+					'amount' => $order->total,
+					'billingDetails' => [
+						'name' => $billingAddress->firstName . ' ' . $billingAddress->lastName,
+						'email' => $billingAddress->email,
+						'phone' => $billingAddress->phone,
+						'address' => [
+							'line1' => $billingAddress->line1,
+							'line2' => $billingAddress->line2,
+							'city' => $billingAddress->city,
+							'state' => $billingAddress->region,
+							'postal_code' => $billingAddress->postCode,
+							'country' => $billingAddress->country,
+						],
+					],
 				];
 
 				return view('public/checkout', compact(
 					'action',
-					'order',
-					'billingAddress',
-					'intent',
 					'scripts',
+					'paymentElementData',
 				));
 				break;
 				

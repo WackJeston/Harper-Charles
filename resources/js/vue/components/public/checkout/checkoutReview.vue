@@ -87,7 +87,7 @@
 	<div class="checkout-button-container section-width">
 		<span>{{ checkout.items }} Items | Total: £{{ checkout.total }}</span>
 		<a href="/checkout/payment" id="continue" class="page-button padding">
-			Pay Now
+			Continue To Payment
 			<i class="fa-solid fa-angles-right"></i>
 		</a>
 	</div>
