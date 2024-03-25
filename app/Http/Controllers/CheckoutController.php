@@ -3,11 +3,12 @@ namespace App\Http\Controllers;
 
 Use DB;
 use App\Models\Address;
+use Laravel\Cashier\Cashier;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
 use App\Models\User;
-use App\Models\Invoice;
 
 use App\Http\Api\InvoiceRenderer;
 
@@ -164,48 +165,96 @@ class CheckoutController extends PublicController
 				$order->status = 'checkout-payment';
 				$order->save();
 
-				$checkout = Order::where('userId', auth()->user()->id)->first();
-
-				if ($checkout->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
+				if ($order->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
 					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
 				}
 
-				// $paymentMethods = [];
+				$user = User::find(auth()->user()->id);
 
-				// foreach (auth()->user()->paymentMethods() as $i => $method) {
-				// 	$paymentMethods[$i] = [
-				// 		'id' => $method->id,
-				// 		'brand' => ucfirst($method->card->brand),
-				// 		'last4' => $method->card->last4,
-				// 		'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
-				// 		'postcode' => $method->billing_details->address->postal_code,
-				// 	];
-				// };
+				\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+				
+				if (is_null($order->stripeIntentId)) {
+					try {
+						$intent = \Stripe\PaymentIntent::create([
+							'amount' => $order->total * 100,
+							'currency' => 'gbp',
+							'capture_method' => 'automatic',
+							'automatic_payment_methods' => ['enabled' => true],
+							'customer' => $user->stripe_id,
+							'metadata' => [
+								'order_id' => $order->id,
+							],
+						]);
+					} catch (\Throwable $th) {
+						$intent = false;
+					} finally {
+						$order->stripeIntentId = $intent->id;
+						$order->save();
+					}
 
-				// $billingAddress = DB::select('SELECT
-				// 	a.*
-				// 	FROM addresses AS a
-				// 	INNER JOIN checkout AS c ON c.billingAddressId = a.id
-				// 	WHERE c.userId = ?
-				// 	LIMIT 1', 
-				// 	[auth()->user()->id]
-				// );
+				} else {
+					$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
 
-				// $billingAddress = $billingAddress[0];
+					if ($intent->amount != $order->total * 100) {
+						$intent->amount = $order->total * 100;
+						$intent->save();
+					}
+				}
 
-				// $payment = auth()->user()->pay(
-				// 	$checkout->total * 100
-				// );
-				// $clientSecret = $payment->client_secret;
-
-				$total = $checkout->total;
+				$scripts = [
+					[
+						'path' => 'https://js.stripe.com/v3/',
+						'loadType' => 'async',
+						'onLoad' => '',
+						'body' => '',
+					],
+					[
+						'path' => '/js/stripe/paymentElement.js',
+						'loadType' => 'defer',
+						'onLoad' => '',
+						'body' => '',
+					],
+					[
+						'path' => '',
+						'loadType' => 'defer',
+						'onLoad' => '',
+						'body' => sprintf('
+							key = "%s";
+							amount = %s;
+							billingDetails = {
+								name: "%s",
+								email: "%s",
+								phone: "%s",
+								address: {
+									line1: "%s",
+									line2: "%s",
+									city: "%s",
+									state: "%s",
+									postal_code: "%s",
+									country: "%s",
+								},
+							};',
+							env('STRIPE_KEY'),
+							$order->total * 100,
+							$billingAddress->firstName . ' ' . $billingAddress->lastName,
+							$billingAddress->email,
+							$billingAddress->phone,
+							$billingAddress->line1,
+							$billingAddress->line2,
+							$billingAddress->city,
+							$billingAddress->region,
+							$billingAddress->postCode,
+							$billingAddress->country
+						),
+					]
+				];
 
 				return view('public/checkout', compact(
 					'action',
+					'order',
 					'billingAddress',
-					// 'paymentMethods',
-					// 'clientSecret',
-					'total',
+					'intent',
+					'scripts',
 				));
 				break;
 				

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-          $table->string('stripeIntentId', 255)->default(null)->after('status');
+        Schema::table('product_vairnats', function (Blueprint $table) {
+          $table->string('reference', 100)->default(null)->after('type');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('product_vairnats', function (Blueprint $table) {
             //
         });
     }

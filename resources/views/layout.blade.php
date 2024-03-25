@@ -116,7 +116,7 @@
 		{{-- Scripts --}}
 		@if (isset($scripts))
 			@foreach ($scripts as $script)
-				<script {{ $script['loadType'] }} src="{{ $script['path'] }}" onload="{{ $script['onLoad'] }}"></script>
+				<script {{ $script['loadType'] }} src="{{ $script['path'] }}" onload="{{ $script['onLoad'] }}">{{ json_encode($script['body']) }}</script>
 			@endforeach
 		@endif
 

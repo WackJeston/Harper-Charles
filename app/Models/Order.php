@@ -20,6 +20,7 @@ class Order extends Model
 		'total',
 		'type',
 		'status',
+		'stripeIntentId',
 	];
 
 	public static function createOrder(int $userId = 0) {

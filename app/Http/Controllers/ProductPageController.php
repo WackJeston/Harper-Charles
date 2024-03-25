@@ -122,6 +122,7 @@ class ProductPageController extends PublicController
 						'path' => '/js/orbital-vision/viewer.js',
 						'loadType' => 'defer',
 						'onLoad' => '',
+						'body' => '',
 					],
 					[
 						'path' => '/js/orbital-vision/app.js',

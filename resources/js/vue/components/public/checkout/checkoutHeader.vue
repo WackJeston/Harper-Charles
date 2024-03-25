@@ -27,7 +27,6 @@ export default {
 	],
 
 	mounted() {
-		console.log(this.action);
 		this.setScrollListener();
 	},
 

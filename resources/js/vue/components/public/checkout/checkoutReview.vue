@@ -1,7 +1,7 @@
 <template>
 	<div class="web-box section-width">
 		<h3 id="record-header">
-			Please check your details before continuing to payment
+			Please check your details before continuing to payment.
 			<p></p>
 		</h3>
 
@@ -22,7 +22,7 @@
 				<tfoot>
 					<tr>
 						<td></td>
-						<td></td>
+						<td class="product-title"></td>
 						<td></td>
 						<td class="align-right">Total:</td>
 						<td class="align-right">£{{ checkout.total }}</td>
