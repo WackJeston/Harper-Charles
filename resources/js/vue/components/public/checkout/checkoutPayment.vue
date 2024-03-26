@@ -6,6 +6,11 @@
 		</h3>
 
 		<div id="payment-container" class="checkout-container">
+			<ul class="alert-box error lt" v-show="this.errorMessage != null">
+				<i class="fa-solid fa-xmark" @click="this.errorMessage = null"></i>
+				<li>{{ this.errorMessage }}</li>
+			</ul>
+
 			<div id="payment-element">
 				<i class="fas fa-spinner fa-spin"></i>
 				<!--Stripe.js injects the Payment Element-->
@@ -40,6 +45,7 @@ export default {
 			primaryColor: '#3b4d57',
 			amount: this.data.amount,
 			billingDetails: this.data.billingDetails,
+			errorMessage: null,
 		}
 	},
 
@@ -83,6 +89,8 @@ export default {
 		},
 
 		submitElement() {
+			this.errorMessage;
+
 			this.elements.submit().then((result) => {
 				if (result.error) {
 					console.log(result.error);
@@ -92,7 +100,7 @@ export default {
 					button.disabled = true;
 					button.querySelector('i').style.display = 'inline-block';
 
-					stripe.confirmPayment({
+					this.stripe.confirmPayment({
 						elements: this.elements,
 						clientSecret: this.clientSecret,
 						redirect: 'if_required',
@@ -101,7 +109,10 @@ export default {
 						}
 					}).then(function(result) {
 						if(result.error) {
-							console.log(result.error);
+							console.log('ERROR');
+							console.log(result.error.message);
+
+							this.errorMessage = result.error.message;
 
 							button.disabled = false;
 							button.querySelector('i').style.display = 'none';
