@@ -95,7 +95,7 @@
 				<tbody align="left">
 					@foreach ($order->lines as $i => $line)
 							<tr>
-								<td width="1">{{ $line->id }}</td>
+								<td width="1">{{ $line->productId }}</td>
 								<td><img width="30" src="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $line->fileName }}" alt="{{ $line->title }}"></td>
 								<td>{{ $line->title }}</td>
 								<td>{{ $line->quantity }}</td>

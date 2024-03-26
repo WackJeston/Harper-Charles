@@ -84,7 +84,7 @@
 				<!-- <td>£{{ line.variants }}</td> -->
 				<td>{{ line.quantity }}</td>
 				<td id="image-column4" class="tr-buttons">
-					<a :href="'/product-page/' + line.id">
+					<a :href="'/product-page/' + line.productId">
 						<i class="fa-solid fa-folder-open">
 							<div class="button-label">
 								<p>View Product</p>

@@ -2,7 +2,6 @@
 	<div class="web-box section-width">
 		<h3 id="record-header">
 			Please select your preferred payment method.
-			<p></p>
 		</h3>
 
 		<div id="payment-container" class="checkout-container">
@@ -10,9 +9,13 @@
 				<i class="fa-solid fa-xmark" @click="this.errorMessage = null"></i>
 				<li>{{ this.errorMessage }}</li>
 			</ul>
+	
+			<div id="payment-message" class="hidden"></div>
+			<div id="error-message">
+				<!-- Display error message to your customers here -->
+			</div>
 
 			<div id="payment-element">
-				<i class="fas fa-spinner fa-spin"></i>
 				<!--Stripe.js injects the Payment Element-->
 			</div>
 	
@@ -20,11 +23,6 @@
 				<span id="button-text">Confirm Payment</span>
 				<i class="fas fa-cog fa-spin"></i>
 			</button>
-	
-			<div id="payment-message" class="hidden"></div>
-			<div id="error-message">
-				<!-- Display error message to your customers here -->
-			</div>
 		</div>
 	</div>
 </template>
@@ -73,6 +71,7 @@ export default {
 			const paymentOptions = {
 				layout: {
 					type: 'tabs',
+					// type: 'accordion',
 					// radios: false,
 					// spacedAccordionItems: true
 				},
@@ -107,10 +106,10 @@ export default {
 						confirmParams: {
 							return_url: `https://${window.location.hostname}/paymentconfirm`
 						}
-					}).then(function(result) {
+					}).then((result) => {
 						if(result.error) {
 							console.log('ERROR');
-							console.log(result.error.message);
+							console.log(result);
 
 							this.errorMessage = result.error.message;
 
@@ -120,11 +119,13 @@ export default {
 						} else {
 							console.log('SUCCESS');
 							console.log(result);
+
+							window.location.href = `https://${window.location.hostname}/checkoutCompleteOrder`;
 						}
 					});
 				}
 			});
-		},
+		}
 	},
 }
 </script>

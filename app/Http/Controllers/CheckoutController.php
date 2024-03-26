@@ -18,9 +18,20 @@ class CheckoutController extends PublicController
 {
   public function show($action) 
   {
+		$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+
+		if (empty($order)) {
+			return redirect('/basket');
+		}
+
+		$orderLinesCount = OrderLine::where('orderId', $order->id)->count();
+
+		if ($orderLinesCount == 0) {
+			return redirect('/basket');
+		}
+
     switch ($action) {
 			case 'address':
-				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 				$order->status = 'checkout-address';
 				$order->save();
 
@@ -72,7 +83,6 @@ class CheckoutController extends PublicController
 				break;
 
 			case 'summary':
-				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 				$order->status = 'checkout-summary';
 				$order->save();
 
@@ -161,7 +171,6 @@ class CheckoutController extends PublicController
 				break;
 			
 			case 'payment':
-				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 				$order->status = 'checkout-payment';
 				$order->save();
 
@@ -171,20 +180,22 @@ class CheckoutController extends PublicController
 
 				$user = User::find(auth()->user()->id);
 
+				$params = [
+					'amount' => $order->total * 100,
+					'currency' => 'gbp',
+					'capture_method' => 'automatic',
+					'automatic_payment_methods' => ['enabled' => true],
+					'customer' => $user->stripe_id,
+					'metadata' => [
+						'order_id' => $order->id,
+					],
+				];
+
 				\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 				
 				if (is_null($order->stripeIntentId)) {
 					try {
-						$intent = \Stripe\PaymentIntent::create([
-							'amount' => $order->total * 100,
-							'currency' => 'gbp',
-							'capture_method' => 'automatic',
-							'automatic_payment_methods' => ['enabled' => true],
-							'customer' => $user->stripe_id,
-							'metadata' => [
-								'order_id' => $order->id,
-							],
-						]);
+						$intent = \Stripe\PaymentIntent::create($params);
 					} catch (\Throwable $th) {
 						$intent = false;
 					} finally {
@@ -194,6 +205,17 @@ class CheckoutController extends PublicController
 
 				} else {
 					$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
+
+					if ($intent->status == 'canceled') {
+						try {
+							$intent = \Stripe\PaymentIntent::create($params);
+						} catch (\Throwable $th) {
+							$intent = false;
+						} finally {
+							$order->stripeIntentId = $intent->id;
+							$order->save();
+						}
+					}
 
 					if ($intent->amount != $order->total * 100) {
 						$intent->amount = $order->total * 100;
@@ -246,8 +268,11 @@ class CheckoutController extends PublicController
 	// ADDRESSES --------------------------------------------------
 	public function continueAddress($deliveryId)
 	{
+		$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first();
+
 		Order::where('userId', auth()->user()->id)->where('type', 'basket')->update([
 			'deliveryAddressId' => $deliveryId,
+			'billingAddressId' => $billingAddress->id,
 			'status' => 'summary'
 		]);
 
@@ -386,47 +411,37 @@ class CheckoutController extends PublicController
 		}
 
 		return false;
-	}	
+	}
 
 
 	// PAYMENT --------------------------------------------------
-	public function continuePayment($paymentMethod)
+	public function completeOrder()
 	{
-		Order::where('userId', auth()->user()->id)->update([
-			'paymentMethodId' => $paymentMethod,
-			'status' => 'summary',
-		]);
+		$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 
-		return redirect('/checkout/summary');
-	}
-
-	public function addPaymentMethod($id) {
-		$result = auth()->user()->addPaymentMethod($id);
-
-		return $result;
-	}
-
-	public function deletePaymentMethod($id) {
-		$result = auth()->user()->deletePaymentMethod($id);
-
-		return $result;
-	}
-
-
-	// SUMMARY --------------------------------------------------
-	public function continueSummary(int $userId = 0)
-	{
-		$orderId = Order::createOrder($userId);
-
-		if ($orderId == 0) {
-			return redirect('/checkout/summary')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
+		if (empty($order) || $order->status != 'checkout-payment') {
+			return redirect('/basket');
 		}
 
-		Invoice::createInvoice($orderId);
+		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+		
+		$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
 
-		return redirect('/order-successful/' . $orderId);
+		if ($intent->status != 'succeeded') {
+			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
+		}
+
+		// $order->type = 'web';
+		// $order->status = 'new';
+		// $order->save();
+
+		Invoice::createInvoice($order->id);
+
+		return redirect('/order-successful/' . $order->id);
 	}
 
+
+	// CONFIRMATION --------------------------------------------------
 	public function orderSuccessful($orderId)
 	{
 		$order = DB::select('SELECT 

@@ -39,7 +39,7 @@ class AdminCustomerProfileController extends AdminController
 		$editForm = $editForm->render();
 
 		$ordersTable = new DataTable('orders');
-		$ordersTable->setQuery(sprintf('SELECT o.* FROM orders AS o WHERE o.userId = %d', $id));
+		$ordersTable->setQuery(sprintf('SELECT o.* FROM orders AS o WHERE o.userId = %d AND o.type != "basket"', $id));
 		$ordersTable->addColumn('id', '#');
 		$ordersTable->addColumn('status', 'Status');
 		$ordersTable->addColumn('total', 'Total');

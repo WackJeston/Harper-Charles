@@ -70,7 +70,7 @@
 		{{-- Scripts --}}
 		@if (isset($scripts))
 			@foreach ($scripts as $script)
-				@if ($script['location'] == 'head')
+				@if (isset($script['location']) && $script['location'] == 'head')
 					<script {{ $script['loadType'] }} src="{{ $script['path'] }}" onload="{{ $script['onLoad'] }}"></script>
 				@endif
 			@endforeach

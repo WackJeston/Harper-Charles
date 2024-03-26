@@ -3,7 +3,6 @@
 		<h3 v-if="this.addresses.length > 0" id="record-header">
 			<!-- <i class="fa-solid fa-house-chimney"></i> -->
 			Please select your delivery address.
-			<p></p>
 		</h3>
 
 		<h3 v-else id="record-header">

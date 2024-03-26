@@ -26,6 +26,12 @@ class Invoice extends Model
 
 		$user = User::find($order->userId);
 
+		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+		
+		$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
+
+		dd($intent);
+
 		$method = $user->findPaymentMethod($order->paymentMethodId);
 
 		$paymentMethod = [

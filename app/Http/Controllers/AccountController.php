@@ -18,7 +18,7 @@ class AccountController extends PublicController
   public function show() {
 		$action = 'account';
 
-		$orders = User::getOrders(auth()->user()->id, 'order');
+		$orders = User::getOrders(auth()->user()->id, 'web');
 
     return view('public/account', compact(
 			'action',

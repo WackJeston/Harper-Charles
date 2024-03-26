@@ -2,7 +2,6 @@
 	<div class="web-box section-width">
 		<h3 id="record-header">
 			Please check your details before continuing to payment.
-			<p></p>
 		</h3>
 
 		<div id="review-container" class="checkout-container">

@@ -163,17 +163,10 @@
 	color: v.$white;
 
 	@media (max-width: 640px) {
-		font-size: 1rem;
+		font-size: 0.9rem;
 		min-height: 45px;
+		max-height: 150px;
 		padding: 0 13px;
-	}
-}
-
-.checkout-section .alert-box {
-	margin-bottom: 20px;
-
-	@media (max-width: 640px) {
-		margin-bottom: 10px;
 	}
 }
 
@@ -205,6 +198,14 @@
 #checkoutreview #record-header p {
 	margin: 10px 0 10px auto;
 	padding-left: 20px;
+}
+
+.checkout-section .alert-box {
+	margin-bottom: 20px;
+
+	@media (max-width: 640px) {
+		margin-bottom: 10px;
+	}
 }
 
 .checkout-section button.record-toggle {

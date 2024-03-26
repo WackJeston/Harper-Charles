@@ -131,10 +131,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/checkoutAddAddress/{addressData}', 'addAddress');
 		Route::get('/checkoutDeleteAddress/{id}', 'deleteAddress');
 		Route::get('/checkoutSetBillingAddress/{id}', 'setBillingAddress');
-		Route::get('/checkoutContinuePayment/{paymentMethod}', 'continuePayment');
-		Route::post('/checkoutAddPaymentMethod/{id}', 'addPaymentMethod');
-		Route::post('/checkoutDeletePaymentMethod/{id}', 'deletePaymentMethod');
-		Route::get('/checkoutContinueSummary/{userId}', 'continueSummary');
+		Route::get('/checkoutCompleteOrder', 'completeOrder');
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
