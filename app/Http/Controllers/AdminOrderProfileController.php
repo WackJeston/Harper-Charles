@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
-use App\Models\Orders;
+use App\Models\Order;
 
 
 class AdminOrderProfileController extends AdminController
 {
   public function show($id)
   {
-    if (Orders::find($id) == null) {
+    if (Order::find($id) == null) {
       return redirect('/admin/orders')->withErrors(['1' => 'Order not found']);
     }
 		

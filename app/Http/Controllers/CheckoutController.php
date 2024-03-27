@@ -431,9 +431,10 @@ class CheckoutController extends PublicController
 			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
 
+		$order->paymentMethodId = $intent->payment_method;
 		// $order->type = 'web';
 		// $order->status = 'new';
-		// $order->save();
+		$order->save();
 
 		Invoice::createInvoice($order->id);
 
@@ -463,11 +464,13 @@ class CheckoutController extends PublicController
 		$products = DB::select('SELECT
 			p.id,
 			p.title,
-			pi.fileName
+			IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 			FROM orders AS o
 			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
 			LEFT JOIN products AS p ON p.id=ol.productId
 			LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
+			LEFT JOIN asset AS a ON a.id = pi.assetId
+			LEFT JOIN asset AS a2 ON a2.id = ol.assetId
 			WHERE o.id=?
 			GROUP BY p.id',
 			[$orderId]

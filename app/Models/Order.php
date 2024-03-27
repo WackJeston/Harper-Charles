@@ -101,10 +101,7 @@ class Order extends Model
 
 	public static function getOrder(int $orderId) {
 		$order = DB::select('SELECT
-			o.id,
-			o.userId,
-			o.paymentMethodId,
-			o.status,
+			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`,
 			SUM(ol.quantity) AS `count`,
 			SUM(p.price * ol.quantity) AS `total`,

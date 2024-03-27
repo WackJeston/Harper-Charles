@@ -513,6 +513,11 @@
 
 
 // Order Successful
+.order-successful .checkout-title {
+	display: flex;
+	flex-direction: column;
+}
+
 .order-successful .order-details {
 	display: flex;
 	justify-content: space-between;
