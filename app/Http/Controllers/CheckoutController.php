@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
+use App\Models\Payment;
 use App\Models\User;
 
 use App\Http\Api\InvoiceRenderer;
@@ -128,7 +129,6 @@ class CheckoutController extends PublicController
 						p.id AS productId,
 						p.title,
 						p.subtitle,
-						ol.price,
 						IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 						FROM order_lines AS ol
 						INNER JOIN products AS p ON p.id = ol.productId
@@ -222,6 +222,15 @@ class CheckoutController extends PublicController
 						$intent->save();
 					}
 				}
+
+				Payment::create([
+					'orderId' => $order->id,
+					'stripeReference' => $intent->id,
+					'type' => 'Register',
+					'status' => $intent->status,
+					'amount' => $intent->amount / 100,
+					'captured' => $intent->amount_captured / 100,
+				]);
 
 				$scripts = [
 					[
@@ -427,13 +436,22 @@ class CheckoutController extends PublicController
 		
 		$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
 
+		Payment::create([
+			'orderId' => $order->id,
+			'stripeReference' => $intent->id,
+			'type' => 'Capture',
+			'status' => $intent->status,
+			'amount' => $intent->amount / 100,
+			'captured' => $intent->amount_received / 100,
+		]);
+
 		if ($intent->status != 'succeeded') {
 			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
 		}
 
 		$order->paymentMethodId = $intent->payment_method;
-		// $order->type = 'web';
-		// $order->status = 'new';
+		$order->type = 'web';
+		$order->status = 'new';
 		$order->save();
 
 		Invoice::createInvoice($order->id);
@@ -445,59 +463,89 @@ class CheckoutController extends PublicController
 	// CONFIRMATION --------------------------------------------------
 	public function orderSuccessful($orderId)
 	{
-		$order = DB::select('SELECT 
-			o.id,
-			o.userId,
-			SUM(ol.quantity) AS `count`,
-			SUM(p.price * ol.quantity) AS `total`
+		$order = DB::select('SELECT
+			o.*
 			FROM orders AS o
-			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
-			LEFT JOIN products AS p ON p.id=ol.productId
 			WHERE o.id=?
-			GROUP BY o.id
 			LIMIT 1',
 			[$orderId]
 		);
 
-		$order = $order[0];
+		if (empty($order)) {
+			return redirect('/basket');
 
-		$products = DB::select('SELECT
-			p.id,
-			p.title,
-			IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
-			FROM orders AS o
-			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
-			LEFT JOIN products AS p ON p.id=ol.productId
-			LEFT JOIN product_images AS pi ON pi.productId=p.id AND pi.primary=1
-			LEFT JOIN asset AS a ON a.id = pi.assetId
-			LEFT JOIN asset AS a2 ON a2.id = ol.assetId
-			WHERE o.id=?
-			GROUP BY p.id',
-			[$orderId]
-		);
+		} else {
+			$payment = DB::select('SELECT
+				p.*
+				FROM payments AS p
+				WHERE p.orderId=?
+				ORDER BY p.id DESC
+				LIMIT 1',
+				[$orderId]
+			);
 
-		$address = DB::select('SELECT
-			a.id,
-			a.type,
-			CONCAT(a.firstName, " ", a.lastName) AS `name`,
-			a.company,
-			a.line1,
-			a.city,
-			a.region,
-			co.name AS country,
-			a.postCode,
-			a.phone,
-			a.email
-			FROM orders AS o
-			LEFT JOIN addresses AS a ON a.id=o.deliveryAddressId
-			INNER JOIN countries AS co ON co.code=a.country
-			WHERE o.id=?
-			GROUP BY a.id
-			LIMIT 1',
-			[$orderId]
-		);
+			if (empty($payment) || $payment[0]->amount > $payment[0]->captured) {
+				return redirect('/basket');
+			}
 
-		$address = $address[0];
+			$order = $order[0];
+
+			$order->billingAddress = DB::select('SELECT
+				a.*
+				FROM addresses AS a
+				WHERE a.id = ?',
+				[$order->billingAddressId]
+			);
+
+			$order->deliveryAddress = DB::select('SELECT
+				a.*
+				FROM addresses AS a
+				WHERE a.id = ?',
+				[$order->deliveryAddressId]
+			);
+
+			$order->deliveryAddress = $order->deliveryAddress[0];
+			$order->billingAddress = $order->billingAddress[0];
+
+			$order->lines = DB::select('SELECT
+				ol.*,
+				p.id AS productId,
+				p.title,
+				p.subtitle,
+				IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
+				FROM order_lines AS ol
+				INNER JOIN products AS p ON p.id = ol.productId
+				LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
+				LEFT JOIN asset AS a ON a.id = pi.assetId
+				LEFT JOIN asset AS a2 ON a2.id = ol.assetId
+				WHERE ol.orderId = ?
+				GROUP BY ol.id
+				ORDER BY ol.created_at ASC',
+				[$order->id]
+			);
+
+			$order->lines = cacheImages($order->lines, 600, 600, true, 'EFEFEF');
+
+			foreach ($order->lines as $i => $line) {
+				$order->lines[$i]->variants = DB::select('SELECT
+					olv.*,
+					pv.id AS variantId,
+					pv.title,
+					pv.type,
+					a.fileName,
+					pv.colour,
+					pv2.id AS parentVariantId,
+					pv2.title AS parentTitle
+					FROM order_line_variants AS olv
+					INNER JOIN product_variants AS pv ON pv.id = olv.variantId
+					INNER JOIN product_variants AS pv2 ON pv2.id = pv.parentVariantId
+					LEFT JOIN asset AS a ON a.id = pv.assetId
+					WHERE olv.orderLineId = ?
+					GROUP BY olv.id',
+					[$line->id]
+				);
+			}
+		}
 
 		$invoice = Invoice::where('orderId', $orderId)->first();
 
@@ -505,8 +553,6 @@ class CheckoutController extends PublicController
 
 		return view('public/order-successful', compact(
 			'order',
-			'products',
-			'address',
 			'invoice',
 		));
 	}

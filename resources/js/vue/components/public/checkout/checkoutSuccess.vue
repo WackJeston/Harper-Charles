@@ -1,38 +1,73 @@
 <template>
-	<div class="checkout-button-container section-width">
-		<a href="/" class="page-button padding">
-			<i class="fa-solid fa-angles-left"></i>
-			Return To Shop
-		</a>
-		<a :href="'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.invoice" target="_blank" class="page-button padding">
-			Invoice
-			<i class="fa-solid fa-file-invoice"></i>
-		</a>
-	</div>
-
 	<div class="web-box section-width">
-		<h3 class="checkout-header">
-			<i class="fa-solid fa-check-to-slot"></i>
-			Order Details
-			<p>{{ this.order.count }} Items | Total: £{{ this.order.total }}</p>
-		</h3>
+		<div class="checkout-button-container section-width">
+			<a href="/shop" class="page-button padding">
+				<i class="fa-solid fa-angles-left"></i>
+				Return To Shop
+			</a>
+			<a :href="'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.invoice" target="_blank" class="page-button padding">
+				Download Invoice
+				<i class="fa-solid fa-file-invoice"></i>
+			</a>
+		</div>
 
-		<div class="order-details">
-			<ul id="delivery-address">
-				<li><strong>DELIVERY ADDRESS</strong></li>
-				<li>{{ this.address.firstName }} {{ this.address.lastName }}</li>
-				<li>{{ this.address.company }}</li>
-				<li>{{ this.address.line1 }}</li>
-				<li>{{ this.address.city }}, {{ this.address.region }}</li>
-				<li>{{ this.address.country }}</li>
-				<li>{{ this.address.postCode }}</li>
-				<li>{{ this.address.phone }}</li>
-				<li>{{ this.address.email }}</li>
-			</ul>
+		<div id="success-container" class="checkout-container">
+			<table>
+				<tbody>
+					<tr v-for="(line, i) in this.order.lines">
+						<td><img async :src="line.fileName" height="60"></td>
+						<td class="product-title">
+							<span>{{ line.title }}</span>
+							<small>#{{ line.id }}</small>
+						</td>
+						<td>Qty: {{ line.quantity }}</td>
+						<td class="align-right">£{{ line.price }}</td>
+						<td class="align-right">£{{ line.total }}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+						<td class="product-title"></td>
+						<td></td>
+						<td class="align-right">Total:</td>
+						<td class="align-right">£{{ this.order.total }}</td>
+					</tr>
+				</tfoot>
+			</table>
 
-			<div id="products">
-				<a v-for="(product, i) in this.products" :href="'/product-page/' + product.id"
-				:style="{ backgroundImage: 'url(https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + product.fileName + ')' }"></a>
+			<div class="saved-records-columns cols-2">
+				<div class="saved-records-container">
+					<div class="saved-record">
+						<ul>
+							<li class="billing-address">Billing Address</li>
+							<li class="first">{{ this.order.billingAddress.firstName }} {{ this.order.billingAddress.lastName }}</li>
+							<li>{{ this.order.billingAddress.company }}</li>
+							<li>{{ this.order.billingAddress.line1 }}</li>
+							<li>{{ this.order.billingAddress.city }}, {{ this.order.billingAddress.region }}</li>
+							<li>{{ this.order.billingAddress.country }}</li>
+							<li>{{ this.order.billingAddress.postCode }}</li>
+							<li>{{ this.order.billingAddress.phone }}</li>
+							<li>{{ this.order.billingAddress.email }}</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="saved-records-container">
+					<div class="saved-record">
+						<ul>
+							<li class="billing-address">Delivery Address</li>
+							<li class="first">{{ this.order.deliveryAddress.firstName }} {{ this.order.deliveryAddress.lastName }}</li>
+							<li>{{ this.order.deliveryAddress.company }}</li>
+							<li>{{ this.order.deliveryAddress.line1 }}</li>
+							<li>{{ this.order.deliveryAddress.city }}, {{ this.order.deliveryAddress.region }}</li>
+							<li>{{ this.order.deliveryAddress.country }}</li>
+							<li>{{ this.order.deliveryAddress.postCode }}</li>
+							<li>{{ this.order.deliveryAddress.phone }}</li>
+							<li>{{ this.order.deliveryAddress.email }}</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -42,23 +77,11 @@
 export default {
 	props: [
 		'order',
-		'products',
-		'address',
 		'invoice',
 	],
-
-	data() {
-		return {
-			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-		}
-	},
 
 	mounted() {
 		console.log(this.order);
 	},
-
-	methods: {
-		
-	}
 }
 </script>

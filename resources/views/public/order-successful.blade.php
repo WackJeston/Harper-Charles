@@ -7,7 +7,7 @@
 
     <div id="deliveryMarker" class="checkout-title section-width">
 			<h1>Order Successful</h1>
-			<p>Thank you for choosing to order with us. We will keep you updated about your order by email.</p>
+			<p>Thank you for choosing to order with us. Updates about your order will be emailed to {{ $order->deliveryAddress->email }}.</p>
 		</div>
 
     @if ($errors->any())
@@ -22,11 +22,9 @@
       </div>
     @endif
 
-		<div id="checkoutsuccess" class="dk checkout-section">
+		<div id="checkoutsuccess" class="dk checkout-section section-width">
 			<checkoutsuccess 
 			:order="{{ json_encode($order) }}"
-			:products="{{ json_encode($products) }}"
-			:address="{{ json_encode($address) }}"
 			:invoice="{{ json_encode($invoice) }}"
 			/>
 		</div>
