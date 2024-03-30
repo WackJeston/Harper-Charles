@@ -309,6 +309,7 @@ class DataTable
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
 							$mobileStyle = $column['name'] == 'id' ? '50px' : $column['mobileMaxWidth'] . '%';
+							$paragraph = false;
 
 							$tempResult = $record->{$column['name']};
 							
@@ -316,6 +317,10 @@ class DataTable
 							switch ($column['type']) {
 								case 'currency':
 									$tempResult = '£' . $record->{$column['name']};
+									break;
+
+								case 'paragraph':
+									$paragraph = true;
 									break;
 
 								case 'toggle':
@@ -387,9 +392,9 @@ class DataTable
 							
 							} else {
 								if ($column['hideMobile'] == true) {
-									$html .= sprintf('<td id="column-%1$s" class="column-%1$s hide-mobile-marker" style="width:%2$s;">%3$s</td>', $column['name'], $style, $tempResult);
+									$html .= sprintf('<td id="column-%1$s" class="column-%1$s%4$s hide-mobile-marker" style="width:%2$s;">%3$s</td>', $column['name'], $style, $tempResult, $paragraph ? ' paragraph' : '');
 								} else {
-									$html .= sprintf('<td id="column-%1$s" class="column-%1$s show-mobile-marker" data-width="%2$s" data-mobile-width="%3$s">%4$s</td>', $column['name'], $style, $mobileStyle, $tempResult);
+									$html .= sprintf('<td id="column-%1$s" class="column-%1$s%5$s show-mobile-marker" data-width="%2$s" data-mobile-width="%3$s">%4$s</td>', $column['name'], $style, $mobileStyle, $tempResult, $paragraph ? ' paragraph' : '');
 								}
 							}
 						}

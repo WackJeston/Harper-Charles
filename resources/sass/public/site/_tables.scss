@@ -1,5 +1,9 @@
 @use 'v';
 
+h3.table-title {
+	font-size: 1.6rem;
+}
+
 .table-title {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -115,7 +119,7 @@ tr .tr-buttons .button-label {
 
 tr .tr-buttons .button-label p {
   position: absolute;
-  bottom: -20px;
+  bottom: -11px;
   right: 117%;
   background-color: v.$bg-dark;
   color: v.$white;
@@ -169,6 +173,10 @@ table td .toggle-false:hover {
 	@media (min-width: 640px) {
 		color: v.$pale-red-darker;
 	}
+}
+
+table td.paragraph {
+	height: 100%;
 }
 
 table .hide-mobile {

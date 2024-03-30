@@ -97,7 +97,7 @@ class AccountController extends PublicController
 			);
 			$notesTable->addColumn('id', '#');
 			$notesTable->addColumn('name', 'Name', 2);
-			$notesTable->addColumn('note', 'Note', 4);
+			$notesTable->addColumn('note', 'Note', 4, false, 'paragraph');
 			$notesTable->addColumn('created_at', 'Date', 3, true);
 			$notesTable = $notesTable->render();
 
