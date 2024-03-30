@@ -141,6 +141,8 @@ class Order extends Model
 			[$orderId]
 		);
 
+		$order->lines = cacheImages($order->lines, 600, 600, true, 'EFEFEF');
+
 		$order->billingAddress = DB::select('SELECT
 			a.id,
 			a.type,

@@ -45,7 +45,7 @@ class Invoice extends Model
 		$pdf = Pdf::loadView('templates/invoice', $data);
 		$fileName = 'order-invoice-' . $orderId . '-' . $_SERVER['REQUEST_TIME'] . '.pdf';
 
-		Storage::put($fileName,  $pdf->download());
+		Storage::put('pdfs/' . $fileName,  $pdf->download());
 
 		$asset = Asset::create([
 			'fileName' => $fileName,

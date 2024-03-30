@@ -18,14 +18,14 @@
         <i id="show-password" v-show="!showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-solid fa-eye"></i>
         <i id="hide-password" v-show="showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-regular fa-eye-slash"></i>
       </label>
-      <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" required>
+      <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" required autocomplete="one-time-code">
 
       <label for="password_confirmation">Confirm Password<span class="red"> *</span></label>
       <label for="password_confirmation" class="show-password">
         <i id="show-password" v-show="!showConfirmPassword" @click="(this.showConfirmPassword = !this.showConfirmPassword)" class="fa-solid fa-eye"></i>
         <i id="hide-password" v-show="showConfirmPassword" @click="(this.showConfirmPassword = !this.showConfirmPassword)" class="fa-regular fa-eye-slash"></i>
       </label>
-      <input class="password" :type="!showConfirmPassword ? 'password' : 'text'" name="password_confirmation" required>
+      <input class="password" :type="!showConfirmPassword ? 'password' : 'text'" name="password_confirmation" required autocomplete="one-time-code">
 
       <input class="submit page-button padding" type="submit" name="submit" value="Sign Up">
     </form>

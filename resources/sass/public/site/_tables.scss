@@ -1,130 +1,123 @@
 @use 'v';
 
+.table-title {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 table {
 	position: relative;
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
+	display: table;
   table-layout: fixed;
 }
 
 tr {
-	border-bottom: 1px solid v.$background;
+	display: flex;
+	align-items: center;
+	position: relative;
 }
 
 thead tr {
   height: 35px;
+	border-bottom: 1px solid v.$brand-alt-medium;
+
+	@media (max-width: 800px) {
+		height: 30px;
+	}
 }
 
 tbody tr {
   height: 30px;
 }
 
-table .fa-xmark {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	height: 20px;
-	width: 20px;
-	border-radius: 5px;
-	color: v.$almost-black;
-	cursor: pointer;
-	font-size: 1rem;
-}
-
-table .fa-xmark:hover {
-	@media (min-width: 640px) {
-		background-color: v.$almost-black;
-		color: v.$white;
-	}
-}
-
-tr.dark-row {
-	background-color: v.$brand-alt-dark;
-	color: v.$white;
+tbody tr:not(:last-child) {
+	border-bottom: 1px solid v.$brand-alt-light;
 }
 
 tr th {
   white-space: nowrap;
+	cursor: pointer;
+}
+
+tr th .fa-angle-down,
+tr th .fa-angle-up {
+	font-size: 0.9rem;
+
+	@media (max-width: 800px) {
+		font-size: 0.8rem;
+	}
 }
 
 tr th, tr td {
   padding-left: 7px;
   text-align: left;
+	font-size: 0.9rem;
+
+	@media (max-width: 800px) {
+		font-size: 0.8rem;
+	}
 }
 
 tr th:last-child, tr td:last-child {
   padding-right: 8px;
 }
 
-tr td div {
-  display: flex;
-  // align-items: center;
-  overflow-x: scroll;
-  white-space: nowrap;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+tr th:not(.tr-buttons),
+tr td:not(.tr-buttons) {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
-tr td div::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
-}
-
-tr td img {
-	margin: 5px 0 0 0;
-	border-radius: 5px;
-}
-
-tr td.padding {
-	padding-top: 10px;
-	padding-bottom: 10px;
+tbody tr i {
+  cursor: pointer;
+  color: v.$bg-dark;
+	font-size: 1rem;
+  padding-left: 7px;
 }
 
 tr .tr-buttons {
-  margin-left: auto;
+	position: absolute;
+	right: 0;
+	display: flex;
+	flex-direction: row;
   text-align: right;
   white-space: nowrap;
+	padding-left: 0;
 }
 
-tr i:not(.primary, .non-primary, .fa-xmark) {
-  position: relative;
-  font-size: 1rem;
-  text-align: right;
-  cursor: pointer;
-  color: v.$black;
-  margin-top: 3px;
+tr .tr-buttons i {
+	position: relative;
+	color: v.$black;
 }
 
-tr i:not(tr:first-child, .primary, .non-primary) {
-  margin-left: 7px;
-}
-
-tr i:hover:not(.primary, .non-primary) {
-  @media (min-width: 640px) {
-		color: v.$brand-alt-dark;
+tr .tr-buttons i:hover {
+	@media (min-width: 640px) {
+		color: v.$brand-main-darker;
 	}
 }
 
-tr i:hover .button-label:not(tr .button-label:hover) {
-  @media (min-width: 640px) {
-		display: inline-block;
+tr .tr-buttons i:hover .button-label:not(.button-label:hover) {
+	@media (min-width: 640px) {
+	  display: block;
 	}
 }
 
-tr .button-label {
+tr .tr-buttons .button-label {
   margin: 0;
   padding: 0;
   display: none;
   z-index: 2;
 }
 
-tr .button-label p {
+tr .tr-buttons .button-label p {
   position: absolute;
   bottom: -20px;
-  right: 150%;
-  background-color: v.$brand-alt-dark;
+  right: 117%;
+  background-color: v.$bg-dark;
   color: v.$white;
   padding: 6px 10px 6px 8px;
   border-radius: 5px;
@@ -133,39 +126,182 @@ tr .button-label p {
   font-weight: 600;
 }
 
-tr .button-label div {
+tr .tr-buttons .button-label div {
   position: absolute;
-  bottom: 3px;
-  right: 125%;
+  bottom: 2px;
+  right: 100%;
   height: 12px;
   width: 12px;
-  background-color: v.$brand-alt-dark;
+  background-color: v.$bg-dark;
   transform: rotate(45deg);
   border-radius: 0 3px 0 10px;
 }
 
 table .empty-table {
-  display: flex;
-  justify-content: space-between;
-  white-space: nowrap;
-  margin: 20px;
+	display: flex;
+	align-items: center;
   width: 100%;
   opacity: 0.6;
+	height: 80px;
+	padding-left: 20px;
 }
 
 table .empty-table h3 {
-  margin: 0;
-  color: v.$brand-alt-dark;
+  color: v.$black;
+	margin: 0;
 }
 
-table .primary, table .non-primary {
-  font-size: 1.1rem;
+table td .toggle-true {
+	color: v.$pale-green;
 }
 
-table .primary {
-  color: v.$pale-green;
+table td .toggle-true:hover {
+	@media (min-width: 640px) {
+		color: v.$pale-green-darker;
+	}
 }
 
-table .non-primary {
-  color: v.$pale-red;
+table td .toggle-false {
+	color: v.$pale-red;
+}
+
+table td .toggle-false:hover {
+	@media (min-width: 640px) {
+		color: v.$pale-red-darker;
+	}
+}
+
+table .hide-mobile {
+	display: none;
+}
+
+table input:not(tfoot input),
+table select:not(tfoot select) {
+	-webkit-appearance: none;
+  -moz-appearance: none;
+	background-color: v.$trans;
+	border-radius: 3px;
+	outline: none;
+	max-width: 100%;
+	padding: 3px 2px 3px 0;
+	margin: 2px;
+}
+
+table input:not(tfoot input):hover,
+table input:not(tfoot input):focus,
+table select:not(tfoot select):hover,
+table select:not(tfoot select):focus {
+	@media (min-width: 640px) {
+		-webkit-appearance: menulist;
+		-moz-appearance: menulist;
+		background-color: white;
+		outline: 2px solid v.$black;
+		cursor: pointer;
+	}
+}
+
+tfoot tr {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	height: 30px;
+	color: v.$black;
+	border-top: 1px solid v.$gray-1;
+	font-size: 0.8rem;
+}
+
+tfoot tr td:not(:first-child) {
+	padding-left: 15px;
+}
+
+tfoot tr td i {
+	font-size: 0.8rem;
+}
+
+// tfoot tr td i:not(button i) {
+// 	color: v.$black;
+// }
+
+tfoot tr td:last-child {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: auto;
+	padding-right: 4px;
+}
+
+.page-column tfoot .hide-mobile-marker {
+	display: none;
+}
+
+tfoot .hide-mobile-xs-marker {
+	@media (max-width: 440px) {
+		display: none;
+	}
+}
+
+tfoot input,
+tfoot select {
+	background-color: white;
+	outline: 2px solid v.$gray-1;
+	border-radius: 3px;
+	max-width: 100%;
+	padding: 1px 2px 0 1px;
+	margin: 2px;
+	cursor: pointer;
+}
+
+tfoot button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: v.$brand-main;
+	color: v.$white;
+	margin: 2px;
+	padding: 4px 8px;
+	border-radius: 3px;
+}
+
+tfoot button:hover {
+	@media (min-width: 640px) {
+		background-color: v.$brand-main-darker;
+	}
+}
+
+tfoot button.button-off {
+	background-color: v.$gray-1;
+	cursor: default;
+}
+
+tfoot button i {
+	padding: 0;
+	margin: 0;
+	color: v.$white !important;
+}
+
+tfoot .icon-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
+	padding: 1px 6px;
+	font-size: 0.9rem;
+	background-color: v.$black;
+	color: v.$white;
+	cursor: pointer;
+
+	@media (max-width: 440px) {
+		font-size: 0.8rem;
+	}
+}
+
+tfoot .icon-container i {
+	color: v.$white;
+	font-size: 0.8rem;
+	margin-right: 5px;
+}
+
+tfoot .icon-container span {
+	margin-left: 5px;
 }

@@ -18,18 +18,20 @@ class AdminOrdersController extends AdminController
     $ordersTable = new DataTable('orders');
 		$ordersTable->setQuery('SELECT 
 			o.*,
-			CONCAT(u.firstName, " ", u.lastName) AS `user`
+			CONCAT(u.firstName, " ", u.lastName) AS `name`
 			FROM orders AS o
-			INNER JOIN users AS u ON u.id=o.userId',
+			INNER JOIN users AS u ON u.id=o.userId
+			WHERE o.type != "basket"',
 			[], 
 			'id', 
 			'DESC'
 		);
 		$ordersTable->addColumn('id', '#');
-		$ordersTable->addColumn('user', 'User', 2);
-		$ordersTable->addColumn('status', 'Status');
-		$ordersTable->addColumn('total', 'Total');
-		$ordersTable->addColumn('created_at', 'Created', 2 , true);
+		$ordersTable->addColumn('name', 'Name', 3);
+		$ordersTable->addColumn('type', 'Type', 2);
+		$ordersTable->addColumn('status', 'Status', 2);
+		$ordersTable->addColumn('total', 'Total', 2);
+		$ordersTable->addColumn('created_at', 'Created', 3 , true);
 		$ordersTable->addLinkButton('order-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$ordersTable = $ordersTable->render();
 

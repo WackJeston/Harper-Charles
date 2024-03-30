@@ -237,6 +237,8 @@ class DataTable
 		}
 
 		session()->put($this->table['query'], $this->table);
+
+		$this->table['query'] = str_replace('"', '&quot;', $this->table['query']);
 	}
 
 	public function render() {

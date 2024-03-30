@@ -25,43 +25,13 @@
       <i id="show-password" v-show="!showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-solid fa-eye"></i>
       <i id="hide-password" v-show="showPassword" @click="(this.showPassword = !this.showPassword)" class="fa-regular fa-eye-slash"></i>
     </label>
-    <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" value="">
+    <input class="password" :type="!showPassword ? 'password' : 'text'" name="password" value="" autocomplete="one-time-code">
 
     <button class="submit page-button padding" type="submit">Update</button>
   </form>
 
 	<!-- Orders Table -->
-	<table class="web-box" v-show="this.show == 'orders'">
-		<thead>
-			<tr>
-				<th width="40">#</th>
-				<th width="100">Date</th>
-				<th>Status</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="(order, i) in this.orders">
-				<td width="40">{{ order.id }}</td>
-				<td width="100">{{ order.date }}</td>
-				<td>{{ order.status }}</td>
-				<td id="image-column4" class="tr-buttons">
-					<a :href="'/account/order/' + order.id">
-						<i class="fa-solid fa-folder-open">
-							<div class="button-label">
-								<p>Open Record</p>
-								<div></div>
-							</div>
-						</i>
-					</a>
-				</td>
-			</tr>
-		</tbody>
-
-		<div v-show="this.orders == false" class="empty-table">
-			<h3>No Orders</h3>
-		</div>
-	</table>
+	<div v-html="this.orderstable.html" v-show="this.show == 'orders'"></div>
 
 	<ul class="web-box dk section-width">
 		<li><strong>Name:</strong> {{ this.user.firstName }} {{ this.user.lastName }}</li>
@@ -76,6 +46,7 @@
 			'pageshowmarker',
       'user',
 			'orders',
+			'orderstable',
     ],
 
     data() {

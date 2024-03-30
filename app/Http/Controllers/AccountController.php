@@ -6,6 +6,7 @@ use Hash;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\DataTable;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderNote;
@@ -20,9 +21,29 @@ class AccountController extends PublicController
 
 		$orders = User::getOrders(auth()->user()->id, 'web');
 
+		$ordersTable = new DataTable('orders');
+		$ordersTable->setQuery('SELECT 
+			o.*,
+			CONCAT(u.firstName, " ", u.lastName) AS `name`
+			FROM orders AS o
+			INNER JOIN users AS u ON u.id=o.userId
+			WHERE o.type != "basket"',
+			[], 
+			'id', 
+			'DESC'
+		);
+		$ordersTable->addColumn('id', '#');
+		$ordersTable->addColumn('status', 'Status', 2);
+		$ordersTable->addColumn('items', 'Items', 2, true);
+		$ordersTable->addColumn('total', 'Total', 2, false, 'currency');
+		$ordersTable->addColumn('created_at', 'Date', 3);
+		$ordersTable->addLinkButton('account/order/?', 'fa-solid fa-folder-open', 'Open Record');
+		$ordersTable = $ordersTable->render();
+
     return view('public/account', compact(
 			'action',
 			'orders',
+			'ordersTable',
     ));
   }
 
@@ -53,14 +74,58 @@ class AccountController extends PublicController
 		$action = 'order';
 
 		if ($order = Order::getOrder($orderId)) {
-			$invoice = Invoice::where('orderId', $orderId)->first();
-			$notes = Order::getNotes($orderId);
+			$invoice = DB::select('SELECT 
+				a.fileName
+				FROM invoices AS i
+				INNER JOIN asset AS a ON a.id = i.assetId
+				WHERE i.orderId = ?', 
+				[$orderId]
+			);
+
+			$invoice = cachePdf($invoice[0]->fileName);
+
+			$notesTable = new DataTable('notes');
+			$notesTable->setQuery('SELECT 
+				o.*,
+				CONCAT(u.firstName, " ", u.lastName) AS `name`
+				FROM order_notes AS o
+				INNER JOIN users AS u ON u.id = o.userId
+				WHERE o.orderId = ?', 
+				[$orderId], 
+				'id', 
+				'DESC'
+			);
+			$notesTable->addColumn('id', '#');
+			$notesTable->addColumn('name', 'Name', 2);
+			$notesTable->addColumn('note', 'Note', 4);
+			$notesTable->addColumn('created_at', 'Date', 3, true);
+			$notesTable = $notesTable->render();
+
+			$itemsTable = new DataTable('items');
+			$itemsTable->setQuery('SELECT 
+				p.*,
+				ol.quantity,
+				ol.created_at AS `date`
+				FROM products AS p
+				INNER JOIN order_lines AS ol ON ol.productId = p.id
+				WHERE ol.orderId = ?',
+				[$orderId], 
+				'title'
+			);
+			$itemsTable->setTitle('Items');
+			$itemsTable->addColumn('id', '#');
+			$itemsTable->addColumn('title', 'Title', 2);
+			$itemsTable->addColumn('quantity', 'Qty', 2, true);
+			$itemsTable->addColumn('date', 'Date', 3);
+			$itemsTable->addLinkButton('product/?', 'fa-solid fa-folder-open', 'Open Record');
+			$itemsTable = $itemsTable->render();
 
 			return view('public/account', compact(
 				'action',
 				'order',
 				'invoice',
-				'notes',
+				'notesTable',
+				'itemsTable',
 			));
 
 		} else {
@@ -77,6 +142,7 @@ class AccountController extends PublicController
 			OrderNote::create([
 				'admin' => 0,
 				'orderId' => $orderId,
+				'userId' => auth()->user()->id,
 				'note' => $request->note,
 			]);
 	

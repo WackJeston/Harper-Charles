@@ -153,21 +153,18 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	font-size: 1rem;
-	line-height: 1rem;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
 	margin: 0;
-	padding: 0 20px;
+	padding: 20px 20px;
 	width: 100%;
-	min-height: 60px;
-	max-height: 200px;
 	background-color: v.$brand-alt-dark;
 	color: v.$white;
 
 	@media (max-width: 640px) {
 		font-size: 0.8rem;
 		line-height: 0.8rem;
-		min-height: 45px;
-		padding: 0 13px;
+		padding: 13px 13px;
 	}
 }
 

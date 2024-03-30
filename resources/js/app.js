@@ -64,8 +64,6 @@ import Productscreate from './vue/components/admin/productsCreate.vue'
 
 import Productprofilefunctions from './vue/components/admin/productProfileFunctions.vue'
 
-import Lzhomecarousel from './vue/components/admin/home-carousel.vue'
-
 import Categorycreate from './vue/components/admin/categoryCreate.vue'
 
 import Categoryprofilefunctions from './vue/components/admin/categoryProfileFunctions.vue'
@@ -212,10 +210,6 @@ productsCreate.component('productscreate', Productscreate).mount('#productscreat
 
 const productProfileFunctions = createApp({})
 productProfileFunctions.component('productprofilefunctions', Productprofilefunctions).mount('#productprofilefunctions')
-
-
-const lzHomeCarousel = createApp({})
-lzHomeCarousel.component('lzhomecarousel', Lzhomecarousel).mount('#lzhomecarousel')
 
 
 const categoryCreate = createApp({})

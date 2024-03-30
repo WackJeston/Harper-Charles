@@ -33,6 +33,20 @@ function cacheRecords(string $key, array $records, int $seconds = null) {
 	return $records;
 }
 
+function cachePdf(string $fileName) {
+	$publicFileName = sprintf('pdfs/%s.pdf', explode('.', $fileName)[0]);
+
+	if (!Storage::disk('public')->exists($publicFileName)) {
+		$data = Storage::get('pdfs/' . $fileName);
+
+		if (!empty($data)) {
+			Storage::disk('public')->put($publicFileName, $data);
+		}
+	}
+		
+	return Storage::disk('public')->url($publicFileName);
+}
+
 function resetShowMarker() {
 	if ((empty(session()->get('_previous')['url']) && empty(session()->get('pageShowMarkerPrevious')[0])) || !in_array(explode('?', url()->current())[0], [explode('?', session()->get('pageShowMarkerPrevious'))[0], explode('?', session()->get('_previous')['url'])[0]])) {
 		session()->put('pageShowMarker', false);
@@ -40,7 +54,7 @@ function resetShowMarker() {
 }
 
 function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $trim = false, string $background = null, bool $webp = true):string {
-	$publicFileName = sprintf('%s%s%s.%s', 
+	$publicFileName = sprintf('images/%s%s%s.%s', 
 		explode('.', $fileName)[0], 
 		($width > 0 || $height > 0) ? sprintf('-%d-%d', $width, $height) : '',
 		$trim ? '-trim' : '',
@@ -48,7 +62,7 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $tri
 	);
 
 	if (!Storage::disk('public')->exists($publicFileName)) {
-		$data = Storage::get($fileName);
+		$data = Storage::get('images/' . $fileName);
 
 		if (!empty($data)) {
 			$manager = new ImageManager(['driver' => 'imagick']);
@@ -138,7 +152,7 @@ function storeImages(Request $request, $id, string $type):array {
 	foreach ($array as $i => $file) {
 		$mimeType = explode('.', $file->getClientOriginalName())[1];
 
-		$fileName = sprintf('%s-%s-%s-%s.%s',
+		$fileName = sprintf('images/%s-%s-%s-%s.%s',
 			$type,
 			$id,
 			$_SERVER['REQUEST_TIME'],
@@ -164,7 +178,7 @@ function storeImages(Request $request, $id, string $type):array {
 }
 
 function storeImageFromString(string $fileName, string $data) {
-	Storage::put($fileName, $data);
+	Storage::put('images/' . $fileName, $data);
 
 	$asset = Asset::create([
 		'name' => $fileName,

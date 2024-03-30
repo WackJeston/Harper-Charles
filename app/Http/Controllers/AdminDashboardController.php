@@ -16,7 +16,9 @@ class AdminDashboardController extends AdminController
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`
 			FROM orders AS o
-			INNER JOIN users AS u ON u.id=o.userId',
+			INNER JOIN users AS u ON u.id=o.userId
+			WHERE o.status="new"
+			AND o.type != "basket"',
 			[], 
 			'id', 
 			'DESC'
@@ -24,7 +26,7 @@ class AdminDashboardController extends AdminController
 		$ordersTable->setTitle('New Orders');
 		$ordersTable->addColumn('id', '#');
 		$ordersTable->addColumn('user', 'User', 2);
-		$ordersTable->addColumn('status', 'Status');
+		$ordersTable->addColumn('type', 'Type');
 		$ordersTable->addColumn('total', 'Total');
 		$ordersTable->addColumn('created_at', 'Created', 2 , true);
 		$ordersTable->addLinkButton('order-profile/?', 'fa-solid fa-folder-open', 'Open Record');

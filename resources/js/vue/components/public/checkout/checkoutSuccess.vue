@@ -5,8 +5,8 @@
 				<i class="fa-solid fa-angles-left"></i>
 				Return To Shop
 			</a>
-			<a :href="'https://hc-main.s3.eu-west-2.amazonaws.com/assets/' + this.invoice" target="_blank" class="page-button padding">
-				Download Invoice
+			<a :href="this.invoice" target="_blank" class="page-button padding">
+				Invoice
 				<i class="fa-solid fa-file-invoice"></i>
 			</a>
 		</div>

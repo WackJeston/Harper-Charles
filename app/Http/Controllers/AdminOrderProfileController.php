@@ -22,7 +22,7 @@ class AdminOrderProfileController extends AdminController
 		$order = DB::select('SELECT 
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`,
-			IF(u.admin, "user", "customer") AS `type`,
+			IF(u.admin, "user", "customer") AS `contactType`,
 			a.fileName AS invoice
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId
@@ -33,12 +33,21 @@ class AdminOrderProfileController extends AdminController
 
 		$order = $order[0];
 
-		$addresses = DB::select('SELECT
+		$order->invoice = cachePdf($order->invoice);
+
+		$addresses['billing'] = DB::select('SELECT
 			a.*
 			FROM addresses AS a
-			INNER JOIN orders AS o ON o.deliveryAddressId=a.id OR o.billingAddressId=a.id
+			INNER JOIN orders AS o ON o.billingAddressId=a.id
 			WHERE o.id = ?', [$id]
-		);
+		)[0];
+
+		$addresses['delivery'] = DB::select('SELECT
+			a.*
+			FROM addresses AS a
+			INNER JOIN orders AS o ON o.deliveryAddressId=a.id
+			WHERE o.id = ?', [$id]
+		)[0];
 
 		$itemsTable = new dataTable();
 		$itemsTable->setTitle('Items <span class="string-container small">?</span>');
@@ -48,7 +57,8 @@ class AdminOrderProfileController extends AdminController
 			p.price * ol.quantity AS total
 			FROM products AS p
 			INNER JOIN order_lines AS ol ON ol.productId=p.id
-			WHERE ol.orderId=?', [$id]
+			WHERE ol.orderId = ?', 
+			[$id]
 		);
 		$itemsTable->addColumn('id', '#');
 		$itemsTable->addColumn('title', 'Name', 2);
@@ -58,10 +68,29 @@ class AdminOrderProfileController extends AdminController
 		$itemsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$itemsTable = $itemsTable->render();
 
+		$transactionsTable = new dataTable();
+		$transactionsTable->setTitle('Transactions <span class="string-container small">?</span>');
+		$transactionsTable->setQuery('SELECT
+			p.*
+			FROM payments AS p
+			WHERE p.orderId = ?', 
+			[$id]
+		);
+		$transactionsTable->addColumn('id', '#');
+		$transactionsTable->addColumn('type', 'Type');
+		$transactionsTable->addColumn('status', 'Status', 2);
+		$transactionsTable->addColumn('stripeReference', 'Reference', 2, true);
+		$transactionsTable->addColumn('amount', 'Amount');
+		$transactionsTable->addColumn('captured', 'Captured');
+		$transactionsTable->addColumn('created_at', 'Created At', 2, true);
+		$transactionsTable = $transactionsTable->render();
+
+
     return view('admin/order-profile', compact(
 			'order',
 			'addresses',
 			'itemsTable',
+			'transactionsTable'
     ));
   }
 }

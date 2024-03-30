@@ -25,42 +25,65 @@
     @endif
 
 		<div class="page-button-row">
-			<a href="https://hc-main.s3.eu-west-2.amazonaws.com/assets/{{ $order->invoice }}" target="_blank" class="page-button padding">Invoice</a>
+			<a href="{{ $order->invoice }}" target="_blank" class="page-button padding">Invoice</a>
 		</div>
 
     <div class="web-box profile-main">
 			<div class="wb-row">
 				<ul>
 					<li><strong>Status:</strong> <span class="string-container">{{ ucfirst($order->status) }}</span></li>
+					<li><strong>Type:</strong> {{ $order->type }}</li>
 					<li><strong>Total:</strong> £{{ $order->total }}</li>
-					<li><strong>{{ ucfirst($order->type) }}:</strong> <a class="display-link" href="/admin/{{ $order->type }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
+					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
 					<li><strong>Order Date:</strong> {{ $order->created_at }}</li>
 					<div class="list-row">
-						@foreach ($addresses as $address)
-							<li class="text-box">
-								<strong>{{ ucfirst($address->type) }} Address:</strong>
-								<ul>
-									<li>{{ $address->firstName }} {{ $address->lastName }}</li>
-									<li>{{ $address->line1 }}</li>
-									@if ($address->line2)
-										<li>{{ $address->line2 }}</li>
-									@endif
-									@if ($address->line3)
-										<li>{{ $address->line3 }}</li>
-									@endif
-									<li>{{ $address->city }}</li>
-									<li>{{ $address->region }}, {{ $address->country }}</li>
-									<li>{{ $address->postCode }}</li>
-									
-									@if ($address->phone)
-										<li>{{ $address->phone }}</li>
-									@endif
-									@if ($address->email)
-										<li>{{ $address->email }}</li>
-									@endif
-								</ul>
-							</li>
-						@endforeach
+						<li class="text-box">
+							<strong>Billing Address:</strong>
+							<ul>
+								<li>{{ $addresses['billing']->firstName }} {{ $addresses['billing']->lastName }}</li>
+								<li>{{ $addresses['billing']->line1 }}</li>
+								@if ($addresses['billing']->line2)
+									<li>{{ $addresses['billing']->line2 }}</li>
+								@endif
+								@if ($addresses['billing']->line3)
+									<li>{{ $addresses['billing']->line3 }}</li>
+								@endif
+								<li>{{ $addresses['billing']->city }}</li>
+								<li>{{ $addresses['billing']->region }}, {{ $addresses['billing']->country }}</li>
+								<li>{{ $addresses['billing']->postCode }}</li>
+								
+								@if ($addresses['billing']->phone)
+									<li>{{ $addresses['billing']->phone }}</li>
+								@endif
+								@if ($addresses['billing']->email)
+									<li>{{ $addresses['billing']->email }}</li>
+								@endif
+							</ul>
+						</li>
+
+						<li class="text-box">
+							<strong>Delivery Address:</strong>
+							<ul>
+								<li>{{ $addresses['delivery']->firstName }} {{ $addresses['delivery']->lastName }}</li>
+								<li>{{ $addresses['delivery']->line1 }}</li>
+								@if ($addresses['delivery']->line2)
+									<li>{{ $addresses['delivery']->line2 }}</li>
+								@endif
+								@if ($addresses['delivery']->line3)
+									<li>{{ $addresses['delivery']->line3 }}</li>
+								@endif
+								<li>{{ $addresses['delivery']->city }}</li>
+								<li>{{ $addresses['delivery']->region }}, {{ $addresses['delivery']->country }}</li>
+								<li>{{ $addresses['delivery']->postCode }}</li>
+								
+								@if ($addresses['delivery']->phone)
+									<li>{{ $addresses['delivery']->phone }}</li>
+								@endif
+								@if ($addresses['delivery']->email)
+									<li>{{ $addresses['delivery']->email }}</li>
+								@endif
+							</ul>
+						</li>
 					</div>
 				</ul>
 			</div>
@@ -68,6 +91,7 @@
 
 		@php
 			echo $itemsTable['html'];
+			echo $transactionsTable['html'];
 		@endphp
 
   </main>

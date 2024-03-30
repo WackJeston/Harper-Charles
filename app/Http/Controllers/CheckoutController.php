@@ -547,9 +547,16 @@ class CheckoutController extends PublicController
 			}
 		}
 
-		$invoice = Invoice::where('orderId', $orderId)->first();
+		$invoice = DB::select('SELECT
+			a.fileName
+			FROM invoices AS i
+			LEFT JOIN asset AS a ON a.id = i.assetId
+			WHERE i.orderId=?
+			LIMIT 1',
+			[$orderId]
+		);
 
-		$invoice = $invoice->fileName;
+		$invoice = cachePdf($invoice[0]->fileName);
 
 		return view('public/order-successful', compact(
 			'order',

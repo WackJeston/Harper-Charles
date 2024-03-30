@@ -44,6 +44,7 @@
 						pageshowmarker="{{ session()->get('pageShowMarker') }}"
 						:user="{{ auth()->user() }}"
 						:orders="{{ json_encode($orders) }}"
+						:orderstable="{{ json_encode($ordersTable) }}"
 					/>
 				</div>
 				@break
@@ -53,7 +54,8 @@
 						:user="{{ auth()->user() }}"
 						:order="{{ json_encode($order) }}"
 						:invoice="{{ json_encode($invoice) }}"
-						:notes="{{ json_encode($notes) }}"
+						:notestable="{{ json_encode($notesTable) }}"
+						:itemstable="{{ json_encode($itemsTable) }}"
 					/>
 				</div>
 				@break

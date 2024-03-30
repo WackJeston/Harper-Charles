@@ -13,7 +13,7 @@
         <i id="show-password" v-show="!showLoginPassword" @click="(this.showLoginPassword = !this.showLoginPassword)" class="fa-solid fa-eye"></i>
         <i id="hide-password" v-show="showLoginPassword" @click="(this.showLoginPassword = !this.showLoginPassword)" class="fa-regular fa-eye-slash"></i>
       </label>
-      <input class="password" :type="!showLoginPassword ? 'password' : 'text'" name="password">
+      <input class="password" :type="!showLoginPassword ? 'password' : 'text'" required autocomplete="one-time-code">
 
       <input class="submit" type="submit" name="submit" value="Login">
     </form>
