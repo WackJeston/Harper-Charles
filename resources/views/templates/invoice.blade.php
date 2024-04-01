@@ -100,7 +100,7 @@
 								<td>{{ $line->title }}</td>
 								<td>{{ $line->quantity }}</td>
 								<td>£{{ $line->price }}</td>
-								<td align="right">£{{ number_format((float)$line->price * $line->quantity, 2, '.', '') }}</td>
+								<td align="right">£{{ $line->total }}</td>
 							</tr>
 					@endforeach
 				</tbody>
@@ -111,7 +111,7 @@
 						<td></td>
 						<td></td>
 						<td class="summary">Total</td>
-						<td align="right" class="summary">£{{ number_format((float)$order->total, 2, '.', '') }}</td>
+						<td align="right" class="summary">£{{ $order->total }}</td>
 					</tr>
 				</tfoot>
 			</table>

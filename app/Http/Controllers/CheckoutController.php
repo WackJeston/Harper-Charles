@@ -87,6 +87,8 @@ class CheckoutController extends PublicController
 				$order->status = 'checkout-summary';
 				$order->save();
 
+				self::setTotal($order->id);
+
 				$checkout = DB::select('SELECT
 					o.*
 					FROM orders AS o
@@ -173,6 +175,8 @@ class CheckoutController extends PublicController
 			case 'payment':
 				$order->status = 'checkout-payment';
 				$order->save();
+
+				self::setTotal($order->id);
 
 				if ($order->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
 					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
@@ -272,6 +276,44 @@ class CheckoutController extends PublicController
 				break;
 		}
   }
+
+	public function setTotal(int $id) {
+		$order = Order::find($id);
+
+		$order->items = DB::select('SELECT
+			COUNT(ol.id) AS items
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			GROUP BY ol.orderId
+			LIMIT 1',
+			[$order->id]
+		)[0]->items;
+
+		$lines = DB::select('SELECT
+			ol.id,
+			ol.price,
+			ol.quantity
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?',
+			[$order->id]
+		);
+
+		foreach ($lines as $i => $line) {
+			$orderLine = OrderLine::find($line->id);
+			$orderLine->total = $line->price * $line->quantity;
+			$orderLine->save();
+		}
+
+		$order->total = DB::select('SELECT
+			SUM(ol.total) AS total
+			FROM order_lines AS ol
+			WHERE ol.orderId = ?
+			LIMIT 1',
+			[$order->id]
+		)[0]->total;
+
+		$order->save();
+	}
 
 
 	// ADDRESSES --------------------------------------------------
@@ -556,7 +598,13 @@ class CheckoutController extends PublicController
 			[$orderId]
 		);
 
-		$invoice = cachePdf($invoice[0]->fileName);
+		if (empty($invoice)) {
+			$invoice = Invoice::createInvoice($order->id);
+		} else {
+			$invoice = $invoice[0];
+		}
+
+		$invoice = cachePdf($invoice->fileName);
 
 		return view('public/order-successful', compact(
 			'order',

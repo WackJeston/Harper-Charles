@@ -57,6 +57,14 @@ class Invoice extends Model
 			'assetId' => $asset->id,
 		]);
 
-		return $invoice->id;
+		$result = DB::select('SELECT 
+			a.fileName
+			FROM invoices AS i
+			INNER JOIN asset AS a ON a.id = i.assetId
+			WHERE i.orderId = ?', 
+			[$order->id]
+		)[0];
+
+		return $result;
 	}
 }

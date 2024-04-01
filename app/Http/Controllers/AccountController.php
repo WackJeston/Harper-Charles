@@ -81,8 +81,14 @@ class AccountController extends PublicController
 				WHERE i.orderId = ?', 
 				[$orderId]
 			);
-
-			$invoice = cachePdf($invoice[0]->fileName);
+			
+			if (empty($invoice)) {
+				$invoice = Invoice::createInvoice($order->id);
+			} else {
+				$invoice = $invoice[0];
+			}
+	
+			$invoice = cachePdf($invoice->fileName);
 
 			$notesTable = new DataTable('notes');
 			$notesTable->setQuery('SELECT 

@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Order;
+use App\Models\Invoice;
 
 
 class AdminOrderProfileController extends AdminController
@@ -22,18 +23,29 @@ class AdminOrderProfileController extends AdminController
 		$order = DB::select('SELECT 
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`,
-			IF(u.admin, "user", "customer") AS `contactType`,
-			a.fileName AS invoice
+			IF(u.admin, "user", "customer") AS `contactType`
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId
-			LEFT JOIN invoices AS i ON i.orderId=o.id
-			LEFT JOIN asset AS a ON a.id=i.assetId
 			WHERE o.id=?', [$id]
 		);
 
 		$order = $order[0];
 
-		$order->invoice = cachePdf($order->invoice);
+		$invoice = DB::select('SELECT 
+			a.fileName
+			FROM invoices AS i
+			INNER JOIN asset AS a ON a.id = i.assetId
+			WHERE i.orderId = ?', 
+			[$order->id]
+		);
+
+		if (empty($invoice)) {
+			$invoice = Invoice::createInvoice($order->id);
+		} else {
+			$invoice = $invoice[0];
+		}
+
+		$order->invoice = cachePdf($invoice->fileName);
 
 		$addresses['billing'] = DB::select('SELECT
 			a.*

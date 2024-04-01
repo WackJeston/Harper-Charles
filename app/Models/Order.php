@@ -104,7 +104,6 @@ class Order extends Model
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`,
 			SUM(ol.quantity) AS `count`,
-			SUM(p.price * ol.quantity) AS `total`,
 			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
 			FROM orders AS o
 			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
@@ -127,8 +126,6 @@ class Order extends Model
 			p.id AS productId,
 			p.title,
 			p.subtitle,
-			p.price,
-			ol.price,
 			IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 			FROM order_lines AS ol
 			INNER JOIN products AS p ON p.id = ol.productId
