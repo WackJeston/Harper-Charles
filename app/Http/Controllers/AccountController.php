@@ -27,8 +27,9 @@ class AccountController extends PublicController
 			CONCAT(u.firstName, " ", u.lastName) AS `name`
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId
-			WHERE o.type != "basket"',
-			[], 
+			WHERE o.type != "basket"
+			AND o.userId = ?',
+			[auth()->user()->id], 
 			'id', 
 			'DESC'
 		);
@@ -74,6 +75,10 @@ class AccountController extends PublicController
 		$action = 'order';
 
 		if ($order = Order::getOrder($orderId)) {
+			if ($order->userId != auth()->user()->id) {
+				return redirect("/account")->withErrors(['1' => 'Order not found.']);
+			}
+
 			$invoice = DB::select('SELECT 
 				a.fileName
 				FROM invoices AS i
@@ -141,6 +146,10 @@ class AccountController extends PublicController
 
 	public function orderAddNote(Request $request, int $orderId) {
 		if ($order = Order::find($orderId)) {
+			if ($order->userId != auth()->user()->id) {
+				return redirect("/account")->withErrors(['1' => 'Order not found.']);
+			}
+			
 			$request->validate([
 				'note' => 'max:4000',
 			]);

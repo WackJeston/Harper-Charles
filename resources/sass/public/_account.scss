@@ -1,9 +1,9 @@
 @use 'site/v';
 
 main#account {
+	flex-grow: 1;
   padding: 40px 20px 60px 20px;
 	background: v.$background-lighter;
-	height: 100%;
 }
 
 #account h1 {
