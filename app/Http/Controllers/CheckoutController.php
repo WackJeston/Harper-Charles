@@ -496,8 +496,6 @@ class CheckoutController extends PublicController
 		$order->status = 'new';
 		$order->save();
 
-		Invoice::createInvoice($order->id);
-
 		return redirect('/order-successful/' . $order->id);
 	}
 
@@ -589,22 +587,8 @@ class CheckoutController extends PublicController
 			}
 		}
 
-		$invoice = DB::select('SELECT
-			a.fileName
-			FROM invoices AS i
-			LEFT JOIN asset AS a ON a.id = i.assetId
-			WHERE i.orderId=?
-			LIMIT 1',
-			[$orderId]
-		);
-
-		if (empty($invoice)) {
-			$invoice = Invoice::createInvoice($order->id);
-		} else {
-			$invoice = $invoice[0];
-		}
-
-		$invoice = cachePdf($invoice->fileName);
+		$invoice = Invoice::createInvoice($order->id);
+		$invoice = cachePdf($invoice->fileName, true);
 
 		return view('public/order-successful', compact(
 			'order',

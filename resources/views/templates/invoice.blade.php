@@ -15,6 +15,13 @@
 			text-align: right;
 			padding: none;
 		}
+
+		#invoice-top span.stars {
+			position: relative;
+			top: 5px;
+			font-size: 1.2rem;
+			letter-spacing: 2px;
+		}
 	</style>
 
   <main>
@@ -71,12 +78,12 @@
 
 			<ul class="web-box">
 				<li>{{ $paymentMethod['brand'] }}</li>
-				<li>{{ $paymentMethod['last4'] }}</li>
+				<li><span class="stars">****</span> {{ $paymentMethod['last4'] }}</li>
 				<li>{{ $paymentMethod['exp'] }}</li>
 				<li>{{ $paymentMethod['postcode'] }}</li>
 			</ul>
 
-			<p>Order: #{{ $order->id }}</p>
+			<p>Order Number: #{{ $order->id }}</p>
 			<p>Date: {{ $order->date }}</p>
 		</section>
 

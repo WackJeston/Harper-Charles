@@ -79,21 +79,8 @@ class AccountController extends PublicController
 				return redirect("/account")->withErrors(['1' => 'Order not found.']);
 			}
 
-			$invoice = DB::select('SELECT 
-				a.fileName
-				FROM invoices AS i
-				INNER JOIN asset AS a ON a.id = i.assetId
-				WHERE i.orderId = ?', 
-				[$orderId]
-			);
-			
-			if (empty($invoice)) {
-				$invoice = Invoice::createInvoice($order->id);
-			} else {
-				$invoice = $invoice[0];
-			}
-	
-			$invoice = cachePdf($invoice->fileName);
+			$invoice = Invoice::createInvoice($order->id);
+			$invoice = cachePdf($invoice->fileName, true);
 
 			$notesTable = new DataTable('notes');
 			$notesTable->setQuery('SELECT 

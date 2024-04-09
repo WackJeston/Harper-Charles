@@ -33,10 +33,10 @@ function cacheRecords(string $key, array $records, int $seconds = null) {
 	return $records;
 }
 
-function cachePdf(string $fileName) {
+function cachePdf(string $fileName, bool $overWrite = false) {
 	$publicFileName = sprintf('pdfs/%s.pdf', explode('.', $fileName)[0]);
 
-	if (!Storage::disk('public')->exists($publicFileName)) {
+	if (!Storage::disk('public')->exists($publicFileName) || $overWrite) {
 		$data = Storage::get('pdfs/' . $fileName);
 
 		if (!empty($data)) {

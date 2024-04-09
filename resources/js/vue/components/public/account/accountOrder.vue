@@ -27,7 +27,7 @@
 	<div class="wb-container-row">
 		<!-- Order INFO -->
 		<ul class="web-box dk section-width">
-			<li><strong>Order:</strong> #{{ this.order.id }}</li>
+			<li><strong>Order Number:</strong> #{{ this.order.id }}</li>
 			<li><strong>Date:</strong> {{ this.order.date }}</li>
 			<li><strong>Status:</strong> {{ this.order.status }}</li>
 		</ul>

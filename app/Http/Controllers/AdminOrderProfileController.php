@@ -31,21 +31,8 @@ class AdminOrderProfileController extends AdminController
 
 		$order = $order[0];
 
-		$invoice = DB::select('SELECT 
-			a.fileName
-			FROM invoices AS i
-			INNER JOIN asset AS a ON a.id = i.assetId
-			WHERE i.orderId = ?', 
-			[$order->id]
-		);
-
-		if (empty($invoice)) {
-			$invoice = Invoice::createInvoice($order->id);
-		} else {
-			$invoice = $invoice[0];
-		}
-
-		$order->invoice = cachePdf($invoice->fileName);
+		$invoice = Invoice::createInvoice($order->id);
+		$order->invoice = cachePdf($invoice->fileName, true);
 
 		$addresses['billing'] = DB::select('SELECT
 			a.*
