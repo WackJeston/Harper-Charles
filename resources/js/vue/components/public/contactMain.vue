@@ -17,13 +17,13 @@
 			<label for="phone">Phone</label>
 			<input type="tel" name="phone">
 
-			<label for="subject">Subject</label>
-			<input type="text" name="subject">
+			<label for="subject">Subject<span class="red"> *</span></label>
+			<input type="text" name="subject" required>
 
 			<label for="message">Message<span class="red"> *</span></label>
 			<textarea name="message" required></textarea>
 
-			<input type="submit page-button padding" value="Send" class="submit">
+			<input type="submit" value="Send" class="submit page-button padding">
 		</form>
 	</div>
 </template>

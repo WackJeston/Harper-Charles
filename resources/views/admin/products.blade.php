@@ -5,7 +5,7 @@
 @section('content')
   <main class="products">
 
-    <h1 class="dk">Products</h1>
+    <h1 class="dk">Products Search</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">

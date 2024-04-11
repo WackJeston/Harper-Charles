@@ -11,13 +11,7 @@
 @section('content')
   <main class="enquiries">
 
-		@if ($type == 'standard')
-			<h1 class="dk">Enquiries</h1>
-		@elseif ($type == 'feedback')
-			<h1 class="dk">Feedback</h1>
-		@elseif ($type == 'sponsors')
-			<h1 class="dk">Sponsor Enquiries</h1>
-		@endif
+		<h1 class="dk">Enquiries Search</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -30,6 +24,10 @@
         <alertmessage successmessage="{{ session()->get('message') }}" />
       </div>
     @endif
+
+		@php
+			echo $searchForm['html'];
+		@endphp
 
 		@php
 			echo $enquiriesTable['html'];

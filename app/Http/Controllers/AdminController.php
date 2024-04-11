@@ -14,9 +14,9 @@ class AdminController extends Controller
 				"icon"=>"fa-regular fa-comment",
 				"sublink"=>$subLinks = [
 					$enquiries = [
-						"title"=>"enquiries",
+						"title"=>"search",
 						"link"=>"/admin/enquiries",
-						"icon"=>"fa-solid fa-envelope",
+						"icon"=>"fa-solid fa-magnifying-glass",
 					],
 				],
 			],
@@ -25,9 +25,9 @@ class AdminController extends Controller
 				"icon"=>"fa-solid fa-basket-shopping",
 				"sublink"=>$subLinks = [
 					$allOrders = [
-						"title"=>"all orders",
+						"title"=>"search",
 						"link"=>"/admin/orders",
-						"icon"=>"fa-solid fa-box-archive",
+						"icon"=>"fa-solid fa-magnifying-glass",
 					],
 				],
 			],
@@ -52,9 +52,9 @@ class AdminController extends Controller
 				"icon"=>"fa-solid fa-dice-d6",
 				"sublink"=>$subLinks = [
 					$allProducts = [
-						"title"=>"all products",
+						"title"=>"search",
 						"link"=>"/admin/products",
-						"icon"=>"fa-solid fa-cubes",
+						"icon"=>"fa-solid fa-magnifying-glass",
 					],
 					$categories = [
 						"title"=>"categories",

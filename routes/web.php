@@ -191,6 +191,7 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(AdminEnquiriesController::class)->group(function () {
 		Route::get('/admin/enquiries', 'show');
+    Route::post('/enquiriesSearch', 'search');
 	});
 
 	Route::controller(AdminEnquiryProfileController::class)->group(function () {
@@ -259,6 +260,7 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(AdminOrdersController::class)->group(function () {
     Route::get('/admin/orders', 'show');
+    Route::post('/ordersSearch', 'search');
   });
 
 	Route::controller(AdminOrderProfileController::class)->group(function () {

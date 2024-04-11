@@ -5,7 +5,7 @@
 @section('content')
   <main class="orders">
 
-    <h1 class="dk">Orders</h1>
+    <h1 class="dk">Orders Search</h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -22,6 +22,10 @@
     {{-- <div id="variantscreate" class="dk">
       <variantscreate :createform="{{ json_encode($createForm) }}" />
     </div> --}}
+
+		@php
+			echo $searchForm['html'];
+		@endphp
 
     @php
 			echo $ordersTable['html'];
