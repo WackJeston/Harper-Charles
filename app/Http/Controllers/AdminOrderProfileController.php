@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
 use App\Models\Order;
+use App\Models\OrderNote;
 use App\Models\Invoice;
 
 
@@ -48,7 +49,30 @@ class AdminOrderProfileController extends AdminController
 			WHERE o.id = ?', [$id]
 		)[0];
 
-		$itemsTable = new dataTable();
+		$notesForm = new DataForm(request(), sprintf('/order-profileAddNote/%d', $order->id), 'Add');
+		$notesForm->addInput('textarea', 'note', 'Note', '', 4000, 1, true);
+		$notesForm = $notesForm->render();
+
+		$notesTable = new DataTable('notes');
+		$notesTable->setQuery('SELECT 
+			o.*,
+			u.admin,
+			CONCAT(u.firstName, " ", u.lastName) AS `name`
+			FROM order_notes AS o
+			INNER JOIN users AS u ON u.id = o.userId
+			WHERE o.orderId = ?', 
+			[$order->id], 
+			'id', 
+			'DESC'
+		);
+		$notesTable->addColumn('id', '#');
+		$notesTable->addColumn('name', 'Name', 2);
+		$notesTable->addColumn('note', 'Note', 4, false, 'paragraph');
+		$notesTable->addColumn('created_at', 'Date', 2, true);
+		$notesTable->highlight('userId', auth()->user()->id, false);
+		$notesTable = $notesTable->render();
+
+		$itemsTable = new dataTable('items');
 		$itemsTable->setTitle('Items <span class="string-container small">?</span>');
 		$itemsTable->setQuery('SELECT
 			p.*,
@@ -67,7 +91,7 @@ class AdminOrderProfileController extends AdminController
 		$itemsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$itemsTable = $itemsTable->render();
 
-		$transactionsTable = new dataTable();
+		$transactionsTable = new dataTable('payments');
 		$transactionsTable->setTitle('Transactions <span class="string-container small">?</span>');
 		$transactionsTable->setQuery('SELECT
 			p.*
@@ -84,12 +108,28 @@ class AdminOrderProfileController extends AdminController
 		$transactionsTable->addColumn('created_at', 'Created At', 2, true);
 		$transactionsTable = $transactionsTable->render();
 
-
     return view('admin/order-profile', compact(
 			'order',
 			'addresses',
+			'notesForm',
+			'notesTable',
 			'itemsTable',
-			'transactionsTable'
+			'transactionsTable',
     ));
   }
+
+	public function addNote($id)
+	{
+		$this->validate(request(), [
+			'note' => 'required|string|max:4000',
+		]);
+
+		OrderNote::create([
+			'orderId' => $id,
+			'userId' => auth()->user()->id,
+			'note' => request('note'),
+		]);
+
+		return redirect()->back()->with('success', 'Note added.');
+	}
 }

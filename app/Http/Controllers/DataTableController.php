@@ -68,44 +68,44 @@ class DataTableController extends Controller
 	}
 
 	//Header
-	public function setOrderColumn(string $name, string $query) {
-		$table = session()->get($query);
+	public function setOrderColumn(string $name, string $sessionVariable) {
+		$table = session()->get($sessionVariable);
 		$table['orderColumn'] = $name;
-		session()->put($query, $table);
+		session()->put($sessionVariable, $table);
 
 		return 1;
 	}
 
-	public function setOrderDirection(string $direction, string $query) {
-		$table = session()->get($query);
+	public function setOrderDirection(string $direction, string $sessionVariable) {
+		$table = session()->get($sessionVariable);
 		$table['orderDirection'] = $direction;
-		session()->put($query, $table);
+		session()->put($sessionVariable, $table);
 
 		return 1;
 	}
 
 	//Footer
-	public function changeLimit(string $limit, string $query) {
-		$table = session()->get($query);
+	public function changeLimit(string $limit, string $sessionVariable) {
+		$table = session()->get($sessionVariable);
 		$table['limit'] = $limit;
-		session()->put($query, $table);
+		session()->put($sessionVariable, $table);
 
 		return 1;
 	}
 
-	public function changePage(int $offset, string $query) {
-		$table = session()->get($query);
+	public function changePage(int $offset, string $sessionVariable) {
+		$table = session()->get($sessionVariable);
 		$table['offset'] = $offset;
-		session()->put($query, $table);
+		session()->put($sessionVariable, $table);
 
 		return 1;
 	}
 
-	public function resetTableSequence(string $query) {
-		$table = session()->get($query);
+	public function resetTableSequence(string $sessionVariable) {
+		$table = session()->get($sessionVariable);
 		$table['orderColumn'] = 'sequence';
 		$table['orderDirection'] = 'ASC';
-		session()->put($query, $table);
+		session()->put($sessionVariable, $table);
 
 		return 1;
 	}

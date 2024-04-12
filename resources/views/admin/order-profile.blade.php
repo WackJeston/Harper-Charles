@@ -24,9 +24,14 @@
       </div>
     @endif
 
-		<div class="page-button-row">
-			<a href="{{ $order->invoice }}" target="_blank" class="page-button padding">Invoice</a>
-		</div>
+		<div id="orderprofilefunctions">
+      <orderprofilefunctions
+				pageshowmarker="{{ session()->get('pageShowMarker') }}"
+				:order="{{ json_encode($order) }}"
+				:notesform="{{ json_encode($notesForm) }}"
+				:notestable="{{ json_encode($notesTable) }}"
+    	/>
+    </div>
 
     <div class="web-box profile-main">
 			<div class="wb-row">

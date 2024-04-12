@@ -34,11 +34,15 @@ thead tr {
 }
 
 tbody tr {
-  height: 30px;
+  min-height: 30px;
 }
 
 tbody tr:not(:last-child) {
 	border-bottom: 1px solid v.$brand-alt-light;
+}
+
+tr.highlight {
+	background-color: v.$almost-white;
 }
 
 tr th {
@@ -65,12 +69,16 @@ tr th, tr td {
 	}
 }
 
+tr td.paragraph {
+	white-space: normal;
+}
+
 tr th:last-child, tr td:last-child {
   padding-right: 8px;
 }
 
 tr th:not(.tr-buttons),
-tr td:not(.tr-buttons) {
+tr td:not(.tr-buttons, .paragraph) {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;

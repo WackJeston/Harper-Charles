@@ -289,7 +289,6 @@ a.page-button {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	margin: 0 5px 10px 0;
 	background-color: v.$alt-main;
 	color: v.$white;
 	font-size: 0.9rem;
@@ -297,6 +296,11 @@ a.page-button {
 	@media (max-width: 640px) {
 		font-size: 0.8rem;
 	}
+}
+
+button.page-button:not(.data-form button),
+a.page-button {
+	margin: 0 5px 10px 0;
 }
 
 button.page-button:hover,

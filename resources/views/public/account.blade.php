@@ -54,6 +54,7 @@
 						:user="{{ auth()->user() }}"
 						:order="{{ json_encode($order) }}"
 						:invoice="{{ json_encode($invoice) }}"
+						:notesform="{{ json_encode($notesForm) }}"
 						:notestable="{{ json_encode($notesTable) }}"
 						:itemstable="{{ json_encode($itemsTable) }}"
 					/>

@@ -114,7 +114,7 @@ class AdminOrdersController extends AdminController
 				WHERE o.type != "basket"';
 
 		if (!empty($request->search)) {
-			$query .= sprintf(' AND (o.id LIKE "%%%1$s%%" OR CONCAT(u.firstName, " ", u.lastName) LIKE "%%%1$s%%")', $request->search);
+			$query .= sprintf(' AND (o.id = "%1$s" OR u.id = "%1$s" OR CONCAT(u.firstName, " ", u.lastName) LIKE "%%%1$s%%")', $request->search);
 			
 			$explode = str_split($query);
 

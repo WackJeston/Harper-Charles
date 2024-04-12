@@ -374,10 +374,10 @@ class DataForm
 
 			if ($this->form['js'] == null) {
 				$html .= sprintf('
-				<button class="submit" type="submit">%s</button>', $this->form['submit']);
+				<button class="submit page-button padding" type="submit">%s</button>', $this->form['submit']);
 			} else {
 				$html .= sprintf('
-				<button class="submit" type="button" onclick="%s">%s</button>', $this->form['js'], $this->form['submit']);
+				<button class="submit page-button padding" type="button" onclick="%s">%s</button>', $this->form['js'], $this->form['submit']);
 			}
 
 		$html .= '

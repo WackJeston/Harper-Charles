@@ -1,8 +1,7 @@
 <template>
   <!-- Buttons -->
 	<div class="page-button-row">
-		<button class="page-button" type="button" :class="{ 'button-active' : show == 'notes' }"
-  	@click="show == 'notes' ? show = false : show = 'notes'">Order Notes</button>
+		<button class="page-button" type="button" :class="{ 'button-active' : show == 'notes' }" @click="show == 'notes' ? show = false : show = 'notes'">Order Notes<span v-show="this.notestable.count > 0"> ({{this.notestable.count }})</span></button>
 
 		<a :href="this.invoice" target="_blank" class="page-button padding">
 			Invoice
@@ -11,15 +10,7 @@
 	</div>
 
 	<!-- Notes Form -->
-	<form class="web-box dk" v-show="show == 'notes'" :action="'/account/orderAddNote/' + this.order.id" method="POST" enctype="multipart/form-data">
-		<i class="fa-solid fa-xmark" @click="show = false"></i>
-		<input type="hidden" name="_token" :value="csrf">
-
-		<label for="firstname">Note<span class="red"> *</span></label>
-		<textarea type="text" name="note" maxlength="4000"></textarea>
-
-		<button class="submit page-button padding" type="submit">Add Note</button>
-	</form>
+	<div v-html="this.notesform.html" v-show="show == 'notes'"></div>
 
 	<!-- Notes Table -->
 	<div v-html="this.notestable.html" v-show="show == 'notes'"></div>
@@ -56,6 +47,7 @@
       'user',
 			'order',
 			'invoice',
+			'notesform',
 			'notestable',
 			'itemstable'
     ],

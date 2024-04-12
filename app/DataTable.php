@@ -15,6 +15,8 @@ class DataTable
 	{
 		$this->table = [
 			'ref' => $ref,
+			'sessionVariable' => trim(str_replace('/', '-', $_SERVER['REQUEST_URI'] . 'REF-' . $ref), '-'),
+			// 'sessionVariable' => urlencode($_SERVER['REQUEST_URI'] . 'REF-' . $ref),
 			'tableName' => explode('_REF_', $ref)[0],
 			'primary' => $primary,
 			'limit' => $limit,
@@ -27,6 +29,7 @@ class DataTable
 			'buttons' => [],
 			'sequence' => false,
 			'sequenceColumn' => 'null',
+			'highlight' => null,
 		];
 	}
 
@@ -42,13 +45,14 @@ class DataTable
 		// $query = str_replace('"', '&quot;', (string) $query);
 
 		$query = str_replace('?', '%s', $query);
-		// dd($query, $params);
 		$query = vsprintf($query, $params);
 
 		$this->table['query'] = $query;
 
-		if (session()->has($query)) {
-			$this->table = session()->get($query);
+		// dd(session()->all());
+
+		if (session()->has($this->table['sessionVariable'])) {
+			$this->table = session()->get($this->table['sessionVariable']);
 			$this->table['count'] = [];
 			$this->table['columns'] = [];
 			$this->table['records'] = [];
@@ -201,9 +205,21 @@ class DataTable
 		}
 	}
 
-	public function calculate() {
+	public function highlight(string $column, $value, bool $true = true) {
+		foreach ($this->table['records'] as $i => $record) {
+			if ($true) {
+				if ($record->{$column} == $value) {
+					$this->table['records'][$i]->highlight = true;
+				}
+			} else {
+				if ($record->{$column} != $value) {
+					$this->table['records'][$i]->highlight = true;
+				}
+			}
+		}
+	}
 
-
+	private function calculate() {
 		if ($this->table['sequence'] == true && $this->table['orderColumn'] == 'sequence') {
 			Self::addJsButton('moveSequence', ['record:id', 'string:up', sprintf('string:%s', $this->table['ref']), sprintf('string:%s', $this->table['tableName']), sprintf('string:%s', $this->table['sequenceColumn'])], 'fa-solid fa-angle-up', 'Move Up', true);
 			Self::addJsButton('moveSequence', ['record:id', 'string:down', sprintf('string:%s', $this->table['ref']), sprintf('string:%s', $this->table['tableName']), sprintf('string:%s', $this->table['sequenceColumn'])], 'fa-solid fa-angle-down', 'Move Down', true);
@@ -236,7 +252,7 @@ class DataTable
 			$this->table['title'] = str_replace('?', $this->table['count'], $this->table['title']);
 		}
 
-		session()->put($this->table['query'], $this->table);
+		session()->put($this->table['sessionVariable'], $this->table);
 
 		$this->table['query'] = str_replace('"', '&quot;', $this->table['query']);
 	}
@@ -262,7 +278,7 @@ class DataTable
 
 					$click = sprintf('onclick="setOrderDirection(\'%1$s\', \'%2$s\', \'%3$s\')"',
 						$this->table['orderDirection'] == 'DESC' ? 'ASC' : 'DESC', 
-						$this->table['query'], 
+						$this->table['sessionVariable'], 
 						$this->table['ref']
 					);
 
@@ -272,7 +288,7 @@ class DataTable
 					$click = sprintf('onclick="setOrderColumn(event, \'%1$s\', \'%2$s\', \'%3$s\', \'%4$s\')"',
 						$column['name'],
 						$this->table['orderColumn'], 
-						$this->table['query'], 
+						$this->table['sessionVariable'], 
 						$this->table['ref']
 					);
 
@@ -303,8 +319,10 @@ class DataTable
 				<tbody>';
 
 					foreach ($this->table['records'] as $i => $record) {
+						$highlight = (isset($record->highlight) && $record->highlight) ? 'highlight' : '';
+
 						$html .= sprintf('
-						<tr id="row-index-%d" data-record-id="%d">', $i, $record->{$this->table['primary']});
+						<tr id="row-index-%d" data-record-id="%d" class="%s">', $i, $record->{$this->table['primary']}, $highlight);
 						
 						foreach ($this->table['columns'] as $i2 => $column) {
 							$style = $column['name'] == 'id' ? '50px' : $column['maxWidth'] . '%';
@@ -486,7 +504,7 @@ class DataTable
 							<option value="0" %s>All</option>
 						</select>
 					</td>',
-						$this->table['query'],
+						$this->table['sessionVariable'],
 						$this->table['limit'],
 						$this->table['ref'],
 						$this->table['limit'] == 10 ? 'selected' : '',
@@ -504,7 +522,7 @@ class DataTable
 								<div class="icon-container" onclick="resetTableSequence(\'%s\', \'%s\')">
 									<i class="fa-solid fa-arrow-down-short-wide hide-mobile-xs-marker"></i> Reset <span class="hide-mobile-marker">Sequence</span>
 								</div>',	
-								$this->table['query'],
+								$this->table['sessionVariable'],
 								$this->table['ref']
 							);
 
@@ -518,37 +536,27 @@ class DataTable
 						if ($this->table['offset'] > 0 && $this->table['limit'] != 0) {
 							$html .= sprintf('
 							<button class="lt" onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', false, \'%4$s\')"><i class="fa-solid fa-caret-left"></i></button>',
-								$this->table['query'],
+								$this->table['sessionVariable'],
 								$this->table['offset'],
 								$this->table['limit'],
 								$this->table['ref']
 							);
 						
 						} else {
-							$html .= sprintf('
-							<button class="button-off"><i class="fa-solid fa-caret-left"></i></button>',
-								$this->table['query'],
-								$this->table['offset'],
-								$this->table['limit'],
-							);
+							$html .= '<button class="button-off"><i class="fa-solid fa-caret-left"></i></button>';
 						}
 
 						if ($this->table['count'] > ($this->table['offset'] + $this->table['limit']) && $this->table['limit'] != 0) {
 							$html .= sprintf('
 							<button class="lt" onclick="changeTablePage(\'%1$s\', \'%2$d\', \'%3$d\', true, \'%4$s\')"><i class="fa-solid fa-caret-right"></i></button>',
-								$this->table['query'],
+								$this->table['sessionVariable'],
 								$this->table['offset'],
 								$this->table['limit'],
 								$this->table['ref']
 							);
 						
 						} else {
-							$html .= sprintf('
-							<button class="button-off"><i class="fa-solid fa-caret-right"></i></button>',
-								$this->table['query'],
-								$this->table['offset'],
-								$this->table['limit'],
-							);
+							$html .= '<button class="button-off"><i class="fa-solid fa-caret-right"></i></button>';
 						}
 
 					$html .= '

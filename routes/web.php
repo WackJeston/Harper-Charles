@@ -48,16 +48,16 @@ use App\Http\Controllers\AdminBannerProfileController;
 Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
 Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [DataTableController::class, 'setPrimary']);
 Route::get('/dataTable-selectDropdown/{table}/{column}/{primaryColumn}/{primaryValue}/{value}', [DataTableController::class, 'selectDropdown']);
-Route::get('/dataTable-resetTableSequence/{query}', [DataTableController::class, 'resetTableSequence']);
+Route::get('/dataTable-resetTableSequence/{sessionVariable}', [DataTableController::class, 'resetTableSequence']);
 Route::get('/dataTable-moveSequence/{id}/{direction}/{tabelName}/{sequenceColumn}', [DataTableController::class, 'moveSequence']);
 
-Route::get('/dataTable-setOrderColumn/{name}/{query}', [DataTableController::class, 'setOrderColumn']);
-Route::get('/dataTable-setOrderDirection/{direction}/{query}', [DataTableController::class, 'setOrderDirection']);
+Route::get('/dataTable-setOrderColumn/{name}/{sessionVariable}', [DataTableController::class, 'setOrderColumn']);
+Route::get('/dataTable-setOrderDirection/{direction}/{sessionVariable}', [DataTableController::class, 'setOrderDirection']);
 
-Route::get('/dataTable-changeLimit/{limit}/{query}', [DataTableController::class, 'changeLimit']);
-Route::get('/dataTable-changePage/{offset}/{query}', [DataTableController::class, 'changePage']);
+Route::get('/dataTable-changeLimit/{limit}/{sessionVariable}', [DataTableController::class, 'changeLimit']);
+Route::get('/dataTable-changePage/{offset}/{sessionVariable}', [DataTableController::class, 'changePage']);
 
-Route::get('/dataTable-resetTableSequence/{query}', [DataTableController::class, 'resetTableSequence']);
+Route::get('/dataTable-resetTableSequence/{sessionVariable}', [DataTableController::class, 'resetTableSequence']);
 
 
 // SYSTEM -----------------------------------------------------------------------------------
@@ -265,6 +265,7 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	Route::controller(AdminOrderProfileController::class)->group(function () {
     Route::get('/admin/order-profile/{id}', 'show');
+    Route::post('/order-profileAddNote/{id}', 'addNote');
   });
 
 	Route::controller(AdminBannersController::class)->group(function () {

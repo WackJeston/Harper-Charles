@@ -262,51 +262,51 @@ function tableRedirect(ref) {
 };
 
 //AJAX - header
-async function setOrderColumn(e, name, oldName, query, ref) {
+async function setOrderColumn(e, name, oldName, sessionVariable, ref) {
 	const elements = ["TH", "SPAN"];
 
 	if (oldName != name && elements.includes(e.target.tagName)) {
-		let response = await fetch("/dataTable-setOrderColumn/" + name + "/" + query);
+		let response = await fetch("/dataTable-setOrderColumn/" + name + "/" + sessionVariable);
 		let result = await response.json().then(function() {
 			tableRedirect(ref);
 		});
 	}	
 };
 
-async function setOrderDirection(direction, query, ref) {
-	let response = await fetch("/dataTable-setOrderDirection/" + direction + "/" + query);
+async function setOrderDirection(direction, sessionVariable, ref) {
+	let response = await fetch("/dataTable-setOrderDirection/" + direction + "/" + sessionVariable);
 	let result = await response.json().then(function() {
 		tableRedirect(ref);
 	});
 };
 
 // AJAX - footer
-async function changeTableLimit(e, query, oldLimit, ref) {
+async function changeTableLimit(e, sessionVariable, oldLimit, ref) {
 	let limit = e.target.value;
 
 	if (oldLimit != limit) {
-		let response = await fetch("/dataTable-changeLimit/" + limit + "/" + query);
+		let response = await fetch("/dataTable-changeLimit/" + limit + "/" + sessionVariable);
 		let result = await response.json().then(function() {
 			tableRedirect(ref);
 		});
 	}	
 };
 
-async function changeTablePage(query, oldOffset, limit, direction, ref) {
+async function changeTablePage(sessionVariable, oldOffset, limit, direction, ref) {
 	let offset = direction ? parseInt(oldOffset) + parseInt(limit) : parseInt(oldOffset) - parseInt(limit);
 
 	if (offset < 0) {
 		offset = 0;
 	}
 
-	let response = await fetch("/dataTable-changePage/" + offset + "/" + query);
+	let response = await fetch("/dataTable-changePage/" + offset + "/" + sessionVariable);
 	let result = await response.json().then(function() {
 		tableRedirect(ref);
 	});
 };
 
-async function resetTableSequence(query, ref) {
-	let response = await fetch("/dataTable-resetTableSequence/" + query);
+async function resetTableSequence(sessionVariable, ref) {
+	let response = await fetch("/dataTable-resetTableSequence/" + sessionVariable);
 	let result = await response.json().then(function() {
 		tableRedirect(ref);
 	});

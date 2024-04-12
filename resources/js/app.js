@@ -64,6 +64,8 @@ import Productscreate from './vue/components/admin/productsCreate.vue'
 
 import Productprofilefunctions from './vue/components/admin/productProfileFunctions.vue'
 
+import Orderprofilefunctions from './vue/components/admin/orderProfileFunctions.vue'
+
 import Categorycreate from './vue/components/admin/categoryCreate.vue'
 
 import Categoryprofilefunctions from './vue/components/admin/categoryProfileFunctions.vue'
@@ -210,6 +212,10 @@ productsCreate.component('productscreate', Productscreate).mount('#productscreat
 
 const productProfileFunctions = createApp({})
 productProfileFunctions.component('productprofilefunctions', Productprofilefunctions).mount('#productprofilefunctions')
+
+
+const orderProfileFunctions = createApp({})
+orderProfileFunctions.component('orderprofilefunctions', Orderprofilefunctions).mount('#orderprofilefunctions')
 
 
 const categoryCreate = createApp({})

@@ -7,6 +7,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DataTable;
+use App\DataForm;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderNote;
@@ -82,9 +83,14 @@ class AccountController extends PublicController
 			$invoice = Invoice::createInvoice($order->id);
 			$invoice = cachePdf($invoice->fileName, true);
 
+			$notesForm = new DataForm(request(), sprintf('/account/orderAddNote/%d', $order->id), 'Add');
+			$notesForm->addInput('textarea', 'note', 'Note', '', 4000, 1, true);
+			$notesForm = $notesForm->render();
+
 			$notesTable = new DataTable('notes');
 			$notesTable->setQuery('SELECT 
 				o.*,
+				u.admin,
 				CONCAT(u.firstName, " ", u.lastName) AS `name`
 				FROM order_notes AS o
 				INNER JOIN users AS u ON u.id = o.userId
@@ -96,7 +102,8 @@ class AccountController extends PublicController
 			$notesTable->addColumn('id', '#');
 			$notesTable->addColumn('name', 'Name', 2);
 			$notesTable->addColumn('note', 'Note', 4, false, 'paragraph');
-			$notesTable->addColumn('created_at', 'Date', 3, true);
+			$notesTable->addColumn('created_at', 'Date', 2, true);
+			$notesTable->highlight('userId', auth()->user()->id, false);
 			$notesTable = $notesTable->render();
 
 			$itemsTable = new DataTable('items');
@@ -122,6 +129,7 @@ class AccountController extends PublicController
 				'action',
 				'order',
 				'invoice',
+				'notesForm',
 				'notesTable',
 				'itemsTable',
 			));
@@ -142,7 +150,6 @@ class AccountController extends PublicController
 			]);
 	
 			OrderNote::create([
-				'admin' => 0,
 				'orderId' => $orderId,
 				'userId' => auth()->user()->id,
 				'note' => $request->note,
@@ -153,7 +160,5 @@ class AccountController extends PublicController
 		} else {
 			return redirect("/account")->withErrors(['1' => 'Order not found.']);
 		}
-
-		
 	}
 }
