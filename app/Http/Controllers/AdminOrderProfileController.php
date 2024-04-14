@@ -23,6 +23,7 @@ class AdminOrderProfileController extends AdminController
 		
 		$order = DB::select('SELECT 
 			o.*,
+			u.id AS userId,
 			CONCAT(u.firstName, " ", u.lastName) AS `user`,
 			IF(u.admin, "user", "customer") AS `contactType`
 			FROM orders AS o
@@ -69,7 +70,7 @@ class AdminOrderProfileController extends AdminController
 		$notesTable->addColumn('name', 'Name', 2);
 		$notesTable->addColumn('note', 'Note', 4, false, 'paragraph');
 		$notesTable->addColumn('created_at', 'Date', 2, true);
-		$notesTable->highlight('userId', auth()->user()->id, false);
+		$notesTable->highlight('userId', $order->userId, false);
 		$notesTable = $notesTable->render();
 
 		$itemsTable = new dataTable('items');

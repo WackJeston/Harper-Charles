@@ -474,6 +474,34 @@
 	padding: 8px 0 0 0;
 }
 
+.checkout-section button.order-note-button {
+	text-decoration: underline;
+	padding: 10px 10px 0 4px;
+}
+
+.checkout-section button.order-note-button:hover,
+.checkout-section button.order-note-button:hover i {
+	color: v.$brand-main;
+}
+
+.checkout-section button.order-note-button i {
+	position: relative;
+	top: 2px;
+	margin-left: 3px;
+	font-size: 1rem;
+}
+
+.checkout-section .order-note-container {
+	display: flex;
+	transition: all 200ms ease;
+	overflow: hidden;
+}
+
+.checkout-section .order-note-container textarea {
+	width: 100%;
+	margin: 10px 0 0 0;
+}
+
 // payment
 #checkoutpayment #payment-element {
 	margin-bottom: 10px;

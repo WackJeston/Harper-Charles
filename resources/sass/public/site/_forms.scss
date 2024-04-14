@@ -56,7 +56,7 @@ form.web-box i:hover:not(.show-password i),
 }
 
 form input:not(form input:last-child, .checkbox-container input, .submit),
-form textarea,
+textarea,
 form label.file-input-label,
 form select:not(form select:last-child, .checkbox-container select),
 .stripe-input {
@@ -65,7 +65,7 @@ form select:not(form select:last-child, .checkbox-container select),
 
 form input:not(.checkbox-container input, .submit),
 .form input:not(.checkbox-container input, .submit),
-form textarea,
+textarea,
 form label.file-input-label,
 form select,
 form option,
@@ -86,7 +86,7 @@ form .stripe-input {
 
 form input:not(.checkbox-container input, .submit),
 .form input:not(.checkbox-container input, .submit),
-form textarea,
+textarea,
 form label.file-input-label,
 form select:not(.product-page .wb-content),
 .stripe-input {
@@ -95,7 +95,7 @@ form select:not(.product-page .wb-content),
 
 form input:focus:not(.checkbox-container input, .submit),
 .form input:focus:not(.checkbox-container input, .submit),
-form textarea:focus,
+textarea:focus,
 form label.file-input-label:hover,
 .stripe-input:focus {
 	border: 2px solid v.$white;
@@ -109,7 +109,7 @@ form select {
 	}
 }
 
-form textarea {
+textarea {
 	resize: vertical;
 	min-height: 100px;
 	overflow: hidden;

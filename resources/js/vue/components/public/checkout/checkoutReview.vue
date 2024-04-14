@@ -80,6 +80,12 @@
 					</div>
 				</div>
 			</div>
+
+			<button class="order-note-button" @click="this.notesContainer = !this.notesContainer">Add an order note<i class="fa-solid fa-angle-down"></i></button>
+
+			<div class="order-note-container" :style="[this.notesContainer == false ? { maxHeight: '0px' } : { maxHeight: '800px' }]">
+				<textarea placeholder="Add a note to your order..." maxlength="4000"></textarea>
+			</div>
 		</div>
 	</div>
 
@@ -97,5 +103,11 @@ export default {
 	props: [
 		'checkout',
 	],
+
+	data() {
+		return {
+			notesContainer: false,
+		}
+	},
 }
 </script>

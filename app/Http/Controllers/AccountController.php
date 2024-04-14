@@ -91,11 +91,14 @@ class AccountController extends PublicController
 			$notesTable->setQuery('SELECT 
 				o.*,
 				u.admin,
-				CONCAT(u.firstName, " ", u.lastName) AS `name`
+				IF(u.id = ?, CONCAT(u.firstName, " ", u.lastName), u.firstName) AS `name`
 				FROM order_notes AS o
 				INNER JOIN users AS u ON u.id = o.userId
 				WHERE o.orderId = ?', 
-				[$orderId], 
+				[
+					auth()->user()->id,
+					$orderId
+				], 
 				'id', 
 				'DESC'
 			);

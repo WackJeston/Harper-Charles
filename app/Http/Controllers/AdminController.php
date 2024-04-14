@@ -9,11 +9,11 @@ class AdminController extends Controller
   public function __construct()
 	{
 		$adminLinks = [
-			$messages = [
-				"title"=>"messages",
+			$enquiries = [
+				"title"=>"enquiries",
 				"icon"=>"fa-regular fa-comment",
 				"sublink"=>$subLinks = [
-					$enquiries = [
+					$search = [
 						"title"=>"search",
 						"link"=>"/admin/enquiries",
 						"icon"=>"fa-solid fa-magnifying-glass",
