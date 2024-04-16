@@ -131,6 +131,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/checkoutAddAddress/{addressData}', 'addAddress');
 		Route::get('/checkoutDeleteAddress/{id}', 'deleteAddress');
 		Route::get('/checkoutSetBillingAddress/{id}', 'setBillingAddress');
+		Route::get('/checkoutSaveOrderNote/{note}', 'saveOrderNote');
 		Route::get('/checkoutCompleteOrder', 'completeOrder');
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});

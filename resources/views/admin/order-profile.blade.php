@@ -90,6 +90,12 @@
 							</ul>
 						</li>
 					</div>
+					@if (!empty($order->primaryNote))
+						<p class="text-box">
+							<strong>Order Note:</strong>
+							{{ $order->primaryNote }}
+						</p>
+					@endif
 				</ul>
 			</div>
 		</div>

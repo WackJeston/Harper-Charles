@@ -30,11 +30,21 @@ class Invoice extends Model
 
 		$paymentMethod = [
 			'id' => $method->id,
-			'brand' => ucfirst($method->card->brand),
-			'last4' => $method->card->last4,
-			'exp' => $method->card->exp_month . '/' . substr($method->card->exp_year, 2),
-			'postcode' => $method->billing_details->address->postal_code,
+			'type' => $method->type,
 		];
+
+		switch ($method->type) {
+			case 'card':
+				$paymentMethod['brand'] = ucfirst($method->card->brand);
+				$paymentMethod['last4'] = $method->card->last4;
+				$paymentMethod['exp'] = $method->card->exp_month . '/' . substr($method->card->exp_year, 2);
+				$paymentMethod['postcode'] = $method->billing_details->address->postal_code;
+				break;
+
+			case 'paypal':
+				$paymentMethod['email'] = $method->paypal->payer_email;
+				break;
+		}
 
 		$data = [
 			'date' => date('d/m/Y'),

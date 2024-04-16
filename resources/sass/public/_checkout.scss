@@ -474,8 +474,13 @@
 	padding: 8px 0 0 0;
 }
 
+.checkout-section table tfoot td {
+	font-weight: 600;
+	font-size: 1.1rem;
+}
+
 .checkout-section button.order-note-button {
-	text-decoration: underline;
+	// text-decoration: underline;
 	padding: 10px 10px 0 4px;
 }
 
@@ -499,6 +504,7 @@
 
 .checkout-section .order-note-container textarea {
 	width: 100%;
+	max-height: 400px;
 	margin: 10px 0 0 0;
 }
 
@@ -540,6 +546,11 @@
 	font-size: 3rem;
 	line-height: 30px;
 	margin: 0;
+}
+
+.order-successful small a {
+	color: v.$brand-main;
+	text-decoration: underline;
 }
 
 .order-successful .web-box {

@@ -7,6 +7,7 @@ use PDO;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
+use App\Models\OrderNote;
 use Illuminate\Http\Request;
 
 class BasketController extends PublicController
@@ -23,6 +24,12 @@ class BasketController extends PublicController
 
 		if (!empty($basket)) {
 			$basket = $basket[0];
+
+			$orderNote = OrderNote::where('orderId', $basket->id)->where('primary', 1)->first();
+
+			if (!empty($orderNote)) {
+				$orderNote->delete();
+			}
 
 			if ($basket->status != 'basket') {
 				$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();

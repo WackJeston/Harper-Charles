@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
+use App\Models\OrderNote;
 use App\Models\Payment;
 use App\Models\User;
 
@@ -100,70 +101,75 @@ class CheckoutController extends PublicController
 
 				if (empty($checkout)) {
 					return redirect('/basket');
+				}
 
-				} else {
-					$checkout = $checkout[0];
+				$checkout = $checkout[0];
 
-					$checkout->billingAddress = DB::select('SELECT
-						a.*
-						FROM addresses AS a
-						WHERE a.userId = ?
-						AND a.defaultBilling = true',
-						[auth()->user()->id]
+				$checkout->billingAddress = DB::select('SELECT
+					a.*
+					FROM addresses AS a
+					WHERE a.userId = ?
+					AND a.defaultBilling = true',
+					[auth()->user()->id]
+				);
+
+				$checkout->deliveryAddress = DB::select('SELECT
+					a.*
+					FROM addresses AS a
+					WHERE a.id = ?',
+					[$checkout->deliveryAddressId]
+				);
+				
+				if (empty($checkout->deliveryAddressId) || empty($checkout->billingAddress)) {
+					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
+				}
+
+				$checkout->deliveryAddress = $checkout->deliveryAddress[0];
+				$checkout->billingAddress = $checkout->billingAddress[0];
+
+				$checkout->lines = DB::select('SELECT
+					ol.*,
+					p.id AS productId,
+					p.title,
+					p.subtitle,
+					IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
+					FROM order_lines AS ol
+					INNER JOIN products AS p ON p.id = ol.productId
+					LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
+					LEFT JOIN asset AS a ON a.id = pi.assetId
+					LEFT JOIN asset AS a2 ON a2.id = ol.assetId
+					WHERE ol.orderId = ?
+					GROUP BY ol.id
+					ORDER BY ol.created_at ASC',
+					[$checkout->id]
+				);
+
+				$checkout->lines = cacheImages($checkout->lines, 600, 600, true, 'EFEFEF');
+
+				foreach ($checkout->lines as $i => $line) {
+					$checkout->lines[$i]->variants = DB::select('SELECT
+						olv.*,
+						pv.id AS variantId,
+						pv.title,
+						pv.type,
+						a.fileName,
+						pv.colour,
+						pv2.id AS parentVariantId,
+						pv2.title AS parentTitle
+						FROM order_line_variants AS olv
+						INNER JOIN product_variants AS pv ON pv.id = olv.variantId
+						INNER JOIN product_variants AS pv2 ON pv2.id = pv.parentVariantId
+						LEFT JOIN asset AS a ON a.id = pv.assetId
+						WHERE olv.orderLineId = ?
+						GROUP BY olv.id',
+						[$line->id]
 					);
+				}
 
-					$checkout->deliveryAddress = DB::select('SELECT
-						a.*
-						FROM addresses AS a
-						WHERE a.id = ?',
-						[$checkout->deliveryAddressId]
-					);
-					
-					if (empty($checkout->deliveryAddressId) || empty($checkout->billingAddress)) {
-						return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
-					}
+				$checkout->orderNote = OrderNote::select('note')->where('orderId', $order->id)->where('primary', 1)->first();
 
-					$checkout->deliveryAddress = $checkout->deliveryAddress[0];
-					$checkout->billingAddress = $checkout->billingAddress[0];
-
-					$checkout->lines = DB::select('SELECT
-						ol.*,
-						p.id AS productId,
-						p.title,
-						p.subtitle,
-						IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
-						FROM order_lines AS ol
-						INNER JOIN products AS p ON p.id = ol.productId
-						LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
-						LEFT JOIN asset AS a ON a.id = pi.assetId
-						LEFT JOIN asset AS a2 ON a2.id = ol.assetId
-						WHERE ol.orderId = ?
-						GROUP BY ol.id
-						ORDER BY ol.created_at ASC',
-						[$checkout->id]
-					);
-
-					$checkout->lines = cacheImages($checkout->lines, 600, 600, true, 'EFEFEF');
-
-					foreach ($checkout->lines as $i => $line) {
-						$checkout->lines[$i]->variants = DB::select('SELECT
-							olv.*,
-							pv.id AS variantId,
-							pv.title,
-							pv.type,
-							a.fileName,
-							pv.colour,
-							pv2.id AS parentVariantId,
-							pv2.title AS parentTitle
-							FROM order_line_variants AS olv
-							INNER JOIN product_variants AS pv ON pv.id = olv.variantId
-							INNER JOIN product_variants AS pv2 ON pv2.id = pv.parentVariantId
-							LEFT JOIN asset AS a ON a.id = pv.assetId
-							WHERE olv.orderLineId = ?
-							GROUP BY olv.id',
-							[$line->id]
-						);
-					}
+				if (!empty($checkout->orderNote)) {
+					$checkout->orderNote = $checkout->orderNote->note;
 				}
 
 				return view('public/checkout', compact(
@@ -462,6 +468,34 @@ class CheckoutController extends PublicController
 		}
 
 		return false;
+	}
+
+
+	// SUMMARY ---------------------------------------------------
+	public function saveOrderNote(string $note)
+	{
+		$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+
+		if (empty($order)) {
+			return http_response_code(400);
+		}
+
+		$orderNote = OrderNote::where('orderId', $order->id)->where('primary', 1)->first();
+		
+		if (!empty($orderNote)) {
+			$orderNote->note = $note;
+			$orderNote->save();
+
+		} else {
+			$orderNote = OrderNote::create([
+				'orderId' => $order->id,
+				'userId' => auth()->user()->id,
+				'primary' => 1,
+				'note' => $note,
+			]);
+		}
+
+		return true;
 	}
 
 

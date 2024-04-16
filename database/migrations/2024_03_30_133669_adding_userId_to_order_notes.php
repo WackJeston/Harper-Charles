@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
 			DB::statement('ALTER TABLE order_notes
-					ADD COLUMN userId bigint(20) unsigned NOT NULL AFTER orderId;
+					ADD COLUMN userId bigint(20) unsigned NOT NULL AFTER orderId
+					ADD COLUMN `primary` tinyint(1) NOT NULL DEFAULT 0 AFTER `admin`;
 				
 				ALTER TABLE order_notes
 					ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;'

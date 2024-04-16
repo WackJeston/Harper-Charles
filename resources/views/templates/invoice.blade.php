@@ -76,12 +76,23 @@
 				<li>{{ $order->deliveryAddress->postcode }}</li>
 			</ul>
 
-			<ul class="web-box">
-				<li>{{ $paymentMethod['brand'] }}</li>
-				<li><span class="stars">****</span> {{ $paymentMethod['last4'] }}</li>
-				<li>{{ $paymentMethod['exp'] }}</li>
-				<li>{{ $paymentMethod['postcode'] }}</li>
-			</ul>
+			@switch($paymentMethod['type'])
+				@case('card')
+					<ul class="web-box">
+						<li>{{ $paymentMethod['brand'] }}</li>
+						<li><span class="stars">****</span> {{ $paymentMethod['last4'] }}</li>
+						<li>{{ $paymentMethod['exp'] }}</li>
+						<li>{{ $paymentMethod['postcode'] }}</li>
+					</ul>
+					@break
+						
+				@case('paypal')
+					<ul class="web-box">
+						<li><strong>PayPal</strong></li>
+						<li>{{ $paymentMethod['email'] }}</li>
+					</ul>
+					@break
+			@endswitch
 
 			<p>Order Number: #{{ $order->id }}</p>
 			<p>Date: {{ $order->date }}</p>

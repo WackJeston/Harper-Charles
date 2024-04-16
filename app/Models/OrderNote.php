@@ -13,6 +13,7 @@ class OrderNote extends Model
 		'orderId',
 		'userId',
 		'admin',
+		'primary',
 		'note',
 	];
 }

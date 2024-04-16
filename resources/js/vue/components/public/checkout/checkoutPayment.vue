@@ -71,9 +71,6 @@ export default {
 			const paymentOptions = {
 				layout: {
 					type: 'tabs',
-					// type: 'accordion',
-					// radios: false,
-					// spacedAccordionItems: true
 				},
 				defaultValues: {
 					billingDetails: this.billingDetails
@@ -104,7 +101,7 @@ export default {
 						clientSecret: this.clientSecret,
 						redirect: 'if_required',
 						confirmParams: {
-							return_url: `https://${window.location.hostname}/paymentconfirm`
+							return_url: `https://${window.location.hostname}/checkoutCompleteOrder`
 						}
 					}).then((result) => {
 						if(result.error) {

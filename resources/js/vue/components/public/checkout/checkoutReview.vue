@@ -81,10 +81,14 @@
 				</div>
 			</div>
 
-			<button class="order-note-button" @click="this.notesContainer = !this.notesContainer">Add an order note<i class="fa-solid fa-angle-down"></i></button>
+			<button class="order-note-button" @click="this.notesContainer = !this.notesContainer">
+				Add an order note
+				<i v-if="!this.notesContainer" class="fa-solid fa-angle-down"></i>
+				<i v-else class="fa-solid fa-angle-up"></i>
+			</button>
 
-			<div class="order-note-container" :style="[this.notesContainer == false ? { maxHeight: '0px' } : { maxHeight: '800px' }]">
-				<textarea placeholder="Add a note to your order..." maxlength="4000"></textarea>
+			<div class="order-note-container" :style="[!this.notesContainer ? { maxHeight: '0px' } : { maxHeight: '410px' }]">
+				<textarea id="orderNote" placeholder="Write your order note here..." :value="this.checkout.orderNote" maxlength="4000" @change="this.saveOrderNote"></textarea>
 			</div>
 		</div>
 	</div>
@@ -107,6 +111,19 @@ export default {
 	data() {
 		return {
 			notesContainer: false,
+		}
+	},
+
+	methods: {
+		async saveOrderNote(event) {
+			try {
+				this.response = await fetch("/checkoutSaveOrderNote/" + event.target.value);
+				this.result = await this.response.json();
+
+			} catch (err) {
+				console.log('----ERROR----');
+				console.log(err);
+			}
 		}
 	},
 }

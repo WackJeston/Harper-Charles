@@ -36,6 +36,12 @@ class AdminOrderProfileController extends AdminController
 		$invoice = Invoice::createInvoice($order->id);
 		$order->invoice = cachePdf($invoice->fileName, true);
 
+		$order->primaryNote = OrderNote::select('note')->where('orderId', $order->id)->where('primary', 1)->first();
+
+		if (!empty($order->primaryNote)) {
+			$order->primaryNote = $order->primaryNote->note;
+		}
+
 		$addresses['billing'] = DB::select('SELECT
 			a.*
 			FROM addresses AS a

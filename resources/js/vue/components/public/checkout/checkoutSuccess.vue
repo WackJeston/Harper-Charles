@@ -79,9 +79,5 @@ export default {
 		'order',
 		'invoice',
 	],
-
-	mounted() {
-		console.log(this.order);
-	},
 }
 </script>
