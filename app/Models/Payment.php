@@ -14,6 +14,8 @@ class Payment extends Model
 		'stripeReference',
 		'type',
 		'status',
+		'detail',
+		'method',
 		'amount',
 		'captured',
 	];

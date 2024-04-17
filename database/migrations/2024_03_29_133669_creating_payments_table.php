@@ -19,6 +19,8 @@ return new class extends Migration
 					`stripeReference` varchar(255) NOT NULL,
 					`type` varchar(255) DEFAULT NULL,
 					`status` varchar(255) DEFAULT NULL,
+					`detail` VARCHAR(255) NULL DEFAULT NULL,
+					`method` VARCHAR(255) NULL DEFAULT NULL,
 					`amount` decimal(9,2) NOT NULL DEFAULT 0.00,
 					`captured` decimal(9,2) NOT NULL DEFAULT 0.00,
 					`created_at` timestamp NULL DEFAULT NULL,

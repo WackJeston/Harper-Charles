@@ -209,6 +209,7 @@ class DataForm
 
 					case 'phone':
 					case 'tel':
+					case 'telephone':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%8$s</label>
 						<input type="tel" id="%1$s" name="%1$s" value="%3$s" step="any" %4$s %5$s placeholder="%6$s" %7$s %9$s />',
@@ -321,16 +322,18 @@ class DataForm
 						break;
 					
 					case 'select':
+					case 'selectmultiple':
 						$html .= sprintf('
 						<label for="%1$s">%2$s%5$s</label>
-						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s %6$s>
-							%7$s',
+						<select id="%1$s" name="%1$s" placeholder="%3$s" %4$s %6$s %7$s>
+							%8$s',
 							$input['name'],
 							$input['label'],
 							$input['placeholder'],
 							$input['required'] ? 'required' : '',
 							$input['required'] ? '<span class="red"> *</span>' : '',
 							$input['attributes'],
+							$input['type'] == 'selectmultiple' ? 'multiple' : '',
 							$input['emptyValue'] ? '<option></option>' : '',
 						);
 

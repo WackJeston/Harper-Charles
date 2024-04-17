@@ -14,10 +14,11 @@
 }
 
 .admin-menu h2.title {
-	display: flex;
-  padding: 0 0 20px 8px;
+	display: block;
+  padding: 0 0 20px 0;
 	margin: 0;
   font-size: 1.6rem;
+	text-align: center;
   line-height: 20px;
 }
 

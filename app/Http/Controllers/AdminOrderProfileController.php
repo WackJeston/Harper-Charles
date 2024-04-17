@@ -91,14 +91,14 @@ class AdminOrderProfileController extends AdminController
 			[$id]
 		);
 		$itemsTable->addColumn('id', '#');
-		$itemsTable->addColumn('title', 'Name', 2);
-		$itemsTable->addColumn('quantity', 'Quantity');
-		$itemsTable->addColumn('price', 'Price');
-		$itemsTable->addColumn('total', 'Subtotal');
+		$itemsTable->addColumn('title', 'Name', 3);
+		$itemsTable->addColumn('quantity', 'Quantity', 2);
+		$itemsTable->addColumn('price', 'Price', 2);
+		$itemsTable->addColumn('total', 'Subtotal', 2, true);
 		$itemsTable->addLinkButton('product-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$itemsTable = $itemsTable->render();
 
-		$transactionsTable = new dataTable('payments');
+		$transactionsTable = new dataTable('payments', 'stripeReference');
 		$transactionsTable->setTitle('Transactions <span class="string-container small">?</span>');
 		$transactionsTable->setQuery('SELECT
 			p.*
@@ -109,10 +109,12 @@ class AdminOrderProfileController extends AdminController
 		$transactionsTable->addColumn('id', '#');
 		$transactionsTable->addColumn('type', 'Type');
 		$transactionsTable->addColumn('status', 'Status', 2);
-		$transactionsTable->addColumn('stripeReference', 'Reference', 2, true);
+		$transactionsTable->addColumn('detail', 'Detail', 3, true, 'paragraph');
+		$transactionsTable->addColumn('method', 'Method', 1, true);
 		$transactionsTable->addColumn('amount', 'Amount');
-		$transactionsTable->addColumn('captured', 'Captured');
+		$transactionsTable->addColumn('captured', 'Captured', 1, true);
 		$transactionsTable->addColumn('created_at', 'Created At', 2, true);
+		$transactionsTable->addLinkButton('https://dashboard.stripe.com/payments/?', 'fa-solid fa-folder-open', 'Open Record', false);
 		$transactionsTable = $transactionsTable->render();
 
     return view('admin/order-profile', compact(

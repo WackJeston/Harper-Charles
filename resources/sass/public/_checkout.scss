@@ -443,6 +443,10 @@
 	padding: 0;
 	flex-basis: 0;
 	flex-grow: 1;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+	}
 }
 
 .checkout-section table td:first-child {
@@ -477,11 +481,19 @@
 .checkout-section table tfoot td {
 	font-weight: 600;
 	font-size: 1.1rem;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .checkout-section button.order-note-button {
 	// text-decoration: underline;
 	padding: 10px 10px 0 4px;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .checkout-section button.order-note-button:hover,

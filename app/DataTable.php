@@ -134,19 +134,21 @@ class DataTable
 		];
 	}
 
-	public function addLinkButton(string $url, string $icon, string $label = null) {
+	public function addLinkButton(string $url, string $icon, string $label = null, bool $internal = true) {
 		$this->table['buttons'][] = [
 			'type' => 'link',
 			'icon' => $icon,
 			'label' => $label,
 		];
 
-		if (!str_starts_with($url, '/')) {
-			$url = '/' . $url;
-		}
-
-		if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', $url)) {
-			$url = '/admin' . $url;
+		if ($internal) {
+			if (!str_starts_with($url, '/')) {
+				$url = '/' . $url;
+			}
+	
+			if (str_contains(url()->current(), '/admin') && !preg_match('/[A-Z]/', $url)) {
+				$url = '/admin' . $url;
+			}
 		}
 
 		foreach ($this->table['records'] as $i => $record) {

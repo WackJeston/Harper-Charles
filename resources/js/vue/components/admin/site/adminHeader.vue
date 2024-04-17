@@ -42,7 +42,7 @@
 
   <nav class="admin-menu lt"
   :class="{ 'menu-active': menuActive, 'menu-non-active': !menuActive }">
-    <h2 class="title">Admin Console</h2>
+    <h2 class="title">Navigation</h2>
 
     <ul>
       <div v-for="(link, i) in this.adminlinks" class="nav-link">

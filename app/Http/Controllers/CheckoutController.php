@@ -512,22 +512,45 @@ class CheckoutController extends PublicController
 		
 		$intent = \Stripe\PaymentIntent::retrieve($order->stripeIntentId);
 
+		if ($intent->payment_method == null) {
+			$method = null;
+		} else {
+			$paymentMethod = \Stripe\PaymentMethod::retrieve($intent->payment_method);
+			$method = $paymentMethod->type;
+		}
+
+		if ($intent->latest_charge == null) {
+			$detail = null;
+			$receipt = null;
+		} else {
+			$charge = \Stripe\Charge::retrieve($intent->latest_charge);
+			$detail = $charge->failure_message;
+			$receipt = $charge->receipt_url;
+		}
+
 		Payment::create([
 			'orderId' => $order->id,
 			'stripeReference' => $intent->id,
 			'type' => 'Capture',
 			'status' => $intent->status,
+			'detail' => $detail,
+			'method' => $method,
 			'amount' => $intent->amount / 100,
 			'captured' => $intent->amount_received / 100,
 		]);
 
 		if ($intent->status != 'succeeded') {
-			return redirect('/checkout/review')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
+			if (is_null($detail)) {
+				return redirect('/checkout/payment')->withErrors(['1' => 'Something went wrong. Please review your order and try again.']);
+			} else {
+				return redirect('/checkout/payment')->withErrors(['1' => $detail]);
+			}
 		}
 
 		$order->paymentMethodId = $intent->payment_method;
 		$order->type = 'web';
 		$order->status = 'new';
+		$order->stripeReceipt = $receipt;
 		$order->save();
 
 		return redirect('/order-successful/' . $order->id);

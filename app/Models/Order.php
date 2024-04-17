@@ -21,6 +21,7 @@ class Order extends Model
 		'type',
 		'status',
 		'stripeIntentId',
+		'stripeReceipt',
 	];
 
 	public static function createOrder(int $userId = 0) {
