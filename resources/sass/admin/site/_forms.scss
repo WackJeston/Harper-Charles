@@ -197,7 +197,7 @@ form label:not(.radio-container label) {
 }
 
 form span {
-	color: v.$pale-red;
+	color: v.$red;
 }
 
 form p {
@@ -266,7 +266,7 @@ form .checkbox-container label {
 }
 
 .form-validation-failed {
-	border: 2px solid v.$pale-red;
+	border: 2px solid v.$red;
 }
 
 form .radio-container {

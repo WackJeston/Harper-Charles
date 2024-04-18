@@ -341,34 +341,34 @@ a.pb-success {
 
 button.pb-success,
 a.pb-success {
-	background-color: v.$pale-green-darker;
+	background-color: v.$green;
 }
 
 button.pb-success:hover,
 a.pb-success:hover {
 	@media (min-width: 640px) {
-		background-color: v.$pale-green;
+		background-color: v.$green-darker;
 	}
 }
 
 button.pb-danger,
 a.pb-danger {
-	background-color: v.$pale-red-darker;
+	background-color: v.$red;
 }
 
 button.pb-danger:hover,
 a.pb-danger:hover {
 	@media (min-width: 640px) {
-		background-color: v.$pale-red;
+		background-color: v.$red-darker;
 	}
 }
 
 .fa-toggle-off {
-	color: v.$pale-red;
+	color: v.$red;
 }
 
 .fa-toggle-on {
-	color: v.$pale-green;
+	color: v.$green;
 }
 
 a.display-link {
@@ -456,11 +456,11 @@ a.display-link:hover {
 }
 
 .alert-box.error {
-	background-color: v.$pale-red;
+	background-color: v.$red;
 }
 
 .alert-box.success {
-	background-color: v.$pale-green;
+	background-color: v.$green;
 }
 
 .alert-box h3 {
@@ -494,13 +494,13 @@ a.display-link:hover {
 
 .alert-box.error i:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-red;
+		color: v.$red;
 	}
 }
 
 .alert-box.success i:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-green;
+		color: v.$green;
 	}
 }
 

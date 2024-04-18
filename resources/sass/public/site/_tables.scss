@@ -164,22 +164,22 @@ table .empty-table h3 {
 }
 
 table td .toggle-true {
-	color: v.$pale-green;
+	color: v.$green;
 }
 
 table td .toggle-true:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-green-darker;
+		color: v.$green-darker;
 	}
 }
 
 table td .toggle-false {
-	color: v.$pale-red;
+	color: v.$red;
 }
 
 table td .toggle-false:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-red-darker;
+		color: v.$red-darker;
 	}
 }
 

@@ -197,31 +197,31 @@ button.button-active {
 }
 
 .page-button.pb-success {
-	background-color: v.$pale-green;
+	background-color: v.$green;
 }
 
 .page-button.pb-success:hover {
 	@media (min-width: 640px) {
-		background-color: v.$pale-green-darker;
+		background-color: v.$green-darker;
 	}
 }
 
 .page-button.pb-danger {
-	background-color: v.$pale-red;
+	background-color: v.$red;
 }
 
 .page-button.pb-danger:hover {
 	@media (min-width: 640px) {
-		background-color: v.$pale-red-darker;
+		background-color: v.$red-darker;
 	}
 }
 
 .fa-toggle-off {
-	color: v.$pale-red;
+	color: v.$red;
 }
 
 .fa-toggle-on {
-	color: v.$pale-green;
+	color: v.$green;
 }
 
 .wb-container-row {
@@ -535,11 +535,11 @@ button.button-active {
 // }
 
 .alert-box.error {
-	background-color: v.$pale-red;
+	background-color: v.$red;
 }
 
 .alert-box.success {
-	background-color: v.$pale-green-darker;
+	background-color: v.$green-darker;
 }
 
 .alert-box.info {
@@ -603,13 +603,13 @@ button.button-active {
 
 .alert-box.error i:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-red;
+		color: v.$red;
 	}
 }
 
 .alert-box.success i:hover {
 	@media (min-width: 640px) {
-		color: v.$pale-green-darker;
+		color: v.$green-darker;
 	}
 }
 
