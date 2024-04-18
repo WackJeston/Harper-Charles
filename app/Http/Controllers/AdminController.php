@@ -89,11 +89,6 @@ class AdminController extends Controller
 					],
 				],
 			],
-			$test = [
-				"title"=>"test",
-				"link"=>"/admin/test",
-				"icon"=>"fa-solid fa-flask-vial",
-			],
 		];
 
 		$contactResult = DB::select('SELECT type, value FROM contact ORDER BY type ASC');
