@@ -13,18 +13,17 @@
 							<span>{{ line.title }}</span>
 							<small>#{{ line.id }}</small>
 						</td>
-						<td>Qty: {{ line.quantity }}</td>
-						<td class="align-right">£{{ line.price }}</td>
-						<td class="align-right">£{{ line.total }}</td>
+						<td class="quantity">Qty: {{ line.quantity }}</td>
+						<td class="price">
+							<span>£{{ line.price }}</span>
+							<small class="hide-desktop">£{{ line.total }}</small>
+						</td>
+						<td class="align-right hide-mobile">£{{ line.total }}</td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
-						<td></td>
-						<td class="product-title"></td>
-						<td></td>
-						<td class="align-right">Total:</td>
-						<td class="align-right">£{{ checkout.total }}</td>
+						<td class="align-right total">Total:	£{{ checkout.total }}</td>
 					</tr>
 				</tfoot>
 			</table>

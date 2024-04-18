@@ -7,7 +7,7 @@
 
     <div id="deliveryMarker" class="checkout-title section-width">
 			<h1>Order Successful</h1>
-			<p>Thank you for choosing to order with us.<br>Updates about your order will be emailed to <strong>{{ auth()->user()->email }}</strong>. <small><a href="/account">change email</a></small></p>
+			<p>Updates about your order will be emailed to <strong>{{ auth()->user()->email }}</strong>. <small><a href="/account">change email</a></small></p>
 		</div>
 
     @if ($errors->any())

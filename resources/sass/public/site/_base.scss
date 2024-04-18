@@ -148,7 +148,7 @@ a.page-button:not(.submit, .warning-overlay .page-button, .no-margin) {
 }
 
 button.page-button:not(:first-child, .submit, .warning-overlay .page-button, .no-margin),
-a.page-button:not(:first-child, .submit, .warning-overlay .page-button, .no-margin) {
+a.page-button:not(:first-child, .submit, .warning-overlay .page-button, .no-margin, .empty-basket a) {
 	margin-left: 10px;
 }
 
@@ -516,6 +516,10 @@ button.button-active {
 	border-radius: 5px;
 	color: v.$white;
 	width: 100%;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .alert-box li {
@@ -585,6 +589,10 @@ button.button-active {
 	border-radius: 5px;
 	color: v.$white;
 	cursor: pointer;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .alert-box i:hover {

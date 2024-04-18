@@ -77,8 +77,8 @@ tr th:last-child, tr td:last-child {
   padding-right: 8px;
 }
 
-tr th:not(.tr-buttons),
-tr td:not(.tr-buttons, .paragraph) {
+tr th:not(.checkout-section th, .tr-buttons),
+tr td:not(.checkout-section td, .tr-buttons, .paragraph) {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -187,7 +187,7 @@ table td.paragraph {
 	height: 100%;
 }
 
-table .hide-mobile {
+table .hide-mobile:not(.checkout-section .hide-mobile) {
 	display: none;
 }
 

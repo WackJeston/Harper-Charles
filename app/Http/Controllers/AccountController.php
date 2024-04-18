@@ -25,6 +25,7 @@ class AccountController extends PublicController
 		$ordersTable = new DataTable('orders');
 		$ordersTable->setQuery('SELECT 
 			o.*,
+			DATE_FORMAT(o.created_at, "%%d/%%m/%%Y") AS `date`,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId
@@ -35,10 +36,10 @@ class AccountController extends PublicController
 			'DESC'
 		);
 		$ordersTable->addColumn('id', '#');
-		$ordersTable->addColumn('status', 'Status', 2);
-		$ordersTable->addColumn('items', 'Items', 2, true);
-		$ordersTable->addColumn('total', 'Total', 2, false, 'currency');
-		$ordersTable->addColumn('created_at', 'Date', 3);
+		$ordersTable->addColumn('status', 'Status');
+		$ordersTable->addColumn('items', 'Items', 1, true);
+		$ordersTable->addColumn('total', 'Total', 1, false, 'currency');
+		$ordersTable->addColumn('date', 'Date');
 		$ordersTable->addLinkButton('account/order/?', 'fa-solid fa-folder-open', 'Open Record');
 		$ordersTable = $ordersTable->render();
 
@@ -112,8 +113,7 @@ class AccountController extends PublicController
 			$itemsTable = new DataTable('items');
 			$itemsTable->setQuery('SELECT 
 				p.*,
-				ol.quantity,
-				ol.created_at AS `date`
+				ol.quantity
 				FROM products AS p
 				INNER JOIN order_lines AS ol ON ol.productId = p.id
 				WHERE ol.orderId = ?',
@@ -122,9 +122,9 @@ class AccountController extends PublicController
 			);
 			$itemsTable->setTitle('Items');
 			$itemsTable->addColumn('id', '#');
-			$itemsTable->addColumn('title', 'Title', 2);
-			$itemsTable->addColumn('quantity', 'Qty', 2, true);
-			$itemsTable->addColumn('date', 'Date', 3);
+			$itemsTable->addColumn('title', 'Title', 3);
+			$itemsTable->addColumn('quantity', 'Qty');
+			$itemsTable->addColumn('price', 'Price', 2, false, 'currency');
 			$itemsTable->addLinkButton('product/?', 'fa-solid fa-folder-open', 'Open Record');
 			$itemsTable = $itemsTable->render();
 

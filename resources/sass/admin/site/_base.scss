@@ -298,7 +298,7 @@ a.page-button {
 	}
 }
 
-button.page-button:not(.data-form button),
+button.page-button:not(.data-form button, .warning-box .page-button),
 a.page-button {
 	margin: 0 5px 10px 0;
 }
@@ -449,6 +449,10 @@ a.display-link:hover {
 	border-radius: 5px;
 	color: white;
 	max-width: 600px;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .alert-box.error {
@@ -476,6 +480,10 @@ a.display-link:hover {
 	border-radius: 5px;
 	color: white;
 	cursor: pointer;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
 }
 
 .alert-box i:hover {
@@ -538,7 +546,6 @@ a.display-link:hover {
 
 .warning-box .pb-success {
 	flex-grow: 5;
-	margin-top: 5px;
 	margin: 5px 0 0 0;
 }
 

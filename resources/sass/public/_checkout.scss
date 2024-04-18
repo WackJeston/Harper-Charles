@@ -71,7 +71,7 @@
 	}
 }
 
-#checkout-page {
+#checkout-page:not(.order-successful) {
 	margin: v.$header-height 0 30px 0;
 	padding: 60px 20px 0 20px;
 
@@ -439,22 +439,29 @@
 	height: 100%;
 }
 
-.checkout-section table td {
+.checkout-section table tbody td {
 	padding: 0;
 	flex-basis: 0;
-	flex-grow: 1;
+	flex-grow: 3;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: hidden;
 
 	@media (max-width: 640px) {
 		font-size: 0.7rem;
 	}
 }
 
-.checkout-section table td:first-child {
+.checkout-section table tbody td:first-child {
 	max-width: 80px;
 }
 
-.checkout-section table td:not(:last-child) {
+.checkout-section table tbody td:not(:last-child) {
 	padding-right: 10px;
+
+	@media (max-width: 640px) {
+		padding-right: 5px;
+	}
 }
 
 .checkout-section table td.align-right {
@@ -466,12 +473,27 @@
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: center;
+	flex-grow: 5;
+}
+
+.checkout-section table td.quantity {
 	flex-grow: 2;
+}
+
+.checkout-section table td.price {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
 }
 
 .checkout-section table td small {
 	font-size: 0.8rem;
 	color: v.$brand-main-darker;
+
+	@media (max-width: 640px) {
+		font-size: 0.6rem;
+	}
 }
 
 .checkout-section table tfoot tr {
@@ -479,6 +501,7 @@
 }
 
 .checkout-section table tfoot td {
+	width: 100%;
 	font-weight: 600;
 	font-size: 1.1rem;
 
@@ -549,6 +572,15 @@
 
 
 // Order Successful
+.order-successful {
+	margin: v.$header-height 0 30px 0;
+	padding: 30px 20px 0 20px;
+
+	@media (min-width: 640px) {
+		padding: 60px 40px 0 40px;
+	}
+}
+
 .order-successful .checkout-title {
 	display: flex;
 	flex-direction: column;
@@ -558,6 +590,22 @@
 	font-size: 3rem;
 	line-height: 30px;
 	margin: 0;
+
+	@media (max-width: 640px) {
+		font-size: 2rem;
+		line-height: 20px;
+	}
+}
+
+.order-successful p {
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+	}
+}
+
+.order-successful strong,
+.order-successful small {
+	white-space: nowrap;
 }
 
 .order-successful small a {
