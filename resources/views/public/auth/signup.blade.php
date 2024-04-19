@@ -20,7 +20,9 @@
     @endif
 
     <div id="publicsignup">
-      <publicsignup />
+      <publicsignup 
+				:appname="{{ json_encode(ENV('APP_NAME')) }}"
+			/>
     </div>
 
     <div class="auth-nav">

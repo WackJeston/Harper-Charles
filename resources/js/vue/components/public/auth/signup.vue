@@ -27,6 +27,11 @@
       </label>
       <input class="password" :type="!showConfirmPassword ? 'password' : 'text'" name="password_confirmation" required autocomplete="one-time-code">
 
+			<div class="checkbox-container">
+				<input type="checkbox" required>
+				<small>I consent to receiving notification emails from <strong>{{ this.appname }}</strong>.<span class="red"> *</span></small>
+			</div>
+
       <input class="submit page-button padding" type="submit" name="submit" value="Sign Up">
     </form>
 
@@ -36,6 +41,10 @@
 
 <script>
   export default {
+		props: [
+			'appname'
+		],
+
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

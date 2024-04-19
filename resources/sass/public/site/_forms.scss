@@ -198,11 +198,19 @@ form label i {
 form .checkbox-container {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: flex-start;
 	margin: 5px 0 5px 10px;
+
+	@media (max-width: 640px) {
+		margin: 5px 0 5px 4px;
+	}
 }
 
 form .checkbox-container input {
-	margin: 0 5px 0 0;
+	margin: 4px 5px 0 0;
+
+	@media (max-width: 640px) {
+		margin: 1px 4px 0 0;
+	}
 }

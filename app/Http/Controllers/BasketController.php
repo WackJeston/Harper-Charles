@@ -110,7 +110,6 @@ class BasketController extends PublicController
 			COUNT(ol.id) AS items
 			FROM order_lines AS ol
 			WHERE ol.orderId = ?
-			GROUP BY ol.orderId
 			LIMIT 1',
 			[$order->id]
 		)[0]->items;

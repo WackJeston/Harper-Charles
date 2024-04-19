@@ -115,6 +115,8 @@ export default {
 				console.log(err);
 				
 			} finally {
+				console.log(this.result);
+
 				this.basketLine = document.querySelector('#basketLine' + id);
 				this.basketLine.remove();
 

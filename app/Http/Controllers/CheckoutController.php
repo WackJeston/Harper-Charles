@@ -2,8 +2,12 @@
 namespace App\Http\Controllers;
 
 Use DB;
-use App\Models\Address;
 use Laravel\Cashier\Cashier;
+use App\Http\Api\InvoiceRenderer;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderSuccessful;
+
+use App\Models\Address;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderLine;
@@ -11,8 +15,6 @@ use App\Models\OrderLineVariant;
 use App\Models\OrderNote;
 use App\Models\Payment;
 use App\Models\User;
-
-use App\Http\Api\InvoiceRenderer;
 
 
 
@@ -552,6 +554,8 @@ class CheckoutController extends PublicController
 		$order->status = 'new';
 		$order->stripeReceipt = $receipt;
 		$order->save();
+
+		Mail::to(auth()->user()->email)->send(new OrderSuccessful($order->id));
 
 		return redirect('/order-successful/' . $order->id);
 	}
