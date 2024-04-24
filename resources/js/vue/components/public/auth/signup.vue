@@ -28,8 +28,8 @@
       <input class="password" :type="!showConfirmPassword ? 'password' : 'text'" name="password_confirmation" required autocomplete="one-time-code">
 
 			<div class="checkbox-container">
-				<input type="checkbox" required>
-				<small>I consent to receiving notification emails from <strong>{{ this.appname }}</strong>.<span class="red"> *</span></small>
+				<input type="checkbox" name="marketing">
+				<small>I concent to recieving marketing emails from <strong>{{ this.appname }}</strong>.</small>
 			</div>
 
       <input class="submit page-button padding" type="submit" name="submit" value="Sign Up">

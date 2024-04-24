@@ -14,7 +14,7 @@
       </label>
       <input class="password" :type="!showLoginPassword ? 'password' : 'text'" name="password" autocomplete="one-time-code" required>
 
-      <input class="submit page-button padding" type="submit" name="submit" value="Login">
+      <input class="submit page-button padding" type="submit" name="submit" value="Sign In">
     </form>
 
   </div>

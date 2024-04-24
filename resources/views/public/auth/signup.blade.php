@@ -27,7 +27,7 @@
 
     <div class="auth-nav">
       <p>Already have an account?</p>
-      <a href="/login"><button class="page-button padding" type="button" name="button">login</button></a>
+      <a href="/login"><button class="page-button padding" type="button" name="button">Sign In</button></a>
     </div>
 
   </main>

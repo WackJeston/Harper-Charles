@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use DB;
 use Hash;
+use KlaviyoAPI\KlaviyoAPI;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmailCustomer;
-use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
 class AuthController extends PublicController
@@ -115,6 +116,21 @@ class AuthController extends PublicController
 
   public function signupCustomer(Request $request)
   {
+		if ($request->marketing == 'on') {
+			try {
+				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
+				$response = $klaviyo->Lists->createListRelationships('XT2zzd', [
+					'email' => $request->email,
+					'first_name' => $request->firstname,
+					'last_name' => $request->lastname,
+				]);
+			} catch (\Throwable $th) {
+				dd($th);
+			} finally {
+				dd($response);
+			}
+		}
+
 		$user = User::where('email', $request->email)->first();
 
     $request->validate([
