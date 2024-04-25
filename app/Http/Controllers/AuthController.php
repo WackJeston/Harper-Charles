@@ -116,7 +116,7 @@ class AuthController extends PublicController
 
   public function signupCustomer(Request $request)
   {
-    $request->validate([
+		$request->validate([
       'firstname' => 'required|max:100',
       'lastname' => 'required|max:100',
       'email' => ['required', 'email', 'max:100', Rule::unique('users')],
@@ -134,7 +134,6 @@ class AuthController extends PublicController
 		if ($request->marketing == 'on') {
 			try {
 				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
-				// $response = $klaviyo->Lists->getListProfiles('XT2zzd');
 				
 				$response = $klaviyo->Profiles->createOrUpdateProfile([
 					'data' => [
@@ -150,9 +149,8 @@ class AuthController extends PublicController
 
 			} catch (\Throwable $th) {
 				dd($th);
-			} finally {
-				// dd($response['data']['id']);
 
+			} finally {
 				try {
 					$response2 = $klaviyo->Profiles->subscribeProfiles([
 						'data' => [
@@ -166,33 +164,31 @@ class AuthController extends PublicController
 											'id' => $response['data']['id'],
 											'attributes' => [
 												'email' => $user->email,
-												// 'subscriptions' => [
-												// 	'email' => [
-												// 		'marketing' => [
-												// 			'consent' => 'SUBSCRIBED',
-												// 			'consented_at' => date('Y-m-d\TH:i:s'),
-												// 		]
-												// 	],
-												// ],
+												'subscriptions' => [
+													'email' => [
+														'marketing' => [
+															'consent' => 'SUBSCRIBED',
+														]
+													],
+												],
 											],
 										]
 									],
 								],
 							],
-							// 'relationships' => [
-							// 	'list' => [
-							// 		'data' => [
-							// 			'type' => 'list',
-							// 			'id' => 'XT2zzd',
-							// 		],
-							// 	],
-							// ],
+							'relationships' => [
+								'list' => [
+									'data' => [
+										'type' => 'list',
+										'id' => env('KLAVIYO_LIST_ID'),
+									],
+								],
+							],
 						]
 					]);
+					
 				} catch (\Throwable $th) {
 					dd($th);
-				} finally {
-					dd($response);
 				}
 			}
 		}
