@@ -116,23 +116,6 @@ class AuthController extends PublicController
 
   public function signupCustomer(Request $request)
   {
-		if ($request->marketing == 'on') {
-			try {
-				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
-				$response = $klaviyo->Lists->createListRelationships('XT2zzd', [
-					'email' => $request->email,
-					'first_name' => $request->firstname,
-					'last_name' => $request->lastname,
-				]);
-			} catch (\Throwable $th) {
-				dd($th);
-			} finally {
-				dd($response);
-			}
-		}
-
-		$user = User::where('email', $request->email)->first();
-
     $request->validate([
       'firstname' => 'required|max:100',
       'lastname' => 'required|max:100',
@@ -147,6 +130,72 @@ class AuthController extends PublicController
       'email' => strtolower($request->email),
       'password' => Hash::make($request->password),
     ]);
+		
+		if ($request->marketing == 'on') {
+			try {
+				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
+				// $response = $klaviyo->Lists->getListProfiles('XT2zzd');
+				
+				$response = $klaviyo->Profiles->createOrUpdateProfile([
+					'data' => [
+						'type' => 'profile',
+						'attributes' => [
+							'email' => $user->email,
+							// 'external_id', $user->id,
+							'first_name' => $user->firstname,
+							'last_name' => $user->lastname,
+						],
+					]
+				]);
+
+			} catch (\Throwable $th) {
+				dd($th);
+			} finally {
+				// dd($response['data']['id']);
+
+				try {
+					$response2 = $klaviyo->Profiles->subscribeProfiles([
+						'data' => [
+							'type' => 'profile-subscription-bulk-create-job',
+							'attributes' => [
+								'custom_source' => 'Website Sign Up',
+								'profiles' => [
+									'data' => [
+										[
+											'type' => 'profile',
+											'id' => $response['data']['id'],
+											'attributes' => [
+												'email' => $user->email,
+												// 'subscriptions' => [
+												// 	'email' => [
+												// 		'marketing' => [
+												// 			'consent' => 'SUBSCRIBED',
+												// 			'consented_at' => date('Y-m-d\TH:i:s'),
+												// 		]
+												// 	],
+												// ],
+											],
+										]
+									],
+								],
+							],
+							// 'relationships' => [
+							// 	'list' => [
+							// 		'data' => [
+							// 			'type' => 'list',
+							// 			'id' => 'XT2zzd',
+							// 		],
+							// 	],
+							// ],
+						]
+					]);
+				} catch (\Throwable $th) {
+					dd($th);
+				} finally {
+					dd($response);
+				}
+			}
+		}
 
 		$credentials = $request->only('email', 'password');
 		Auth::attempt($credentials);
