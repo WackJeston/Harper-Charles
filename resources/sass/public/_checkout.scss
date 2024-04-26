@@ -570,6 +570,21 @@
 	margin-left: 10px;
 }
 
+#checkoutpayment .checkbox-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+#checkoutpayment .checkbox-container small {
+	font-size: 0.8rem;
+
+	@media (max-width: 640px) {
+		font-size: 0.6rem;
+	}
+}
+
 
 // Order Successful
 .order-successful {

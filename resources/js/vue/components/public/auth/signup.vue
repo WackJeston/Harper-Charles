@@ -27,7 +27,7 @@
       </label>
       <input class="password" :type="!showConfirmPassword ? 'password' : 'text'" name="password_confirmation" required autocomplete="one-time-code">
 
-			<div class="checkbox-container">
+			<div v-if="this.klaviyo" class="checkbox-container">
 				<input type="checkbox" name="marketing">
 				<small>I concent to recieving marketing emails from <strong>{{ this.appname }}</strong>.</small>
 			</div>
@@ -42,7 +42,8 @@
 <script>
   export default {
 		props: [
-			'appname'
+			'appname',
+			'klaviyo',
 		],
 
     data() {

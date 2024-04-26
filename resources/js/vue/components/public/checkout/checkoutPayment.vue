@@ -18,6 +18,11 @@
 			<div id="payment-element">
 				<!--Stripe.js injects the Payment Element-->
 			</div>
+
+			<div v-if="this.klaviyo" class="checkbox-container">
+				<input type="checkbox" name="marketing">
+				<small>I concent to recieving marketing emails from <strong>{{ this.appname }}</strong>.</small>
+			</div>
 	
 			<button id="submit" type="submit" name="submit" class="page-button no-margin" @click="this.submitElement()">
 				<span id="button-text">Confirm Payment</span>
@@ -31,6 +36,8 @@
 export default {
 	props: [
 		'data',
+		'appname',
+		'klaviyo',
 	],
 
 	data() {

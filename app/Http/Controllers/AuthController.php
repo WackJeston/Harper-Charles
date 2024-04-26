@@ -131,7 +131,7 @@ class AuthController extends PublicController
       'password' => Hash::make($request->password),
     ]);
 		
-		if ($request->marketing == 'on') {
+		if (env('KLAVIYO_ENABLED') && $request->marketing == 'on') {
 			try {
 				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
 				

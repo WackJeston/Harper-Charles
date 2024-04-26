@@ -22,6 +22,7 @@
     <div id="publicsignup">
       <publicsignup 
 				:appname="{{ json_encode(ENV('APP_NAME')) }}"
+				:klaviyo="{{ json_encode(ENV('KLAVIYO_ENABLED')) }}"
 			/>
     </div>
 

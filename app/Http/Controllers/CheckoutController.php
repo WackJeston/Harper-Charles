@@ -272,6 +272,10 @@ class CheckoutController extends PublicController
 					],
 				];
 
+				if (ENV('KLAVIYO_ENABLED')) {
+					# check if user is already subscribed
+				}
+
 				return view('public/checkout', compact(
 					'action',
 					'scripts',
