@@ -21,7 +21,7 @@
 
 			<div v-if="this.klaviyo" class="checkbox-container">
 				<input type="checkbox" name="marketing">
-				<small>I concent to recieving marketing emails from <strong>{{ this.appname }}</strong>.</small>
+				<small>I would like to recieve marketing emails from <strong>{{ this.appname }}</strong>.</small>
 			</div>
 	
 			<button id="submit" type="submit" name="submit" class="page-button no-margin" @click="this.submitElement()">
@@ -103,12 +103,18 @@ export default {
 					button.disabled = true;
 					button.querySelector('i').style.display = 'inline-block';
 
+					if (this.klaviyo) {
+						var klaviyoResult = document.querySelector('input[name="marketing"]').checked;
+					} else {
+						var klaviyoResult = false;
+					}
+
 					this.stripe.confirmPayment({
 						elements: this.elements,
 						clientSecret: this.clientSecret,
 						redirect: 'if_required',
 						confirmParams: {
-							return_url: `https://${window.location.hostname}/checkoutCompleteOrder`
+							return_url: `https://${window.location.hostname}/checkoutCompleteOrder/${klaviyoResult}`
 						}
 					}).then((result) => {
 						if(result.error) {
@@ -124,7 +130,7 @@ export default {
 							console.log('SUCCESS');
 							console.log(result);
 
-							window.location.href = `https://${window.location.hostname}/checkoutCompleteOrder`;
+							window.location.href = `https://${window.location.hostname}/checkoutCompleteOrder/${klaviyoResult}`;
 						}
 					});
 				}

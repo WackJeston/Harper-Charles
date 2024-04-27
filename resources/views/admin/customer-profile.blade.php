@@ -38,6 +38,9 @@
 				<ul>
 					<li><strong>Name: </strong>{{ $customer->firstName }} {{ $customer->lastName }}</li>
 					<li><strong>Email: </strong>{{ $customer->email }}</li>
+					@if (!is_null($customer->klaviyoId))
+						<li><strong>Klaviyo ID: </strong>{{ $customer->klaviyoId }}</li>
+					@endif
 				</ul>
 			</div>
 		</div>

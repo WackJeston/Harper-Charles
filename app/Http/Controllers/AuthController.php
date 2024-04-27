@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use Hash;
-use KlaviyoAPI\KlaviyoAPI;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -132,65 +131,7 @@ class AuthController extends PublicController
     ]);
 		
 		if (env('KLAVIYO_ENABLED') && $request->marketing == 'on') {
-			try {
-				$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
-				
-				$response = $klaviyo->Profiles->createOrUpdateProfile([
-					'data' => [
-						'type' => 'profile',
-						'attributes' => [
-							'email' => $user->email,
-							// 'external_id', $user->id,
-							'first_name' => $user->firstname,
-							'last_name' => $user->lastname,
-						],
-					]
-				]);
-
-			} catch (\Throwable $th) {
-				dd($th);
-
-			} finally {
-				try {
-					$response2 = $klaviyo->Profiles->subscribeProfiles([
-						'data' => [
-							'type' => 'profile-subscription-bulk-create-job',
-							'attributes' => [
-								'custom_source' => 'Website Sign Up',
-								'profiles' => [
-									'data' => [
-										[
-											'type' => 'profile',
-											'id' => $response['data']['id'],
-											'attributes' => [
-												'email' => $user->email,
-												'subscriptions' => [
-													'email' => [
-														'marketing' => [
-															'consent' => 'SUBSCRIBED',
-														]
-													],
-												],
-											],
-										]
-									],
-								],
-							],
-							'relationships' => [
-								'list' => [
-									'data' => [
-										'type' => 'list',
-										'id' => env('KLAVIYO_LIST_ID'),
-									],
-								],
-							],
-						]
-					]);
-					
-				} catch (\Throwable $th) {
-					dd($th);
-				}
-			}
+			subscribeKlaviyo($user->id);
 		}
 
 		$credentials = $request->only('email', 'password');

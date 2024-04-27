@@ -29,7 +29,7 @@
 
 			<div v-if="this.klaviyo" class="checkbox-container">
 				<input type="checkbox" name="marketing">
-				<small>I concent to recieving marketing emails from <strong>{{ this.appname }}</strong>.</small>
+				<small>I would like to recieve marketing emails from <strong>{{ this.appname }}</strong>.</small>
 			</div>
 
       <input class="submit page-button padding" type="submit" name="submit" value="Sign Up">

@@ -20,10 +20,7 @@ class AdminCustomerProfileController extends AdminController
     }
 
     $customer = DB::select(sprintf('SELECT
-      id,
-      firstName,
-      lastName,
-      email
+      *
       FROM users
       WHERE id = %d
       LIMIT 1

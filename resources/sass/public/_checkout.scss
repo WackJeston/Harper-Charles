@@ -573,12 +573,13 @@
 #checkoutpayment .checkbox-container {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-start;
 	margin-bottom: 10px;
 }
 
 #checkoutpayment .checkbox-container small {
 	font-size: 0.8rem;
+	margin: 0 0 3px 3px;
 
 	@media (max-width: 640px) {
 		font-size: 0.6rem;

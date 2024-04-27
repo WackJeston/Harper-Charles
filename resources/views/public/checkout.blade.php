@@ -77,7 +77,7 @@
 					<checkoutpayment 
 						:data="{{ json_encode($paymentElementData) }}"
 						:appname="{{ json_encode(ENV('APP_NAME')) }}"
-						:klaviyo="{{ json_encode(ENV('KLAVIYO_ENABLED')) }}"
+						:klaviyo="{{ $klaviyoResult }}"
 					/>
 				</div>
 				@break

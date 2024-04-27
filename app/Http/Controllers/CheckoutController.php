@@ -2,9 +2,10 @@
 namespace App\Http\Controllers;
 
 Use DB;
+use KlaviyoAPI\KlaviyoAPI;
 use Laravel\Cashier\Cashier;
-use App\Http\Api\InvoiceRenderer;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Api\InvoiceRenderer;
 use App\Mail\OrderSuccessful;
 
 use App\Models\Address;
@@ -272,14 +273,55 @@ class CheckoutController extends PublicController
 					],
 				];
 
-				if (ENV('KLAVIYO_ENABLED')) {
-					# check if user is already subscribed
+				$klaviyoResult = false;
+
+				if (env('KLAVIYO_ENABLED')) {
+					if (!is_null($user->klaviyoId)) {
+						$klaviyoResult = false;
+	
+						try {
+							$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
+							$response = $klaviyo->Profiles->getProfile($user->klaviyoId);
+
+						} catch (\Throwable $th) {
+							$klaviyoResult = true;
+						
+						} finally {
+							try {
+								$response2 = $klaviyo->Profiles->getProfileRelationshipsLists($user->klaviyoId);
+							} catch (\Throwable $th) {
+								$klaviyoResult = true;
+
+							} finally {
+								if (isset($response2) && is_null($response2['data'])) {
+									$klaviyoResult = true;
+	
+								} else {
+									$lists = [];
+	
+									if (isset($response2)) {
+										foreach ($response2['data'] as $i => $list) {
+											$lists[] = $list['id'];
+										}
+									}
+	
+									if (!in_array(env('KLAVIYO_LIST_ID'), $lists)) {
+										$klaviyoResult = true;
+									}
+								}
+							}
+						}
+					
+					} else {
+						$klaviyoResult = true;
+					}
 				}
 
 				return view('public/checkout', compact(
 					'action',
 					'scripts',
 					'paymentElementData',
+					'klaviyoResult',
 				));
 				break;
 				
@@ -506,8 +548,12 @@ class CheckoutController extends PublicController
 
 
 	// PAYMENT --------------------------------------------------
-	public function completeOrder()
+	public function completeOrder(bool $marketing = false)
 	{
+		if ($marketing) {
+			subscribeKlaviyo(auth()->user()->id);
+		}
+
 		$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
 
 		if (empty($order) || $order->status != 'checkout-payment') {

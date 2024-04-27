@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Aws\Ses\SesClient;
+use KlaviyoAPI\KlaviyoAPI;
 
 use App\Models\Asset;
 use App\Models\Products;
+use App\Models\User;
 
 function getCachedRecords(string $key) {
 	if (Cache::has($key)) {
@@ -186,6 +188,76 @@ function storeImageFromString(string $fileName, string $data) {
 	]);
 
 	return $asset->id;
+}
+
+// Klaviyo
+function subscribeKlaviyo($userId) {
+	try {
+		$user = User::find($userId);
+
+		$klaviyo = new KlaviyoAPI(env('KLAVIYO_PRIVATE_KEY'));
+		
+		$response = $klaviyo->Profiles->createOrUpdateProfile([
+			'data' => [
+				'type' => 'profile',
+				'attributes' => [
+					'email' => $user->email,
+					// 'external_id', $user->id,
+					'first_name' => $user->firstname,
+					'last_name' => $user->lastname,
+				],
+			]
+		]);
+
+	} catch (\Throwable $th) {
+		dd($th);
+		return false;
+
+	} finally {
+		$user->klaviyoId = $response['data']['id'];
+		$user->save();
+
+		try {
+			$response2 = $klaviyo->Profiles->subscribeProfiles([
+				'data' => [
+					'type' => 'profile-subscription-bulk-create-job',
+					'attributes' => [
+						'custom_source' => 'Website Sign Up',
+						'profiles' => [
+							'data' => [
+								[
+									'type' => 'profile',
+									'id' => $user->klaviyoId,
+									'attributes' => [
+										'email' => $user->email,
+										'subscriptions' => [
+											'email' => [
+												'marketing' => [
+													'consent' => 'SUBSCRIBED',
+												]
+											],
+										],
+									],
+								]
+							],
+						],
+					],
+					'relationships' => [
+						'list' => [
+							'data' => [
+								'type' => 'list',
+								'id' => env('KLAVIYO_LIST_ID'),
+							],
+						],
+					],
+				]
+			]);
+
+		} catch (\Throwable $th) {
+			// dd($th);
+			return false;
+		}
+	}
 }
 
 // AWS S3

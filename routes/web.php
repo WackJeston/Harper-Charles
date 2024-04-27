@@ -132,7 +132,7 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/checkoutDeleteAddress/{id}', 'deleteAddress');
 		Route::get('/checkoutSetBillingAddress/{id}', 'setBillingAddress');
 		Route::get('/checkoutSaveOrderNote/{note}', 'saveOrderNote');
-		Route::get('/checkoutCompleteOrder', 'completeOrder');
+		Route::get('/checkoutCompleteOrder/{marketing}', 'completeOrder');
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
