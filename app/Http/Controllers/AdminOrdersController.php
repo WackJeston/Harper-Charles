@@ -27,10 +27,13 @@ class AdminOrdersController extends AdminController
 			];
 			$query = 'SELECT 
 				o.*,
-				CONCAT(u.firstName, " ", u.lastName) AS `name`
+				CONCAT(u.firstName, " ", u.lastName) AS `name`,
+				COUNT(n.ID) AS `notes`
 				FROM orders AS o
 				INNER JOIN users AS u ON u.id=o.userId
-				WHERE o.type != "basket"';
+				INNER JOIN order_notes AS n ON n.orderId=o.id
+				WHERE o.type != "basket"
+				GROUP BY o.id';
 		}
 
 		$searchForm = new DataForm(request(), '/ordersSearch', 'Search');
@@ -89,6 +92,8 @@ class AdminOrdersController extends AdminController
 		$ordersTable->addColumn('name', 'Name', 3);
 		$ordersTable->addColumn('type', 'Type', 2);
 		$ordersTable->addColumn('status', 'Status', 2);
+		$ordersTable->addColumn('notes', 'Notes', 1, true);
+		$ordersTable->addColumn('items', 'Items', 1, true);
 		$ordersTable->addColumn('total', 'Total', 2);
 		$ordersTable->addColumn('created_at', 'Created', 3 , true);
 		$ordersTable->addLinkButton('order-profile/?', 'fa-solid fa-folder-open', 'Open Record');
@@ -108,9 +113,11 @@ class AdminOrdersController extends AdminController
 
 		$query = 'SELECT 
 				o.*,
-				CONCAT(u.firstName, " ", u.lastName) AS `name`
+				CONCAT(u.firstName, " ", u.lastName) AS `name`,
+				COUNT(n.id) AS `notes`
 				FROM orders AS o
 				INNER JOIN users AS u ON u.id=o.userId
+				INNER JOIN order_notes AS n ON n.orderId=o.id
 				WHERE o.type != "basket"';
 
 		if (!empty($request->search)) {
@@ -134,6 +141,8 @@ class AdminOrdersController extends AdminController
 		if ($request->status != 'all') {
 			$query .= sprintf(' AND o.status = "%s"', $request->status);
 		}
+
+		$query .= ' GROUP BY o.id';
 
 		$values = [
 			'search' => $request->search,

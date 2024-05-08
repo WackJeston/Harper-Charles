@@ -1,11 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use File;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use App\DataTable;
 use App\DataForm;
@@ -45,7 +43,10 @@ class AdminProductProfileController extends AdminController
 		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1);
 		$editForm->addInput('text', 'orbitalVisionId', 'Orbital Vision', $product->orbitalVisionId, 100, 1);
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
-		$editForm->addInput('num', 'maxQuantity', 'Max Quantity', $product->maxQuantity, 999, 1, true);
+		$editForm->addInput('num', 'maxQuantity', 'Max Purchase Quantity', $product->maxQuantity, 999, 1, true);
+		$editForm->addInput('num', 'stock', 'Stock', $product->stock, null, null);
+		$editForm->addInput('datetime', 'startDate', 'Start Date', $product->startDate, null, null);
+		$editForm->addInput('datetime', 'endDate', 'End Date', $product->endDate, null, null);
 		$editForm = $editForm->render();
 
 		// Images
@@ -211,7 +212,7 @@ class AdminProductProfileController extends AdminController
 
   public function update(Request $request, $id)
   {
-    $request->validate([
+		$request->validate([
       'title' => ['required', 'max:100', Rule::unique('products')->ignore($id)],
       'subtitle' => 'max:255',
       'description' => 'max:5000',
@@ -219,6 +220,7 @@ class AdminProductProfileController extends AdminController
 			'orbitalVisionId' => 'max:100',
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
 			'maxQuantity' => 'required|numeric',
+			'stock' => 'numeric',
     ]);
 
 		if ($request->orbitalVisionId == '') {
@@ -233,6 +235,9 @@ class AdminProductProfileController extends AdminController
 			'orbitalVisionId' => $request->orbitalVisionId,
       'price' => $request->price,
 			'maxQuantity' => $request->maxQuantity,
+			'stock' => $request->stock,
+			'startDate' => date('YYYY-MM-DD hh:mm:ss', strtotime($request->startDate)),
+			'endDate' => date('YYYY-MM-DD hh:mm:ss', strtotime($request->endDate)),
     ]);
 
     return redirect("/admin/product-profile/$id")->with('message', 'Product updated.');

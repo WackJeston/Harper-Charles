@@ -9,7 +9,7 @@
 		</div>
 		<div>
 			<a :href="'/product-profileClearCache/' + this.product.id"><button class="page-button" type="button"><i class="fa-solid fa-database"></i>Cache</button></a>
-			<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active': this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit</button>
+			<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active': this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'"><i class="fa-solid fa-pen-to-square"></i>Edit</button>
 			<a :href="'/product-profileToggleProduct/' + this.product.id + '/0'" v-if="this.product.active == 1"><button class="page-button pb-success" type="button"><i class="fa-solid fa-toggle-on"></i>On</button></a>
 			<a :href="'/product-profileToggleProduct/' + this.product.id + '/1'" v-else><button class="page-button pb-danger" type="button"><i class="fa-solid fa-toggle-off"></i>Off</button></a>
 			<button :onclick="this.deleteLink" class="page-button pb-danger" type="button"><i class="fa-solid fa-trash-can"></i>Delete</button>

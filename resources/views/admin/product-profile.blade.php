@@ -49,7 +49,7 @@
 					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
 					<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
 					<li><strong>Price: </strong>£{{ $product->price }}</li>
-					<li><strong>Max Quantity: </strong>{{ $product->maxQuantity }}</li>
+					<li><strong>Max Purchase Quantity: </strong>{{ $product->maxQuantity }}</li>
 					@if ($product->created_at)
 						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
 					@endif

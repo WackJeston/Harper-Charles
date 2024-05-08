@@ -18,6 +18,9 @@ class Products extends Model
     'orbitalVisionId',
     'price',
     'maxQuantity',
+    'stock',
+    'startDate',
+    'endDate',
 		'active',
   ];
 

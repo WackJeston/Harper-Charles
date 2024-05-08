@@ -7,7 +7,7 @@
 			<button class="page-button" type="button" onclick="setShowMarker('url')" :class="{ 'button-active' : this.show == 'url' }" @click="this.show == 'url' ? this.show = false : this.show = 'url'">URLs<span v-show="this.urlstable.count > 0"> ({{ this.urlstable.count }})</span></button>
 		</div>
 		<div>
-			<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit Address</button>
+			<button class="page-button" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'"><i class="fa-solid fa-pen-to-square"></i>Edit Address</button>
 		</div>
 	</div>
   
