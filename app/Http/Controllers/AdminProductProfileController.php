@@ -236,8 +236,8 @@ class AdminProductProfileController extends AdminController
       'price' => $request->price,
 			'maxQuantity' => $request->maxQuantity,
 			'stock' => $request->stock,
-			'startDate' => date('YYYY-MM-DD hh:mm:ss', strtotime($request->startDate)),
-			'endDate' => date('YYYY-MM-DD hh:mm:ss', strtotime($request->endDate)),
+			'startDate' => !is_null($request->startDate) ? date('Y-m-d h:m:s', strtotime($request->startDate)) : null,
+			'endDate' => !is_null($request->endDate) ? date('Y-m-d h:m:s', strtotime($request->endDate)) : null,
     ]);
 
     return redirect("/admin/product-profile/$id")->with('message', 'Product updated.');

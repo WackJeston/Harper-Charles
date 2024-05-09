@@ -14,8 +14,8 @@ return new class extends Migration
     {
 			DB::statement('ALTER TABLE products 
 				ADD COLUMN `stock` bigint(20) DEFAULT NULL AFTER `maxQuantity`,
-				ADD COLUMN `startDate` timestamp DEFAULT "0000-00-00 00:00:00" AFTER `stock`,
-				ADD COLUMN `endDate` timestamp DEFAULT "0000-00-00 00:00:00" AFTER `startDate`;'
+				ADD COLUMN `startDate` timestamp NULL DEFAULT NULL AFTER `stock`,
+				ADD COLUMN `endDate` timestamp NULL DEFAULT NULL AFTER `startDate`;'
 			);
     }
 
