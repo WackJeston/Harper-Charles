@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
@@ -45,8 +46,8 @@ class AdminProductProfileController extends AdminController
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
 		$editForm->addInput('num', 'maxQuantity', 'Max Purchase Quantity', $product->maxQuantity, 999, 1, true);
 		$editForm->addInput('num', 'stock', 'Stock', $product->stock, null, null);
-		$editForm->addInput('datetime', 'startDate', 'Start Date', $product->startDate, null, null);
-		$editForm->addInput('datetime', 'endDate', 'End Date', $product->endDate, null, null);
+		$editForm->addInput('datetime', 'startDate', 'Start Date', !is_null($product->startDate) ? $product->startDate : '0000-00-00 00:00:00', null, null);
+		$editForm->addInput('datetime', 'endDate', 'End Date', !is_null($product->endDate) ? $product->endDate : '0000-00-00 00:00:00', null, null);
 		$editForm = $editForm->render();
 
 		// Images
@@ -220,11 +221,22 @@ class AdminProductProfileController extends AdminController
 			'orbitalVisionId' => 'max:100',
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
 			'maxQuantity' => 'required|numeric',
-			'stock' => 'numeric',
+			'stock' => 'numeric|nullable',
     ]);
 
 		if ($request->orbitalVisionId == '') {
 			$request->orbitalVisionId = null;
+		}
+
+		$startDate = null;
+		$endDate = null;
+
+		if (!is_null($request->startDate) ) {
+			$startDate = date('Y-m-d H:i:s', strtotime($request->startDate));
+		}
+
+		if (!is_null($request->endDate)) {
+			$endDate = date('Y-m-d H:i:s', strtotime($request->endDate));
 		}
 
     Products::where('id', $id)->update([
@@ -236,8 +248,8 @@ class AdminProductProfileController extends AdminController
       'price' => $request->price,
 			'maxQuantity' => $request->maxQuantity,
 			'stock' => $request->stock,
-			'startDate' => !is_null($request->startDate) ? date('Y-m-d h:m:s', strtotime($request->startDate)) : null,
-			'endDate' => !is_null($request->endDate) ? date('Y-m-d h:m:s', strtotime($request->endDate)) : null,
+			'startDate' => $startDate,
+			'endDate' => $endDate,
     ]);
 
     return redirect("/admin/product-profile/$id")->with('message', 'Product updated.');

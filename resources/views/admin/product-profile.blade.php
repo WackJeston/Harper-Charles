@@ -47,9 +47,22 @@
 					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
 					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
 					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
-					<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
+					@if (!is_null($product->orbitalVisionId))
+						<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
+					@endif
 					<li><strong>Price: </strong>£{{ $product->price }}</li>
-					<li><strong>Max Purchase Quantity: </strong>{{ $product->maxQuantity }}</li>
+					@if (!is_null($product->maxQuantity))
+						<li><strong>Max Purchase Quantity: </strong>{{ $product->maxQuantity }}</li>
+					@endif
+					@if (!is_null($product->stock))
+					<li><strong>Stock: </strong>{{ $product->stock }}</li>
+					@endif
+					@if (!is_null($product->startDate))
+						<li><strong>Start Date: </strong>{{ $product->startDate }}</li>
+					@endif
+					@if (!is_null($product->endDate))
+						<li><strong>End Date: </strong>{{ $product->endDate }}</li>
+					@endif
 					@if ($product->created_at)
 						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
 					@endif
