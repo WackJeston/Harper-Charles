@@ -21,7 +21,7 @@ class ProductPageController extends PublicController
       return redirect('/shop')->withErrors(['1' => 'Product not found']);
     }
 
-		if ($product->active != 1) {
+		if ($product->active != 1 || (!is_null($product->startDate) && strtotime($product->startDate) > time()) || (!is_null($product->endDate) && strtotime($product->endDate) < time())) {
 			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
 		}
 
@@ -176,7 +176,7 @@ class ProductPageController extends PublicController
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
 		}
 
-		if ($product->active != 1) {
+		if ($product->active != 1 || (!is_null($product->startDate) && strtotime($product->startDate) > time()) || (!is_null($product->endDate) && strtotime($product->endDate) < time())) {
 			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
 		}
 

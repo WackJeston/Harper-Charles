@@ -44,7 +44,9 @@ class CategoryController extends PublicController
 				$items = DB::select('SELECT
 					pc.id,
 					pc.title,
-					a.fileName
+					a.fileName,
+					null AS startDate,
+					null AS endDate
 					FROM product_categories AS pc
 					LEFT JOIN product_category_images AS pci ON pci.categoryId = pc.id AND pci.primary = 1
 					INNER JOIN asset AS a ON a.id = pci.assetId
@@ -117,7 +119,9 @@ class CategoryController extends PublicController
 					LEFT JOIN product_images AS pi ON pi.productId = p.id AND pi.primary = 1
 					LEFT JOIN asset AS a ON a.id = pi.assetId
 					WHERE pcj.categoryId = ?
-					AND p.active = 1', 
+					AND p.active = 1
+					AND ((p.startDate IS NULL OR p.startDate < NOW()) OR (p.startDate IS NULL OR DATEDIFF(p.startDate, NOW()) = 0))
+					AND ((p.endDate IS NULL OR p.endDate < NOW()) OR (p.endDate IS NULL OR DATEDIFF(p.endDate, NOW()) = 0))',
 					[$id]
 				);
 

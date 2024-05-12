@@ -41,19 +41,21 @@
 
 		<div class="category-grid">
 			@foreach ($items as $item)
-				<a href="/{{ $url }}/{{ $item->id }}" class="item">
-					<div class="image-container">
-						@if (!empty($item->fileName))
-							<div class="image" style="background-image: url('{{ $item->fileName }}')"></div>
-						@else
-							<div class="no-image">
-								<i class="fa-solid fa-image"></i>
-							</div>
-						@endif
-					</div>
+				@if ((is_null($item->startDate) || strtotime($item->startDate) <= time()) && (is_null($item->endDate) || strtotime($item->endDate) >= time()))
+					<a href="/{{ $url }}/{{ $item->id }}" class="item">
+						<div class="image-container">
+							@if (!empty($item->fileName))
+								<div class="image" style="background-image: url('{{ $item->fileName }}')"></div>
+							@else
+								<div class="no-image">
+									<i class="fa-solid fa-image"></i>
+								</div>
+							@endif
+						</div>
 
-					<h3>{{ $item->title }}</h3>
-				</a>
+						<h3>{{ $item->title }}</h3>
+					</a>
+				@endif
 			@endforeach
 		</div>
 
