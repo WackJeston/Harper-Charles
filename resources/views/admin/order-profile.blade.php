@@ -10,7 +10,7 @@
       <a href="/admin/orders">Orders</a>
     </div>
 
-    <h1 class="dk">Order Profile (#{{ $order->id }})</h1>
+    <h1 class="dk align-center">Order Profile (#{{ $order->id }}) <span class="string-container">{{ ucfirst($order->status) }}</span></h1>
 
     @if ($errors->any())
       <div id="alerterror" class="lt">
@@ -36,7 +36,7 @@
     <div class="web-box profile-main">
 			<div class="wb-row">
 				<ul>
-					<li><strong>Status:</strong> <span class="string-container">{{ ucfirst($order->status) }}</span></li>
+					<li><strong>Status:</strong> {{ ucfirst($order->status) }}</li>
 					<li><strong>Type:</strong> {{ $order->type }}</li>
 					<li><strong>Total:</strong> £{{ $order->total }}</li>
 					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>

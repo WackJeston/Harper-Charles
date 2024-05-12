@@ -28,6 +28,8 @@ main {
 }
 
 main h1 {
+	display: flex;
+	align-items: center;
 	margin: 0 0 10px 0;
 
 	@media (max-width: 1000px) {
@@ -363,6 +365,18 @@ a.pb-danger:hover {
 	}
 }
 
+button.pb-info,
+a.pb-info {
+	background-color: v.$baby-blue;
+}
+
+button.pb-info:hover,
+a.pb-info:hover {
+	@media (min-width: 640px) {
+		background-color: v.$baby-blue-dark;
+	}
+}
+
 .fa-toggle-off {
 	color: v.$red;
 }
@@ -391,6 +405,11 @@ a.display-link:hover {
 
 .string-container.small {
 	font-size: 0.9rem;
+}
+
+h1 .string-container {
+	font-size: 1.2rem;
+	margin-left: 5px;
 }
 
 .vue-button-row {
@@ -436,6 +455,11 @@ a.display-link:hover {
 	@media (max-width: 640px) {
 		margin-left: 3px;
 	}
+}
+
+.vue-button-row .page-button .button-end-icon {
+	margin-left: 5px;
+	margin-right: 0;
 }
 
 // Alerts ---------------------------------------

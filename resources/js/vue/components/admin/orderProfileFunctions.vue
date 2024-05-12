@@ -5,8 +5,9 @@
 			<button class="page-button" type="button" onclick="setShowMarker('notes')" :class="{ 'button-active': this.show == 'notes' }" @click="this.show == 'notes' ? this.show = false : this.show = 'notes'">Notes<span v-show="this.notestable.count > 0"> ({{this.notestable.count }})</span></button>
 		</div>
 		<div>
-			<a v-if="this.order.stripeReceipt != null" :href="this.order.stripeReceipt" target="_blank" class="page-button padding">Stripe Receipt</a>
-			<a :href="this.order.invoice" target="_blank" class="page-button padding">Invoice</a>
+			<a v-if="this.order.stripeReceipt != null" :href="this.order.stripeReceipt" target="_blank" class="page-button padding"><i class="fa-solid fa-receipt"></i>Stripe Receipt</a>
+			<a :href="this.order.invoice" target="_blank" class="page-button padding"><i class="fa-solid fa-file-invoice"></i> Invoice</a>
+			<a v-if="this.order.status == 'new'" :href="'/order-profileProceed/' + this.order.id" class="page-button pb-info padding">Proceed<i class="fa-solid fa-angle-right button-end-icon"></i></a>
 		</div>
 	</div>
 

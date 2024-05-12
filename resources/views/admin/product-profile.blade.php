@@ -47,7 +47,6 @@
 				<ul>
 					<li><strong>Title: </strong>{{ $product->title }}</li>
 					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
-					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
 					@if (!is_null($product->productNumber))
 						<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
 					@endif
@@ -70,6 +69,7 @@
 					@if ($product->created_at)
 						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
 					@endif
+					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
 				</ul>
 				
 				@if ($primaryImage != null)

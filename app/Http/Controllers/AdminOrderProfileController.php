@@ -17,7 +17,7 @@ class AdminOrderProfileController extends AdminController
 {
   public function show($id)
   {
-    if (Order::find($id) == null) {
+		if (Order::find($id) == null) {
       return redirect('/admin/orders')->withErrors(['1' => 'Order not found']);
     }
 		
