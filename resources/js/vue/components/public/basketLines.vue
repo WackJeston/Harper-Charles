@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="form basket-line-bottom-row">
-					<input type="number" min="1" name="quantity" :id="'quantity' + line.id" v-model="line.quantity" v-on:change="quantityChange(line.id, $event.target.value)">
+					<input type="number" min="1" :max="line.max" name="quantity" :id="'quantity' + line.id" v-model="line.quantity" v-on:change="quantityChange(line.id, $event.target.value)">
 
 					<small class="remove-line" @click="remove(line.id)">Remove</small>
 				</div>
@@ -61,17 +61,21 @@ export default {
 	},
 
 	mounted() {
-		this.total();
+		this.total(true);
 	},
 
 	methods: {
-		total() {
+		total(start = false) {
 			let basketLinks = document.querySelectorAll('a[href="/basket"] .basket-count');
 			let lineElements = document.querySelectorAll('.basket-line');
 			let lines = this.lines;
 			let price = 0;
 			let count = 0;
 			let quantity = 0;
+
+			if (start && lineElements.length == 0) {
+				location.reload();
+			}
 
 			lineElements.forEach(function(lineElement, index) {
 				let quantityTemp = lineElement.querySelector('input[name="quantity"]').value;
@@ -101,6 +105,11 @@ export default {
 				console.log(err);
 				
 			} finally {
+				if (!this.result) {
+					this.basketLine = document.querySelector('#basketLine' + id);
+					this.basketLine.remove();
+				}
+
 				this.total();
 			}
 		},
@@ -115,8 +124,6 @@ export default {
 				console.log(err);
 				
 			} finally {
-				console.log(this.result);
-
 				this.basketLine = document.querySelector('#basketLine' + id);
 				this.basketLine.remove();
 

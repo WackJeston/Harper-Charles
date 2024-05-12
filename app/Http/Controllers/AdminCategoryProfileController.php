@@ -23,7 +23,7 @@ class AdminCategoryProfileController extends AdminController
     }
 
 		// Category
-    $category = DB::SELECT('SELECT
+    $category = DB::select('SELECT
 			pc.*,
 			COUNT(pcj.id) AS productCount,
 			COUNT(pci.id) AS imageCount

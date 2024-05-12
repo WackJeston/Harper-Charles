@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use PDO;
+use App\Models\Products;
 use App\Models\Order;
 use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
@@ -42,6 +43,8 @@ class BasketController extends PublicController
 				p.id AS productId,
 				p.title,
 				p.subtitle,
+				p.maxQuantity AS max,
+				p.stock,
 				IF(isnull(ol.assetId), a.fileName, a2.fileName) AS fileName
 				FROM order_lines AS ol
 				INNER JOIN products AS p ON p.id = ol.productId
@@ -53,6 +56,12 @@ class BasketController extends PublicController
 				ORDER BY ol.created_at ASC',
 				[$basket->id]
 			);
+
+			foreach ($basket->lines as $i => $line) {
+				if (!is_null($line->stock) && (is_null($line->max) || $line->stock < $line->max)) {
+					$line->max = $line->stock;
+				}
+			}
 
 			$basket->lines = cacheImages($basket->lines, 600, 600, true, 'EFEFEF');
 
@@ -93,14 +102,28 @@ class BasketController extends PublicController
   }
 
   public function quantityUpdate(int $id, int $quantity) {
+		$return = true;
 		$orderLine = OrderLine::find($id);
+		
+		if (!$product = Products::find($orderLine->productId)) {
+			$orderLine->delete();
+
+			$return = false;
+		}
+
+		if (!$product->available()) {
+			$orderLine->delete();
+
+			$return = false;
+		}
+
 		$orderLine->quantity = $quantity;
 		$orderLine->total = $orderLine->price * $quantity;
 		$orderLine->save();
 
 		self::setTotal($orderLine->orderId);
 
-		return true;
+		return $return;
   }
 
 	public function setTotal(int $id) {

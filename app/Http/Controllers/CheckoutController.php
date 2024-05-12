@@ -15,6 +15,7 @@ use App\Models\OrderLine;
 use App\Models\OrderLineVariant;
 use App\Models\OrderNote;
 use App\Models\Payment;
+use App\Models\Products;
 use App\Models\User;
 
 
@@ -39,6 +40,22 @@ class CheckoutController extends PublicController
 			case 'address':
 				$order->status = 'checkout-address';
 				$order->save();
+
+				$orderItems = DB::select('SELECT productId, quantity FROM order_lines WHERE orderId = ?', [$order->id]);
+
+				foreach ($orderItems as $i => $item) {
+					if (!$product = Products::find($item->productId)) {
+						return redirect('/basket')->withErrors(['1' => 'Product not found']);
+					}
+
+					if (!$product->available()) {
+						return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+					}
+
+					if (!$product->available($item->quantity)) {
+						return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+					}
+				}
 
 				$user = User::find(auth()->user()->id);
 
@@ -558,6 +575,22 @@ class CheckoutController extends PublicController
 
 		if (empty($order) || $order->status != 'checkout-payment') {
 			return redirect('/basket');
+		}
+
+		$orderItems = DB::select('SELECT productId, quantity FROM order_lines WHERE orderId = ?', [$order->id]);
+
+		foreach ($orderItems as $i => $item) {
+			if (!$product = Products::find($item->productId)) {
+				return redirect('/basket')->withErrors(['1' => 'Product not found']);
+			}
+
+			if (!$product->available()) {
+				return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+			}
+
+			if (!$product->available($item->quantity)) {
+				return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+			}
 		}
 
 		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));

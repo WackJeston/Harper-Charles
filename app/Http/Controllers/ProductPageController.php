@@ -21,12 +21,17 @@ class ProductPageController extends PublicController
       return redirect('/shop')->withErrors(['1' => 'Product not found']);
     }
 
-		if ($product->active != 1 || (!is_null($product->startDate) && strtotime($product->startDate) > time()) || (!is_null($product->endDate) && strtotime($product->endDate) < time())) {
-			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
+		if (!$product->available()) {
+			return redirect('/shop')->withErrors(['1' => $product->errors()[0]]);
 		}
 
 		if (!$records = getCachedRecords('public-page-product-' . $id)) {
 			$product = Products::find($id);
+
+			if (!is_null($product->stock) && (is_null($product->maxQuantity) || $product->stock < $product->maxQuantity)) {
+				$product->maxQuantity = $product->stock;
+			}
+
 			$productImages = DB::select('SELECT
 				pi.id,
 				a.fileName,
@@ -176,8 +181,8 @@ class ProductPageController extends PublicController
 			return redirect('/shop')->withErrors(['1' => 'Product not found']);
 		}
 
-		if ($product->active != 1 || (!is_null($product->startDate) && strtotime($product->startDate) > time()) || (!is_null($product->endDate) && strtotime($product->endDate) < time())) {
-			return redirect('/shop')->withErrors(['1' => 'Product not currently available']);
+		if (!$product->available()) {
+			return redirect('/shop')->withErrors(['1' => $product->errors()[0]]);
 		}
 
 		if (!auth()->user()) {
