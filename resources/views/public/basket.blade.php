@@ -9,14 +9,14 @@
 			<h1><i class="fa-solid fa-basket-shopping"></i>Your Basket</h1>
 
 			@if ($errors->any())
-				<div id="alerterror" class="lt">
-					<alerterror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
+				<div id="publicerror" class="lt limited">
+					<publicerror :errormessages="{{ str_replace(array('[', ']'), '', $errors) }}" errorcount="{{ count($errors) }}" />
 				</div>
 			@endif
 
 			@if (session()->has('message'))
-				<div id="alertmessage" class="lt">
-					<alertmessage successmessage="{{ session()->get('message') }}" />
+				<div id="publicmessage" class="lt limited">
+					<publicmessage successmessage="{{ session()->get('message') }}" />
 				</div>
 			@endif
 

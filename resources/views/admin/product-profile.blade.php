@@ -29,12 +29,14 @@
 				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:product="{{ json_encode($product) }}"
 				:editform="{{ json_encode($editForm) }}"
+				:categoryform="{{ json_encode($categoryForm) }}"
+				:categoriestable="{{ json_encode($categoriesTable) }}"
 				:imagesform="{{ json_encode($imagesForm) }}"
 				:imagestable="{{ json_encode($imagesTable) }}"
 				:specsform="{{ json_encode($specsForm) }}"
 				:specstable="{{ json_encode($specsTable) }}"
-				:categoryform="{{ json_encode($categoryForm) }}"
-				:categoriestable="{{ json_encode($categoriesTable) }}"
+				:stockform="{{ json_encode($stockForm) }}"
+				:stocktable="{{ json_encode($stockTable) }}"
 				:variantsform="{{ json_encode($variantsForm) }}"
 				:variantstable="{{ json_encode($variantsTable) }}"
     	/>
@@ -46,7 +48,9 @@
 					<li><strong>Title: </strong>{{ $product->title }}</li>
 					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
 					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
-					<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
+					@if (!is_null($product->productNumber))
+						<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
+					@endif
 					@if (!is_null($product->orbitalVisionId))
 						<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
 					@endif

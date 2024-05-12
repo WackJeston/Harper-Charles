@@ -11,6 +11,7 @@ use App\DataForm;
 use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductSpec;
+use App\Models\ProductStock;
 use App\Models\ProductCategories;
 use App\Models\ProductCategoryJoins;
 use App\Models\ProductVariants;
@@ -44,11 +45,43 @@ class AdminProductProfileController extends AdminController
 		$editForm->addInput('text', 'productnumber', 'Product Number', $product->productNumber, 100, 1);
 		$editForm->addInput('text', 'orbitalVisionId', 'Orbital Vision', $product->orbitalVisionId, 100, 1);
 		$editForm->addInput('text', 'price', 'Price', $product->price, 100, 1, true);
-		$editForm->addInput('num', 'maxQuantity', 'Max Purchase Quantity', $product->maxQuantity, 999, 1, true);
-		$editForm->addInput('num', 'stock', 'Stock', $product->stock, null, null);
+		$editForm->addInput('num', 'maxQuantity', 'Max Purchase Quantity', $product->maxQuantity, 999, 1);
 		$editForm->addInput('datetime', 'startDate', 'Start Date', !is_null($product->startDate) ? $product->startDate : '0000-00-00 00:00:00', null, null);
 		$editForm->addInput('datetime', 'endDate', 'End Date', !is_null($product->endDate) ? $product->endDate : '0000-00-00 00:00:00', null, null);
 		$editForm = $editForm->render();
+
+		// Categories
+		$allCategories = DB::select('SELECT 
+			pc.id AS value,
+			pc.title AS label,
+			IF(pcj.id IS NOT NULL, true, false) AS `active`
+			FROM product_categories AS pc
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId = pc.id AND pcj.productId = ?
+			GROUP BY pc.id
+			ORDER BY pc.title', 
+			[$id]
+		);
+
+		$categoryForm = new DataForm(request(), sprintf('/product-profileAddCategory/%d', $id), 'Add Category');
+		$categoryForm->addInput('select', 'category', 'Category', null, null, null, true);
+		$categoryForm->populateOptions('category', $allCategories);
+		$categoryForm = $categoryForm->render();
+
+		$categoriesTable = new DataTable('product_categories');
+		$categoriesTable->setQuery('SELECT 
+			pc.*
+			FROM product_categories AS pc
+			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id
+			WHERE pcj.productId = ?
+			GROUP BY pc.id', 
+			[$id]
+		);
+		$categoriesTable->addColumn('id', '#');
+		$categoriesTable->addColumn('title', 'Title');
+		$categoriesTable->addColumn('subtitle', 'Subtitle');
+		$categoriesTable->addLinkButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
+		$categoriesTable->addLinkButton('product-profileRemoveCategory/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Category');
+		$categoriesTable = $categoriesTable->render();
 
 		// Images
 		$primaryImage = DB::select('SELECT
@@ -112,38 +145,27 @@ class AdminProductProfileController extends AdminController
 		$specsTable->addJsButton('showDeleteWarning', ['string:Specification', 'record:id', 'url:/product-profileDeleteSpec/?'], 'fa-solid fa-trash-can', 'Delete Specification');
 		$specsTable = $specsTable->render();
 
-		// Categories
-		$allCategories = DB::select('SELECT 
-			pc.id AS value,
-			pc.title AS label,
-			IF(pcj.id IS NOT NULL, true, false) AS `active`
-			FROM product_categories AS pc
-			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId = pc.id AND pcj.productId = ?
-			GROUP BY pc.id
-			ORDER BY pc.title', 
-			[$id]
-		);
+		//Stock
+		$stockForm = new DataForm(request(), sprintf('/product-profileAddStock/%d', $id), 'Add Stock');
+		$stockForm->addInput('num', 'quantity', 'Quantity', null, 999, -999, true);
+		$stockForm = $stockForm->render();
 
-		$categoryForm = new DataForm(request(), sprintf('/product-profileAddCategory/%d', $id), 'Add Category');
-		$categoryForm->addInput('select', 'category', 'Category', null, null, null, true);
-		$categoryForm->populateOptions('category', $allCategories);
-		$categoryForm = $categoryForm->render();
-
-		$categoriesTable = new DataTable('product_categories');
-		$categoriesTable->setQuery('SELECT 
-			pc.*
-			FROM product_categories AS pc
-			LEFT JOIN product_category_joins AS pcj ON pcj.categoryId=pc.id
-			WHERE pcj.productId = ?
-			GROUP BY pc.id', 
-			[$id]
+		$stockTable = new DataTable('product_stock');
+		$stockTable->setQuery('SELECT 
+			ps.*,
+			CONCAT(u.firstName, " ", u.lastName) AS user
+			FROM product_stock AS ps
+			INNER JOIN users AS u ON u.id = ps.userId
+			WHERE ps.productId = ?',
+			[$id],
+			'id', 
+			'DESC'
 		);
-		$categoriesTable->addColumn('id', '#');
-		$categoriesTable->addColumn('title', 'Title');
-		$categoriesTable->addColumn('subtitle', 'Subtitle');
-		$categoriesTable->addLinkButton('category-profile/?', 'fa-solid fa-folder-open', 'Open Record');
-		$categoriesTable->addLinkButton('product-profileRemoveCategory/' . $id . '/?', 'fa-solid fa-square-minus', 'Remove Category');
-		$categoriesTable = $categoriesTable->render();
+		$stockTable->addColumn('id', '#');
+		$stockTable->addColumn('quantity', 'Quantity', 1);
+		$stockTable->addColumn('user', 'User', 2);
+		$stockTable->addColumn('created_at', 'Created At', 2);
+		$stockTable = $stockTable->render();
 
 		// Variants
 		$allVariants = DB::select('SELECT
@@ -188,12 +210,14 @@ class AdminProductProfileController extends AdminController
       'product',
       'primaryImage',
 			'editForm',
+			'categoryForm',
+      'categoriesTable',
 			'imagesForm',
       'imagesTable',
 			'specsForm',
 			'specsTable',
-			'categoryForm',
-      'categoriesTable',
+			'stockForm',
+			'stockTable',
 			'variantsForm',
       'variantsTable',
     ));
@@ -214,14 +238,13 @@ class AdminProductProfileController extends AdminController
   public function update(Request $request, $id)
   {
 		$request->validate([
-      'title' => ['required', 'max:100', Rule::unique('products')->ignore($id)],
+      'title' => 'required|max:100',
       'subtitle' => 'max:255',
       'description' => 'max:5000',
-      'productnumber' => ['max:100', Rule::unique('products')->ignore($id)],
+      'productnumber' => ['nullable', 'max:100', Rule::unique('products')->ignore($id)],
 			'orbitalVisionId' => 'max:100',
       'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
-			'maxQuantity' => 'required|numeric',
-			'stock' => 'numeric|nullable',
+			'maxQuantity' => 'numeric|nullable',
     ]);
 
 		if ($request->orbitalVisionId == '') {
@@ -247,7 +270,6 @@ class AdminProductProfileController extends AdminController
 			'orbitalVisionId' => $request->orbitalVisionId,
       'price' => $request->price,
 			'maxQuantity' => $request->maxQuantity,
-			'stock' => $request->stock,
 			'startDate' => $startDate,
 			'endDate' => $endDate,
     ]);
@@ -321,7 +343,28 @@ class AdminProductProfileController extends AdminController
     return redirect("/admin/product-profile/$id")->with('message', "$name is now the primary image.");
   }
 
-	public function addSpec(Request $request, $id)
+  public function addCategory(Request $request, int $id)
+  {
+    $request->validate([
+      'category' => 'required',
+    ]);
+
+    ProductCategoryJoins::updateOrCreate([
+      'productId' => $id,
+      'categoryId' => $request->category,
+    ]);
+
+    return redirect("/admin/product-profile/$id")->with('message', 'Category added.');
+  }
+
+  public function removeCategory($id, $categoryId)
+  {
+    ProductCategoryJoins::where('productId', $id)->where('categoryId', $categoryId)->delete();
+
+    return redirect("/admin/product-profile/$id")->with('message', "Category #$categoryId has been removed.");
+  }
+
+	public function addSpec(Request $request, int $id)
 	{
 		$request->validate([
 			'label' => 'max:255',
@@ -347,28 +390,26 @@ class AdminProductProfileController extends AdminController
 		return redirect("/admin/product-profile/$id")->with('message', "Specification #'$specId' has been deleted.");
 	}
 
-  public function addCategory(Request $request, $id)
-  {
-    $request->validate([
-      'category' => 'required',
-    ]);
+	public function addStock(Request $request, int $id)
+	{
+		$request->validate([
+			'quantity' => 'required|numeric',
+		]);
 
-    ProductCategoryJoins::updateOrCreate([
-      'productId' => $id,
-      'categoryId' => $request->category,
-    ]);
+		ProductStock::create([
+			'productId' => $id,
+			'quantity' => $request->quantity,
+			'userId' => auth()->user()->id,
+		]);
 
-    return redirect("/admin/product-profile/$id")->with('message', 'Category added.');
-  }
+		$product = Products::find($id);
+		$product->stock += $request->quantity;
+		$product->save();
 
-  public function removeCategory($id, $categoryId)
-  {
-    ProductCategoryJoins::where('productId', $id)->where('categoryId', $categoryId)->delete();
+		return redirect("/admin/product-profile/$id")->with('message', 'Stock added.');
+	}
 
-    return redirect("/admin/product-profile/$id")->with('message', "Category #$categoryId has been removed.");
-  }
-
-  public function addVariant(Request $request, $id)
+  public function addVariant(Request $request, int $id)
   {
     $request->validate([
       'variant' => 'required',

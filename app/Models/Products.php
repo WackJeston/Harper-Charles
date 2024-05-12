@@ -51,34 +51,38 @@ class Products extends Model
 			return false;
 		}
 
-		$pastPurchaseQuantity = DB::select('SELECT 
-			SUM(ol.quantity) as quantity 
-			FROM order_lines AS ol
-			INNER JOIN orders AS o ON o.id = ol.orderId
-			WHERE ol.productId = ?
-			AND o.userId = ?
-			AND o.type != "basket"', 
-			[
-				$this->id, 
-				auth()->id()
-			]
-		)[0]->quantity;
+		if (!is_null($quantity)) {
+			if (!is_null($this->maxQuantity)) {
+				$pastPurchaseQuantity = DB::select('SELECT 
+					SUM(ol.quantity) as quantity 
+					FROM order_lines AS ol
+					INNER JOIN orders AS o ON o.id = ol.orderId
+					WHERE ol.productId = ?
+					AND o.userId = ?
+					AND o.type != "basket"', 
+					[
+						$this->id, 
+						auth()->id()
+					]
+				)[0]->quantity;
 
-		$remainingQuantity = $this->maxQuantity - $pastPurchaseQuantity;
+				$remainingQuantity = $this->maxQuantity - $pastPurchaseQuantity;
 
-		if (!is_null($quantity) && $remainingQuantity < $quantity) {
-			if ($remainingQuantity > 0) {
-				$this->errors[] = sprintf('Max purchase quantity of %d.', $remainingQuantity);
-			} else {
-				$this->errors[] = 'You have already purchased the maximum amount of this product.';
+				if ($remainingQuantity < $quantity) {
+					if ($remainingQuantity > 0) {
+						$this->errors[] = sprintf('Product #%d has a max purchase quantity of %d.', $this->id, $remainingQuantity);
+					} else {
+						$this->errors[] = sprintf('You have already purchased the maximum amount of product #%d.', $this->id);
+					}
+					
+					return false;
+				}
 			}
-			
-			return false;
-		}
 
-		if (!is_null($quantity) && !is_null($this->stock) && $this->stock < $quantity) {
-			$this->errors[] = sprintf('Not enough stock, only %d available.', $this->stock);
-			return false;
+			if (!is_null($this->stock) && $this->stock < $quantity) {
+				$this->errors[] = sprintf('Not enough stock of product #%d. Only %d available.', $this->id, $this->stock);
+				return false;
+			}
 		}
 
 		return true;

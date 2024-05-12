@@ -20,8 +20,6 @@
       </div>
     @endif
 
-
-
 		@switch($action)
 			@case('address')
 				<div id="checkout-timeline" class="section-width">

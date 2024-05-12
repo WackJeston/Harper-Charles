@@ -214,10 +214,11 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::post('/product-profileAddImage/{id}', 'addImage');
     Route::get('/product-profileDeleteImage/{imageId}', 'deleteImage');
     Route::get('/product-profilePrimaryImage/{imageId}', 'primaryImage');
-    Route::post('/product-profileAddSpec/{id}', 'addSpec');
-    Route::get('/product-profileDeleteSpec/{specId}', 'deleteSpec');
     Route::post('/product-profileAddCategory/{id}', 'addCategory');
     Route::get('/product-profileRemoveCategory/{id}/{categoryId}', 'removeCategory');
+    Route::post('/product-profileAddSpec/{id}', 'addSpec');
+    Route::get('/product-profileDeleteSpec/{specId}', 'deleteSpec');
+    Route::post('/product-profileAddStock/{id}', 'addStock');
     Route::post('/product-profileAddVariant/{id}', 'addVariant');
     Route::get('/product-profileRemoveVariant/{id}/{variantId}', 'removeVariant');
   });

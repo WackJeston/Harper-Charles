@@ -49,11 +49,11 @@ class CheckoutController extends PublicController
 					}
 
 					if (!$product->available()) {
-						return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+						return redirect('/basket')->withErrors(['1' => $product->errors()]);
 					}
 
 					if (!$product->available($item->quantity)) {
-						return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+						return redirect('/basket')->withErrors(['1' => $product->errors()]);
 					}
 				}
 
@@ -585,11 +585,11 @@ class CheckoutController extends PublicController
 			}
 
 			if (!$product->available()) {
-				return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+				return redirect('/basket')->withErrors(['1' => $product->errors()]);
 			}
 
 			if (!$product->available($item->quantity)) {
-				return redirect('/basket')->withErrors(['1' => $product->errors()[0]]);
+				return redirect('/basket')->withErrors(['1' => $product->errors()]);
 			}
 		}
 
@@ -637,6 +637,12 @@ class CheckoutController extends PublicController
 		$order->status = 'new';
 		$order->stripeReceipt = $receipt;
 		$order->save();
+
+		foreach ($orderItems as $i => $item) {
+			$product = Products::find($item->productId);
+			$product->stock -= $item->quantity;
+			$product->save();
+		}
 
 		Mail::to(auth()->user()->email)->send(new OrderSuccessful($order->id));
 
