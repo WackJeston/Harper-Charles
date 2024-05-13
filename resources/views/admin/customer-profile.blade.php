@@ -33,9 +33,10 @@
 			/>
     </div>
 
-    <div class="web-box profile-main">
-			<div class="wb-row">
-				<ul>
+		<div class="page-column-container columns-2">
+			<div class="page-column">
+				<ul class="web-box profile-details">
+					<li>Summary</li>
 					<li><strong>Name: </strong>{{ $customer->firstName }} {{ $customer->lastName }}</li>
 					<li><strong>Email: </strong>{{ $customer->email }}</li>
 					@if (!is_null($customer->klaviyoId))
@@ -44,6 +45,5 @@
 				</ul>
 			</div>
 		</div>
-
   </main>
 @endsection

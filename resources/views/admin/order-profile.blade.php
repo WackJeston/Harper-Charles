@@ -33,70 +33,74 @@
     	/>
     </div>
 
-    <div class="web-box profile-main">
-			<div class="wb-row">
-				<ul>
+		<div class="page-column-container columns-2">
+			<div class="page-column">
+				<ul class="web-box profile-details">
+					<li>Summary</li>
 					<li><strong>Status:</strong> {{ ucfirst($order->status) }}</li>
 					<li><strong>Type:</strong> {{ $order->type }}</li>
 					<li><strong>Total:</strong> £{{ $order->total }}</li>
 					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
 					<li><strong>Order Date:</strong> {{ $order->created_at }}</li>
-					<div class="list-row">
-						<li class="text-box">
-							<strong>Billing Address:</strong>
-							<ul>
-								<li>{{ $addresses['billing']->firstName }} {{ $addresses['billing']->lastName }}</li>
-								<li>{{ $addresses['billing']->line1 }}</li>
-								@if ($addresses['billing']->line2)
-									<li>{{ $addresses['billing']->line2 }}</li>
-								@endif
-								@if ($addresses['billing']->line3)
-									<li>{{ $addresses['billing']->line3 }}</li>
-								@endif
-								<li>{{ $addresses['billing']->city }}</li>
-								<li>{{ $addresses['billing']->region }}, {{ $addresses['billing']->country }}</li>
-								<li>{{ $addresses['billing']->postCode }}</li>
-								
-								@if ($addresses['billing']->phone)
-									<li>{{ $addresses['billing']->phone }}</li>
-								@endif
-								@if ($addresses['billing']->email)
-									<li>{{ $addresses['billing']->email }}</li>
-								@endif
-							</ul>
-						</li>
+				</ul>
+			</div>
+			<div class="page-column grid">
+				<div class="web-box">
+					<strong>Billing Address:</strong>
+					<ul>
+						<li>{{ $addresses['billing']->firstName }} {{ $addresses['billing']->lastName }}</li>
+						<li>{{ $addresses['billing']->line1 }}</li>
+						@if ($addresses['billing']->line2)
+							<li>{{ $addresses['billing']->line2 }}</li>
+						@endif
+						@if ($addresses['billing']->line3)
+							<li>{{ $addresses['billing']->line3 }}</li>
+						@endif
+						<li>{{ $addresses['billing']->city }}</li>
+						<li>{{ $addresses['billing']->region }}, {{ $addresses['billing']->country }}</li>
+						<li>{{ $addresses['billing']->postCode }}</li>
+						
+						@if ($addresses['billing']->phone)
+							<li>{{ $addresses['billing']->phone }}</li>
+						@endif
+						@if ($addresses['billing']->email)
+							<li>{{ $addresses['billing']->email }}</li>
+						@endif
+					</ul>
+				</div>
 
-						<li class="text-box">
-							<strong>Delivery Address:</strong>
-							<ul>
-								<li>{{ $addresses['delivery']->firstName }} {{ $addresses['delivery']->lastName }}</li>
-								<li>{{ $addresses['delivery']->line1 }}</li>
-								@if ($addresses['delivery']->line2)
-									<li>{{ $addresses['delivery']->line2 }}</li>
-								@endif
-								@if ($addresses['delivery']->line3)
-									<li>{{ $addresses['delivery']->line3 }}</li>
-								@endif
-								<li>{{ $addresses['delivery']->city }}</li>
-								<li>{{ $addresses['delivery']->region }}, {{ $addresses['delivery']->country }}</li>
-								<li>{{ $addresses['delivery']->postCode }}</li>
-								
-								@if ($addresses['delivery']->phone)
-									<li>{{ $addresses['delivery']->phone }}</li>
-								@endif
-								@if ($addresses['delivery']->email)
-									<li>{{ $addresses['delivery']->email }}</li>
-								@endif
-							</ul>
-						</li>
-					</div>
-					@if (!empty($order->primaryNote))
-						<p class="text-box">
-							<strong>Order Note:</strong>
+				<div class="web-box">
+					<strong>Delivery Address:</strong>
+					<ul>
+						<li>{{ $addresses['delivery']->firstName }} {{ $addresses['delivery']->lastName }}</li>
+						<li>{{ $addresses['delivery']->line1 }}</li>
+						@if ($addresses['delivery']->line2)
+							<li>{{ $addresses['delivery']->line2 }}</li>
+						@endif
+						@if ($addresses['delivery']->line3)
+							<li>{{ $addresses['delivery']->line3 }}</li>
+						@endif
+						<li>{{ $addresses['delivery']->city }}</li>
+						<li>{{ $addresses['delivery']->region }}, {{ $addresses['delivery']->country }}</li>
+						<li>{{ $addresses['delivery']->postCode }}</li>
+						
+						@if ($addresses['delivery']->phone)
+							<li>{{ $addresses['delivery']->phone }}</li>
+						@endif
+						@if ($addresses['delivery']->email)
+							<li>{{ $addresses['delivery']->email }}</li>
+						@endif
+					</ul>
+				</div>
+
+				@if (!empty($order->primaryNote))
+					<div class="web-box">
+						<strong>Order Note:</strong>
+						<p>
 							{{ $order->primaryNote }}
 						</p>
-					@endif
-				</ul>
+					</div>
+				@endif
 			</div>
 		</div>
 

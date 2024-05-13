@@ -46,17 +46,28 @@
       </div>
     @endif
 
-		<ul class="web-box">
-			<li><strong>Name:</strong> {{ $enquiry->name }}</li>
-			<li><strong>Email:</strong> {{ $enquiry->email }}</li>
-			<li><strong>Phone:</strong> {{ $enquiry->phone }}</li>
-			<li><strong>Date:</strong> {{ date('d-m-Y', strtotime($enquiry->created_at)) }}</li>
-			@if ($type != 'sponsor')
-				<li><strong>Subject:</strong> {{ $enquiry->subject }}</li>
-			@endif
-			<li><strong>Message:</strong></li>
-			<li class="text-box">{{ $enquiry->message }}</li>
-		</ul>
+		<div class="page-column-container columns-2">
+			<div class="page-column">
+				<ul class="web-box profile-details">
+					<li>Summary</li>
+					<li><strong>Name:</strong> {{ $enquiry->name }}</li>
+					<li><strong>Email:</strong> {{ $enquiry->email }}</li>
+					<li><strong>Phone:</strong> {{ $enquiry->phone }}</li>
+					<li><strong>Date:</strong> {{ date('d-m-Y', strtotime($enquiry->created_at)) }}</li>
+					@if ($type != 'sponsor')
+						<li><strong>Subject:</strong> {{ $enquiry->subject }}</li>
+					@endif			
+				</ul>
+			</div>
 
+			<div class="page-column">
+				<div class="web-box">
+					<strong>Message:</strong>
+					<p>
+						{{ $enquiry->message }}
+					</p>
+				</div>
+			</div>
+		</div>
   </main>
 @endsection
