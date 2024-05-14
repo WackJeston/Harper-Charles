@@ -14,10 +14,10 @@
 	</div>
 
   <!-- Edit -->
-	<div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
+	<div v-html="this.editform.html" v-show="this.show == 'edit'" :class="{ 'functions-padding' : this.show == 'edit' }"></div>
 
   <!-- Options -->
-	<div v-html="this.subvariantsform.html" v-show="this.show == 'createOption'"></div>
+	<div v-html="this.subvariantsform.html" v-show="this.show == 'createOption'" :class="{ 'functions-padding' : this.show == 'createOption' }"></div>
   <div v-html="this.subvariantstable.html"></div>
 </template>
 

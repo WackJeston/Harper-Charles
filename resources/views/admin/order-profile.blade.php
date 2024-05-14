@@ -43,7 +43,17 @@
 					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
 					<li><strong>Order Date:</strong> {{ $order->created_at }}</li>
 				</ul>
+
+				@if (!empty($order->primaryNote))
+					<div class="web-box">
+						<strong>Order Note:</strong>
+						<p>
+							{{ $order->primaryNote }}
+						</p>
+					</div>
+				@endif
 			</div>
+
 			<div class="page-column grid">
 				<div class="web-box">
 					<strong>Billing Address:</strong>
@@ -92,15 +102,6 @@
 						@endif
 					</ul>
 				</div>
-
-				@if (!empty($order->primaryNote))
-					<div class="web-box">
-						<strong>Order Note:</strong>
-						<p>
-							{{ $order->primaryNote }}
-						</p>
-					</div>
-				@endif
 			</div>
 		</div>
 

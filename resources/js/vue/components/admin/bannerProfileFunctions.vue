@@ -11,7 +11,7 @@
 		</div>
 	</div>
 
-	<div v-html="this.slideform.html" v-show="this.show == 'addSlide'"></div>
+	<div v-html="this.slideform.html" v-show="this.show == 'addSlide'" :class="{ 'functions-padding' : this.show == 'addSlide' }"></div>
 </template>
 
 

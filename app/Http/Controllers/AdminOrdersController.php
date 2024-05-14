@@ -30,8 +30,8 @@ class AdminOrdersController extends AdminController
 				CONCAT(u.firstName, " ", u.lastName) AS `name`,
 				COUNT(n.ID) AS `notes`
 				FROM orders AS o
-				INNER JOIN users AS u ON u.id=o.userId
-				INNER JOIN order_notes AS n ON n.orderId=o.id
+				LEFT JOIN users AS u ON u.id=o.userId
+				LEFT JOIN order_notes AS n ON n.orderId=o.id
 				WHERE o.type != "basket"
 				GROUP BY o.id';
 		}

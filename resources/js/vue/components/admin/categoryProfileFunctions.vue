@@ -16,18 +16,18 @@
   
 
   <!-- Edit -->
-	<div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
+	<div v-html="this.editform.html" v-show="this.show == 'edit'" :class="{ 'functions-padding' : this.show == 'edit' }"></div>
 
   <!-- Images -->
 	<div v-html="this.imagesform.html" v-show="this.show == 'images'"></div>
-	<div v-html="this.imagestable.html" v-show="this.show == 'images'"></div>
+	<div v-html="this.imagestable.html" v-show="this.show == 'images'" :class="{ 'functions-padding' : this.show == 'images' }"></div>
 
   <!-- Products Form -->
   <div v-html="this.addproductform.html" v-show="this.show == 'products'"></div>
 	<div v-html="this.createproductform.html" v-show="this.show == 'products'"></div>
 
 	<!-- Products Table -->
-	<div v-html="this.productstable.html" v-show="this.show == 'products'"></div>
+	<div v-html="this.productstable.html" v-show="this.show == 'products'" :class="{ 'functions-padding' : this.show == 'products' }"></div>
 </template>
 
 <script>

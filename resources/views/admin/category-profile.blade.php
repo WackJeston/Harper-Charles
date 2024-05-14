@@ -36,15 +36,40 @@
 				:productstable="{{ json_encode($productsTable) }}" />
     </div>
 
-		<div class="web-box profile-main">
+		<div class="page-column-container columns-2">
+			<div class="page-column">
+				<ul class="web-box profile-details">
+					<li>Summary</li>
+					<li><strong>Title: </strong>{{ $category->title }}</li>
+					@if ($category->subtitle)
+						<li><strong>Subtitle: </strong>{{ $category->subtitle }}</li>
+					@endif
+					@if ($category->created_at)
+						<li><strong>Created At: </strong>{{ $category->created_at }}</li>
+					@endif
+				</ul>
+
+				<div class="web-box">
+					<strong>Description:</strong>
+					<p>{{ $category->description }}</p>
+				</div>
+			</div>
+
+			<div class="page-column">
+				@if ($primaryImage != null)
+					<div class="web-box">
+						<div class="profile-image" style="background-image: url('{{ $primaryImage }}');"></div>
+					</div>
+				@endif
+			</div>
+		</div>
+
+		{{-- <div class="web-box profile-main">
 			<div class="wb-row">
 				<ul>
 					<li><strong>Title: </strong>{{ $category->title }}</li>
 					@if ($category->subtitle)
 						<li><strong>Subtitle: </strong>{{ $category->subtitle }}</li>
-					@endif
-					@if ($category->description)
-						<li class="text-box"><strong>Description: </strong>{{ $category->description }}</li>
 					@endif
 					@if ($category->created_at)
 						<li><strong>Created At: </strong>{{ $category->created_at }}</li>
@@ -55,6 +80,6 @@
 					<div class="wb-image" style="background-image: url('{{ $primaryImage }}');"></div>
 				@endif
 			</div>
-		</div>
+		</div> --}}
   </main>
 @endsection

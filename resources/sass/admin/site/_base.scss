@@ -24,7 +24,11 @@ body {
 }
 
 main {
-	margin: 10px 10px 10px 10px;
+	margin: 10px;
+
+	@media (min-width: 800px) {
+		margin: 10px 20px 20px 20px;
+	}
 }
 
 main h1 {
@@ -55,8 +59,12 @@ main h2 {
 
 .link-trail {
 	position: relative;
-	top: -8px;
-	left: -4px;
+	top: -7px;
+	left: -12px;
+
+	@media (max-width: 800px) {
+		left: -3px;
+	}
 }
 
 .link-trail i {
@@ -69,6 +77,10 @@ main h2 {
 		color: v.$alt-main;
 		text-decoration: underline;
 	}
+}
+
+.functions-padding {
+	padding-bottom: 10px;
 }
 
 .page-column-container {
@@ -110,16 +122,19 @@ main h2 {
 	justify-content: flex-start;
 }
 
-// .page-column-container .page-column.grid.limited .web-box {
-// 	max-width: calc(50% - 5px);
-// }
+.page-column-container .page-column.grid .web-box {
+	flex-grow: 1;
+}
 
 .page-column-container .page-column .web-box {
-	flex-grow: 1;
-	margin-bottom: 0;
-
 	@media (min-width: 900px) {
 		min-width: 250px;
+	}
+}
+
+.page-column-container .page-column:not(.grid) .web-box {
+	@media (min-width: 800px) {
+		margin-bottom: 20px;
 	}
 }
 
@@ -213,9 +228,14 @@ main h2 {
 }
 
 .profile-details {
-	margin: 0;
+	margin-top: 0;
+	// margin-bottom: 10px !important;
 	padding: 0;
-	flex-grow: 0 !important;
+	// flex-grow: 0 !important;
+
+	// @media (min-width: 800px) {
+	// 	margin-bottom: 20px !important;
+	// }
 }
 
 .profile-details li {

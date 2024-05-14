@@ -71,14 +71,14 @@
 						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
 					@endif
 				</ul>
-			</div>
 
-			<div class="page-column grid limited">
 				<div class="web-box">
 					<strong>Description:</strong>
 					<p>{{ $product->description }}</p>
 				</div>
+			</div>
 
+			<div class="page-column">
 				@if ($primaryImage != null)
 					<div class="web-box">
 						<div class="profile-image" style="background-image: url('{{ $primaryImage }}');"></div>

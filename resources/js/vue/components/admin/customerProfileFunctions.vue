@@ -11,10 +11,10 @@
 	</div>
 
   <!-- Edit -->
-  <div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
+  <div v-html="this.editform.html" v-show="this.show == 'edit'" :class="{ 'functions-padding' : this.show == 'edit' }"></div>
 
 	<!-- Orders -->
-  <div v-html="this.orderstable.html" v-show="this.show == 'orders'"></div>
+  <div v-html="this.orderstable.html" v-show="this.show == 'orders'" :class="{ 'functions-padding' : this.show == 'orders' }"></div>
 </template>
 
 

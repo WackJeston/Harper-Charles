@@ -13,7 +13,7 @@
 
 	<!-- Notes -->
 	<div v-html="this.notesform.html" v-show="this.show == 'notes'"></div>
-	<div v-html="this.notestable.html" v-show="this.show == 'notes'"></div>
+	<div v-html="this.notestable.html" v-show="this.show == 'notes'" :class="{ 'functions-padding' : this.show == 'notes' }"></div>
 </template>
 
 

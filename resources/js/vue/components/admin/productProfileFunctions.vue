@@ -18,27 +18,27 @@
 	</div>
 
 	<!-- Edit -->
-	<div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
+	<div v-html="this.editform.html" v-show="this.show == 'edit'" :class="{ 'functions-padding' : this.show == 'edit' }"></div>
 
 	<!-- Categories -->
 	<div v-html="this.categoryform.html" v-show="this.show == 'categories'"></div>
-	<div v-html="this.categoriestable.html" v-show="this.show == 'categories'"></div>
+	<div v-html="this.categoriestable.html" v-show="this.show == 'categories'" :class="{ 'functions-padding' : this.show == 'categories' }"></div>
 
 	<!-- Images -->
 	<div v-html="this.imagesform.html" v-show="this.show == 'images'"></div>
-	<div v-html="this.imagestable.html" v-show="this.show == 'images'"></div>
+	<div v-html="this.imagestable.html" v-show="this.show == 'images'" :class="{ 'functions-padding' : this.show == 'images' }"></div>
 
 	<!-- Specs -->
 	<div v-html="this.specsform.html" v-show="this.show == 'specs'"></div>
-	<div v-html="this.specstable.html" v-show="this.show == 'specs'"></div>
+	<div v-html="this.specstable.html" v-show="this.show == 'specs'" :class="{ 'functions-padding' : this.show == 'specs' }"></div>
 
 	<!-- Stock -->
 	<div v-html="this.stockform.html" v-show="this.show == 'stock'"></div>
-	<div v-html="this.stocktable.html" v-show="this.show == 'stock'"></div>
+	<div v-html="this.stocktable.html" v-show="this.show == 'stock'" :class="{ 'functions-padding' : this.show == 'stock' }"></div>
 
 	<!-- Variants -->
 	<div v-html="this.variantsform.html" v-show="this.show == 'variants'"></div>
-	<div v-html="this.variantstable.html" v-show="this.show == 'variants'"></div>
+	<div v-html="this.variantstable.html" v-show="this.show == 'variants'" :class="{ 'functions-padding' : this.show == 'variants' }"></div>
 </template>
 
 

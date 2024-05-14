@@ -12,20 +12,20 @@
 	</div>
   
   <!-- Edit -->
-  <div v-html="this.editform.html" v-show="this.show == 'edit'"></div>
+  <div v-html="this.editform.html" v-show="this.show == 'edit'" :class="{ 'functions-padding' : this.show == 'edit' }"></div>
 	<!-- <form :action="'/contactUpdateAddress/' + this.lat + '/' + this.lng"></form> -->
 
   <!-- Emails -->
   <div v-html="this.emailform.html" v-show="this.show == 'email'"></div>
-	<div v-html="this.emailstable.html" v-show="this.show == 'email'"></div>
+	<div v-html="this.emailstable.html" v-show="this.show == 'email'" :class="{ 'functions-padding' : this.show == 'email' }"></div>
 
   <!-- Phones -->
   <div v-html="this.phoneform.html" v-show="this.show == 'phone'"></div>
-	<div v-html="this.phonestable.html" v-show="this.show == 'phone'"></div>
+	<div v-html="this.phonestable.html" v-show="this.show == 'phone'" :class="{ 'functions-padding' : this.show == 'phone' }"></div>
 
 <!-- URLs -->
 <div v-html="this.urlform.html" v-show="this.show == 'url'"></div>
-<div v-html="this.urlstable.html" v-show="this.show == 'url'"></div>
+<div v-html="this.urlstable.html" v-show="this.show == 'url'" :class="{ 'functions-padding' : this.show == 'url' }"></div>
 </template>
 
 

@@ -640,8 +640,11 @@ class CheckoutController extends PublicController
 
 		foreach ($orderItems as $i => $item) {
 			$product = Products::find($item->productId);
-			$product->stock -= $item->quantity;
-			$product->save();
+
+			if (!is_null($product->stock)) {
+				$product->stock -= $item->quantity;
+				$product->save();
+			}
 		}
 
 		Mail::to(auth()->user()->email)->send(new OrderSuccessful($order->id));
