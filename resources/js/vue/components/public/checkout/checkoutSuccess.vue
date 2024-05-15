@@ -40,14 +40,14 @@
 					<div class="saved-record">
 						<ul>
 							<li class="billing-address">Billing Address</li>
-							<li class="first">{{ this.order.billingAddress.firstName }} {{ this.order.billingAddress.lastName }}</li>
-							<li>{{ this.order.billingAddress.company }}</li>
-							<li>{{ this.order.billingAddress.line1 }}</li>
-							<li>{{ this.order.billingAddress.city }}, {{ this.order.billingAddress.region }}</li>
-							<li>{{ this.order.billingAddress.country }}</li>
-							<li>{{ this.order.billingAddress.postCode }}</li>
-							<li>{{ this.order.billingAddress.phone }}</li>
-							<li>{{ this.order.billingAddress.email }}</li>
+							<li class="first">{{ this.order.billingFirstName }} {{ this.order.billingLastName }}</li>
+							<li>{{ this.order.billingCompany }}</li>
+							<li>{{ this.order.billingLine1 }}</li>
+							<li>{{ this.order.billingCity }}, {{ this.order.billingRegion }}</li>
+							<li>{{ this.order.billingCountry }}</li>
+							<li>{{ this.order.billingPostCode }}</li>
+							<li>{{ this.order.billingPhone }}</li>
+							<li>{{ this.order.billingEmail }}</li>
 						</ul>
 					</div>
 				</div>
@@ -55,15 +55,15 @@
 				<div class="saved-records-container">
 					<div class="saved-record">
 						<ul>
-							<li class="billing-address">Delivery Address</li>
-							<li class="first">{{ this.order.deliveryAddress.firstName }} {{ this.order.deliveryAddress.lastName }}</li>
-							<li>{{ this.order.deliveryAddress.company }}</li>
-							<li>{{ this.order.deliveryAddress.line1 }}</li>
-							<li>{{ this.order.deliveryAddress.city }}, {{ this.order.deliveryAddress.region }}</li>
-							<li>{{ this.order.deliveryAddress.country }}</li>
-							<li>{{ this.order.deliveryAddress.postCode }}</li>
-							<li>{{ this.order.deliveryAddress.phone }}</li>
-							<li>{{ this.order.deliveryAddress.email }}</li>
+							<li class="delivery-address">Delivery Address</li>
+							<li class="first">{{ this.order.deliveryFirstName }} {{ this.order.deliveryLastName }}</li>
+							<li>{{ this.order.deliveryCompany }}</li>
+							<li>{{ this.order.deliveryLine1 }}</li>
+							<li>{{ this.order.deliveryCity }}, {{ this.order.deliveryRegion }}</li>
+							<li>{{ this.order.deliveryCountry }}</li>
+							<li>{{ this.order.deliveryPostCode }}</li>
+							<li>{{ this.order.deliveryPhone }}</li>
+							<li>{{ this.order.deliveryEmail }}</li>
 						</ul>
 					</div>
 				</div>

@@ -49,82 +49,6 @@ class Order extends Model
    	'deliveryEmail',
 	];
 
-	public static function createOrder(int $userId = 0) {
-		if ($userId == 0) {
-			$user = auth()->user();
-		} else {
-			$user = User::find($userId);
-		}
-
-		$checkoutId = Checkout::select('id')->where('userId', $user->id)->first();
-
-		if (!$checkoutId) {
-			return 0;
-		}
-
-		Checkout::calculateTotal($checkoutId->id);
-		$checkout = Checkout::where('userId', $user->id)->first();
-
-		$deliveryAddress = Address::find($checkout->deliveryAddressId);
-
-		// TODO: Uncomment for live payments
-		
-		// $transaction = $user->charge(
-		// 	$checkout->total * 100,
-		// 	$checkout->paymentMethodId,
-		// 	[
-		// 		'off_session' => true,
-		// 		'customer' => $user->stripe_id,
-		// 		'metadata' => [
-		// 			'user_id' => $user->id,
-		// 			'checkout_id' => $checkout->id,
-		// 		],
-		// 		'receipt_email' => $user->email,
-		// 		'shipping' => [
-		// 			'name' => $user->firstName .	'billing . $user->lastName,
-		// 			'phone' => $deliveryAddress->phone,
-		// 			'address' => [
-		// 				'city' => $deliveryAddress->city,
-		// 				'country' => $deliveryAddress->country,
-		// 				'line1' => $deliveryAddress->line1,
-		// 				'line2' => $deliveryAddress->line2,
-		// 				'postal_code' => $deliveryAddress->postCode,
-		// 				'state' => $deliveryAddress->region,
-		// 			],
-		// 		]
-		// 	]
-		// );
-		
-		$order = Self::create([
-			'userId' => $checkout->userId,
-			'deliveryAddressId' => $checkout->deliveryAddressId,
-			'billingAddressId' => $checkout->billingAddressId,
-			'paymentMethodId' => $checkout->paymentMethodId,
-			'total' => $checkout->total,
-		]);
-
-		$checkoutProducts = CheckoutProduct::where('checkoutId', $checkout->id)->get();
-
-		foreach ($checkoutProducts as $i => $product) {
-			$orderLine = OrderLine::create([
-				'orderId' => $order->id,
-				'productId' => $product->productId,
-				'quantity' => $product->quantity,
-			]);
-
-			$checkoutVariants = CheckoutProductVariant::where('checkoutProductId', $product->id)->get();
-
-			foreach ($checkoutVariants as $i2 => $variant) {
-				OrderLineVariant::create([
-					'orderLineId' => $orderLine->id,
-					'variantId' => $variant->variantId,
-				]);
-			}
-		}
-
-		return $order->id;
-	}
-
 	public static function getOrder(int $orderId) {
 		$order = DB::select('SELECT
 			o.*,
@@ -166,56 +90,6 @@ class Order extends Model
 
 		$order->lines = cacheImages($order->lines, 600, 600, true,	'billingEFEFEF');
 
-		$order->billingAddress = DB::select('SELECT
-			a.id,
-			a.type,
-			CONCAT(a.firstName, " ", a.lastName) AS `name`,
-			a.company,
-			a.line1,
-			a.line2,
-			a.line3,
-			a.city,
-			a.region,
-			co.name AS country,
-			a.postcode,
-			a.phone,
-			a.email
-			FROM orders AS o
-			LEFT JOIN addresses AS a ON a.id=o.billingAddressId
-			INNER JOIN countries AS co ON co.code=a.country
-			WHERE o.id=?
-			GROUP BY a.id
-			LIMIT 1',
-			[$orderId]
-		);
-
-		$order->billingAddress = $order->billingAddress[0];
-
-		$order->deliveryAddress = DB::select('SELECT
-			a.id,
-			a.type,
-			CONCAT(a.firstName, " ", a.lastName) AS `name`,
-			a.company,
-			a.line1,
-			a.line2,
-			a.line3,
-			a.city,
-			a.region,
-			co.name AS country,
-			a.postcode,
-			a.phone,
-			a.email
-			FROM orders AS o
-			LEFT JOIN addresses AS a ON a.id=o.deliveryAddressId
-			INNER JOIN countries AS co ON co.code=a.country
-			WHERE o.id=?
-			GROUP BY a.id
-			LIMIT 1',
-			[$orderId]
-		);
-
-		$order->deliveryAddress = $order->deliveryAddress[0];
-
 		return $order;
 	}
 
@@ -230,5 +104,17 @@ class Order extends Model
 		);
 
 		return $notes;
+	}
+
+	public function hasAddresses():bool {
+		if (empty($this->billingFirstName) || empty($this->billingLastName) || empty($this->billingLine1) || empty($this->billingCity) || empty($this->billingCountry) || empty($this->billingPostCode) || empty($this->billingPhone) || empty($this->billingEmail)) {
+			return false;
+		}
+
+		if (empty($this->deliveryFirstName) || empty($this->deliveryLastName) || empty($this->deliveryLine1) || empty($this->deliveryCity) || empty($this->deliveryCountry) || empty($this->deliveryPostCode) || empty($this->deliveryPhone) || empty($this->deliveryEmail)) {
+			return false;
+		}
+
+		return true;
 	}
 }

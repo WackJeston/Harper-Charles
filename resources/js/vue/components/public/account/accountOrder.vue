@@ -26,13 +26,14 @@
 		<!-- Delivery Address -->
 		<ul class="web-box dk section-width">
 			<li><strong>Delivery Address</strong></li>
-			<li>{{ this.order.deliveryAddress.line1 }}</li>
-			<li>{{ this.order.deliveryAddress.line2 }}</li>
-			<li>{{ this.order.deliveryAddress.line3 }}</li>
-			<li>{{ this.order.deliveryAddress.city }}</li>
-			<li>{{ this.order.deliveryAddress.region }}</li>
-			<li>{{ this.order.deliveryAddress.country }}</li>
-			<li>{{ this.order.deliveryAddress.postcode }}</li>
+			<li>{{ this.order.deliveryFirstName }} {{ this.order.deliveryLastName }}</li>
+			<li>{{ this.order.deliveryLine1 }}</li>
+			<li>{{ this.order.deliveryLine2 }}</li>
+			<li>{{ this.order.deliveryLine3 }}</li>
+			<li>{{ this.order.deliveryCity }}</li>
+			<li>{{ this.order.deliveryRegion }}</li>
+			<li>{{ this.order.deliveryCountry }}</li>
+			<li>{{ this.order.deliveryPostcode }}</li>
 		</ul>
 	</div>
 

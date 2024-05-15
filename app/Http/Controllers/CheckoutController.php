@@ -24,9 +24,9 @@ class CheckoutController extends PublicController
 {
   public function show($action) 
   {
-		$order = Order::where('userId', auth()->user()->id)->where('type', 'basket')->first();
+		$orderId = Order::select('id')->where('userId', auth()->user()->id)->where('type', 'basket')->first();
 
-		if (empty($order)) {
+		if (!$order = Order::find($orderId->id)) {
 			return redirect('/basket');
 		}
 
@@ -38,6 +38,30 @@ class CheckoutController extends PublicController
 
     switch ($action) {
 			case 'address':
+				$order->billingFirstName = null;
+				$order->billingLastName = null;
+				$order->billingCompany = null;
+				$order->billingLine1 = null;
+				$order->billingLine2 = null;
+				$order->billingLine3 = null;
+				$order->billingCity = null;
+				$order->billingRegion = null;
+				$order->billingCountry = null;
+				$order->billingPostCode = null;
+				$order->billingPhone = null;
+				$order->billingEmail = null;
+				$order->deliveryFirstName = null;
+				$order->deliveryLastName = null;
+				$order->deliveryCompany = null;
+				$order->deliveryLine1 = null;
+				$order->deliveryLine2 = null;
+				$order->deliveryLine3 = null;
+				$order->deliveryCity = null;
+				$order->deliveryRegion = null;
+				$order->deliveryCountry = null;
+				$order->deliveryPostCode = null;
+				$order->deliveryPhone = null;
+				$order->deliveryEmail = null;
 				$order->status = 'checkout-address';
 				$order->save();
 
@@ -109,6 +133,10 @@ class CheckoutController extends PublicController
 				$order->save();
 
 				self::setTotal($order->id);
+				
+				if (!$order->hasAddresses()) {
+					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
+				}
 
 				$checkout = DB::select('SELECT
 					o.*
@@ -124,28 +152,6 @@ class CheckoutController extends PublicController
 				}
 
 				$checkout = $checkout[0];
-
-				$checkout->billingAddress = DB::select('SELECT
-					a.*
-					FROM addresses AS a
-					WHERE a.userId = ?
-					AND a.defaultBilling = true',
-					[auth()->user()->id]
-				);
-
-				$checkout->deliveryAddress = DB::select('SELECT
-					a.*
-					FROM addresses AS a
-					WHERE a.id = ?',
-					[$checkout->deliveryAddressId]
-				);
-				
-				if (empty($checkout->deliveryAddressId) || empty($checkout->billingAddress)) {
-					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
-				}
-
-				$checkout->deliveryAddress = $checkout->deliveryAddress[0];
-				$checkout->billingAddress = $checkout->billingAddress[0];
 
 				$checkout->lines = DB::select('SELECT
 					ol.*,
@@ -204,7 +210,7 @@ class CheckoutController extends PublicController
 
 				self::setTotal($order->id);
 
-				if ($order->deliveryAddressId == null || !$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first()) {
+				if (!$order->hasAddresses()) {
 					return redirect('/checkout/address')->withErrors(['1' => 'Please select an address.']);
 				}
 
@@ -276,16 +282,16 @@ class CheckoutController extends PublicController
 					'clientSecret' => $intent->client_secret,
 					'amount' => $order->total,
 					'billingDetails' => [
-						'name' => $billingAddress->firstName . ' ' . $billingAddress->lastName,
-						'email' => $billingAddress->email,
-						'phone' => $billingAddress->phone,
+						'name' => $order->billingFirstName . ' ' . $order->billingLastName,
+						'email' => $order->billingEmail,
+						'phone' => $order->billingPhone,
 						'address' => [
-							'line1' => $billingAddress->line1,
-							'line2' => $billingAddress->line2,
-							'city' => $billingAddress->city,
-							'state' => $billingAddress->region,
-							'postal_code' => $billingAddress->postCode,
-							'country' => $billingAddress->country,
+							'line1' => $order->billingLine1,
+							'line2' => $order->billingLine2,
+							'city' => $order->billingCity,
+							'state' => $order->billingRegion,
+							'postal_code' => $order->billingPostCode,
+							'country' => $order->billingCountry,
 						],
 					],
 				];
@@ -391,10 +397,34 @@ class CheckoutController extends PublicController
 	public function continueAddress($deliveryId)
 	{
 		$billingAddress = Address::where('userId', auth()->user()->id)->where('defaultBilling', 1)->first();
+		$deliveryAddress = Address::find($deliveryId);
 
 		Order::where('userId', auth()->user()->id)->where('type', 'basket')->update([
-			'deliveryAddressId' => $deliveryId,
-			'billingAddressId' => $billingAddress->id,
+			'billingFirstName' => $billingAddress->firstName,
+			'billingLastName' => $billingAddress->lastName,
+			'billingCompany' => $billingAddress->company,
+			'billingLine1' => $billingAddress->line1,
+			'billingLine2' => $billingAddress->line2,
+			'billingLine3' => $billingAddress->line3,
+			'billingCity' => $billingAddress->city,
+			'billingRegion' => $billingAddress->region,
+			'billingCountry' => $billingAddress->country,
+			'billingPostCode' => $billingAddress->postCode,
+			'billingPhone' => $billingAddress->phone,
+			'billingEmail' => $billingAddress->email,
+			'billingFirstName' => $billingAddress->firstName,
+			'deliveryFirstName' => $deliveryAddress->firstName,
+			'deliveryLastName' => $deliveryAddress->lastName,
+			'deliveryCompany' => $deliveryAddress->company,
+			'deliveryLine1' => $deliveryAddress->line1,
+			'deliveryLine2' => $deliveryAddress->line2,
+			'deliveryLine3' => $deliveryAddress->line3,
+			'deliveryCity' => $deliveryAddress->city,
+			'deliveryRegion' => $deliveryAddress->region,
+			'deliveryCountry' => $deliveryAddress->country,
+			'deliveryPostCode' => $deliveryAddress->postCode,
+			'deliveryPhone' => $deliveryAddress->phone,
+			'deliveryEmail' => $deliveryAddress->email,
 			'status' => 'summary'
 		]);
 
@@ -682,23 +712,6 @@ class CheckoutController extends PublicController
 			}
 
 			$order = $order[0];
-
-			$order->billingAddress = DB::select('SELECT
-				a.*
-				FROM addresses AS a
-				WHERE a.id = ?',
-				[$order->billingAddressId]
-			);
-
-			$order->deliveryAddress = DB::select('SELECT
-				a.*
-				FROM addresses AS a
-				WHERE a.id = ?',
-				[$order->deliveryAddressId]
-			);
-
-			$order->deliveryAddress = $order->deliveryAddress[0];
-			$order->billingAddress = $order->billingAddress[0];
 
 			$order->lines = DB::select('SELECT
 				ol.*,

@@ -1,8 +1,9 @@
 <template>
 	<div class="web-box section-width">
-		<h3 id="record-header">
-			Please select your preferred payment method.
-		</h3>
+		<div id="record-header">
+			<h3>Select your preferred payment method.</h3>
+			<span class="header-total">£{{ this.amount }}</span>
+		</div>
 
 		<div id="payment-container" class="checkout-container">
 			<ul class="alert-box error lt" v-show="this.errorMessage != null">

@@ -1,7 +1,7 @@
 <template>
   <!-- Buttons -->
 	<div class="page-button-row">
-		<button class="page-button padding" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'"><i class="fa-solid fa-pen-to-square"></i>Edit Account Details</button>
+		<button class="page-button padding" type="button" onclick="setShowMarker('edit')" :class="{ 'button-active' : this.show == 'edit' }" @click="this.show == 'edit' ? this.show = false : this.show = 'edit'">Edit Account Details<i class="fa-solid fa-pen-to-square"></i></button>
 		<button class="page-button padding" type="button" onclick="setShowMarker('orders')" :class="{ 'button-active' : this.show == 'orders' }" @click="this.show == 'orders' ? this.show = false : this.show = 'orders'">Orders</button>
 		
 		<a class="page-button padding pb-danger" href="/customerLogout">Sign Out</a>

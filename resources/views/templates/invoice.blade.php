@@ -48,32 +48,34 @@
 
 			<ul class="web-box">
 				<li><strong>Billing Address</strong></li>
-				<li>{{ $order->billingAddress->line1 }}</li>
-				@if ($order->billingAddress->line2 != '')
-					<li>{{ $order->billingAddress->line2 }}</li>
+				<li>{{ $order->billingFirstName }} {{ $order->billingLastName }}</li>
+				<li>{{ $order->billingLine1 }}</li>
+				@if ($order->billingLine2 != '')
+					<li>{{ $order->billingLine2 }}</li>
 				@endif
-				@if ($order->billingAddress->line3 != '')
-					<li>{{ $order->billingAddress->line3 }}</li>
+				@if ($order->billingLine3 != '')
+					<li>{{ $order->billingLine3 }}</li>
 				@endif
-				<li>{{ $order->billingAddress->city }}</li>
-				<li>{{ $order->billingAddress->region }}</li>
-				<li>{{ $order->billingAddress->country }}</li>
-				<li>{{ $order->billingAddress->postcode }}</li>
+				<li>{{ $order->billingCity }}</li>
+				<li>{{ $order->billingRegion }}</li>
+				<li>{{ $order->billingCountry }}</li>
+				<li>{{ $order->billingPostCode }}</li>
 			</ul>
 
 			<ul class="web-box">
 				<li><strong>Delivery Address</strong></li>
-				<li>{{ $order->deliveryAddress->line1 }}</li>
-				@if ($order->deliveryAddress->line2 != '')
-					<li>{{ $order->deliveryAddress->line2 }}</li>
+				<li>{{ $order->deliveryFirstName }} {{ $order->deliveryLastName }}</li>
+				<li>{{ $order->deliveryLine1 }}</li>
+				@if ($order->deliveryLine2 != '')
+					<li>{{ $order->deliveryLine2 }}</li>
 				@endif
-				@if ($order->deliveryAddress->line3 != '')
-					<li>{{ $order->deliveryAddress->line3 }}</li>
+				@if ($order->deliveryLine3 != '')
+					<li>{{ $order->deliveryLine3 }}</li>
 				@endif
-				<li>{{ $order->deliveryAddress->city }}</li>
-				<li>{{ $order->deliveryAddress->region }}</li>
-				<li>{{ $order->deliveryAddress->country }}</li>
-				<li>{{ $order->deliveryAddress->postcode }}</li>
+				<li>{{ $order->deliveryCity }}</li>
+				<li>{{ $order->deliveryRegion }}</li>
+				<li>{{ $order->deliveryCountry }}</li>
+				<li>{{ $order->deliveryPostCode }}</li>
 			</ul>
 
 			@switch($paymentMethod['type'])

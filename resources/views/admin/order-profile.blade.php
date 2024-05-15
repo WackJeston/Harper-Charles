@@ -58,23 +58,23 @@
 				<div class="web-box">
 					<strong>Billing Address:</strong>
 					<ul>
-						<li>{{ $addresses['billing']->firstName }} {{ $addresses['billing']->lastName }}</li>
-						<li>{{ $addresses['billing']->line1 }}</li>
-						@if ($addresses['billing']->line2)
-							<li>{{ $addresses['billing']->line2 }}</li>
+						<li>{{ $order->billingFirstName }} {{ $order->billingLastName }}</li>
+						<li>{{ $order->billingLine1 }}</li>
+						@if ($order->billingLine2)
+							<li>{{ $order->billingLine2 }}</li>
 						@endif
-						@if ($addresses['billing']->line3)
-							<li>{{ $addresses['billing']->line3 }}</li>
+						@if ($order->billingLine3)
+							<li>{{ $order->billingLine3 }}</li>
 						@endif
-						<li>{{ $addresses['billing']->city }}</li>
-						<li>{{ $addresses['billing']->region }}, {{ $addresses['billing']->country }}</li>
-						<li>{{ $addresses['billing']->postCode }}</li>
+						<li>{{ $order->billingCity }}</li>
+						<li>{{ $order->billingRegion }}, {{ $order->billingCountry }}</li>
+						<li>{{ $order->billingPostCode }}</li>
 						
-						@if ($addresses['billing']->phone)
-							<li>{{ $addresses['billing']->phone }}</li>
+						@if ($order->billingPhone)
+							<li>{{ $order->billingPhone }}</li>
 						@endif
-						@if ($addresses['billing']->email)
-							<li>{{ $addresses['billing']->email }}</li>
+						@if ($order->billingEmail)
+							<li>{{ $order->billingEmail }}</li>
 						@endif
 					</ul>
 				</div>
@@ -82,23 +82,23 @@
 				<div class="web-box">
 					<strong>Delivery Address:</strong>
 					<ul>
-						<li>{{ $addresses['delivery']->firstName }} {{ $addresses['delivery']->lastName }}</li>
-						<li>{{ $addresses['delivery']->line1 }}</li>
-						@if ($addresses['delivery']->line2)
-							<li>{{ $addresses['delivery']->line2 }}</li>
+						<li>{{ $order->deliveryFirstName }} {{ $order->deliveryLastName }}</li>
+						<li>{{ $order->deliveryLine1 }}</li>
+						@if ($order->deliveryLine2)
+							<li>{{ $order->deliveryLine2 }}</li>
 						@endif
-						@if ($addresses['delivery']->line3)
-							<li>{{ $addresses['delivery']->line3 }}</li>
+						@if ($order->deliveryLine3)
+							<li>{{ $order->deliveryLine3 }}</li>
 						@endif
-						<li>{{ $addresses['delivery']->city }}</li>
-						<li>{{ $addresses['delivery']->region }}, {{ $addresses['delivery']->country }}</li>
-						<li>{{ $addresses['delivery']->postCode }}</li>
+						<li>{{ $order->deliveryCity }}</li>
+						<li>{{ $order->deliveryRegion }}, {{ $order->deliveryCountry }}</li>
+						<li>{{ $order->deliveryPostCode }}</li>
 						
-						@if ($addresses['delivery']->phone)
-							<li>{{ $addresses['delivery']->phone }}</li>
+						@if ($order->deliveryPhone)
+							<li>{{ $order->deliveryPhone }}</li>
 						@endif
-						@if ($addresses['delivery']->email)
-							<li>{{ $addresses['delivery']->email }}</li>
+						@if ($order->deliveryEmail)
+							<li>{{ $order->deliveryEmail }}</li>
 						@endif
 					</ul>
 				</div>

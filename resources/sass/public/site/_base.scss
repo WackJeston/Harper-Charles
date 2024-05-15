@@ -543,7 +543,7 @@ button.button-active {
 }
 
 .alert-box.info {
-	background-color: v.$baby-blue-darker;
+	background-color: v.$baby-blue-dark;
 }
 
 // ToDo: Fix floating alert right margin collasping
@@ -615,7 +615,7 @@ button.button-active {
 
 .alert-box.info i:hover {
 	@media (min-width: 640px) {
-		color: v.$baby-blue-darker;
+		color: v.$baby-blue-dark;
 	}
 }
 

@@ -33,14 +33,14 @@
 					<div class="saved-record">
 						<ul>
 							<li class="billing-address">Billing Address</li>
-							<li class="first">{{ this.checkout.billingAddress.firstName }} {{ this.checkout.billingAddress.lastName }}</li>
-							<li>{{ this.checkout.billingAddress.company }}</li>
-							<li>{{ this.checkout.billingAddress.line1 }}</li>
-							<li>{{ this.checkout.billingAddress.city }}, {{ this.checkout.billingAddress.region }}</li>
-							<li>{{ this.checkout.billingAddress.country }}</li>
-							<li>{{ this.checkout.billingAddress.postCode }}</li>
-							<li>{{ this.checkout.billingAddress.phone }}</li>
-							<li>{{ this.checkout.billingAddress.email }}</li>
+							<li class="first">{{ this.checkout.billingFirstName }} {{ this.checkout.billingLastName }}</li>
+							<li>{{ this.checkout.billingCompany }}</li>
+							<li>{{ this.checkout.billingLine1 }}</li>
+							<li>{{ this.checkout.billingCity }}, {{ this.checkout.billingRegion }}</li>
+							<li>{{ this.checkout.billingCountry }}</li>
+							<li>{{ this.checkout.billingPostCode }}</li>
+							<li>{{ this.checkout.billingPhone }}</li>
+							<li>{{ this.checkout.billingEmail }}</li>
 						</ul>
 
 						<div class="record-buttons">
@@ -58,14 +58,14 @@
 					<div class="saved-record">
 						<ul>
 							<li class="billing-address">Delivery Address</li>
-							<li class="first">{{ this.checkout.deliveryAddress.firstName }} {{ this.checkout.deliveryAddress.lastName }}</li>
-							<li>{{ this.checkout.deliveryAddress.company }}</li>
-							<li>{{ this.checkout.deliveryAddress.line1 }}</li>
-							<li>{{ this.checkout.deliveryAddress.city }}, {{ this.checkout.deliveryAddress.region }}</li>
-							<li>{{ this.checkout.deliveryAddress.country }}</li>
-							<li>{{ this.checkout.deliveryAddress.postCode }}</li>
-							<li>{{ this.checkout.deliveryAddress.phone }}</li>
-							<li>{{ this.checkout.deliveryAddress.email }}</li>
+							<li class="first">{{ this.checkout.deliveryFirstName }} {{ this.checkout.deliveryLastName }}</li>
+							<li>{{ this.checkout.deliveryCompany }}</li>
+							<li>{{ this.checkout.deliveryLine1 }}</li>
+							<li>{{ this.checkout.deliveryCity }}, {{ this.checkout.deliveryRegion }}</li>
+							<li>{{ this.checkout.deliveryCountry }}</li>
+							<li>{{ this.checkout.deliveryPostCode }}</li>
+							<li>{{ this.checkout.deliveryPhone }}</li>
+							<li>{{ this.checkout.deliveryEmail }}</li>
 						</ul>
 
 						<div class="record-buttons">

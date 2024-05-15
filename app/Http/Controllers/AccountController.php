@@ -40,7 +40,7 @@ class AccountController extends PublicController
 		$ordersTable->addColumn('items', 'Items', 1, true);
 		$ordersTable->addColumn('total', 'Total', 1, false, 'currency');
 		$ordersTable->addColumn('date', 'Date');
-		$ordersTable->addLinkButton('account/order/?', 'fa-solid fa-folder-open', 'Open Record');
+		$ordersTable->addLinkButton('account/order/?', 'fa-solid fa-folder-open', 'Order Details');
 		$ordersTable = $ordersTable->render();
 
     return view('public/account', compact(
@@ -125,7 +125,7 @@ class AccountController extends PublicController
 			$itemsTable->addColumn('title', 'Title', 3);
 			$itemsTable->addColumn('quantity', 'Qty');
 			$itemsTable->addColumn('price', 'Price', 2, false, 'currency');
-			$itemsTable->addLinkButton('product/?', 'fa-solid fa-folder-open', 'Open Record');
+			$itemsTable->addLinkButton('product/?', 'fa-solid fa-folder-open', 'View Product');
 			$itemsTable = $itemsTable->render();
 
 			return view('public/account', compact(

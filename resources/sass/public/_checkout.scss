@@ -168,6 +168,31 @@
 	}
 }
 
+.checkout-section #record-header .header-total {
+	font-size: 1.1rem;
+	line-height: 1.1rem;
+	margin-left: auto;
+	opacity: 0.7;
+	
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+		line-height: 0.7rem;
+	}
+}
+
+.checkout-section #record-header h3 {
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	margin: 0;
+	padding: 0;
+	color: v.$white;
+
+	@media (max-width: 640px) {
+		font-size: 0.8rem;
+		line-height: 0.8rem;
+	}
+}
+
 .checkout-section #record-header i {
 	color: v.$white;
 	margin: 20px 10px 20px 0;

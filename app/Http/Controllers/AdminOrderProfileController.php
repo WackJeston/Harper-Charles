@@ -42,20 +42,6 @@ class AdminOrderProfileController extends AdminController
 			$order->primaryNote = $order->primaryNote->note;
 		}
 
-		$addresses['billing'] = DB::select('SELECT
-			a.*
-			FROM addresses AS a
-			INNER JOIN orders AS o ON o.billingAddressId=a.id
-			WHERE o.id = ?', [$id]
-		)[0];
-
-		$addresses['delivery'] = DB::select('SELECT
-			a.*
-			FROM addresses AS a
-			INNER JOIN orders AS o ON o.deliveryAddressId=a.id
-			WHERE o.id = ?', [$id]
-		)[0];
-
 		$notesForm = new DataForm(request(), sprintf('/order-profileAddNote/%d', $order->id), 'Add');
 		$notesForm->addInput('textarea', 'note', 'Note', '', 4000, 1, true);
 		$notesForm = $notesForm->render();
@@ -119,7 +105,6 @@ class AdminOrderProfileController extends AdminController
 
     return view('admin/order-profile', compact(
 			'order',
-			'addresses',
 			'notesForm',
 			'notesTable',
 			'itemsTable',
