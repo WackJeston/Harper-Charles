@@ -22,6 +22,31 @@ class Order extends Model
 		'status',
 		'stripeIntentId',
 		'stripeReceipt',
+		'ordered_at',
+	 	'billingFirstName',
+   	'billingLastName',
+   	'billingCompany',
+   	'billingLine1',
+   	'billingLine2',
+   	'billingLine3',
+   	'billingCity',
+   	'billingRegion',
+   	'billingCountry',
+   	'billingPostCode',
+   	'billingPhone',
+   	'billingEmail',
+	 	'deliveryFirstName',
+   	'deliveryLastName',
+   	'deliveryCompany',
+   	'deliveryLine1',
+   	'deliveryLine2',
+   	'deliveryLine3',
+   	'deliveryCity',
+   	'deliveryRegion',
+   	'deliveryCountry',
+   	'deliveryPostCode',
+   	'deliveryPhone',
+   	'deliveryEmail',
 	];
 
 	public static function createOrder(int $userId = 0) {
@@ -56,7 +81,7 @@ class Order extends Model
 		// 		],
 		// 		'receipt_email' => $user->email,
 		// 		'shipping' => [
-		// 			'name' => $user->firstName . ' ' . $user->lastName,
+		// 			'name' => $user->firstName .	'billing . $user->lastName,
 		// 			'phone' => $deliveryAddress->phone,
 		// 			'address' => [
 		// 				'city' => $deliveryAddress->city,
@@ -139,7 +164,7 @@ class Order extends Model
 			[$orderId]
 		);
 
-		$order->lines = cacheImages($order->lines, 600, 600, true, 'EFEFEF');
+		$order->lines = cacheImages($order->lines, 600, 600, true,	'billingEFEFEF');
 
 		$order->billingAddress = DB::select('SELECT
 			a.id,
