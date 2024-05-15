@@ -80,48 +80,12 @@
 
 			<div class="page-column">
 				@if ($primaryImage != null)
-					<div class="web-box">
+					<div class="web-box profile-image-container">
 						<div class="profile-image" style="background-image: url('{{ $primaryImage }}');"></div>
 					</div>
 				@endif
 			</div>
 		</div>
-
-    {{-- <div class="web-box profile-main">
-			<div class="wb-row">
-				<ul>
-					<li><strong>Title: </strong>{{ $product->title }}</li>
-					<li><strong>Subtitle: </strong>{{ $product->subtitle }}</li>
-					@if (!is_null($product->productNumber))
-						<li><strong>Product Number: </strong>{{ $product->productNumber }}</li>
-					@endif
-					@if (!is_null($product->orbitalVisionId))
-						<li><strong>Orbital Vision: </strong>{{ $product->orbitalVisionId }}</li>
-					@endif
-					<li><strong>Price: </strong>£{{ $product->price }}</li>
-					@if (!is_null($product->maxQuantity))
-						<li><strong>Max Purchase Quantity: </strong>{{ $product->maxQuantity }}</li>
-					@endif
-					@if (!is_null($product->stock))
-					<li><strong>Stock: </strong>{{ $product->stock }}</li>
-					@endif
-					@if (!is_null($product->startDate))
-						<li><strong>Start Date: </strong>{{ $product->startDate }}</li>
-					@endif
-					@if (!is_null($product->endDate))
-						<li><strong>End Date: </strong>{{ $product->endDate }}</li>
-					@endif
-					@if ($product->created_at)
-						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
-					@endif
-					<li class="text-box"><strong>Description: </strong>{{ $product->description }}</li>
-				</ul>
-				
-				@if ($primaryImage != null)
-					<div class="wb-image" style="background-image: url('{{ $primaryImage }}');"></div>
-				@endif
-			</div>
-		</div> --}}
 
   </main>
 @endsection

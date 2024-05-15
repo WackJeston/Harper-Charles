@@ -120,10 +120,18 @@ main h2 {
 	flex-wrap: wrap;
 	align-items: flex-start;
 	justify-content: flex-start;
+
+	@media (min-width: 800px) {
+		gap: 20px;
+	}
 }
 
 .page-column-container .page-column.grid .web-box {
 	flex-grow: 1;
+}
+
+.page-column-container .page-column.grid .web-box:not(:last-child) {
+	margin-bottom: 0;
 }
 
 .page-column-container .page-column .web-box {
@@ -216,6 +224,12 @@ main h2 {
 	}
 }
 
+.profile-image-container {
+	@media (min-width: 800px) {
+		margin-left: auto;
+	}
+}
+
 .profile-image {
 	position: relative;
 	border-radius: 3px;
@@ -225,6 +239,11 @@ main h2 {
 	height: 0px;
 	width: 100%;
 	padding-bottom: 100%;
+
+	@media (min-width: 800px) {
+		width: 65vh;
+		padding-bottom: 65vh;
+	}
 }
 
 .profile-details {

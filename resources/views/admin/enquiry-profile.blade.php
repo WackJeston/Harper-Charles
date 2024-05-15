@@ -58,15 +58,17 @@
 						<li><strong>Subject:</strong> {{ $enquiry->subject }}</li>
 					@endif			
 				</ul>
-			</div>
 
-			<div class="page-column">
 				<div class="web-box">
 					<strong>Message:</strong>
 					<p>
 						{{ $enquiry->message }}
 					</p>
 				</div>
+			</div>
+
+			<div class="page-column">
+				
 			</div>
 		</div>
   </main>

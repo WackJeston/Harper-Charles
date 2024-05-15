@@ -57,29 +57,11 @@
 
 			<div class="page-column">
 				@if ($primaryImage != null)
-					<div class="web-box">
+					<div class="web-box profile-image-container">
 						<div class="profile-image" style="background-image: url('{{ $primaryImage }}');"></div>
 					</div>
 				@endif
 			</div>
 		</div>
-
-		{{-- <div class="web-box profile-main">
-			<div class="wb-row">
-				<ul>
-					<li><strong>Title: </strong>{{ $category->title }}</li>
-					@if ($category->subtitle)
-						<li><strong>Subtitle: </strong>{{ $category->subtitle }}</li>
-					@endif
-					@if ($category->created_at)
-						<li><strong>Created At: </strong>{{ $category->created_at }}</li>
-					@endif
-				</ul>
-
-				@if ($primaryImage != null)
-					<div class="wb-image" style="background-image: url('{{ $primaryImage }}');"></div>
-				@endif
-			</div>
-		</div> --}}
   </main>
 @endsection
