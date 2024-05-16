@@ -24,7 +24,7 @@ class AdminEnquiriesController extends AdminController
 				'search' => null,
 				'type' => 'all',
 			];
-			$query = 'SELECT * FROM enquiry';
+			$query = 'SELECT *, DATE_FORMAT(created_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date` FROM enquiry';
 		}
 
 		$searchForm = new DataForm(request(), '/enquiriesSearch', 'Search');
@@ -56,7 +56,7 @@ class AdminEnquiriesController extends AdminController
 		$enquiriesTable->addColumn('name', 'Name', 2, true);
 		$enquiriesTable->addColumn('email', 'Email', 3);
 		$enquiriesTable->addColumn('subject', 'Subject', 2);
-		$enquiriesTable->addColumn('created_at', 'Date', 2, true);
+		$enquiriesTable->addColumn('date', 'Date', 3, true);
 		$enquiriesTable->addLinkButton('enquiry-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$enquiriesTable = $enquiriesTable->render();
 
@@ -73,7 +73,7 @@ class AdminEnquiriesController extends AdminController
 			'search' => 'max:255',
 		]);
 
-		$query = 'SELECT * FROM enquiry WHERE true';
+		$query = 'SELECT *, DATE_FORMAT(created_at, "%d/%m/%Y %H:%i:%s") AS `date` FROM enquiry WHERE true';
 
 		if (!empty($request->search)) {
 			$query .= sprintf(' AND (id LIKE "%%%1$s%%" OR `name` LIKE "%%%1$s%%" OR email LIKE "%%%1$s%%" OR `subject` LIKE "%%%1$s%%")', $request->search);

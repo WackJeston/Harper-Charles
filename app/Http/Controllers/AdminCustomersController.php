@@ -23,11 +23,11 @@ class AdminCustomersController extends AdminController
 		$createForm = $createForm->render();
 
     $customersTable = new DataTable('users');
-		$customersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name` FROM users WHERE admin = 0');
+		$customersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name`, DATE_FORMAT(created_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date` FROM users WHERE admin = 0');
 		$customersTable->addColumn('id', '#');
 		$customersTable->addColumn('name', 'Name');
 		$customersTable->addColumn('email', 'Email', 2);
-		$customersTable->addColumn('created_at', 'Created', 1 , true);
+		$customersTable->addColumn('date', 'Created At', 2, true);
 		$customersTable->addLinkButton('customer-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$customersTable = $customersTable->render();
 

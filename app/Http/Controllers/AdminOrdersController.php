@@ -28,7 +28,8 @@ class AdminOrdersController extends AdminController
 			$query = 'SELECT 
 				o.*,
 				CONCAT(u.firstName, " ", u.lastName) AS `name`,
-				COUNT(n.ID) AS `notes`
+				COUNT(n.ID) AS `notes`,
+				DATE_FORMAT(o.ordered_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date`
 				FROM orders AS o
 				LEFT JOIN users AS u ON u.id=o.userId
 				LEFT JOIN order_notes AS n ON n.orderId=o.id
@@ -95,7 +96,7 @@ class AdminOrdersController extends AdminController
 		$ordersTable->addColumn('notes', 'Notes', 1, true);
 		$ordersTable->addColumn('items', 'Items', 1, true);
 		$ordersTable->addColumn('total', 'Total', 2);
-		$ordersTable->addColumn('created_at', 'Created', 3 , true);
+		$ordersTable->addColumn('date', 'Ordered At', 3 , true);
 		$ordersTable->addLinkButton('order-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$ordersTable = $ordersTable->render();
 

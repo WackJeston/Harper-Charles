@@ -25,7 +25,7 @@ class AccountController extends PublicController
 		$ordersTable = new DataTable('orders');
 		$ordersTable->setQuery('SELECT 
 			o.*,
-			DATE_FORMAT(o.created_at, "%%d/%%m/%%Y") AS `date`,
+			DATE_FORMAT(o.ordered_at, "%%d/%%m/%%Y") AS `date`,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`
 			FROM orders AS o
 			INNER JOIN users AS u ON u.id=o.userId

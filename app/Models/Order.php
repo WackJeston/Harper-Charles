@@ -54,7 +54,7 @@ class Order extends Model
 			o.*,
 			CONCAT(u.firstName, " ", u.lastName) AS `name`,
 			SUM(ol.quantity) AS `count`,
-			DATE_FORMAT(o.created_at, "%d/%m/%Y") AS `date`
+			DATE_FORMAT(o.ordered_at, "%d/%m/%Y") AS `date`
 			FROM orders AS o
 			LEFT JOIN order_lines AS ol ON ol.orderId=o.id
 			LEFT JOIN products AS p ON p.id=ol.productId

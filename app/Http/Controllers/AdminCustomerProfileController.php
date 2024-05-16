@@ -20,7 +20,8 @@ class AdminCustomerProfileController extends AdminController
     }
 
     $customer = DB::select(sprintf('SELECT
-      *
+      *,
+			DATE_FORMAT(created_at, "d/m/Y H:i:s") AS `date`
       FROM users
       WHERE id = %d
       LIMIT 1
@@ -36,11 +37,11 @@ class AdminCustomerProfileController extends AdminController
 		$editForm = $editForm->render();
 
 		$ordersTable = new DataTable('orders');
-		$ordersTable->setQuery(sprintf('SELECT o.* FROM orders AS o WHERE o.userId = %d AND o.type != "basket"', $id));
+		$ordersTable->setQuery(sprintf('SELECT o.*, DATE_FORMAT(ordered_at, "d/m/Y H:i:s") AS `date` FROM orders AS o WHERE o.userId = %d AND o.type != "basket"', $id));
 		$ordersTable->addColumn('id', '#');
 		$ordersTable->addColumn('status', 'Status');
 		$ordersTable->addColumn('total', 'Total');
-		$ordersTable->addColumn('created_at', 'Created', 1, true);
+		$ordersTable->addColumn('date', 'Date', 1, true);
 		$ordersTable->addLinkButton('order-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$ordersTable = $ordersTable->render();
 

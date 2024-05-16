@@ -67,8 +67,8 @@
 					@if (!is_null($product->endDate))
 						<li><strong>End Date: </strong>{{ $product->endDate }}</li>
 					@endif
-					@if ($product->created_at)
-						<li><strong>Created On: </strong>{{ $product->created_at }}</li>
+					@if (!empty($product->updatedAt))
+						<li><strong>Updated At: </strong>{{ $product->updatedAt }}</li>
 					@endif
 				</ul>
 

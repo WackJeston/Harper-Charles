@@ -23,11 +23,11 @@ class AdminUsersController extends AdminController
 		$createForm = $createForm->render();
 
     $usersTable = new DataTable('users');
-		$usersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name` FROM users WHERE admin = 1');
+		$usersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name`, DATE_FORMAT(created_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date` FROM users WHERE admin = 1');
 		$usersTable->addColumn('id', '#');
 		$usersTable->addColumn('name', 'Name');
 		$usersTable->addColumn('email', 'Email', 2);
-		$usersTable->addColumn('created_at', 'Created At', 1, true);
+		$usersTable->addColumn('date', 'Created At', 2, true);
 		$usersTable->addLinkButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$usersTable = $usersTable->render();
 

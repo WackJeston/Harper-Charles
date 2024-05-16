@@ -666,6 +666,7 @@ class CheckoutController extends PublicController
 		$order->type = 'web';
 		$order->status = 'new';
 		$order->stripeReceipt = $receipt;
+		$order->ordered_at = date('Y-m-d H:i:s');
 		$order->save();
 
 		foreach ($orderItems as $i => $item) {
