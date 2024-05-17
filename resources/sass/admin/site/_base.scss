@@ -126,7 +126,7 @@ main h2 {
 	}
 }
 
-.page-column-container .page-column.grid .web-box {
+.page-column-container .page-column.grid .web-box:not(.shrink) {
 	flex-grow: 1;
 }
 

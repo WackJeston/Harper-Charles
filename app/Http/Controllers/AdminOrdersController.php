@@ -115,10 +115,11 @@ class AdminOrdersController extends AdminController
 		$query = 'SELECT 
 				o.*,
 				CONCAT(u.firstName, " ", u.lastName) AS `name`,
-				COUNT(n.id) AS `notes`
+				COUNT(n.id) AS `notes`,
+				DATE_FORMAT(o.ordered_at, "%d/%m/%Y %H:%i:%s") AS `date`
 				FROM orders AS o
-				INNER JOIN users AS u ON u.id=o.userId
-				INNER JOIN order_notes AS n ON n.orderId=o.id
+				LEFT JOIN users AS u ON u.id=o.userId
+				LEFT JOIN order_notes AS n ON n.orderId=o.id
 				WHERE o.type != "basket"';
 
 		if (!empty($request->search)) {
@@ -144,6 +145,10 @@ class AdminOrdersController extends AdminController
 		}
 
 		$query .= ' GROUP BY o.id';
+
+		if (empty($request->search)) {
+			$query = str_replace('%', '%%', $query);
+		}
 
 		$values = [
 			'search' => $request->search,

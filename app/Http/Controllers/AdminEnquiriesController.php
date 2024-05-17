@@ -93,6 +93,10 @@ class AdminEnquiriesController extends AdminController
 			$query .= sprintf(' AND `type` = "%s"', $request->type);
 		}
 
+		if (empty($request->search)) {
+			$query = str_replace('%', '%%', $query);
+		}
+
 		$values = [
 			'search' => $request->search,
 			'type' => $request->type,

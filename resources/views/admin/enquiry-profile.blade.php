@@ -53,7 +53,7 @@
 					<li><strong>Name:</strong> {{ $enquiry->name }}</li>
 					<li><strong>Email:</strong> {{ $enquiry->email }}</li>
 					<li><strong>Phone:</strong> {{ $enquiry->phone }}</li>
-					<li><strong>Date:</strong> {{ date('d-m-Y', strtotime($enquiry->created_at)) }}</li>
+					<li><strong>Date:</strong> {{ date('d/m/Y H:m:s', strtotime($enquiry->created_at)) }}</li>
 					@if ($type != 'sponsor')
 						<li><strong>Subject:</strong> {{ $enquiry->subject }}</li>
 					@endif			

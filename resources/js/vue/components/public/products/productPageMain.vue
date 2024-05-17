@@ -29,7 +29,8 @@
 
 		<div class="wb-content-container">
 			<div class="wb-content dk">
-				<h3 v-show="this.product.subtitle">{{this.product.subtitle}}</h3>
+				<h3 v-show="this.product.subtitle"><strong>{{this.product.subtitle}}</strong></h3>
+				<small v-if="this.product.endDate">This product is only available until {{ this.product.endDate }}</small>
 				<p>#: {{this.product.id}}</p>
 			</div>
 			

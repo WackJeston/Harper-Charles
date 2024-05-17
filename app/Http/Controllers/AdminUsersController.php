@@ -23,10 +23,19 @@ class AdminUsersController extends AdminController
 		$createForm = $createForm->render();
 
     $usersTable = new DataTable('users');
-		$usersTable->setQuery('SELECT *, CONCAT(firstName, " ", lastName) AS `name`, DATE_FORMAT(created_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date` FROM users WHERE admin = 1');
+		$usersTable->setQuery('SELECT 
+			u.*, 
+			CONCAT(u.firstName, " ", u.lastName) AS `name`, 
+			DATE_FORMAT(u.created_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS `date`,
+			COUNT(o.id) AS `orders`
+			FROM users AS u 
+			LEFT JOIN orders AS o ON o.userId = u.id
+			WHERE u.admin = 1'
+		);
 		$usersTable->addColumn('id', '#');
 		$usersTable->addColumn('name', 'Name');
 		$usersTable->addColumn('email', 'Email', 2);
+		$usersTable->addColumn('orders', 'Orders');
 		$usersTable->addColumn('date', 'Created At', 2, true);
 		$usersTable->addLinkButton('user-profile/?', 'fa-solid fa-folder-open', 'Open Record');
 		$usersTable = $usersTable->render();

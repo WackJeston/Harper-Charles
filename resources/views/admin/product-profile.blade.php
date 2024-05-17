@@ -62,13 +62,13 @@
 					<li><strong>Stock: </strong>{{ $product->stock }}</li>
 					@endif
 					@if (!is_null($product->startDate))
-						<li><strong>Start Date: </strong>{{ $product->startDate }}</li>
+						<li><strong>Start Date: </strong>{{ date('d/m/Y H:m:s', strtotime($product->startDate)) }}</li>
 					@endif
 					@if (!is_null($product->endDate))
-						<li><strong>End Date: </strong>{{ $product->endDate }}</li>
+						<li><strong>End Date: </strong>{{ date('d/m/Y H:m:s', strtotime($product->endDate)) }}</li>
 					@endif
-					@if (!empty($product->updatedAt))
-						<li><strong>Updated At: </strong>{{ $product->updatedAt }}</li>
+					@if (!empty($product->updated_at))
+						<li><strong>Updated At: </strong>{{ date('d/m/Y H:m:s', strtotime($product->updated_at)) }}</li>
 					@endif
 				</ul>
 

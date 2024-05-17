@@ -138,10 +138,9 @@ Route::group( ['middleware' => 'auth' ], function()
 
 	// ADMIN -----------------------------------------------------------------------------------
 	Route::get('/header-toggleNotification/{id}/{notificationUserId}/{type}', [AdminHeaderController::class, 'toggleNotification']);
-  
-	Route::view('/admin', 'admin/auth/login');
 	
   Route::controller(AuthController::class)->group(function () {
+    Route::get('/admin', 'adminViewLogin');
     Route::get('/adminLogin', 'authenticateAdmin');
     Route::get('/adminLogout', 'logoutAdmin');
   });

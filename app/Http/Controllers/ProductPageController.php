@@ -26,7 +26,9 @@ class ProductPageController extends PublicController
 		}
 
 		if (!$records = getCachedRecords('public-page-product-' . $id)) {
-			$product = Products::find($id);
+			if (!empty($product->endDate)) {
+				$product->endDate = date('d/m/Y', strtotime($product->endDate));
+			}
 
 			if (!is_null($product->stock) && (is_null($product->maxQuantity) || $product->stock < $product->maxQuantity)) {
 				$product->maxQuantity = $product->stock;

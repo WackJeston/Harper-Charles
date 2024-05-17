@@ -28,7 +28,6 @@ class AdminProductProfileController extends AdminController
 		// Product
     $product = DB::select('SELECT 
 			p.*,
-			DATE_FORMAT(p.updated_at, "%%d/%%m/%%Y %%H:%%i:%%s") AS updatedAt,
 			COUNT(pcj.id) AS categoryCount
 			FROM products AS p
 			LEFT JOIN product_category_joins AS pcj ON pcj.productId=p.id

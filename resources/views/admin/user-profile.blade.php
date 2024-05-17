@@ -44,6 +44,32 @@
 					@endif
 				</ul>
 			</div>
+
+			<div class="page-column grid">
+				<div class="web-box shrink">
+					<strong>Billing Address:</strong>
+					<ul>
+						<li>{{ $billingAddress->firstName }} {{ $billingAddress->lastName }}</li>
+						<li>{{ $billingAddress->line1 }}</li>
+						@if ($billingAddress->line2)
+							<li>{{ $billingAddress->line2 }}</li>
+						@endif
+						@if ($billingAddress->line3)
+							<li>{{ $billingAddress->line3 }}</li>
+						@endif
+						<li>{{ $billingAddress->city }}</li>
+						<li>{{ $billingAddress->region }}, {{ $billingAddress->country }}</li>
+						<li>{{ $billingAddress->postCode }}</li>
+						
+						@if ($billingAddress->phone)
+							<li>{{ $billingAddress->phone }}</li>
+						@endif
+						@if ($billingAddress->email)
+							<li>{{ $billingAddress->email }}</li>
+						@endif
+					</ul>
+				</div>
+			</div>
 		</div>
   </main>
 @endsection

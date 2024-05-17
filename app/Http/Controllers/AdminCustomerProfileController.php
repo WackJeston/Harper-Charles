@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
+use App\Models\Address;
 use App\Models\User;
 
 
@@ -29,6 +30,8 @@ class AdminCustomerProfileController extends AdminController
 
     $customer = $customer[0];
 
+		$billingAddress = Address::where('userId', $id)->where('defaultBilling', true)->first();	
+
 		$editForm = new dataForm(request(), sprintf('/customer-profileUpdate/%d', $id), 'Update');
 		$editForm->addInput('text', 'firstname', 'First Name', $customer->firstName, 255, 1, true);
 		$editForm->addInput('text', 'lastname', 'Last Name', $customer->lastName, 255, 1, true);
@@ -47,6 +50,7 @@ class AdminCustomerProfileController extends AdminController
 
     return view('admin/customer-profile', compact(
       'customer',
+			'billingAddress',
 			'editForm',
 			'ordersTable',
     ));

@@ -17,7 +17,7 @@
       </div>
     @endif
 
-    <h1>{{ $product['title'] }}</h1>
+    <h1><strong>{{ $product['title'] }}</strong></h1>
 
     <section id="productpagemain" class="product-page-main web-box">
       <productpagemain

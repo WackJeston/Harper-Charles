@@ -42,6 +42,11 @@ class AuthController extends PublicController
     ]);
   }
 
+	public function adminViewLogin()
+  {
+    return view('admin/auth/login');
+  }
+
   public function logoutAdmin() {
     Session::flush();
     Auth::logout();
