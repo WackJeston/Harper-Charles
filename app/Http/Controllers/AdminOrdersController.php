@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DataTable;
 use App\DataForm;
-use App\Models\Orders;
+use App\Models\Order;
 
 
 class AdminOrdersController extends AdminController
@@ -40,51 +40,9 @@ class AdminOrdersController extends AdminController
 		$searchForm = new DataForm(request(), '/ordersSearch', 'Search');
 		$searchForm->addInput('text', 'search', 'Search', $formValue['search'], 255, 0);
 		$searchForm->addInput('select', 'type', 'Type', $formValue['type'], null, null, false, null, [], false);
-		$searchForm->populateOptions('type', [
-			[
-				'value' => 'all',
-				'label' => '',
-			],
-			[
-				'value' => 'web',
-				'label' => 'Web',
-			],
-			[
-				'value' => 'bespoke',
-				'label' => 'Beskope',
-			],
-			[
-				'value' => 'interior',
-				'label' => 'Interior',
-			],
-		], false);
+		$searchForm->populateOptions('type', Order::getTypes(true), false);
 		$searchForm->addInput('select', 'status', 'Status', $formValue['status'], null, null, false, null, [], false);
-		$searchForm->populateOptions('status', [
-			[
-				'value' => 'all',
-				'label' => '',
-			],
-			[
-				'value' => 'new',
-				'label' => 'New',
-			],
-			[
-				'value' => 'processing',
-				'label' => 'Processing',
-			],
-			[
-				'value' => 'awaiting-delivery',
-				'label' => 'Awaiting Delivery',
-			],
-			[
-				'value' => 'out-for-delivery',
-				'label' => 'Out for Delivery',
-			],
-			[
-				'value' => 'complete',
-				'label' => 'Complete',
-			],
-		], false);
+		$searchForm->populateOptions('status', Order::getStatuses(true), false);
 		$searchForm = $searchForm->render();
 
     $ordersTable = new DataTable('orders');

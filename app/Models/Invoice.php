@@ -47,7 +47,7 @@ class Invoice extends Model
 		}
 
 		$data = [
-			'date' => date('d/m/Y'),
+			'date' => date('d/m/Y', strtotime($order->ordered_at)),
 			'order' => $order,
 			'paymentMethod' => $paymentMethod,
 		];

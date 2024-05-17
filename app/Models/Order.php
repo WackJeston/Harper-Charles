@@ -106,6 +106,76 @@ class Order extends Model
 		return $notes;
 	}
 
+	public static function getStatuses(bool $format = false) {
+		if (!$format) {
+			return [
+				'new' => 'New',
+				'processing' => 'Processing',
+				'awaiting-despatch' => 'Awaiting Despatch',
+				'out-for-delivery' => 'Out For Delivery',
+				'complete' => 'Complete',
+			];
+		
+		} else {
+			return [
+				[
+					'value' => 'all',
+					'label' => '',
+				],
+				[
+					'value' => 'New',
+					'label' => 'New',
+				],
+				[
+					'value' => 'Processing',
+					'label' => 'Processing',
+				],
+				[
+					'value' => 'Awaiting Despatch',
+					'label' => 'Awaiting Despatch',
+				],
+				[
+					'value' => 'Out for Delivery',
+					'label' => 'Out for Delivery',
+				],
+				[
+					'value' => 'Complete',
+					'label' => 'Complete',
+				],
+			];
+		}
+	}
+
+	public static function getTypes(bool $format = false) {
+		if (!$format) {
+			return [
+				'web' => 'Web',
+				'bespoke' => 'Bespoke',
+				'interior' => 'Interior',
+			];
+		
+		} else {
+			return [
+				[
+					'value' => 'all',
+					'label' => '',
+				],
+				[
+					'value' => 'web',
+					'label' => 'Web',
+				],
+				[
+					'value' => 'bespoke',
+					'label' => 'Beskope',
+				],
+				[
+					'value' => 'interior',
+					'label' => 'Interior',
+				],
+			];
+		}
+	}
+
 	public function hasAddresses():bool {
 		if (empty($this->billingFirstName) || empty($this->billingLastName) || empty($this->billingLine1) || empty($this->billingCity) || empty($this->billingCountry) || empty($this->billingPostCode) || empty($this->billingPhone) || empty($this->billingEmail)) {
 			return false;

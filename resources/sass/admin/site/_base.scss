@@ -667,6 +667,43 @@ h1 .string-container {
 	margin: 5px 0 0 0;
 }
 
+#timeline {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 30px 45px 30px;
+	margin-bottom: 20px;
+}
+
+#timeline .timeline-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#timeline .timeline-item i {
+	color: v.$black;
+}
+
+#timeline .timeline-item small {
+	position: absolute;
+	top: 50px;
+	white-space: wrap;
+	text-align: center;
+	line-height: 16px;
+	max-width: 65px;
+}
+
+#timeline .dash {
+	height: 4px;
+	flex-grow: 1;
+	background-color: v.$black;
+	margin: 0 10px;
+	border-radius: 2px;
+}
+
 
 // Hover Styles ---------------------------------------
 .hover:hover,

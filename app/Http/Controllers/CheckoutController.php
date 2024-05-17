@@ -664,7 +664,7 @@ class CheckoutController extends PublicController
 
 		$order->paymentMethodId = $intent->payment_method;
 		$order->type = 'web';
-		$order->status = 'new';
+		$order->status = 'New';
 		$order->stripeReceipt = $receipt;
 		$order->ordered_at = date('Y-m-d H:i:s');
 		$order->save();

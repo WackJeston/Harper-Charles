@@ -35,6 +35,32 @@
 
 		<div class="page-column-container columns-2">
 			<div class="page-column">
+				<div id="timeline" class="web-box">
+					@foreach ($statuses as $i => $status)
+						@if ($i != 'new')
+							<div class="dash"></div>
+						@endif
+
+						<div class="timeline-item">
+							@if ($status == $order->status)
+								@php
+									$statusCheck = true;
+								@endphp
+
+								<i class="fa-solid fa-circle"></i>
+							@else
+								@if (!$statusCheck)
+									<i class="fa-solid fa-circle-check"></i>
+								@else
+									<i class="fa-regular fa-circle"></i>
+								@endif
+							@endif
+
+							<small>{{ $status }}</small>
+						</div>
+					@endforeach
+				</div>
+
 				<ul class="web-box profile-details">
 					<li>Summary</li>
 					<li><strong>Status:</strong> {{ ucfirst($order->status) }}</li>
@@ -43,15 +69,6 @@
 					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
 					<li><strong>Order Date:</strong> {{ $order->created_at }}</li>
 				</ul>
-
-				@if (!empty($order->primaryNote))
-					<div class="web-box">
-						<strong>Order Note:</strong>
-						<p>
-							{{ $order->primaryNote }}
-						</p>
-					</div>
-				@endif
 			</div>
 
 			<div class="page-column grid">
@@ -102,6 +119,15 @@
 						@endif
 					</ul>
 				</div>
+
+				@if (!empty($order->primaryNote))
+					<div class="web-box">
+						<strong>Order Note:</strong>
+						<p>
+							{{ $order->primaryNote }}
+						</p>
+					</div>
+				@endif
 			</div>
 		</div>
 

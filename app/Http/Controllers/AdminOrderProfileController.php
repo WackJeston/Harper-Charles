@@ -42,6 +42,9 @@ class AdminOrderProfileController extends AdminController
 			$order->primaryNote = $order->primaryNote->note;
 		}
 
+		$statuses = Order::getStatuses();
+		$statusCheck = false;
+
 		$notesForm = new DataForm(request(), sprintf('/order-profileAddNote/%d', $order->id), 'Add');
 		$notesForm->addInput('textarea', 'note', 'Note', '', 4000, 1, true);
 		$notesForm = $notesForm->render();
@@ -105,12 +108,38 @@ class AdminOrderProfileController extends AdminController
 
     return view('admin/order-profile', compact(
 			'order',
+			'statuses',
+			'statusCheck',
 			'notesForm',
 			'notesTable',
 			'itemsTable',
 			'transactionsTable',
     ));
   }
+
+	public function proceed($id)
+	{
+		$order = Order::find($id);
+
+		$statuses = Order::getStatuses();
+		$statusCheck = false;
+
+		foreach ($statuses as $i => $status) {
+			if ($statusCheck) {
+				$order->status = $status;
+				$order->save();
+				
+				return redirect()->back()->with('success', sprintf('Order proceeded to %s.', $status));
+			}
+
+			if ($order->status == $status) {
+				$statusCheck = true;
+			}
+		}
+
+
+		return redirect()->back()->withErrors(['error' => 'Unable to proceed with order.']);
+	}
 
 	public function addNote($id)
 	{
