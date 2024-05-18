@@ -22,7 +22,7 @@ class Order extends Model
 		'status',
 		'stripeIntentId',
 		'stripeReceipt',
-		'ordered_at',
+		'deliveryDate',
 	 	'billingFirstName',
    	'billingLastName',
    	'billingCompany',
@@ -47,6 +47,7 @@ class Order extends Model
    	'deliveryPostCode',
    	'deliveryPhone',
    	'deliveryEmail',
+		'ordered_at',
 	];
 
 	public static function getOrder(int $orderId) {

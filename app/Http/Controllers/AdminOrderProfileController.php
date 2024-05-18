@@ -45,6 +45,22 @@ class AdminOrderProfileController extends AdminController
 		$statuses = Order::getStatuses();
 		$statusCheck = false;
 
+		$deliveryForm = new DataForm(request(), sprintf('/order-profileUpdateDelivery/%d', $order->id), 'Update');
+		$deliveryForm->addInput('datetime', 'deliveryDate', 'Delivery Date', !is_null($order->deliveryDate) ? $order->deliveryDate : '0000-00-00 00:00:00', null, null);
+		$deliveryForm->addInput('text', 'firstName', 'First Name', $order->deliveryFirstName, 100, 1, true);
+		$deliveryForm->addInput('text', 'lastName', 'Last Name', $order->deliveryLastName, 100, 1, true);
+		$deliveryForm->addInput('text', 'company', 'Company', $order->deliveryCompany, 100, 1);
+		$deliveryForm->addInput('text', 'line1', 'Line 1', $order->deliveryLine1, 200, 1, true);
+		$deliveryForm->addInput('text', 'line2', 'Line 2', $order->deliveryLine2, 200, 0);
+		$deliveryForm->addInput('text', 'line3', 'Line 3', $order->deliveryLine3, 200, 0);
+		$deliveryForm->addInput('text', 'city', 'City', $order->deliveryCity, 100, 1, true);
+		$deliveryForm->addInput('text', 'region', 'Region', $order->deliveryRegion, 100, 1);
+		$deliveryForm->addInput('text', 'country', 'Country', $order->deliveryCountry, 2, 1, true);
+		$deliveryForm->addInput('text', 'postcode', 'Postcode', $order->deliveryPostCode, 20, 1, true);
+		$deliveryForm->addInput('text', 'phone', 'Phone', $order->deliveryPhone, 20, 1, true);
+		$deliveryForm->addInput('text', 'email', 'Email', $order->deliveryEmail, 100, 1, true);
+		$deliveryForm = $deliveryForm->render();
+		
 		$notesForm = new DataForm(request(), sprintf('/order-profileAddNote/%d', $order->id), 'Add');
 		$notesForm->addInput('textarea', 'note', 'Note', '', 4000, 1, true);
 		$notesForm = $notesForm->render();
@@ -110,6 +126,7 @@ class AdminOrderProfileController extends AdminController
 			'order',
 			'statuses',
 			'statusCheck',
+			'deliveryForm',
 			'notesForm',
 			'notesTable',
 			'itemsTable',
@@ -126,10 +143,18 @@ class AdminOrderProfileController extends AdminController
 
 		foreach ($statuses as $i => $status) {
 			if ($statusCheck) {
+				switch ($status) {
+					case 'Awaiting Despatch':
+						if (is_null($order->deliveryDate)) {
+							return redirect()->back()->withErrors(['error' => 'Delivery Date is required.']);
+						}
+						break;
+				}
+
 				$order->status = $status;
 				$order->save();
 				
-				return redirect()->back()->with('success', sprintf('Order proceeded to %s.', $status));
+				return redirect()->back()->with('message', sprintf('Order proceeded to %s.', $status));
 			}
 
 			if ($order->status == $status) {
@@ -153,6 +178,48 @@ class AdminOrderProfileController extends AdminController
 			'note' => request('note'),
 		]);
 
-		return redirect()->back()->with('success', 'Note added.');
+		return redirect()->back()->with('message', 'Note added.');
+	}
+
+	public function updateDelivery(Request $request, int $id)
+	{
+		$request->validate([
+			'firstName' => 'required|string|max:100',
+			'lastName' => 'required|string|max:100',
+			'company' => 'nullable|string|max:100',
+			'line1' => 'required|string|max:200',
+			'line2' => 'nullable|string|max:200',
+			'line3' => 'nullable|string|max:200',
+			'city' => 'required|string|max:100',
+			'region' => 'nullable|string|max:100',
+			'country' => 'required|string|max:2',
+			'postcode' => 'required|string|max:20',
+			'phone' => 'required|string|max:20',
+			'email' => 'required|string|max:100',
+		]);
+
+		$deliveryDate = null;
+
+		if (!is_null($request->deliveryDate) ) {
+			$deliveryDate = date('Y-m-d H:i:s', strtotime($request->deliveryDate));
+		}
+
+		$order = Order::find($id);
+		$order->deliveryDate = $deliveryDate;
+		$order->deliveryFirstName = request('firstName');
+		$order->deliveryLastName = request('lastName');
+		$order->deliveryCompany = request('company');
+		$order->deliveryLine1 = request('line1');
+		$order->deliveryLine2 = request('line2');
+		$order->deliveryLine3 = request('line3');
+		$order->deliveryCity = request('city');
+		$order->deliveryRegion = request('region');
+		$order->deliveryCountry = request('country');
+		$order->deliveryPostCode = request('postcode');
+		$order->deliveryPhone = request('phone');
+		$order->deliveryEmail = request('email');
+		$order->save();
+
+		return redirect()->back()->with('message', 'Delivery details updated.');
 	}
 }

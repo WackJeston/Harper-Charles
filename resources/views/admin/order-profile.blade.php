@@ -28,6 +28,7 @@
       <orderprofilefunctions
 				pageshowmarker="{{ session()->get('pageShowMarker') }}"
 				:order="{{ json_encode($order) }}"
+				:deliveryform="{{ json_encode($deliveryForm) }}"
 				:notesform="{{ json_encode($notesForm) }}"
 				:notestable="{{ json_encode($notesTable) }}"
     	/>
@@ -35,7 +36,7 @@
 
 		<div class="page-column-container columns-2">
 			<div class="page-column">
-				<div id="timeline" class="web-box">
+				<div id="timeline">
 					@foreach ($statuses as $i => $status)
 						@if ($i != 'new')
 							<div class="dash"></div>
@@ -47,7 +48,7 @@
 									$statusCheck = true;
 								@endphp
 
-								<i class="fa-solid fa-circle"></i>
+								<i class="fa-solid fa-circle-dot"></i>
 							@else
 								@if (!$statusCheck)
 									<i class="fa-solid fa-circle-check"></i>
@@ -68,6 +69,11 @@
 					<li><strong>Total:</strong> £{{ $order->total }}</li>
 					<li><strong>{{ ucfirst($order->contactType) }}:</strong> <a class="display-link" href="/admin/{{ $order->contactType }}-profile/{{ $order->userId }}">{{ $order->user }} (#{{ $order->userId }})</a></li>
 					<li><strong>Order Date:</strong> {{ $order->created_at }}</li>
+					@if (!empty($order->deliveryDate))
+						<li><strong>Delivery Date: </strong>{{ date('d/m/Y H:m:s', strtotime($order->deliveryDate)) }}</li>
+					@else
+						<li><strong>Delivery Date: </strong><span class="text-red">Undefined</span></li>
+					@endif
 				</ul>
 			</div>
 

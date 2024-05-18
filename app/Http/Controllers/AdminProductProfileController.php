@@ -234,7 +234,7 @@ class AdminProductProfileController extends AdminController
     }
 	}
 
-  public function update(Request $request, $id)
+  public function update(Request $request, int $id)
   {
 		$request->validate([
       'title' => 'required|max:100',

@@ -267,6 +267,7 @@ Route::group( ['middleware' => 'auth' ], function()
 	Route::controller(AdminOrderProfileController::class)->group(function () {
     Route::get('/admin/order-profile/{id}', 'show');
     Route::post('/order-profileAddNote/{id}', 'addNote');
+    Route::post('/order-profileUpdateDelivery/{id}', 'updateDelivery');
     Route::get('/order-profileProceed/{id}', 'proceed');
   });
 

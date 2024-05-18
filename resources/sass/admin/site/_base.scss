@@ -673,8 +673,7 @@ h1 .string-container {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px 30px 45px 30px;
-	margin-bottom: 20px;
+	padding: 10px 20px 50px 20px;
 }
 
 #timeline .timeline-item {
@@ -685,15 +684,24 @@ h1 .string-container {
 
 #timeline .timeline-item i {
 	color: v.$black;
+
+	@media (max-width: 640px) {
+		font-size: 1rem;
+	}
 }
 
 #timeline .timeline-item small {
 	position: absolute;
-	top: 50px;
+	top: 40px;
 	white-space: wrap;
 	text-align: center;
 	line-height: 16px;
 	max-width: 65px;
+
+	@media (max-width: 640px) {
+		font-size: 0.7rem;
+		top: 30px;
+	}
 }
 
 #timeline .dash {

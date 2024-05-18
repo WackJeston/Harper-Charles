@@ -94,7 +94,7 @@
 					</div>
 
 					<div class="input-label-container">
-						<label for="region">County</label>
+						<label for="region">Region</label>
 						<input type="text" name="region" maxlength="100">
 					</div>
 				</div>
