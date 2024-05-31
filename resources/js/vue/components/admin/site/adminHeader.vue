@@ -11,6 +11,12 @@
         </div>
       </div>
 
+			<div id="settings-header-container">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'settings' ? null : 'settings')" class="nav-button" id="settings-button">
+          <i class="fa-solid fa-gear"></i>
+        </div>
+      </div>
+
       <div id="user-header-container">
         <div @click="this.navMenuActive = (this.navMenuActive == 'user' ? null : 'user')" class="header-button" id="user-button">
           <p>{{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }}</p>
@@ -28,6 +34,20 @@
 					<i v-if="notification.email" :id="'notification-' + notification.id" class="fa-solid fa-square-check" @click="this.toggleNotification(notification.notificationUserId, 'email', notification.id)"></i>
 					<i v-else :id="'notification-' + notification.id" class="fa-solid fa-square-xmark" @click="this.toggleNotification(0, 'email', notification.id)"></i>
 					<span>{{ notification.name }}</span>
+				</div>
+			</div>
+    </div>
+
+		<div id="settings-menu" :style="[this.navMenuActive == 'settings' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.settingsMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.settingsMenuWidth + 'px' }]">
+      <div class="settings-group" v-for="(group, groupName) in this.settingsData">
+				<h3>{{ groupName }}</h3>
+				<div v-for="(settings, i) in group">
+					<i v-if="settings.standard" :id="'settings-' + settings.id" class="fa-solid fa-circle-check active" @click="this.toggleSettings(settings.notificationUserId, 'standard', settings.id)"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-circle-xmark" @click="this.toggleSettings(0, 'standard', settings.id)"></i>
+
+					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.notificationUserId, 'email', settings.id)"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(0, 'email', settings.id)"></i>
+					<span>{{ settings.name }}</span>
 				</div>
 			</div>
     </div>
@@ -77,7 +97,7 @@
       'adminlinks',
       'showhome',
       'sessionuser',
-			'notifications',
+			'settings',
     ],
 
     data() {
@@ -85,6 +105,8 @@
         menuActive: false,
         navMenuActive: false,
 				userMenuWidth: 0,
+				settingsMenuWidth: 0,
+				settingsData: this.settings,
 				notificationMenuWidth: 0,
 				notificationsData: this.notifications,
       };
@@ -93,6 +115,7 @@
 		mounted() {
 			this.setUserMenuWidth();
 			this.setNotificationMenuPosition();
+			this.setSettingsMenuPosition();
 		},
 
     methods: {
@@ -137,6 +160,29 @@
 				}
 			},
 
+			setSettingsMenuPosition(start = true) {
+				let menu = document.querySelector("#settings-menu");
+				let button = document.querySelector("#settings-button");
+
+				let buttonPosition = button.getBoundingClientRect();
+
+				menu.style.right = (window.innerWidth - buttonPosition.left - button.offsetWidth) + "px";
+
+				if (start) {
+					setTimeout(() => {
+						this.setSettingsMenuPosition(false);
+					}, 500);
+					
+					setTimeout(() => {
+						this.setSettingsMenuPosition(false);
+					}, 5000);
+					
+					setTimeout(() => {
+						this.setSettingsMenuPosition(false);
+					}, 10000);
+				}
+			},
+
       toggleLinks(i, open) {
         if(open == false) {
           let list = document.querySelector(".sublist" + i);
@@ -169,7 +215,7 @@
       },
 
 			// AJAX
-			async toggleNotification(notificationUserId, type, id) {
+			async toggleSettings(notificationUserId, type, id) {
 				try {
 					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
 					this.result = await this.response.json();
@@ -182,7 +228,7 @@
 					// let button = document.querySelector("#notification-" + id);
 
 					if (this.result[0]) {
-						this.notificationsData[this.result[1]].forEach(notificationItem => {
+						this.settingsData[this.result[1]].forEach(notificationItem => {
 							if (notificationItem.name == this.result[2]) {
 								notificationItem.notificationUserId = this.result[3];
 
@@ -197,7 +243,7 @@
 						});
 
 					} else {
-						this.notificationsData[this.result[1]].forEach(notificationItem => {
+						this.settingsData[this.result[1]].forEach(notificationItem => {
 							if (notificationItem.name == this.result[2]) {
 								notificationItem.notificationUserId = undefined;
 

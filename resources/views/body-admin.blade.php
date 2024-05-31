@@ -3,21 +3,23 @@
 @section('body-admin')
 
 	@php
-		$notificationsPre = DB::select('SELECT
+		$settingsPre = DB::select('SELECT
 			n.id,
 			n.group,
 			n.name,
 			nu.id AS notificationUserId,
+			IF(nu.standard, 1, 0) AS `standard`,
 			IF(nu.email, 1, 0) AS email
 			FROM notification AS n
-			LEFT JOIN notification_user AS nu ON nu.notificationId=n.id AND nu.userId = ?', 
+			LEFT JOIN notification_user AS nu ON nu.notificationId=n.id AND nu.userId = ?
+			GROUP BY n.id', 
 			[auth()->user()['id']]
 		);
 
-		$notifications = [];
+		$settings = [];
 
-		foreach ($notificationsPre as $i => $notification) {
-			$notifications[$notification->group][] = $notification;
+		foreach ($settingsPre as $i => $settingPre) {
+			$settings[$settingPre->group][] = $settingPre;
 		}
 	@endphp
 
@@ -29,7 +31,7 @@
 					:adminlinks="{{ json_encode($adminLinks) }}"
 					showHome="{{ json_encode(true) }}"
 					:sessionuser="{{ auth()->user() }}"
-					:notifications="{{ json_encode($notifications) }}"
+					:settings="{{ json_encode($settings) }}"
 				/>
 			@else
 				<Adminheader
@@ -37,7 +39,7 @@
 					:adminlinks="{{ json_encode($adminLinks) }}"
 					showHome="{{ json_encode(false) }}"
 					:sessionuser="{{ auth()->user() }}"
-					:notifications="{{ json_encode($notifications) }}"
+					:settings="{{ json_encode($settings) }}"
 				/>
 			@endif
 		</div>

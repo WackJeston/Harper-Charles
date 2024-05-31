@@ -14,26 +14,22 @@ class AdminHeaderController extends AdminController
 		$group = Notification::select('group', 'name')->where('id', $id)->get()[0];
 
     if ($record = NotificationUser::find($notificationUserId)) {
-			$record->delete();
+			$record->{$type} = !$record->{$type};
 
-			return json_encode([0, $group->group, $group->name]);
+			if ($record->standard == 0 && $record->email == 0 && $record->phone == 0) {
+				$record->delete();
+				return json_encode([0, $group->group, $group->name]);
+			}
 		
 		} else {
 			$record = new NotificationUser;
 			$record->notificationId = $id;
 			$record->userId = auth()->user()->id;
-
-			if ($type == 'email') {
-				$record->email = 1;
-			} elseif ($type == 'phone') {
-				$record->phone = 1;
-			} else {
-				$record->standard = 1;
-			}
-
-			$record->save();
-
-			return json_encode([1, $group->group, $group->name, $record->id]);
+			$record->{$type} = 1;
 		}
+
+		$record->save();
+
+		return json_encode([1, $group->group, $group->name, $record->id]);
   }
 }
