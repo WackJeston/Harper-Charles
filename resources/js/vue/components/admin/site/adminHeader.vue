@@ -29,7 +29,7 @@
 
 		<div id="notification-menu" :style="[this.navMenuActive == 'notification' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.notificationMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.notificationMenuWidth + 'px' }]">
       <div class="notification-group" v-for="(group, groupName) in this.notificationsData">
-				<h3>{{ groupName }}</h3>
+				<h4>{{ groupName }}</h4>
 				<div v-for="(notification, i) in group">
 					<i v-if="notification.email" :id="'notification-' + notification.id" class="fa-solid fa-square-check" @click="this.toggleNotification(notification.notificationUserId, 'email', notification.id)"></i>
 					<i v-else :id="'notification-' + notification.id" class="fa-solid fa-square-xmark" @click="this.toggleNotification(0, 'email', notification.id)"></i>
@@ -40,14 +40,15 @@
 
 		<div id="settings-menu" :style="[this.navMenuActive == 'settings' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.settingsMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.settingsMenuWidth + 'px' }]">
       <div class="settings-group" v-for="(group, groupName) in this.settingsData">
-				<h3>{{ groupName }}</h3>
+				<h4>{{ groupName }}</h4>
 				<div v-for="(settings, i) in group">
-					<i v-if="settings.standard" :id="'settings-' + settings.id" class="fa-solid fa-circle-check active" @click="this.toggleSettings(settings.notificationUserId, 'standard', settings.id)"></i>
-					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-circle-xmark" @click="this.toggleSettings(0, 'standard', settings.id)"></i>
-
-					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.notificationUserId, 'email', settings.id)"></i>
-					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(0, 'email', settings.id)"></i>
 					<span>{{ settings.name }}</span>
+
+					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.notificationUserId, 'email')"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(settings.id, 0, 'email')"></i>
+
+					<i v-if="settings.standard" :id="'settings-' + settings.id" class="fa-solid fa-circle-check active" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'standard')"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-circle-xmark" @click="this.toggleSettings(settings.id, 0, 'standard')"></i>
 				</div>
 			</div>
     </div>
@@ -215,7 +216,7 @@
       },
 
 			// AJAX
-			async toggleSettings(notificationUserId, type, id) {
+			async toggleSettings(id, notificationUserId, type) {
 				try {
 					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
 					this.result = await this.response.json();
@@ -225,6 +226,8 @@
 					console.log(err);
 
 				} finally {
+					console.log(this.result);
+
 					// let button = document.querySelector("#notification-" + id);
 
 					if (this.result[0]) {

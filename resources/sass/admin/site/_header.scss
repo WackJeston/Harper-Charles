@@ -107,7 +107,7 @@ header #settings-menu .settings-group:not(:first-child) {
 	margin-top: 10px;
 }
 
-header #settings-menu .settings-group h3 {
+header #settings-menu .settings-group h4 {
 	margin: 0;
 	padding: 0 13px 0 13px;
 }
@@ -116,15 +116,30 @@ header #settings-menu .settings-group div {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: flex-end;
 	padding-left: 15px;
 	padding-right: 15px;
 }
 
+header #settings-menu .settings-group span {
+	color: v.$white;
+	font-size: 0.9rem;
+	margin-right: auto;
+}
+
 header #settings-menu .settings-group i {
 	cursor: pointer;
-	font-size: 0.9rem;
 	background-color: v.$bg-dark;
-	padding-right: 5px;
+	padding-left: 5px;
+}
+
+header #settings-menu .settings-group i.fa-circle-check,
+header #settings-menu .settings-group i.fa-circle-xmark {
+	font-size: 0.8rem;
+}
+
+header #settings-menu .settings-group i.fa-envelope {
+	font-size: 0.9rem;
 }
 
 header #settings-menu .settings-group i:hover {
@@ -139,10 +154,6 @@ header #settings-menu .settings-group i:not(.active) {
 
 header #settings-menu .settings-group i.active {
 	color: v.$green;
-}
-
-header #settings-menu .settings-group span {
-	color: v.$white;
 }
 
 header #user-menu {

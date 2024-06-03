@@ -3,82 +3,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-use App\Http\Controllers\AuthController;
 
-//DataTable
-use App\Http\Controllers\DataTableController;
-
-// SYSTEM
-use App\Http\Controllers\TestController;
-
-// PUBLIC
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductPageController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BasketController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\SitemapController;
-
-// ADMIN
-use App\Http\Controllers\AdminHeaderController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\AdminContactController;
-use App\Http\Controllers\AdminSettingsController;
-use App\Http\Controllers\AdminUsersController;
-use App\Http\Controllers\AdminUserProfileController;
-use App\Http\Controllers\AdminCustomersController;
-use App\Http\Controllers\AdminCustomerProfileController;
-use App\Http\Controllers\AdminEnquiriesController;
-use App\Http\Controllers\AdminEnquiryProfileController;
-use App\Http\Controllers\AdminProductsController;
-use App\Http\Controllers\AdminProductProfileController;
-use App\Http\Controllers\AdminCategoryController;
-use App\Http\Controllers\AdminCategoryProfileController;
-use App\Http\Controllers\AdminVariantController;
-use App\Http\Controllers\AdminVariantProfileController;
-use App\Http\Controllers\AdminOrdersController;
-use App\Http\Controllers\AdminOrderProfileController;
-use App\Http\Controllers\AdminBannersController;
-use App\Http\Controllers\AdminBannerProfileController;
-
-
-// DataTable -----------------------------------------------------------------------------------
-Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [DataTableController::class, 'toggleButton']);
-Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [DataTableController::class, 'setPrimary']);
-Route::get('/dataTable-selectDropdown/{table}/{column}/{primaryColumn}/{primaryValue}/{value}', [DataTableController::class, 'selectDropdown']);
-Route::get('/dataTable-resetTableSequence/{sessionVariable}', [DataTableController::class, 'resetTableSequence']);
-Route::get('/dataTable-moveSequence/{id}/{direction}/{tabelName}/{sequenceColumn}', [DataTableController::class, 'moveSequence']);
-
-Route::get('/dataTable-setOrderColumn/{name}/{sessionVariable}', [DataTableController::class, 'setOrderColumn']);
-Route::get('/dataTable-setOrderDirection/{direction}/{sessionVariable}', [DataTableController::class, 'setOrderDirection']);
-
-Route::get('/dataTable-changeLimit/{limit}/{sessionVariable}', [DataTableController::class, 'changeLimit']);
-Route::get('/dataTable-changePage/{offset}/{sessionVariable}', [DataTableController::class, 'changePage']);
-
-Route::get('/dataTable-resetTableSequence/{sessionVariable}', [DataTableController::class, 'resetTableSequence']);
-
-
-// SYSTEM -----------------------------------------------------------------------------------
-Route::get("sitemap-xml" , function () {
-	return Illuminate\Support\Facades\Redirect::to('https://ipswich-fireworks.s3.eu-west-2.amazonaws.com/public-assets/sitemap.xml');
-});
-
-Route::get("/functions-setShowMarker/{section}" , function ($section = false) {
-	if ($section == false || $section == session()->get('pageShowMarker', $section)) {
-		session()->put('pageShowMarker', false);
-		session()->put('pageShowMarkerPrevious', false);
-	} else {
-		session()->put('pageShowMarker', $section);
-		session()->put('pageShowMarkerPrevious', session()->get('_previous')['url']);
-	}
-});
 
 // PUBLIC -----------------------------------------------------------------------------------
-Route::get('/', [HomeController::class, 'show']);
+Route::get('/', [App\Http\Controllers\Public\HomeController::class, 'show']);
 
-Route::controller(AuthController::class)->group(function () {
+Route::controller(App\Http\Controllers\Public\AuthController::class)->group(function () {
   Route::get('/login', 'veiwLogin');
   Route::get('/loginBasket', 'veiwLoginBasket');
   Route::get('/customerLogin', 'authenticateCustomer');
@@ -90,21 +20,21 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
 });
 
-Route::controller(SitemapController::class)->group(function () {
+Route::controller(App\Http\Controllers\Public\SitemapController::class)->group(function () {
 	Route::get('/site-map', 'show');
 });
 
-Route::controller(ContactController::class)->group(function () {
+Route::controller(App\Http\Controllers\Public\ContactController::class)->group(function () {
   Route::get('/contact', 'show');
   Route::get('/contactCreateEnquiry', 'createEnquiry');
 });
 
-Route::controller(CategoryController::class)->group(function () {
+Route::controller(App\Http\Controllers\Public\CategoryController::class)->group(function () {
   Route::get('/shop', 'show');
   Route::get('/category/{id}', 'show');
 });
 
-Route::controller(ProductPageController::class)->group(function () {
+Route::controller(App\Http\Controllers\Public\ProductPageController::class)->group(function () {
   Route::get('/product/{id}', 'show');
   Route::post('/product-pageBasketAdd', 'basketAdd');
 });
@@ -112,20 +42,20 @@ Route::controller(ProductPageController::class)->group(function () {
 // Auth Middleware
 Route::group( ['middleware' => 'auth' ], function()
 {
-	Route::controller(BasketController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Public\BasketController::class)->group(function () {
 		Route::get('/basket', 'show');
 		Route::get('/basketQuantityUpdate/{id}/{quantity}', 'quantityUpdate');
 		Route::get('/basketRemove/{id}', 'basketRemove');
 	});
 	
-	Route::controller(AccountController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Public\AccountController::class)->group(function () {
 		Route::get('/account', 'show');
 		Route::post('/accountUpdate/{id}', 'update');
 		Route::get('/account/order/{orderId}', 'orderShow');
 		Route::post('/account/orderAddNote/{orderId}', 'orderAddNote');
 	});
 
-	Route::controller(CheckoutController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Public\CheckoutController::class)->group(function () {
 		Route::get('/checkout/{action}', 'show');
 		Route::get('/checkoutContinueAddresses/{deliveryId}', 'continueAddress');
 		Route::get('/checkoutAddAddress/{addressData}', 'addAddress');
@@ -136,20 +66,18 @@ Route::group( ['middleware' => 'auth' ], function()
 		Route::get('/order-successful/{orderId}', 'orderSuccessful');
 	});
 
-	// ADMIN -----------------------------------------------------------------------------------
-	Route::get('/header-toggleNotification/{id}/{notificationUserId}/{type}', [AdminHeaderController::class, 'toggleNotification']);
-	
-  Route::controller(AuthController::class)->group(function () {
+
+
+	// ADMIN -----------------------------------------------------------------------------------	
+  Route::controller(App\Http\Controllers\Public\AuthController::class)->group(function () {
     Route::get('/admin', 'adminViewLogin');
     Route::get('/adminLogin', 'authenticateAdmin');
     Route::get('/adminLogout', 'logoutAdmin');
   });
 
-	Route::get('/admin/test', [AdminTestController::class, 'show']);
+  Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'show']);
 
-  Route::get('/admin/dashboard', [AdminDashboardController::class, 'show']);
-
-  Route::controller(AdminContactController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\ContactController::class)->group(function () {
     Route::get('/admin/contact', 'show');
     Route::post('/contactUpdateAddress', 'updateAddress');
     Route::get('/contactUploadLatLng/{lat}/{lng}', 'uploadLatLng');
@@ -161,50 +89,50 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/contactDeleteUrl/{id}', 'deleteUrl');
   });
 
-  Route::controller(AdminSettingsController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\SettingsController::class)->group(function () {
     Route::get('/admin/settings', 'show');
     Route::post('/settingsUpdate', 'update');
     Route::get('/settingsClearCache/{key}', 'clearCache');
   });
 
-  Route::controller(AdminUsersController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\UsersController::class)->group(function () {
     Route::get('/admin/users', 'show');
     Route::post('/usersCreate', 'create');
   });
 
-  Route::controller(AdminUserProfileController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\UserProfileController::class)->group(function () {
     Route::get('/admin/user-profile/{id}', 'show');
     Route::post('/user-profileUpdate/{id}', 'update');
     Route::get('/user-profileDelete/{id}', 'delete');
   });
 
-  Route::controller(AdminCustomersController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\CustomersController::class)->group(function () {
     Route::get('/admin/customers', 'show');
     Route::post('/customersCreate', 'create');
   });
 
-  Route::controller(AdminCustomerProfileController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\CustomerProfileController::class)->group(function () {
     Route::get('/admin/customer-profile/{id}', 'show');
     Route::post('/customer-profileUpdate/{id}', 'update');
     Route::get('/customer-profileDelete/{id}', 'delete');
   });
 
-	Route::controller(AdminEnquiriesController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\EnquiriesController::class)->group(function () {
 		Route::get('/admin/enquiries', 'show');
     Route::post('/enquiriesSearch', 'search');
 	});
 
-	Route::controller(AdminEnquiryProfileController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\EnquiryProfileController::class)->group(function () {
 		Route::get('/admin/enquiry-profile/{id}', 'show');
 	});
 
-  Route::controller(AdminProductsController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\ProductsController::class)->group(function () {
     Route::get('/admin/products', 'show');
     Route::post('/productsCreate', 'create');
     Route::post('/productsSearch', 'search');
   });
 
-  Route::controller(AdminProductProfileController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\ProductProfileController::class)->group(function () {
     Route::get('/admin/product-profile/{id}', 'show');
     Route::get('/product-profileToggleProduct/{product}/{toggle}', 'toggleProduct');
     Route::post('/product-profileUpdate/{id}', 'update');
@@ -222,13 +150,13 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/product-profileRemoveVariant/{id}/{variantId}', 'removeVariant');
   });
 
-  Route::controller(AdminCategoryController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\CategoryController::class)->group(function () {
     Route::get('/admin/categories', 'show');
     Route::get('/categoryShow/{category}/{toggle}', 'showCategory');
     Route::post('/categoryCreate', 'create');
   });
 
-  Route::controller(AdminCategoryProfileController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\CategoryProfileController::class)->group(function () {
     Route::get('/admin/category-profile/{id}', 'show');
     Route::post('/category-profileUpdate/{id}', 'update');
     Route::get('/category-profileDelete/{id}', 'delete');
@@ -243,13 +171,13 @@ Route::group( ['middleware' => 'auth' ], function()
   });
 
 
-  Route::controller(AdminVariantController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\VariantController::class)->group(function () {
     Route::get('/admin/variants', 'show');
     Route::get('/variantShow/{variant}/{toggle}', 'showVariant');
     Route::post('/variantCreate', 'create');
   });
 
-  Route::controller(AdminVariantProfileController::class)->group(function () {
+  Route::controller(App\Http\Controllers\Admin\VariantProfileController::class)->group(function () {
     Route::get('/admin/variant-profile/{id}', 'show');
     Route::post('/variant-profileUpdate/{id}', 'update');
     Route::get('/variant-profileDelete/{id}', 'delete');
@@ -259,23 +187,23 @@ Route::group( ['middleware' => 'auth' ], function()
     Route::get('/variant-profileShowOption/{id}/{optionId}/{toggle}', 'showOption');
   });
 
-	Route::controller(AdminOrdersController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\OrdersController::class)->group(function () {
     Route::get('/admin/orders', 'show');
     Route::post('/ordersSearch', 'search');
   });
 
-	Route::controller(AdminOrderProfileController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\OrderProfileController::class)->group(function () {
     Route::get('/admin/order-profile/{id}', 'show');
     Route::post('/order-profileAddNote/{id}', 'addNote');
     Route::post('/order-profileUpdateDelivery/{id}', 'updateDelivery');
     Route::get('/order-profileProceed/{id}', 'proceed');
   });
 
-	Route::controller(AdminBannersController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\BannersController::class)->group(function () {
     Route::get('/admin/banners', 'show');
   });
 
-	Route::controller(AdminBannerProfileController::class)->group(function () {
+	Route::controller(App\Http\Controllers\Admin\BannerProfileController::class)->group(function () {
     Route::get('/admin/banner-profile/{id}', 'show');
     Route::get('/banner-profileToggleBanner/{id}/{toggle}', 'toggleBanner');
     Route::post('/banner-profileAddSlide/{id}', 'addSlide');
@@ -284,5 +212,42 @@ Route::group( ['middleware' => 'auth' ], function()
 });
 
 
+
+// API -----------------------------------------------------------------------------------
+Route::get('/header-toggleNotification/{id}/{notificationUserId}/{type}', [App\Http\Controllers\Admin\Api\HeaderApi::class, 'toggleNotification']);
+
+Route::get('/dataTable-toggleButton/{table}/{column}/{primaryColumn}/{primaryValue}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'toggleButton']);
+Route::get('/dataTable-setPrimary/{table}/{column}/{primaryColumn}/{primaryValue}/{parent}/{parentId}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'setPrimary']);
+Route::get('/dataTable-selectDropdown/{table}/{column}/{primaryColumn}/{primaryValue}/{value}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'selectDropdown']);
+Route::get('/dataTable-resetTableSequence/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'resetTableSequence']);
+Route::get('/dataTable-moveSequence/{id}/{direction}/{tabelName}/{sequenceColumn}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'moveSequence']);
+
+Route::get('/dataTable-setOrderColumn/{name}/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'setOrderColumn']);
+Route::get('/dataTable-setOrderDirection/{direction}/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'setOrderDirection']);
+
+Route::get('/dataTable-changeLimit/{limit}/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'changeLimit']);
+Route::get('/dataTable-changePage/{offset}/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'changePage']);
+
+Route::get('/dataTable-resetTableSequence/{sessionVariable}', [App\Http\Controllers\Common\Api\DataTableApi::class, 'resetTableSequence']);
+
+
+
 // TEMPLATES -----------------------------------------------------------------------------------
 Route::get('/template/invoice', fn () => view('templates/invoice'));
+
+
+
+// FUNCTIONS -----------------------------------------------------------------------------------
+Route::get("sitemap-xml" , function () {
+	return Illuminate\Support\Facades\Redirect::to('https://ipswich-fireworks.s3.eu-west-2.amazonaws.com/public-assets/sitemap.xml');
+});
+
+Route::get("/functions-setShowMarker/{section}" , function ($section = false) {
+	if ($section == false || $section == session()->get('pageShowMarker', $section)) {
+		session()->put('pageShowMarker', false);
+		session()->put('pageShowMarkerPrevious', false);
+	} else {
+		session()->put('pageShowMarker', $section);
+		session()->put('pageShowMarkerPrevious', session()->get('_previous')['url']);
+	}
+});
