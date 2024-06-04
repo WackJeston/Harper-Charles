@@ -15,58 +15,17 @@ use App\Models\User;
 
 class AuthController extends PublicController
 {
-  public function authenticateAdmin(Request $request)
-  {
-    $request->validate([
-      'email' => 'required',
-      'password' => 'required',
-    ]);
-
-    $admin = DB::select(sprintf('SELECT
-      u.admin
-      FROM users AS u
-      WHERE u.email = "%s"
-      LIMIT 1
-    ', $request->email));
-
-    $credentials = $request->only('email', 'password');
-
-    if (Auth::attempt($credentials) && $admin[0]->admin == 1) {
-      $request->session()->regenerate();
-
-      return redirect()->intended('/admin/dashboard')->with('message', 'Signed in.');
-    }
-
-    return redirect("/admin")->withErrors([
-      'email' => 'The provided credentials do not match our records.',
-    ]);
-  }
-
-	public function adminViewLogin()
-  {
-    return view('admin/auth/login');
-  }
-
-  public function logoutAdmin() {
-    Session::flush();
-    Auth::logout();
-
-    return Redirect('/admin')->with('message', 'Logged out.');
-  }
-
-
-
-  public function veiwLogin()
+  public function show()
   {
     return view('public/auth/login');
   }
 
-  public function veiwLoginBasket()
+  public function basketRedirect()
   {
     return redirect("/login")->withErrors(['1' => 'Please login before adding items to your basket.']);
   }
 
-  public function authenticateCustomer(Request $request)
+  public function authenticate(Request $request)
   {
     $request->validate([
       'email' => 'required',
@@ -105,7 +64,7 @@ class AuthController extends PublicController
     ]);
   }
 
-  public function logoutCustomer() {
+  public function logout() {
     Session::flush();
     Auth::logout();
 
@@ -113,12 +72,12 @@ class AuthController extends PublicController
   }
 
 
-  public function veiwSignup()
+  public function showSignup()
   {
     return view('public/auth/signup');
   }
 
-  public function signupCustomer(Request $request)
+  public function signup(Request $request)
   {
 		$request->validate([
       'firstname' => 'required|max:100',
@@ -147,7 +106,7 @@ class AuthController extends PublicController
 		return redirect('/')->with('message', 'Signed up successfully.');
   }
 
-  public function viewVerifyEmailCustomer($id)
+  public function showVerifyEmail($id)
   {
     $user = User::where('id', $id)->first();
 
@@ -163,7 +122,7 @@ class AuthController extends PublicController
     ));
   }
 
-  public function resendVerifyEmailCustomer($id)
+  public function resendVerifyEmail($id)
   {
     $user = User::where('id', $id)->first();
 
@@ -174,7 +133,7 @@ class AuthController extends PublicController
     return redirect('/verify-email/' . $id)->with('message', 'Verification email sent again.');
   }
 
-  public function emailVerifiedCustomer($id)
+  public function showEmailVerified($id)
   {
 		if ($user = User::where('id', $id)->first()) {
 			if ($user->email_verified_at == null || $user->email_verified_at == '') {

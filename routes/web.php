@@ -9,15 +9,15 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/', [App\Http\Controllers\Public\HomeController::class, 'show']);
 
 Route::controller(App\Http\Controllers\Public\AuthController::class)->group(function () {
-  Route::get('/login', 'veiwLogin');
-  Route::get('/loginBasket', 'veiwLoginBasket');
-  Route::get('/customerLogin', 'authenticateCustomer');
-  Route::get('/customerLogout', 'logoutCustomer');
-  Route::get('/sign-up', 'veiwSignup');
-  Route::get('/customerSignup', 'signupCustomer');
-  Route::get('/verify-email/{id}', 'viewVerifyEmailCustomer')->middleware('auth')->name('verification.notice');
-  Route::get('/verify-email-resend/{id}', 'resendVerifyEmailCustomer')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-  Route::get('/email-verified/{id}/{hash}', 'emailVerifiedCustomer')->middleware('signed')->name('verification.verify');
+  Route::get('/login', 'show');
+  Route::get('/loginBasket', 'basketRedirect');
+  Route::get('/customerLogin', 'authenticate');
+  Route::get('/customerLogout', 'logout');
+  Route::get('/sign-up', 'showSignup');
+  Route::get('/customerSignup', 'signup');
+  Route::get('/verify-email/{id}', 'showVerifyEmail')->middleware('auth')->name('verification.notice');
+  Route::get('/verify-email-resend/{id}', 'resendVerifyEmail')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+  Route::get('/email-verified/{id}/{hash}', 'showEmailVerified')->middleware('signed')->name('verification.verify');
 });
 
 Route::controller(App\Http\Controllers\Public\SitemapController::class)->group(function () {
@@ -69,10 +69,10 @@ Route::group( ['middleware' => 'auth' ], function()
 
 
 	// ADMIN -----------------------------------------------------------------------------------	
-  Route::controller(App\Http\Controllers\Public\AuthController::class)->group(function () {
-    Route::get('/admin', 'adminViewLogin');
-    Route::get('/adminLogin', 'authenticateAdmin');
-    Route::get('/adminLogout', 'logoutAdmin');
+  Route::controller(App\Http\Controllers\Admin\AuthController::class)->group(function () {
+    Route::get('/admin', 'show');
+    Route::get('/adminLogin', 'authenticate');
+    Route::get('/adminLogout', 'logout');
   });
 
   Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'show']);

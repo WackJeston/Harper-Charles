@@ -44,7 +44,7 @@
 				<div v-for="(settings, i) in group">
 					<span>{{ settings.name }}</span>
 
-					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.notificationUserId, 'email')"></i>
+					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'email')"></i>
 					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(settings.id, 0, 'email')"></i>
 
 					<i v-if="settings.standard" :id="'settings-' + settings.id" class="fa-solid fa-circle-check active" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'standard')"></i>
@@ -226,40 +226,51 @@
 					console.log(err);
 
 				} finally {
-					console.log(this.result);
+					if (this.result) {
+						let data = Array.from(this.settingsData);
+						console.log(data);
 
-					// let button = document.querySelector("#notification-" + id);
+						data.forEach(setting => {
+							console.log(setting);
 
-					if (this.result[0]) {
-						this.settingsData[this.result[1]].forEach(notificationItem => {
-							if (notificationItem.name == this.result[2]) {
-								notificationItem.notificationUserId = this.result[3];
-
-								if (type == "email") {
-									notificationItem.email = 1
-								} else if (type == "phone") {
-									notificationItem.phone = 1
-								} else {
-									notificationItem.standard = 1
-								}
-							}
-						});
-
-					} else {
-						this.settingsData[this.result[1]].forEach(notificationItem => {
-							if (notificationItem.name == this.result[2]) {
-								notificationItem.notificationUserId = undefined;
-
-								if (type == "email") {
-									notificationItem.email = 0
-								} else if (type == "phone") {
-									notificationItem.phone = 0
-								} else {
-									notificationItem.standard = 0
-								}
+							if (setting.id == id) {
+								console.log(setting);
 							}
 						});
 					}
+
+					// let button = document.querySelector("#notification-" + id);
+
+					// if (this.result[0]) {
+					// 	this.settingsData[this.result[1]].forEach(notificationItem => {
+					// 		if (notificationItem.name == this.result[2]) {
+					// 			notificationItem.notificationUserId = this.result[3];
+
+					// 			if (type == "email") {
+					// 				notificationItem.email = 1
+					// 			} else if (type == "phone") {
+					// 				notificationItem.phone = 1
+					// 			} else {
+					// 				notificationItem.standard = 1
+					// 			}
+					// 		}
+					// 	});
+
+					// } else {
+					// 	this.settingsData[this.result[1]].forEach(notificationItem => {
+					// 		if (notificationItem.name == this.result[2]) {
+					// 			notificationItem.notificationUserId = undefined;
+
+					// 			if (type == "email") {
+					// 				notificationItem.email = 0
+					// 			} else if (type == "phone") {
+					// 				notificationItem.phone = 0
+					// 			} else {
+					// 				notificationItem.standard = 0
+					// 			}
+					// 		}
+					// 	});
+					// }
 				}
       },
     },

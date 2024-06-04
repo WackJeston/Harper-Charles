@@ -29,7 +29,8 @@ class UsersController extends AdminController
 			COUNT(o.id) AS `orders`
 			FROM users AS u 
 			LEFT JOIN orders AS o ON o.userId = u.id
-			WHERE u.admin = 1'
+			WHERE u.admin = 1
+			GROUP BY u.id'
 		);
 		$usersTable->addColumn('id', '#');
 		$usersTable->addColumn('name', 'Name');
