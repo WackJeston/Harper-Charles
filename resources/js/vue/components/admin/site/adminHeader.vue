@@ -45,10 +45,10 @@
 					<span>{{ settings.name }}</span>
 
 					<i v-if="settings.email" :id="'settings-' + settings.id" class="fa-solid fa-envelope active" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'email')"></i>
-					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(settings.id, 0, 'email')"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-envelope" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'email')"></i>
 
 					<i v-if="settings.standard" :id="'settings-' + settings.id" class="fa-solid fa-circle-check active" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'standard')"></i>
-					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-circle-xmark" @click="this.toggleSettings(settings.id, 0, 'standard')"></i>
+					<i v-else :id="'settings-' + settings.id" class="fa-solid fa-circle-xmark" @click="this.toggleSettings(settings.id, settings.notificationUserId, 'standard')"></i>
 				</div>
 			</div>
     </div>
@@ -218,6 +218,7 @@
 			// AJAX
 			async toggleSettings(id, notificationUserId, type) {
 				try {
+					console.log(id, notificationUserId, type);
 					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
 					this.result = await this.response.json();
 					
@@ -226,51 +227,8 @@
 					console.log(err);
 
 				} finally {
-					if (this.result) {
-						let data = Array.from(this.settingsData);
-						console.log(data);
-
-						data.forEach(setting => {
-							console.log(setting);
-
-							if (setting.id == id) {
-								console.log(setting);
-							}
-						});
-					}
-
-					// let button = document.querySelector("#notification-" + id);
-
-					// if (this.result[0]) {
-					// 	this.settingsData[this.result[1]].forEach(notificationItem => {
-					// 		if (notificationItem.name == this.result[2]) {
-					// 			notificationItem.notificationUserId = this.result[3];
-
-					// 			if (type == "email") {
-					// 				notificationItem.email = 1
-					// 			} else if (type == "phone") {
-					// 				notificationItem.phone = 1
-					// 			} else {
-					// 				notificationItem.standard = 1
-					// 			}
-					// 		}
-					// 	});
-
-					// } else {
-					// 	this.settingsData[this.result[1]].forEach(notificationItem => {
-					// 		if (notificationItem.name == this.result[2]) {
-					// 			notificationItem.notificationUserId = undefined;
-
-					// 			if (type == "email") {
-					// 				notificationItem.email = 0
-					// 			} else if (type == "phone") {
-					// 				notificationItem.phone = 0
-					// 			} else {
-					// 				notificationItem.standard = 0
-					// 			}
-					// 		}
-					// 	});
-					// }
+					console.log(this.result);
+					this.settingsData = this.result;
 				}
       },
     },

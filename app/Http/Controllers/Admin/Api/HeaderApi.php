@@ -21,8 +21,6 @@ class HeaderApi extends Controller
 			} else {
 				$record->save();
 			}
-			
-			return true;
 		
 		} else {
 			$record = new NotificationUser;
@@ -30,8 +28,8 @@ class HeaderApi extends Controller
 			$record->userId = auth()->user()->id;
 			$record->{$type} = 1;
 			$record->save();
-			
-			return true;
 		}
+
+		return json_encode(Notification::getSettings());
   }
 }

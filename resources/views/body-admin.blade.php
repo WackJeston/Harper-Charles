@@ -7,7 +7,7 @@
 			n.id,
 			n.group,
 			n.name,
-			nu.id AS notificationUserId,
+			COALESCE(nu.id, 0) AS notificationUserId,
 			IF(nu.standard, 1, 0) AS `standard`,
 			IF(nu.email, 1, 0) AS email
 			FROM notification AS n
