@@ -21,6 +21,15 @@
 		foreach ($settingsPre as $i => $settingPre) {
 			$settings[$settingPre->group][] = $settingPre;
 		}
+
+		$notifications = DB::select('SELECT
+			ne.*,
+			n.group,
+			n.name
+			FROM notification_event AS ne
+			INNER JOIN notification AS n ON n.id = ne.notificationId
+			WHERE ne.userId = ?	
+		');
 	@endphp
 
 	<div id="admin-container">
@@ -32,6 +41,7 @@
 					showHome="{{ json_encode(true) }}"
 					:sessionuser="{{ auth()->user() }}"
 					:settings="{{ json_encode($settings) }}"
+					:notifications="{{ json_encode($notifications) }}"
 				/>
 			@else
 				<Adminheader
@@ -40,6 +50,7 @@
 					showHome="{{ json_encode(false) }}"
 					:sessionuser="{{ auth()->user() }}"
 					:settings="{{ json_encode($settings) }}"
+					:notifications="{{ json_encode($notifications) }}"
 				/>
 			@endif
 		</div>

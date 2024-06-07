@@ -99,6 +99,7 @@
       'showhome',
       'sessionuser',
 			'settings',
+			'notifications',
     ],
 
     data() {
