@@ -78,6 +78,8 @@ header .desktop-nav i {
   margin-right: 10px;
 }
 
+
+
 header #notification-menu,
 header #settings-menu {
 	transition: transform 100ms ease;
@@ -95,6 +97,16 @@ header #settings-menu {
 	@media (max-width: 410px) {
 		left: 0;
 	}
+}
+
+header #notification-menu .notification {
+	display: flex;
+	flex-direction: column;
+	padding: 3px;
+}
+
+header #notification-menu .notification h4 {
+	margin: 0;
 }
 
 header #settings-menu .settings-group {

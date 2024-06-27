@@ -31,6 +31,8 @@
 			WHERE ne.userId = ?',
 			[auth()->user()['id']]
 		);
+
+		// dd($notifications);
 	@endphp
 
 	<div id="admin-container">

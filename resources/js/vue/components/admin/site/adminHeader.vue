@@ -28,13 +28,17 @@
     </nav>
 
 		<div id="notification-menu" :style="[this.navMenuActive == 'notification' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.notificationMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.notificationMenuWidth + 'px' }]">
-      <div class="notification-group" v-for="(group, groupName) in this.notificationsData">
-				<h4>{{ groupName }}</h4>
-				<div v-for="(notification, i) in group">
+      <div class="notification" v-for="(notification, i) in this.notificationsData">
+				<h4>{{ notification.group }} ({{ notification.name }})</h4>
+				<span>{{ notification.message }}</span>
+
+
+
+				<!-- <div v-for="(notification, i) in group">
 					<i v-if="notification.email" :id="'notification-' + notification.id" class="fa-solid fa-square-check" @click="this.toggleNotification(notification.notificationUserId, 'email', notification.id)"></i>
 					<i v-else :id="'notification-' + notification.id" class="fa-solid fa-square-xmark" @click="this.toggleNotification(0, 'email', notification.id)"></i>
 					<span>{{ notification.name }}</span>
-				</div>
+				</div> -->
 			</div>
     </div>
 
