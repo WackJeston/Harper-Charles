@@ -28,8 +28,9 @@
 			n.name
 			FROM notification_event AS ne
 			INNER JOIN notification AS n ON n.id = ne.notificationId
-			WHERE ne.userId = ?	
-		');
+			WHERE ne.userId = ?',
+			[auth()->user()['id']]
+		);
 	@endphp
 
 	<div id="admin-container">
