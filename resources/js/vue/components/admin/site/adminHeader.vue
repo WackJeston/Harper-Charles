@@ -30,7 +30,7 @@
 		<div id="notification-menu" :style="[this.navMenuActive == 'notification' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.notificationMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.notificationMenuWidth + 'px' }]">
       <div class="notification" v-for="(notification, i) in this.notificationsData">
 				<h4>{{ notification.group }} ({{ notification.name }})</h4>
-				<span>{{ notification.message }}</span>
+				<p>{{ notification.message }}</p>
 
 
 
