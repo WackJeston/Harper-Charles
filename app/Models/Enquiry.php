@@ -27,7 +27,6 @@ class Enquiry extends Model
 		static::created(function ($self) {
 			$events = DB::select('SELECT
 				u.id AS userId,
-				CONCAT(u.firstName, " ", u.lastName) AS userName,
 				u.email AS userEmail,
 				n.id AS notificationId,
 				nu.standard,
@@ -44,7 +43,8 @@ class Enquiry extends Model
 					NotificationEvent::create([
 						'notificationId' => $event->notificationId,
 						'userId' => $event->userId,
-						'message' => sprintf('%s: %s', $event->userName, $self->subject)
+						'message' => sprintf('%s: %s', $self->name, $self->subject),
+						'pageId' => $self->id
 					]);
 				}
 
@@ -54,7 +54,8 @@ class Enquiry extends Model
 					NotificationEvent::create([
 						'notificationId' => $event->notificationId,
 						'userId' => $event->userId,
-						'message' => sprintf('New enquiry (%s) from %s', $self->type, $event->userName)
+						'message' => sprintf('New enquiry (%s) from %s', $self->type, $self->name),
+						'pageId' => $self->id
 					]);
 				}
 				

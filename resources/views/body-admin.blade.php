@@ -13,7 +13,7 @@
 			FROM notification AS n
 			LEFT JOIN notification_user AS nu ON nu.notificationId=n.id AND nu.userId = ?
 			GROUP BY n.id', 
-			[auth()->user()['id']]
+			[auth()->user()->id]
 		);
 
 		$settings = [];
@@ -25,11 +25,13 @@
 		$notifications = DB::select('SELECT
 			ne.*,
 			n.group,
-			n.name
+			n.name,
+			IF(ISNULL(ne.pageId), n.url, CONCAT(n.url, "/", ne.pageId)) AS link
 			FROM notification_event AS ne
 			INNER JOIN notification AS n ON n.id = ne.notificationId
-			WHERE ne.userId = ?',
-			[auth()->user()['id']]
+			WHERE ne.userId = ?
+			ORDER BY ne.created_at DESC',
+			[auth()->user()->id]
 		);
 
 		// dd($notifications);

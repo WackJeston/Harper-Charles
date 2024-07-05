@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\Models\Notification;
 use App\Models\NotificationUser;
+use App\Models\NotificationEvent;
 
 
 class HeaderApi extends Controller
@@ -32,4 +33,32 @@ class HeaderApi extends Controller
 
 		return json_encode(Notification::getSettings());
   }
+
+	public function reloadNotifications() {
+		return json_encode(DB::select('SELECT
+			ne.*,
+			n.group,
+			n.name,
+			IF(ISNULL(ne.pageId), n.url, CONCAT(n.url, "/", ne.pageId)) AS link
+			FROM notification_event AS ne
+			INNER JOIN notification AS n ON n.id = ne.notificationId
+			WHERE ne.userId = ?
+			ORDER BY ne.created_at DESC',
+			[auth()->user()->id]
+		));
+	}
+
+	public function deleteNotification(int $id):bool {
+		if ($event = NotificationEvent::find($id)) {			
+			$event->delete();
+		
+			return true;
+		}
+
+		return false;
+	}
+
+	public function deleteAllNotifications() {
+		NotificationEvent::where('userId', auth()->user()->id)->delete();
+	}
 }

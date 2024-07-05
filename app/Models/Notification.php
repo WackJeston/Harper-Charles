@@ -15,6 +15,7 @@ class Notification extends Model
 	protected $fillable = [
 		'group',
 		'name',
+		'url',
 	];
 
 	static function getSettings() {

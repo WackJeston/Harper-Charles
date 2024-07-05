@@ -15,5 +15,6 @@ class NotificationEvent extends Model
       'notificationId',
       'userId',
       'message',
+			'pageId',
     ];
 }

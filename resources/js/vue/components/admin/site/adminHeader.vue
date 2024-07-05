@@ -28,17 +28,18 @@
     </nav>
 
 		<div id="notification-menu" :style="[this.navMenuActive == 'notification' ? { transform: 'translate3d(0, 100%, 0)', minWidth: this.notificationMenuWidth + 'px' } : { transform: 'translate3d(0, 0, 0)', minWidth: this.notificationMenuWidth + 'px' }]">
-      <div class="notification" v-for="(notification, i) in this.notificationsData">
-				<h4>{{ notification.group }} ({{ notification.name }})</h4>
+			<div id="notificationNav">
+				<h3>Alerts</h3>
+				<button class="page-button" @click="this.deleteAllNotifications()">Empty</button>
+			</div>
+
+			<div id="notificationsEmpty" class="notification" v-if="this.notificationsData.length == 0">
+				<h4>No Records</h4>
+			</div>
+
+			<div class="notification" v-else v-for="(notification, i) in this.notificationsData" :data-event-id="notification.id">
+				<h4><a :href="`/admin/${notification.link}`">{{ notification.group }} ({{ notification.name }})</a> <i class="fa-solid fa-square-xmark pb-danger" @click="this.deleteNotification($event)"></i></h4>
 				<p>{{ notification.message }}</p>
-
-
-
-				<!-- <div v-for="(notification, i) in group">
-					<i v-if="notification.email" :id="'notification-' + notification.id" class="fa-solid fa-square-check" @click="this.toggleNotification(notification.notificationUserId, 'email', notification.id)"></i>
-					<i v-else :id="'notification-' + notification.id" class="fa-solid fa-square-xmark" @click="this.toggleNotification(0, 'email', notification.id)"></i>
-					<span>{{ notification.name }}</span>
-				</div> -->
 			</div>
     </div>
 
@@ -122,6 +123,7 @@
 			this.setUserMenuWidth();
 			this.setNotificationMenuPosition();
 			this.setSettingsMenuPosition();
+			this.reloadNotifications();
 		},
 
     methods: {
@@ -223,7 +225,6 @@
 			// AJAX
 			async toggleSettings(id, notificationUserId, type) {
 				try {
-					console.log(id, notificationUserId, type);
 					this.response = await fetch("/header-toggleNotification/" + id + "/" + notificationUserId + "/" + type);
 					this.result = await this.response.json();
 					
@@ -232,10 +233,73 @@
 					console.log(err);
 
 				} finally {
-					console.log(this.result);
 					this.settingsData = this.result;
 				}
       },
+
+			reloadNotifications() {
+				setInterval(async function() {
+					console.log('reloading notifications');
+
+					try {
+						this.response = await fetch("/header-reloadNotifications");
+						this.result = await this.response.json();
+						
+					} catch (err) {
+						console.log('----ERROR----');
+						console.log(err);
+
+					} finally {
+						let notificationIds = [];
+
+						this.notificationsData.forEach(function(notification) {
+							notificationIds.push(notification.id);
+						});
+
+						// this.result.forEach(notification => {
+						// 	if (!notificationIds.includes(notification.id)) {
+						// 		this.notificationsData.push(notification);
+						// 	}
+						// });
+					}
+				}, 5000);
+			},
+
+			async deleteNotification(event) {
+				let eventId = event.target.parentElement.parentElement.dataset.eventId;
+
+				try {
+					this.response = await fetch("/header-deleteNotification/" + eventId);
+					this.result = await this.response.json();
+					
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
+
+				} finally {
+					if (this.result) {
+						event.target.parentElement.parentElement.remove();
+					}
+				}
+			},
+
+			async deleteAllNotifications() {
+				try {
+					this.response = await fetch("/header-deleteAllNotifications");
+					this.result = await this.response.json();
+					
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
+
+				} finally {
+					let notifications = document.querySelectorAll(".notification");
+
+					notifications.forEach(notification => {
+						notification.remove();
+					});
+				}
+			},
     },
   };
 </script>

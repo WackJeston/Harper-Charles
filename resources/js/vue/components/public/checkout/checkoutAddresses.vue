@@ -315,7 +315,7 @@ export default {
 				this.toggleForm();
 
 				setTimeout(() => {
-					let scrollElement = document.querySelector('#addres-' + this.result.data.id);
+					let scrollElement = document.querySelector('#address-' + this.result.data.id);
 
 					if (scrollElement) {
 						scrollElement.scrollIntoView({behavior: 'smooth'});

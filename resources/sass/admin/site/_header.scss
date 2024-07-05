@@ -99,17 +99,58 @@ header #settings-menu {
 }
 
 header #notification-menu {
-	width: 260px;
+	width: 280px;
+}
+
+header #notification-menu #notificationNav {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 4px 13px 10px 13px;
+}
+
+header #notification-menu #notificationNav h3 {
+	margin: 0 auto 0 0;
+	line-height: 10px;
+}
+
+header #notification-menu #notificationNav button {
+	margin: 0;
 }
 
 header #notification-menu .notification {
 	display: flex;
 	flex-direction: column;
-	padding: 3px 13px 3px 13px;
+	padding: 5px 13px 7px 13px;
+	border-top: 1px solid v.$trans-semi;
+}
+
+header #notification-menu #notificationsEmpty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 10px;
+}
+
+header #notification-menu .notification {
+	display: flex;
+	flex-direction: column;
+	padding: 5px 13px 7px 13px;
+	border-top: 1px solid v.$trans-semi;
 }
 
 header #notification-menu .notification h4 {
 	margin: 0;
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+}
+
+header #notification-menu .notification h4 i {
+	font-size: 0.9rem;
+	display: flex;
+	margin-left: auto;
+	cursor: pointer;
 }
 
 header #notification-menu .notification p {
@@ -128,16 +169,6 @@ header #settings-menu .settings-group {
 	flex-direction: column;
 	text-transform: capitalize;
 	padding: 6px 0 8px 0;
-	border: solid 1px v.$trans;
-	border-radius: 5px;
-	transition: border-radius 200ms ease;
-}
-
-header #settings-menu .settings-group:hover {
-	@media (min-width: 640px) {
-		border: solid 1px white;
-		border-radius: 0;
-	}
 }
 
 header #settings-menu .settings-group h4 {

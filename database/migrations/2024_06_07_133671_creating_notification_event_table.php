@@ -17,6 +17,7 @@ return new class extends Migration
 					`notificationId` bigint(20) unsigned NOT NULL,
 					`userId` bigint(20) unsigned NOT NULL,
 					`message` varchar(255) DEFAULT NULL,
+					`pageId` bigint(20) unsigned DEFAULT NULL,
 					`created_at` timestamp NULL DEFAULT NULL,
 					`updated_at` timestamp NULL DEFAULT NULL,
 					PRIMARY KEY (`id`)

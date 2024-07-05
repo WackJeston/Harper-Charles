@@ -440,6 +440,10 @@ a.pb-success {
 	background-color: v.$green;
 }
 
+i.pb-success {
+	color: v.$green !important;
+}
+
 button.pb-success:hover,
 a.pb-success:hover {
 	@media (min-width: 640px) {
@@ -447,9 +451,19 @@ a.pb-success:hover {
 	}
 }
 
+i.pb-success:hover {
+	@media (min-width: 640px) {
+		color: v.$green-darker !important;
+	}
+}
+
 button.pb-danger,
 a.pb-danger {
 	background-color: v.$red;
+}
+
+i.pb-danger {
+	color: v.$red !important;
 }
 
 button.pb-danger:hover,
@@ -459,15 +473,31 @@ a.pb-danger:hover {
 	}
 }
 
+i.pb-danger:hover {
+	@media (min-width: 640px) {
+		color: v.$red-darker !important;
+	}
+}
+
 button.pb-info,
 a.pb-info {
 	background-color: v.$baby-blue;
+}
+
+i.pb-info {
+	color: v.$baby-blue !important;
 }
 
 button.pb-info:hover,
 a.pb-info:hover {
 	@media (min-width: 640px) {
 		background-color: v.$baby-blue-dark;
+	}
+}
+
+i.pb-info:hover {
+	@media (min-width: 640px) {
+		color: v.$baby-blue-dark !important;
 	}
 }
 
