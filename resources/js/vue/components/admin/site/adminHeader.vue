@@ -1,24 +1,23 @@
 <template>
   <header class="lt">
     <nav class="desktop-nav">
-      <!-- <a href="/admin/dashboard" class="title"><h2 class="hover">{{ this.sitetitle }}</h2></a> -->
       <a v-show="this.showhome == 'false'" href="/admin/dashboard" class="nav-button home-button header-button"><i class="fa-solid fa-house-chimney"></i></a>
       <i v-show="this.showhome == 'true'" class="fa-solid fa-house-chimney nav-button home-button header-button" id="non-active"></i>
 
 			<div id="notification-header-container">
-        <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification')" class="nav-button" id="notification-button">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification')" class="nav-button" :class="{ 'selected' : this.navMenuActive == 'notification' }" id="notification-button">
           <i class="fa-solid fa-bell"></i>
         </div>
       </div>
 
 			<div id="settings-header-container">
-        <div @click="this.navMenuActive = (this.navMenuActive == 'settings' ? null : 'settings')" class="nav-button" id="settings-button">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'settings' ? null : 'settings')" class="nav-button" :class="{ 'selected' : this.navMenuActive == 'settings' }" id="settings-button">
           <i class="fa-solid fa-gear"></i>
         </div>
       </div>
 
       <div id="user-header-container">
-        <div @click="this.navMenuActive = (this.navMenuActive == 'user' ? null : 'user')" class="header-button" id="user-button">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'user' ? null : 'user')" class="header-button" :class="{ 'selected' : this.navMenuActive == 'user' }" id="user-button">
           <p>{{ this.sessionuser.firstName }} {{ this.sessionuser.lastName }}</p>
           <i class="fa-solid fa-user"></i>
         </div>
@@ -37,8 +36,8 @@
 				<h4>No Records</h4>
 			</div>
 
-			<div class="notification" v-else v-for="(notification, i) in this.notificationsData" :data-event-id="notification.id">
-				<h4><a :href="`/admin/${notification.link}`">{{ notification.group }} ({{ notification.name }})</a> <i class="fa-solid fa-square-xmark pb-danger" @click="this.deleteNotification($event)"></i></h4>
+			<div class="notification" v-else v-for="(notification, i) in this.notificationsData">
+				<h4><a :href="`/admin/${notification.link}`">{{ notification.group }} ({{ notification.name }})</a> <i class="fa-solid fa-square-xmark pb-danger" @click="this.deleteNotification(notification.id)"></i></h4>
 				<p>{{ notification.message }}</p>
 			</div>
     </div>
@@ -104,7 +103,6 @@
       'showhome',
       'sessionuser',
 			'settings',
-			'notifications',
     ],
 
     data() {
@@ -115,15 +113,16 @@
 				settingsMenuWidth: 0,
 				settingsData: this.settings,
 				notificationMenuWidth: 0,
-				notificationsData: this.notifications,
+				notificationsData: [],
+				notificationCount: 0,
       };
     },
 
 		mounted() {
 			this.setUserMenuWidth();
 			this.setNotificationMenuPosition();
-			this.setSettingsMenuPosition();
-			this.reloadNotifications();
+			this.setSettingsMenuPosition();			
+			this.reloadNotifications(true);
 		},
 
     methods: {
@@ -237,39 +236,9 @@
 				}
       },
 
-			reloadNotifications() {
-				setInterval(async function() {
-					console.log('reloading notifications');
-
-					try {
-						this.response = await fetch("/header-reloadNotifications");
-						this.result = await this.response.json();
-						
-					} catch (err) {
-						console.log('----ERROR----');
-						console.log(err);
-
-					} finally {
-						let notificationIds = [];
-
-						this.notificationsData.forEach(function(notification) {
-							notificationIds.push(notification.id);
-						});
-
-						// this.result.forEach(notification => {
-						// 	if (!notificationIds.includes(notification.id)) {
-						// 		this.notificationsData.push(notification);
-						// 	}
-						// });
-					}
-				}, 5000);
-			},
-
-			async deleteNotification(event) {
-				let eventId = event.target.parentElement.parentElement.dataset.eventId;
-
+			async reloadNotifications(repeat = false) {
 				try {
-					this.response = await fetch("/header-deleteNotification/" + eventId);
+					this.response = await fetch("/header-reloadNotifications");
 					this.result = await this.response.json();
 					
 				} catch (err) {
@@ -277,9 +246,32 @@
 					console.log(err);
 
 				} finally {
-					if (this.result) {
-						event.target.parentElement.parentElement.remove();
-					}
+					this.notificationCount = this.result.length;
+					this.notificationsData = [];
+
+					this.result.forEach(notification => {
+						this.notificationsData.push(notification);
+					});
+				}
+
+				if (repeat) {
+					setTimeout(() => {
+						this.reloadNotifications(true);
+					}, 10000);
+				}
+			},
+
+			async deleteNotification(id) {
+				try {
+					this.response = await fetch("/header-deleteNotification/" + id);
+					this.result = await this.response.json();
+					
+				} catch (err) {
+					console.log('----ERROR----');
+					console.log(err);
+
+				} finally {
+					this.reloadNotifications();
 				}
 			},
 
@@ -293,11 +285,7 @@
 					console.log(err);
 
 				} finally {
-					let notifications = document.querySelectorAll(".notification");
-
-					notifications.forEach(notification => {
-						notification.remove();
-					});
+					this.reloadNotifications();
 				}
 			},
     },

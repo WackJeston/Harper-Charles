@@ -35,17 +35,7 @@ class HeaderApi extends Controller
   }
 
 	public function reloadNotifications() {
-		return json_encode(DB::select('SELECT
-			ne.*,
-			n.group,
-			n.name,
-			IF(ISNULL(ne.pageId), n.url, CONCAT(n.url, "/", ne.pageId)) AS link
-			FROM notification_event AS ne
-			INNER JOIN notification AS n ON n.id = ne.notificationId
-			WHERE ne.userId = ?
-			ORDER BY ne.created_at DESC',
-			[auth()->user()->id]
-		));
+		return json_encode(Notification::getNotifications());
 	}
 
 	public function deleteNotification(int $id):bool {

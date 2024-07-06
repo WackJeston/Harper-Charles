@@ -40,4 +40,18 @@ class Notification extends Model
 
 		return $settings;
 	}
+
+	static function getNotifications() {
+		return DB::select('SELECT
+			ne.*,
+			n.group,
+			n.name,
+			IF(ISNULL(ne.pageId), n.url, CONCAT(n.url, "/", ne.pageId)) AS link
+			FROM notification_event AS ne
+			INNER JOIN notification AS n ON n.id = ne.notificationId
+			WHERE ne.userId = ?
+			ORDER BY ne.created_at DESC',
+			[auth()->user()->id]
+		);
+	}
 }

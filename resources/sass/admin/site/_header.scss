@@ -20,6 +20,11 @@ header .desktop-nav i {
 	font-size: 1.3rem;
 }
 
+.desktop-nav .header-button.selected,
+.desktop-nav .nav-button.selected {
+	background-color: v.$bg-dark !important;
+}
+
 .desktop-nav .header-button {
   display: flex;
   flex-direction: row;
@@ -60,6 +65,17 @@ header .desktop-nav i {
   height: 100%;
 }
 
+.desktop-nav #notification-button,
+.desktop-nav #settings-button {
+  position: relative;
+  padding: 0 15px;
+  z-index: 7;
+}
+
+.desktop-nav #notification-header-container .alert {
+	background-color: v.$dull-yellow-dark;
+}
+
 .desktop-nav #user-button {
 	position: relative;
   background-color: v.$bg-semi-dark;
@@ -67,12 +83,6 @@ header .desktop-nav i {
   z-index: 7;
 }
 
-.desktop-nav #notification-button,
-.desktop-nav #settings-button {
-  position: relative;
-  padding: 0 15px;
-  z-index: 7;
-}
 
 .desktop-nav #user-button p {
   margin-right: 10px;
