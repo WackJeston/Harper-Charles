@@ -50,6 +50,12 @@ class Order extends Model
 		'ordered_at',
 	];
 
+	protected static function booted() {
+		static::created(function ($self) {
+			// TODO: generate notifications
+    });
+	}
+
 	public static function getOrder(int $orderId) {
 		$order = DB::select('SELECT
 			o.*,
