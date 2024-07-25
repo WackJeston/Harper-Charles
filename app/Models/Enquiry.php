@@ -39,7 +39,7 @@ class Enquiry extends Model
 			);
 
 			foreach ($events as $i => $event) {
-				if ($event->standard) {
+				if (Notification::limitCheck() && $event->standard) {
 					NotificationEvent::create([
 						'notificationId' => $event->notificationId,
 						'userId' => $event->userId,
@@ -50,13 +50,6 @@ class Enquiry extends Model
 
 				if ($event->email) {
 					Mail::to($event->userEmail)->send(new NewEnquiry($self->id));
-
-					NotificationEvent::create([
-						'notificationId' => $event->notificationId,
-						'userId' => $event->userId,
-						'message' => sprintf('New enquiry (%s) from %s', $self->type, $self->name),
-						'pageId' => $self->id
-					]);
 				}
 				
 				// if ($event->phone) {

@@ -51,8 +51,41 @@ class Order extends Model
 	];
 
 	protected static function booted() {
-		static::created(function ($self) {
-			// TODO: generate notifications
+		static::updated(function ($self) {
+			if ($self->isDirty('status') && $self->status == 'New') {
+				$events = DB::select('SELECT
+					u.id AS userId,
+					CONCAT(u.firstName, " ", u.lastName) AS `name`,
+					u.email AS userEmail,
+					n.id AS notificationId,
+					nu.standard,
+					nu.email,
+					nu.phone
+					FROM users AS u
+					INNER JOIN notification_user AS nu ON nu.userId = u.id
+					INNER JOIN notification AS n ON n.id = nu.notificationId AND n.name = ? AND n.group = "Orders"', 
+					[sprintf('New (%s)', ucfirst($self->type))]
+				);
+
+				foreach ($events as $i => $event) {
+					if (Notification::limitCheck() && $event->standard) {
+						NotificationEvent::create([
+							'notificationId' => $event->notificationId,
+							'userId' => $event->userId,
+							'message' => sprintf('%s: £%s', $event->name, $self->total),
+							'pageId' => $self->id
+						]);
+					}
+	
+					// if ($event->email) {
+					// 	Mail::to($event->userEmail)->send(new NewEnquiry($self->id));
+					// }
+					
+					// if ($event->phone) {
+					// 	// Send SMS
+					// }
+				}
+			}
     });
 	}
 

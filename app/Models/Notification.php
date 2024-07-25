@@ -54,4 +54,15 @@ class Notification extends Model
 			[auth()->user()->id]
 		);
 	}
+
+	public static function limitCheck():bool {
+		$records = DB::select('SELECT
+			COUNT(*) AS count
+			FROM notification_event
+			WHERE userId = ?',
+			[auth()->user()->id]	
+		);
+
+		return $records[0]->count < 99;
+	}
 }

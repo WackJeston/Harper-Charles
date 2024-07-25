@@ -45,12 +45,12 @@ header .desktop-nav i {
   justify-content: center;
   height: 100%;
   width: v.$header-height;
+	cursor: pointer;
 }
 
-.desktop-nav .nav-button:hover:not(.desktop-nav #non-active:hover), .desktop-nav #user-button:hover {
+.desktop-nav .nav-button:hover:not(.desktop-nav #non-active:hover, .new-notifications), .desktop-nav #user-button:hover {
 	@media (min-width: 640px) {
 		background-color: v.$bg-dark;
-		cursor: pointer;
 	}
 }
 
@@ -70,6 +70,27 @@ header .desktop-nav i {
   position: relative;
   padding: 0 15px;
   z-index: 7;
+}
+
+.desktop-nav #notification-button .notification-count {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background-color: v.$white;
+	color: v.$bg-semi-dark;
+	font-size: 0.5rem;
+	line-height: 0;
+	padding: 1px 1px 0 0;
+}
+
+.desktop-nav #notification-button.new-notifications {
+	background-color: v.$sea-blue;
 }
 
 .desktop-nav #notification-header-container .alert {

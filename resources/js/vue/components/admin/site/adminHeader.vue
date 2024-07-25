@@ -5,8 +5,9 @@
       <i v-show="this.showhome == 'true'" class="fa-solid fa-house-chimney nav-button home-button header-button" id="non-active"></i>
 
 			<div id="notification-header-container">
-        <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification')" class="nav-button" :class="{ 'selected' : this.navMenuActive == 'notification' }" id="notification-button">
+        <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification'), this.newNotifications = false" class="nav-button" :class="{ 'selected' : this.navMenuActive == 'notification' },{ 'new-notifications' : this.newNotifications }" id="notification-button">
           <i class="fa-solid fa-bell"></i>
+					<span v-if="this.notificationCount > 0" class="notification-count">{{ this.notificationCount }}</span>
         </div>
       </div>
 
@@ -37,7 +38,7 @@
 			</div>
 
 			<div class="notification" v-else v-for="(notification, i) in this.notificationsData">
-				<h4><a :href="`/admin/${notification.link}`">{{ notification.group }} ({{ notification.name }})</a> <i class="fa-solid fa-square-xmark pb-danger" @click="this.deleteNotification(notification.id)"></i></h4>
+				<h4><a :href="`/admin/${notification.link}`">{{ notification.group }}: {{ notification.name }}</a> <i class="fa-solid fa-square-xmark pb-danger" @click="this.deleteNotification(notification.id)"></i></h4>
 				<p>{{ notification.message }}</p>
 			</div>
     </div>
@@ -115,6 +116,7 @@
 				notificationMenuWidth: 0,
 				notificationsData: [],
 				notificationCount: 0,
+				newNotifications: false,
       };
     },
 
@@ -246,6 +248,10 @@
 					console.log(err);
 
 				} finally {
+					if (this.notificationCount < this.result.length) {
+						this.newNotifications = true;
+					}
+
 					this.notificationCount = this.result.length;
 					this.notificationsData = [];
 
