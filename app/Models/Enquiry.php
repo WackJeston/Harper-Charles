@@ -39,7 +39,7 @@ class Enquiry extends Model
 			);
 
 			foreach ($events as $i => $event) {
-				if (Notification::limitCheck() && $event->standard) {
+				if (Notification::limitCheck($event->userId) && $event->standard) {
 					NotificationEvent::create([
 						'notificationId' => $event->notificationId,
 						'userId' => $event->userId,
