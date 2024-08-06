@@ -64,7 +64,7 @@ function cacheImage(string $fileName, int $width = 0, int $height = 0, bool $tri
 	);
 
 	if (!Storage::disk('public')->exists($publicFileName)) {
-		$data = Storage::get('images/' . $fileName);
+		$data = Storage::get($fileName);
 
 		if (!empty($data)) {
 			$manager = new ImageManager(['driver' => 'imagick']);
@@ -152,7 +152,11 @@ function storeImages(Request $request, $id, string $type):array {
 	}
 
 	foreach ($array as $i => $file) {
-		$mimeType = explode('.', $file->getClientOriginalName())[1];
+		$mimeType = explode('/', $file->getMimeType())[1];
+
+		if ($mimeType == 'jpeg') {
+			$mimeType = 'jpg';
+		}
 
 		$fileName = sprintf('images/%s-%s-%s-%s.%s',
 			$type,
