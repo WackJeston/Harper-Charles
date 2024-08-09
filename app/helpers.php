@@ -139,16 +139,13 @@ function preloadImage(string $url, bool $first = false) {
 }
 
 function storeImages(Request $request, $id, string $type):array {
+	$array = [];
 	$fileNames = [];
 
-	if (!is_array($request->file('image'))) {
-		$temp = $request->file('image');
-		$array = [];
-
-		$array[] = $request->file('image');
-
-	} else {
-		$array = $request->file('image');
+	foreach ($request->file() as $i => $file) {
+		if (str_starts_with($i, 'image')) {
+			$array[] = $file;
+		}
 	}
 
 	foreach ($array as $i => $file) {
