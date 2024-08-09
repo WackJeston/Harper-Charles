@@ -78,15 +78,10 @@ header .desktop-nav i {
 	justify-content: center;
 	position: absolute;
 	top: 5px;
-	right: 5px;
-	width: 14px;
-	height: 14px;
+	left: 5px;
 	border-radius: 50%;
-	background-color: v.$white;
-	color: v.$bg-semi-dark;
-	font-size: 0.5rem;
-	line-height: 0;
-	padding: 1px 1px 0 0;
+	color: v.$white;
+	font-size: 0.7rem;
 }
 
 .desktop-nav #notification-button.new-notifications {

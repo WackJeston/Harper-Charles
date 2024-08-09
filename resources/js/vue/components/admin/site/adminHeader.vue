@@ -7,7 +7,7 @@
 			<div id="notification-header-container">
         <div @click="this.navMenuActive = (this.navMenuActive == 'notification' ? null : 'notification'), this.newNotifications = false" class="nav-button" :class="{ 'selected' : this.navMenuActive == 'notification' },{ 'new-notifications' : this.newNotifications }" id="notification-button">
           <i class="fa-solid fa-bell"></i>
-					<span v-if="this.notificationCount > 0" class="notification-count">{{ this.notificationCount }}</span>
+					<strong v-if="this.notificationCount > 0" class="notification-count">{{ this.notificationCount }}</strong>
         </div>
       </div>
 
